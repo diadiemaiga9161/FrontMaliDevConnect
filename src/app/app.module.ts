@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -30,6 +31,8 @@ import { EditProfileDevComponent } from './components/pages/edit-profile-dev/edi
 import { EditProfileUserComponent } from './components/pages/edit-profile-user/edit-profile-user.component';
 import { ProfilesComponent } from './components/pages/profiles/profiles.component';
 import { CompleteProfilsComponent } from './components/pages/complete-profils/complete-profils.component';
+import { FormsModule } from '@angular/forms';
+import { ConnexionComponent } from './components/pages/connexion/connexion.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,6 @@ import { CompleteProfilsComponent } from './components/pages/complete-profils/co
     PreloaderComponent,
     FooterComponent,
     AccueilComponent,
-
     NavbarOneComponent,
     NavbarTwoComponent,
     ServicesDetailsComponent,
@@ -60,6 +62,7 @@ import { CompleteProfilsComponent } from './components/pages/complete-profils/co
     EditProfileDevComponent,
     EditProfileUserComponent,
     ProfilesComponent,
+    ConnexionComponent,
     ProfilesDetailsComponent,
     CompleteProfilsComponent,
 
@@ -68,7 +71,9 @@ import { CompleteProfilsComponent } from './components/pages/complete-profils/co
   
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
