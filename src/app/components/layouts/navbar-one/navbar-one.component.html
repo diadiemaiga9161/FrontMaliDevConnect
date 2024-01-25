@@ -1,0 +1,59 @@
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <link href='https://unpkg.com/css.gg@2.0.0/icons/css/profile.css' rel='stylesheet'>
+
+ <div class="navbar-area">
+     <div class="container">
+         <nav class="navbar navbar-expand-md navbar-light">
+             <a class="navbar-brand" routerLink="/">
+                 <img src="assets/img/logo.png" alt="logo">
+             </a>
+
+             <button class="navbar-toggler" type="button">
+                 <span class="navbar-toggler-icon"></span>
+             </button>
+             <div class="collapse navbar-collapse">
+                 <ul class="navbar-nav">
+                     <li class="nav-item" data-bs-toggle="collapse" data-target=".navbar-collapse.show"><a
+                             routerLink="/" class="nav-link" routerLinkActive="active"
+                             [routerLinkActiveOptions]="{exact: true}">Acceuil</a></li>
+
+                     <li class="nav-item" data-bs-toggle="collapse" data-target=".navbar-collapse.show"><a
+                             routerLink="/apropos" class="nav-link" routerLinkActive="active"
+                             [routerLinkActiveOptions]="{exact: true}">Apropos</a></li>
+
+                     <li class="nav-item" data-bs-toggle="collapse" data-target=".navbar-collapse.show"><a
+                             routerLink="/informaticien" class="nav-link" routerLinkActive="active"
+                             [routerLinkActiveOptions]="{exact: true}">Informaticien</a></li>
+
+                     <li class="nav-item" data-bs-toggle="collapse" data-target=".navbar-collapse.show"><a
+                             routerLink="/contact" class="nav-link" routerLinkActive="active"
+                             [routerLinkActiveOptions]="{exact: true}">Contact</a></li>
+
+                     <link rel="stylesheet"
+                         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                 </ul>
+                 <a routerLink="/inscription" class="nav-link" class="gg-profile" routerLinkActive="active"
+                     [routerLinkActiveOptions]="{exact: true}">Inscription</a>
+                 <div class="others-options">
+                     <div class="option-item"><i class="search-btn flaticon-search"></i>
+                         <i class="close-btn flaticon-cancel"></i>
+                         <div class="search-overlay search-popup">
+                             <div class='search-box'>
+                                 <form class="search-form">
+                                     <input class="search-input" name="search" placeholder="Search" type="text">
+                                     <button class="search-button" type="submit"><i
+                                             class="flaticon-search"></i></button>
+                                 </form>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="burger-menu">
+                         <span></span>
+                         <span></span>
+                         <span></span>
+                     </div>
+                 </div>
+             </div>
+         </nav>
+     </div>
+ </div>
