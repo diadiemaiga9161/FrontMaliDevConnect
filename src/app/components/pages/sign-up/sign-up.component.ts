@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
+import { SpecialiteService } from 'src/app/services/specialite/specialite.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -18,10 +19,23 @@ export class SignUpComponent implements OnInit {
   type = true;
   type1 = true;
   message: string | undefined;
+  public currentUser = 'Choisir';
   typeUser: any[] = [
     { nom: 'CLIENT', value: 'client' },
     { nom: 'INFORMATICIEN', value: 'informaticien' }
   ];
+
+  onChange(typeUser: any) {
+    if (typeUser.value === "informaticien") {
+      this.specialite;
+      this.currentUser = typeUser.value;
+    }else {
+      // Réinitialisez la spécialité et le currentUser si un autre type d'utilisateur est sélectionné
+      this.specialite = [];
+      this.currentUser = 'Choisir';
+    }
+  }
+  
   genre: any[] = [
     { nom: 'Femme', value: 'Femme' },
     { nom: 'Homme', value: 'Homme' },
@@ -35,19 +49,29 @@ export class SignUpComponent implements OnInit {
     telephone: null,
     email: null,
     adresse: null,
+    specialite : "Choisir",
     genre: "Choisir",
     password: null,
     confirmPassword: null,
     role: "Choisir"
   };
+  specialite: any;
+
+  
 
   constructor(
     public router: Router,
     private authService: AuthService,
+    private specialiteService: SpecialiteService,
     private storageService: StorageService
   ) { }
 
   ngOnInit(): void {
+    // AFFICHER LA LISTE DES INFORMATICIENS
+    this.specialiteService.AfficherListeSPecialite().subscribe(data => {
+      this.specialite = data;
+      console.log(this.specialite);
+    });
   }
 
   path() {
@@ -82,7 +106,7 @@ export class SignUpComponent implements OnInit {
       },
       heightAuto: false
     })
-    const { nom, prenom, telephone, email, adresse, genre, password, role } = this.form;
+    const { nom, prenom, telephone, email, adresse, specialite, genre, password, role } = this.form;
 
     swalWithBootstrapButtons.fire({
       text: "Etes-vous sûre de creer un compte ?",
@@ -93,7 +117,7 @@ export class SignUpComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this.authService.inscription(nom, prenom, telephone,adresse,genre, email, password, role).subscribe({
+        this.authService.inscription(nom, prenom, telephone, adresse, genre, email,specialite, password, role).subscribe({
           next: data => {
             this.isSuccessful = true;
             this.isSignUpFailed = false;

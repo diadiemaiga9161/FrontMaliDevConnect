@@ -44,7 +44,7 @@ const routes: Routes = [
     {path: 'profiles-details', component: ProfilesDetailsComponent},
     {path: 'contact', component: ContactComponent},
     {path: 'profile-utuliateur', component: ProfilUserComponent},
-    {path: 'profile-dev', component: ProfilDevComponent},
+    {path: 'profile-dev/:id', component: ProfilDevComponent},
     {path: 'edit-profile-user', component: EditProfileUserComponent},
     {path: 'edit-profile-dev', component: EditProfileDevComponent},
     {path: 'profiles', component: ProfilesComponent},

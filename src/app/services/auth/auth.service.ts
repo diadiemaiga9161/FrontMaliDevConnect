@@ -52,6 +52,7 @@ export class AuthService {
     adresse: string,
     genre: string,
     email: string,
+    specialiteId: number,
     password: string,
     roles: string,
   ): Observable<any> {
@@ -73,6 +74,7 @@ export class AuthService {
         adresse,
         genre,
         email,
+        specialite: { id: specialiteId }, // Envoyez l'ID de l'age dans un objet
         password,
         role: [roles, 'userRole']
       },

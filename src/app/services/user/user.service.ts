@@ -12,7 +12,7 @@ const USER_KEY = 'auth-user';
 
 
 @Injectable({
-  providedIn: 'root' 
+  providedIn: 'root'
 })
 export class UserService {
   private accessToken!: string; // Ajoutez cette ligne
@@ -51,6 +51,17 @@ export class UserService {
     console.log(headers)
     return this.http.get(`${URL_BASE}user/afficherinfo`, { headers });
   }
+
+  //AFFICHER LA LISTE DES INFORMATICIENS
+  AfficherListeInformaticien(): Observable<any> {
+    return this.http.get(`${URL_BASE}user/byRole/ROLE_INFORMATICIEN`);
+  }
+
+  //AFFICHER UN INFORMATICIEN EN FONCTION DE SON ID
+  AfficherInformaticienParId(id: number): Observable<any> {
+    return this.http.get(`${URL_BASE}user/userparid/${id}`);
+  }
+
 
 
   //MODIFIER PROFIL USER
@@ -154,5 +165,5 @@ export class UserService {
     }
     );
   }
-  
+
 }
