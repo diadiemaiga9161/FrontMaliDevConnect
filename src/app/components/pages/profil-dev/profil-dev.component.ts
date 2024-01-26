@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { UserService } from 'src/app/services/user/user.service';
+import { environment } from 'src/environments/environment';
+
+const URL_PHOTO: string = environment.Url_PHOTO;
+
 
 @Component({
   selector: 'app-profil-dev',
@@ -8,22 +14,47 @@ import { Component, OnInit } from '@angular/core';
 export class ProfilDevComponent implements OnInit {
 
 
-  selectedTab : string = 'profil'
+  selectedTab: string = 'profil'
+  id: any;
+  informaticien: any;
+  specialite: any;
+  projet: any;
 
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute,
+    private serviceUser: UserService,
+  ) { }
 
   ngOnInit(): void {
+    //RECUPERER L'ID DE L'INFORMATICIEN
+    this.id = +this.route.snapshot.params["id"]
+
+
+    //AFFICHER UN INFORMATICIEN EN FONCTION DE SON ID
+    this.serviceUser.AfficherInformaticienParId(this.id).subscribe(data => {
+      this.informaticien = data;
+      this.specialite = data?.specialite;
+      this.projet = data?.projetInformatiques;
+      console.log(this.informaticien);
+    });
   }
 
-  
+  handleAuthorImageError(event: any) {
+    event.target.src = 'assets/img/about/about3.png';
+  }
 
-  changeTab(tab :  string) {
-    this.selectedTab= tab;
-}
+  generateImageUrl(photoFileName: string): string {
+    return `${URL_PHOTO}${photoFileName}`;
+  }
 
-isTabActive(tab :  string) : boolean {
-  return this.selectedTab=== tab;
-}
+
+  changeTab(tab: string) {
+    this.selectedTab = tab;
+  }
+
+  isTabActive(tab: string): boolean {
+    return this.selectedTab === tab;
+  }
 
 }

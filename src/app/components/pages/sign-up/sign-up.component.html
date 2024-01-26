@@ -3,10 +3,10 @@
         <div class="d-table-cell">
             <div class="container">
                 <div class="page-title-content">
-                    <h2>Connexion</h2>
+                    <h2>Creation de compte</h2>
                     <ul>
-                        <li><a routerLink="/">Acceuil</a></li>
-                        <li>Connexion</li>
+                        <li><a routerLink="/">Accueil</a></li>
+                        <li>Inscription</li>
                     </ul>
                 </div>
             </div>
@@ -19,87 +19,224 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
-<div class="login-section ptb-100">
-    <div class="container register">
-        <div class="row">
-            <div class="col-md-3 register-left">
-                <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
-                <h3>Bienvenu</h3>
-                <p style="color: #ffffff;">Cree votre compte et lance vous!</p>
-                <input type="submit" name="" value="Connexion" /><br />
-            </div>
-            <div class="col-md-9 register-right">
-                <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="inscription" data-toggle="tab" href="#inscription"
-                         role="tab" aria-selected="false" tabindex="-1">Inscription</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="connexion" data-toggle="tab" href="#connexion" 
-                        role="tab" aria-selected="false" tabindex="-1">Connexion</a>
-                    </li>
-                </ul>
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <h3 class="register-heading" style="color: #fff;">Inscription</h3>
-                        <div class="row register-form">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Nom *" value="" />
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Mail *" value="" />
-                                </div>
-                                <div  class="form-group">
-                                    <select class="form-control">
-                                            <option class="hidden" selected disabled>Status 
-                                            </option>
-                                            <option>Client</option>
-                                            <option>Informaticien</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control" placeholder="Mot de paase *" value="" />
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <input type="email" class="form-control" placeholder="Prenom*" value="" />
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" minlength="10" maxlength="10" name="txtEmpPhone"
-                                        class="form-control" placeholder="Numero *" value="" />
-                                </div>
-                                <div  class="form-group">
-                                    <select class="form-control">
-                                            <option class="hidden" selected disabled>Genre
-                                            </option>
-                                            <option>Masculin</option>
-                                            <option>Féminin</option>
-                                    </select>
-                                </div> 
-                                <div class="form-group">
-                                    <input type="password" class="form-control" placeholder="Mot de paase confirmation *" value="" />
-                                </div>                         
-                            </div>
-                            <div class="col-md-12">
-                                <input type="submit" class="btnRegister" value="Inscription" />
-                            </div>
+<div class="container">
+    <div class="container px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
+        <div class="card card0 border-0">
+            <div class="row d-flex">
+                <div class="col-md-5 monimage">
+                    <div class="card1 pb-5">
+                        <!-- <div class="row">
+                            <img src="https://i.imgur.com/CXQmsmF.png" class="logo">
+                        </div> -->
+                        <div class="row px-3 justify-content-center mt-4 mb-5 border-line">
+                            <img src="https://i.imgur.com/uNGdWHi.png" class="image" />
                         </div>
                     </div>
-                    <div class="tab-pane fade show" id="connexion" role="tabpanel" aria-labelledby="connexion">
-                        <h3 class="register-heading">Connexion</h3>
-                        <div class="row register-form">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Votre mail ou Numero *" value="" />
+                </div>
+                <div class="col-md-7 ">
+                    <div class="card border-0 px-4 py-2 mt-3">
+                        <form name="form" (ngSubmit)="f.form.valid && inscription()" #f="ngForm" novalidate>
+                            <div class="row mb-1">
+                                <div class="mb-2 col-md-6 row px-3">
+                                    <label>Votre nom
+                                        <span class="oblig">*</span></label>
+                                    <input name="nom" [(ngModel)]="form.nom" required minlength="3" maxlength="20"
+                                        #nom="ngModel" type="text" placeholder="Votre nom" [ngClass]="{
+                                            'is-invalid':
+                                                f.submitted && nom.errors
+                                        }" />
+                                    <div class="invalid-feedback text-center" *ngIf="nom.errors && f.submitted">
+                                        <div *ngIf="nom.errors['required']">
+                                            Nom est obligatoire
+                                        </div>
+                                        <div *ngIf="nom.errors['minlength']">
+                                            Nom doit avoir au moins 3 caractères
+                                        </div>
+                                        <div *ngIf="nom.errors['maxlength']">
+                                            Nom doit comporter au maximum
+                                            20 caractères
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control" placeholder="Mot de paase *" value="" />
+                                <div class="mb-2 col-md-6 row px-3">
+                                    <label>Votre prenom
+                                        <span class="oblig">*</span></label>
+
+                                    <input type="text" name="prenom" [(ngModel)]="form.prenom" required minlength="3"
+                                        maxlength="20" #prenom="ngModel" [ngClass]="{
+                                            'is-invalid':
+                                                f.submitted && prenom.errors
+                                        }" placeholder="Votre prenom" />
+                                    <div style="text-align: center" class="invalid-feedback"
+                                        *ngIf="prenom.errors && f.submitted">
+                                        <div *ngIf="prenom.errors['required']">
+                                            Prenom est obligatoire
+                                        </div>
+                                        <div *ngIf="prenom.errors['minlength']">
+                                            Prenom doit avoir au moins 3
+                                            caractères
+                                        </div>
+                                        <div *ngIf="prenom.errors['maxlength']">
+                                            Prenom doit comporter au maximum
+                                            20 caractères
+                                        </div>
+                                    </div>
                                 </div>
-                                <input type="submit" class="btnRegister" value="Connexion" />
+                                <div class="mb-2 col-md-6 row px-3">
+                                    <label>Votre numero
+                                        <span class="oblig">*</span></label>
+
+                                    <input type="text" name="telephone" [(ngModel)]="form.telephone" required
+                                        minlength="8" maxlength="13" #telephone="ngModel" [ngClass]="{
+                                            'is-invalid':
+                                                f.submitted && telephone.errors
+                                        }" placeholder="Votre Numero" />
+                                    <div style="text-align: center" class="invalid-feedback"
+                                        *ngIf="telephone.errors && f.submitted">
+                                        <div *ngIf="telephone.errors['required']">
+                                            telephone est obligatoire
+                                        </div>
+                                        <div *ngIf="
+                                                telephone.errors['minlength']
+                                            ">
+                                            telephone doit avoir au moins 8
+                                            caractères
+                                        </div>
+                                        <div *ngIf="
+                                                telephone.errors['maxlength']
+                                            ">
+                                            Numéro doit comporter au maximum
+                                            13 caractères
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-2 col-md-6 row px-3">
+                                    <label>Votre Email
+                                        <span class="oblig">*</span></label>
+                                    <input type="email" name="email" [(ngModel)]="form.email" required email
+                                        #email="ngModel" [ngClass]="{
+                                            'is-invalid':
+                                                f.submitted && email.errors
+                                        }" placeholder="Votre Email" />
+                                    <div class="invalid-feedback text-center" *ngIf="email.errors && f.submitted">
+                                        <div *ngIf="email.errors['required']">
+                                            Email est obligatoire
+                                        </div>
+                                        <div *ngIf="email.errors['email']">
+                                            Email non valide
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 row px-3">
+                                    <label class="mb-1">Type d'utilisateur
+                                        <span class="oblig">*</span></label>
+                                    <select (change)="onChange($event.target)"  type="text" class="form-control mb-4" style="width: 96%" name="role"
+                                        [(ngModel)]="form.role" required role #role="ngModel">
+                                        <option class="py-3">Choisir</option>
+                                        <option class="mb-3" *ngFor="let TypeUser of typeUser" [value]="TypeUser.value">
+                                            {{ TypeUser.nom }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 row px-3">
+                                    <label class="mb-1">Genre
+                                        <span class="oblig">*</span></label>
+                                    <select type="text" class="form-control mb-4" style="width: 96%" name="genre"
+                                        [(ngModel)]="form.genre" required role #role="ngModel">
+                                        <option class="py-3">Choisir</option>
+                                        <option class="mb-3" *ngFor="let Genre of genre" [value]="Genre.value">
+                                            {{ Genre.nom }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="mb-2 col-md-12 row px-3"  *ngIf="currentUser != 'Choisir'">
+                                    <label class="mb-1">Specialite
+                                        <span class="oblig">*</span></label>
+                                    <select type="text" class="form-control mb-4" style="width: 96%" name="specialite"
+                                        [(ngModel)]="form.specialite" required role #role="ngModel">
+                                        <option class="py-3">Choisir</option>
+                                        <option class="mb-3" *ngFor="let Specialite of specialite" [value]="Specialite.id">
+                                            {{ Specialite.specialite }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 row px-3">
+                                    <label>Mot de passe
+                                        <span class="oblig">*</span></label>
+                                    <div style="position: relative;">
+                                        <input type="password" placeholder="Entrer votre mot de passe" name="password"
+                                            type="password" name="password" [(ngModel)]="form.password" required
+                                            minlength="6" #password="ngModel" [ngClass]="{
+                                                    'is-invalid':
+                                                        f.submitted && password.errors
+                                                }" color="black" [type]="Toggledata ? 'password' : 'text'" />
+                                        <span
+                                            style="position: absolute; top: 24px; right: 20px; transform: translateY(-50%);"
+                                            [ngClass]="Toggledata ? 'toggle-password fa fa-eye-slash' : 'toggle-password fa fa-eye'"
+                                            (click)="iconLogle()">
+                                        </span>
+                                        <div *ngIf="password.errors && f.submitted"
+                                            class="invalid-feedback text-center">
+                                            <div *ngIf="password.errors['required']">
+                                                Mot de passe obligatoire
+                                            </div>
+                                            <div *ngIf="password.errors['minlength']">
+                                                Mot de passe minimun 6 caractères
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 row px-3">
+                                    <label>Confirmer mot de passe
+                                        <span class="oblig">*</span></label>
+                                    <div style="position: relative;">
+                                        <input type="password" placeholder="Entrer votre mot de passe de confirmation"
+                                            name="password" [(ngModel)]="form.confirmPassword" required minlength="6"
+                                            #confirmPassword="ngModel" [ngClass]="{
+                                                    'is-invalid':
+                                                        f.submitted &&
+                                                        confirmPassword.errors
+                                                }" color="black" type="password"
+                                            [type]="ToggledataC ? 'password' : 'text'" />
+                                        <span
+                                            style="position: absolute; top: 24px; right: 20px; transform: translateY(-50%);"
+                                            [ngClass]="ToggledataC ? 'toggle-password fa fa-eye-slash' : 'toggle-password fa fa-eye'"
+                                            (click)="iconLogleC()">
+                                        </span>
+                                        <div class="invalid-feedback text-center" *ngIf="
+                                                    confirmPassword.errors &&
+                                                    f.submitted
+                                                ">
+                                            <div *ngIf="
+                                                        confirmPassword.errors[
+                                                            'required'
+                                                        ]
+                                                    ">
+                                                Confirmation obligatoire
+                                            </div>
+                                            <div *ngIf="
+                                                        confirmPassword.errors[
+                                                            'minlength'
+                                                        ]
+                                                    ">
+                                                Confirme mot de passe doit être au
+                                                moins 6 caractères
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                            <div class="default-btn text-center  row mb-2 px-3" style="width: 96%; ">
+                                <button type="submit"
+                                    style="border: none; background-color: transparent; color: white;">
+                                    S'inscrire
+                                </button>
+                            </div>
+                            <div class="row mb-4 px-3" style="margin-left: auto; margin-right: auto">
+                                <small class="font-weight-bold">Déjà un compte ?
+                                    <a routerLink="/connexion" class="text-danger">Connexion</a></small>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

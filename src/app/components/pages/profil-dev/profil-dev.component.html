@@ -3,7 +3,7 @@
         <div class="d-table-cell">
             <div class="container">
                 <div class="page-title-content">
-                    <h2>Amadou Maiga</h2>
+                    <h2>{{informaticien?.prenom}} {{informaticien?.nom}}</h2>
                     <ul>
                         <li><a routerLink="/">Acceuil</a></li>
                         <li>Profile </li>
@@ -25,15 +25,15 @@
                 <div class="card">
                     <div class="card-body pb-0">
                         <div class="row align-items-center">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="text-center border-end">
                                     <img src="/assets/img/team/amadou.jpg" class="img-fluid avatar-xxl rounded-circle"
                                         alt="">
-                                    <h4 class="text-primary font-size-20 mt-3 mb-2">Maiga Amadou </h4>
-                                    <h5 class="text-muted font-size-13 mb-0">Developpeur web</h5>
+                                    <h4 class="text-primary font-size-20 mt-3 mb-2">{{informaticien?.prenom}} {{informaticien?.nom}} </h4>
+                                    <h5 style="font-size: 12px;" class="text-muted mb-0">{{specialite?.specialite}}</h5>
                                 </div>
                             </div><!-- end col -->
-                            <div class="col-md-9">
+                            <div class="col-md-8">
                                 <div class="ms-3">
                                     <div>
                                         <h4 class="card-title mb-2">Biographie</h4>
@@ -44,10 +44,10 @@
                                         <div class="col-md-12">
                                             <div>
                                                 <p class="text-muted mb-2 fw-medium"><i
-                                                        class="mdi mdi-email-outline me-2"></i>devml@gmail.com
+                                                        class="mdi mdi-email-outline me-2"></i>{{informaticien?.email}}
                                                 </p>
                                                 <p class="text-muted fw-medium mb-0"><i
-                                                        class="mdi mdi-phone-in-talk-outline me-2"></i>+223 53417919
+                                                        class="mdi mdi-phone-in-talk-outline me-2"></i>{{informaticien?.telephone}}
                                                 </p>
                                             </div>
                                         </div><!-- end col -->
@@ -93,13 +93,13 @@
                                     crossorigin="anonymous" referrerpolicy="no-referrer" />
                                 <div class="container">
                                     <div class="row position-relative mt-n1-9">
-                                        <div class="col-md-6 col-lg-4 mt-1-9">
+                                        <div class="col-md-6 col-lg-4 mt-1-9" *ngFor="let Projet of projet">
                                             <div class="team-style1 text-center">
-                                                <img src="/assets/img/about/about3.png" class="border-radius-5"
+                                                <img src="{{generateImageUrl(Projet?.photo)}}" class="border-radius-5 image-sizeresents crd"
                                                     alt="...">
                                                 <div class="team-info">
-                                                    <h3 class="text-primary mb-1 h4">Nom projets</h3>
-                                                    <span class="font-weight-600 text-secondary">Types de projets</span>
+                                                    <h3 class="text-primary mb-1 h4">{{Projet?.titre}}</h3>
+                                                    <span class="font-weight-600 text-secondary">{{Projet?.typeProjet?.typeprojet}}</span>
                                                 </div>
                                                 <div class="team-overlay">
                                                     <div class="d-table h-100 w-100">
@@ -229,7 +229,7 @@
                                     <tbody>
                                         <tr>
                                             <th scope="row">Nom et Prenom</th>
-                                            <td>Amadou Maiga</td>
+                                            <td>{{informaticien?.prenom}} {{informaticien?.nom}}</td>
                                         </tr><!-- end tr -->
                                         <tr>
                                             <th scope="row">Emplacement</th>

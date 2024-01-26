@@ -19,85 +19,75 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
-<section class="blog-section pt-100 pb-100">
-  <div class="container register">
-      <div class="row">
-          <div class="col-md-3 register-left">
-              <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
-              <h3>Bienvenu</h3>
-              <p style="color: #ffffff;">Cree votre compte et lance vous!</p>
-              <input type="submit" name="" value="Connexion" /><br />
-          </div>
-          <div class="col-md-9 register-right">
-              <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
-                  <li class="nav-item">
-                      <a class="nav-link active" id="inscription" data-toggle="tab" href="#inscription"
-                       role="tab" aria-selected="false" tabindex="-1">Inscription</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" id="connexion" data-toggle="tab" href="#connexion" 
-                      role="tab" aria-selected="false" tabindex="-1">Connexion</a>
-                  </li>
-              </ul>
-              <div class="tab-content" id="myTabContent">
-                  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                      <h3 class="register-heading" style="color: #fff;">Inscription</h3>
-                      <div class="row register-form">
-                          <div class="col-md-6">
-                              <div class="form-group">
-                                  <input type="text" class="form-control" placeholder="Nom *" value="" />
-                              </div>
-                              <div class="form-group">
-                                  <input type="text" class="form-control" placeholder="Mail *" value="" />
-                              </div>
-                              <div class="form-group">
-                                  <input type="password" class="form-control" placeholder="Mot de paase *" value="" />
-                              </div>
-                          </div>
-                          
-                          <div class="col-md-6">
-                              <div class="form-group">
-                                  <input type="email" class="form-control" placeholder="Prenom*" value="" />
-                              </div>
-                              <div class="form-group">
-                                  <input type="text" minlength="10" maxlength="10" name="txtEmpPhone"
-                                      class="form-control" placeholder="Numero *" value="" />
-                              </div>
-                              <div class="form-group">
-                                  <input type="password" class="form-control" placeholder="Mot de paase confirmation *" value="" />
-                              </div>
-                          </div>
-                          <div class="col-md-12">
-                              <div  class="form-group">
-                                  <select class="form-control">
-                                      <option class="hidden" selected disabled>Votre Status 
-                                      </option>
-                                      <option>Client</option>
-                                      <option>Informaticien</option>
-                                  </select>
-                              </div>
-                          </div>
-                          <div class="col-md-12">
-                            <input type="submit" class="btnRegister" value="Inscription" />
+<div class="container">
+
+    <div class="container px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
+        <div class="card card0 border-0">
+            <div class="row d-flex">
+                <div class="col-md-6 monimage">
+                    <div class="card1 pb-5">
+                        <!-- <div class="row">
+                            <img src="https://i.imgur.com/CXQmsmF.png" class="logo">
+                        </div> -->
+                        <div class="row px-3 justify-content-center mt-4 mb-5 border-line">
+                            <img src="https://i.imgur.com/uNGdWHi.png" class="image">
                         </div>
-                      </div>
-                  </div>
-                  <div class="tab-pane fade show" id="connexion" role="tabpanel" aria-labelledby="connexion">
-                      <h3 class="register-heading">Connexion</h3>
-                      <div class="row register-form">
-                          <div class="col-md-6">
-                              <div class="form-group">
-                                  <input type="text" class="form-control" placeholder="Votre mail ou Numero *" value="" />
-                              </div>
-                              <div class="form-group">
-                                  <input type="password" class="form-control" placeholder="Mot de paase *" value="" />
-                              </div>
-                              <input type="submit" class="btnRegister" value="Connexion" />
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-</section>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card2 card border-0 px-4 py-5">
+                        <form #f="ngForm" (ngSubmit)="f.form.valid && seConnecter()" novalidate>
+                            <div class="row px-3">
+                                <label class="mb-1">
+                                    <h6 class="mb-0 text-sm">Numero ou Email <span class="oblig">*</span></h6>
+                                </label>
+                                <div style="position: relative;">
+                                    <input class="" type="text" name="telephoneOrEmail"
+                                    [(ngModel)]="form.telephoneOrEmail" required #telephoneOrEmail="ngModel"
+                                    [ngClass]="{ 'is-invalid': f.submitted && telephoneOrEmail.errors }"
+                                    placeholder="Numero ou Email">
+                                    <div style="text-align: center;" *ngIf="telephoneOrEmail.errors && f.submitted"
+                                        class="invalid-feedback">
+                                        <div *ngIf="telephoneOrEmail.errors['required']">Numero ou Email obligatoire</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row px-3">
+                                <label class="mb-1">
+                                    <h6 class="mb-0 text-sm">Mot de passe <span class="oblig">*</span></h6>
+                                </label>
+                                <div style="position: relative;"> 
+                                    <input type="password" placeholder="Entrer votre mot de passe" name="password"
+                                        [(ngModel)]="form.password" required minlength="6" #password="ngModel"
+                                        [ngClass]="{ 'is-invalid': f.submitted && password.errors }" name="password"
+                                        color="black" type="password" [type]="Toggledata ? 'password' : 'text'">
+                                    <span class="crd" style="position: absolute; top: 24px; right: 20px; transform: translateY(-50%);" 
+                                        [ngClass]="Toggledata ? 'toggle-password fa fa-eye-slash' : 'toggle-password fa fa-eye'" 
+                                        (click)="iconLogle()">
+                                    </span>
+                                    <div *ngIf="password.errors && f.submitted" class="invalid-feedback text-center">
+                                        <div *ngIf="password.errors['required']">Mot de passe obligatoire</div>
+                                        <div *ngIf="password.errors['minlength']">
+                                            Mot de passe minimun 6 caractères
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row px-3 mb-4">
+                                <a routerLink="/mdpoublie" class="text-sm">Mot de passe oublié?</a>
+                               
+                            </div>
+                            <div class="row mb-3 px-3" style="margin-left: auto; margin-right: auto;">
+                                <button type="submit" class="default-btn text-center">Se connecter</button>
+                            </div>
+                            <div class="row mb-4 px-3" style="margin-left: auto; margin-right: auto;">
+                                <small class="font-weight-bold">Pas de compte ? <a routerLink="/inscription"
+                                        class="text-danger ">Inscription</a></small>
+                            </div>
+                        </form> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
