@@ -130,8 +130,9 @@
                                 <div class="col-md-6 row px-3">
                                     <label class="mb-1">Type d'utilisateur
                                         <span class="oblig">*</span></label>
-                                    <select (change)="onChange($event.target)"  type="text" class="form-control mb-4" style="width: 96%" name="role"
-                                        [(ngModel)]="form.role" required role #role="ngModel">
+                                    <select (change)="onChange($event.target)" type="text" class="form-control mb-4"
+                                        style="width: 96%" name="role" [(ngModel)]="form.role" required role
+                                        #role="ngModel">
                                         <option class="py-3">Choisir</option>
                                         <option class="mb-3" *ngFor="let TypeUser of typeUser" [value]="TypeUser.value">
                                             {{ TypeUser.nom }}
@@ -149,13 +150,14 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class="mb-2 col-md-12 row px-3"  *ngIf="currentUser != 'Choisir'">
+                                <div class="mb-2 col-md-12 row px-3" *ngIf="currentUser != 'Choisir'">
                                     <label class="mb-1">Specialite
                                         <span class="oblig">*</span></label>
                                     <select type="text" class="form-control mb-4" style="width: 96%" name="specialite"
                                         [(ngModel)]="form.specialite" required role #role="ngModel">
                                         <option class="py-3">Choisir</option>
-                                        <option class="mb-3" *ngFor="let Specialite of specialite" [value]="Specialite.id">
+                                        <option class="mb-3" *ngFor="let Specialite of specialite"
+                                            [value]="Specialite.id">
                                             {{ Specialite.specialite }}
                                         </option>
                                     </select>
@@ -243,3 +245,7 @@
         </div>
     </div>
 </div>
+
+
+
+
