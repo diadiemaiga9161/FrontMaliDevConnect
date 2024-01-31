@@ -99,13 +99,14 @@ img {
 }
 .default-btn {
     display: inline-block;
-    padding: 12px 35px 13px;
+    padding: 10px 30px 13px;
     background-color: $main-color;
     color: $white-color;
+    font-size: 10px;
     border-radius: 2px;
     font: {
         size: $font-size;
-        weight: 600;
+        weight: 200;
     };
     &:hover {
         background-color: $optional-color;
@@ -329,7 +330,7 @@ Navbar Area CSS
                         left: 0;
                         right: 0;
                         top: 25px;
-                        bottom: 25px;
+                        bottom: 20px;
                     }
                     margin: {
                         left: 14px;

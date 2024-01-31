@@ -18,6 +18,39 @@
 <section class="protfolio-section ptb-100">
     <div class="container">
         <div class="row">
+            <div class="col-md-3">
+            <section class="panel">
+            <header  class="panel-heading" >
+             <h2>Filter</h2>
+            </header>
+            <div style="box-shadow: none; border: none;" class="panel-body">
+                <form role="form product-form">
+                    <div class="form-group">
+                        <label>Specialite</label>
+                        <select class="form-control hasCustomSelect" style="-webkit-appearance: menulist-button; width: 231px; position: absolute; opacity: 0; height: 34px; font-size: 12px;">
+                            <option>Wallmart</option>
+                            <option>Catseye</option>
+                            <option>Moonsoon</option>
+                            <option>Textmart</option>
+                        </select>
+                        <span class="customSelect form-control" style="display: inline-block;"><span class="customSelectInner" style="width: 209px; display: inline-block;">Wallmart</span></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Connaissance</label>
+                        <select class="form-control hasCustomSelect" style="-webkit-appearance: menulist-button; width: 231px; position: absolute; opacity: 0; height: 34px; font-size: 12px;">
+                            <option>White</option>
+                            <option>Black</option>
+                            <option>Red</option>
+                            <option>Green</option>
+                        </select>
+                        <span class="customSelect form-control" style="display: inline-block;"><span class="customSelectInner" style="width: 209px; display: inline-block;">White</span></span>
+                    </div>
+                    <br>
+                    <button class="btn btn-primary" type="submit">Filter</button>
+                </form>
+            </div>
+        </section>
+            </div>
             <div class="col-lg-3 col-md-6 col-sm-6" *ngFor="let Informaticien of informaticien">
                 <div class="single-protfolio-box">
                     <div class="image">
