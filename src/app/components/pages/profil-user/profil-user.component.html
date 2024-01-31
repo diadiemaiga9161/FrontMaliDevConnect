@@ -15,77 +15,288 @@
   </div>
 </div>
 <section class="protfolio-section ptb-100">
+  <div class="container">
+    <div class="row">
+            <div class="col-lg-4">
+               <div class="profile-card-4 z-depth-3">
+                <div class="card">
+                  <div class="card-body text-center bg-primary rounded-top">
+                   <div class="user-box">
+                    <img src="/assets/img/team/amadou.jpg" alt="user avatar">
+                  </div>
+                  <h5 class="mb-1 text-white">{{informaticien?.prenom}} {{informaticien?.nom}} </h5>
+                  <h6 class="text-light">UI/UX Engineer</h6>
+                 </div>
+                  <div class="card-body">
+                    <ul class="list-group shadow-none">
+                    <li class="list-group-item">
+                      <div class="list-icon">
+                        <i class="fa fa-phone-square"></i>
+                      </div>
+                      <div class="list-details">
+                        <span>+223 91613489</span>
+                        <small>Numero</small>
+                      </div>
+                    </li>
+                    <li class="list-group-item">
+                      <div class="list-icon">
+                        <i class="fa fa-envelope"></i>
+                      </div>
+                      <div class="list-details">
+                        <span>info@example.com</span>
+                        <small>Addresse Mail </small>
+                      </div>
+                    </li>
+                    <!-- <li class="list-group-item">
+                      <div class="list-icon">
+                        <i class="fa fa-globe"></i>
+                      </div>
+                      <div class="list-details">
+                        <span>www.example.com</span>
+                        <small>Website Address</small>
+                      </div>
+                    </li> -->
+                    </ul>
+                    <div class="row text-center mt-4">
+                      <div class="col p-2">
+                       <h4 class="mb-1 line-height-5">154</h4>
+                        <small class="mb-0 font-weight-bold">Projects</small>
+                       </div>
+                        <div class="col p-2">
+                          <h4 class="mb-1 line-height-5">2.2k</h4>
+                         <small class="mb-0 font-weight-bold">Expérience Professionnelle</small>
+                        </div>
+                        <!-- <div class="col p-2">
+                         <h4 class="mb-1 line-height-5">9.1k</h4>
+                         <small class="mb-0 font-weight-bold">Views</small>
+                        </div> -->
+                     </div>
+                   </div>
+                   <!-- <div class="card-footer text-center">
+                     <a href="javascript:void()" class="btn-social btn-facebook waves-effect waves-light m-1"><i class="fa fa-facebook"></i></a>
+                     <a href="javascript:void()" class="btn-social btn-google-plus waves-effect waves-light m-1"><i class="fa fa-google-plus"></i></a>
+                     <a href="javascript:void()" class="list-inline-item btn-social btn-behance waves-effect waves-light"><i class="fa fa-behance"></i></a>
+                     <a href="javascript:void()" class="list-inline-item btn-social btn-dribbble waves-effect waves-light"><i class="fa fa-dribbble"></i></a>
+                   </div> -->
+                 </div>
+               </div>
+            </div>
+            <div class="col-lg-8">
+                
+               <div class="card z-depth-3">
+                <div class="card-body">
+                <ul class="nav nav-pills nav-pills-primary nav-justified">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link px-4 active" data-bs-toggle="tab" href="#Profile"
+                             role="tab" aria-selected="false" tabindex="1">
+                             <span class="d-block d-sm-none"><i class="fas fa-home">Profile</i></span>
+                             <span class="d-none d-sm-block">Profile</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link px-4 active" data-bs-toggle="tab" href="#Message"
+                         role="tab" aria-selected="false" tabindex="-1">
+                         <span class="d-block d-sm-none"><i class="fas fa-home">Message</i></span>
+                         <span class="d-none d-sm-block">Message</span>
+                        </a>
+                    </li>
+                   
+                    <li class="nav-item" role="presentation">
+                        <a href="#Edit" data-target="#edit" data-toggle="tab" class="nav-link"><i class="icon-note"></i> <span class="hidden-xs">Edit</span></a>
+                    </li>
+                </ul>
+                <div class="tab-content p-3">
+                    <div class="tab-pane active show" id="projects-tab" role="tabpanel" >
+                        <h5 class="mb-3">Profile</h5>
+                        <div class="row">
+                            <div class="col-lg-8 pb-5">
+                                <form class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="account-fn">Nom</label>
+                                            <input class="form-control" type="text" id="account-fn" value="Daniel" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="account-ln">Prenom</label>
+                                            <input class="form-control" type="text" id="account-ln" value="Adams" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="account-email">Addresse Mail</label>
+                                            <input class="form-control" type="email" id="account-email" value="doumaiga3.gmail.com" disabled="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="account-phone">Numero</label>
+                                            <input class="form-control" type="text" id="account-phone" value="+ (223)91 61 34 89" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="account-phone">Genre</label>
+                                            <input class="form-control" type="text" id="account-phone" value="Homme" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="account-phone">Specialite</label>
+                                            <input class="form-control" type="text" id="account-phone" value="Informaticien" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <hr class="mt-2 mb-6">
+                                        <div class="d-flex flex-wrap justify-content-between align-items-center">
+                                            <button class="btn btn-style-1 btn-primary" type="button" data-toast="" data-toast-position="topRight" data-toast-type="success" data-toast-icon="fe-icon-check-circle" data-toast-title="Success!" data-toast-message="Profile modifié avec succès">Modifié</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>  
+                        </div>
+                        <!--/row-->
+                    </div>
+                    <div class="tab-pane show" id="Message" role="tabpanel">
+                        <div class="alert alert-info alert-dismissible" role="tab">
+                            <ul class="friend-list">
+                                <li class="active bounceInDown">
+                                    <a href="#" class="clearfix">
+                                        <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">
+                                        <div class="friend-name">	
+                                            <strong>John Doe</strong>
+                                        </div>
+                                        <div class="last-message text-muted">Hello, Are you there?</div>
+                                        <small class="time text-muted">Just now</small>
+                                        <small class="chat-alert label label-danger">1</small>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <img src="https://bootdey.com/img/Content/user_2.jpg" alt="" class="img-circle">
+                                        <div class="friend-name">	
+                                            <strong>Jane Doe</strong>
+                                        </div>
+                                        <div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
+                                        <small class="time text-muted">5 mins ago</small>
+                                    <small class="chat-alert text-muted"><i class="fa fa-check"></i></small>
+                                    </a>
+                                </li> 
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <img src="https://bootdey.com/img/Content/user_3.jpg" alt="" class="img-circle">
+                                        <div class="friend-name">	
+                                            <strong>Kate</strong>
+                                        </div>
+                                        <div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
+                                        <small class="time text-muted">Yesterday</small>
+                                        <small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
+                                    </a>
+                                </li>  
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">
+                                        <div class="friend-name">	
+                                            <strong>Kate</strong>
+                                        </div>
+                                        <div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
+                                        <small class="time text-muted">Yesterday</small>
+                                        <small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
+                                    </a>
+                                </li>     
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <img src="https://bootdey.com/img/Content/user_2.jpg" alt="" class="img-circle">
+                                        <div class="friend-name">	
+                                            <strong>Kate</strong>
+                                        </div>
+                                        <div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
+                                        <small class="time text-muted">Yesterday</small>
+                                        <small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
+                                    </a>
+                                </li>        
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <img src="https://bootdey.com/img/Content/user_6.jpg" alt="" class="img-circle">
+                                        <div class="friend-name">	
+                                            <strong>Kate</strong>
+                                        </div>
+                                        <div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
+                                        <small class="time text-muted">Yesterday</small>
+                                        <small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
+                                    </a>
+                                </li>          
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <img src="https://bootdey.com/img/Content/user_5.jpg" alt="" class="img-circle">
+                                        <div class="friend-name">	
+                                            <strong>Kate</strong>
+                                        </div>
+                                        <div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
+                                        <small class="time text-muted">Yesterday</small>
+                                        <small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <img src="https://bootdey.com/img/Content/user_2.jpg" alt="" class="img-circle">
+                                        <div class="friend-name">	
+                                            <strong>Jane Doe</strong>
+                                        </div>
+                                        <div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
+                                        <small class="time text-muted">5 mins ago</small>
+                                    <small class="chat-alert text-muted"><i class="fa fa-check"></i></small>
+                                    </a>
+                                </li>                 
+                            </ul>
+                <div class="alert-icon">
+               <i class="icon-info"></i>
+                </div>
+                      </div>
+                      <!-- Liste des rdv -->
+                    
+                    </div>
 
-    <div class="container py-5">
-      <div class="row">
-        <div class="col-lg-4">
-          <div class="card mb-4">
-            <div class="card-body text-center">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-                class="rounded-circle img-fluid" style="width: 150px;">
-              <h5 class="my-3">John Smith</h5>
-              <p class="text-muted mb-1">Full Stack Developer</p>
-              <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
-              <div class="d-flex justify-content-center mb-2">
-                <button type="button" class="btn btn-primary">Follow</button>
-                <button type="button" class="btn btn-outline-primary ms-1">Message</button>
-              </div>
+                    <div class="tab-pane" id="edit">
+                        <form>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Username</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" value="jhonsanmark">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Mot de passe</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="password" value="11111122333">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Mot de passe</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="password" value="11111122333">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label"></label>
+                                <div class="col-lg-9">
+                                    <input type="reset" class="btn btn-secondary" value="Cancel">
+                                    <input type="button" class="btn btn-primary" value="Save Changes">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
           </div>
+          </div>
+
         </div>
-        <div class="col-lg-8">
-          <div class="card mb-4">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Full Name</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">Johnatan Smith</p>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Email</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">example@example.com</p>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Phone</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">(097) 234-5678</p>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Mobile</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">(098) 765-4321</p>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Address</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
-                </div>
-              </div>
-            </div>
-          </div>
-                </div>
-              </div>
-            </div>        
+    </div>      
   </section>
 
+
+  
 
   
