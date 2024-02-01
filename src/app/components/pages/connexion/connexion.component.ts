@@ -77,8 +77,11 @@ export class ConnexionComponent implements OnInit {
 
       // Obtenez les rôles de l'utilisateur à partir des données
       this.roles = this.storageService.getUser().roles;
+
+        this.router.navigate(['']).then(() => {
+            window.location.reload();
+          });
       // Redirigez l'utilisateur vers la page d'accueil
-      this.router.navigate(['/']);
       // this.reloadPage()
       if (this.storageService.isLoggedIn()) {
         this.isLoggedIn = true;

@@ -1,0 +1,365 @@
+<!-- <app-navbar-one></app-navbar-one> -->
+<div class="page-title-area item-bg-3">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="container">
+                <div class="page-title-content">
+                    <h2>Profile User</h2>
+                    <ul>
+                        <li><a routerLink="/">Acceuil</a></li>
+                        <li>Profile User</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="protfolio-section ptb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="profile-card-4 z-depth-3">
+                    <div class="card">
+                        <div class="card-body text-center bg-primary rounded-top">
+                            <div class="user-box">
+                                <img [src]="profileImageUrl" (error)="handleAuthorImageError($event)" alt="user avatar">
+                            </div>
+                            <h5 class="mb-1 text-white">{{User?.prenom}} {{User?.nom}} </h5>
+                            <h6 class="text-light">{{User?.specialite?.specialite}}</h6>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group shadow-none">
+                                <li class="list-group-item">
+                                    <div class="list-icon">
+                                        <i class="fa fa-phone-square"></i>
+                                    </div>
+                                    <div class="list-details">
+                                        <span>+223 {{User?.telephone}}</span>
+                                        <small>Numero</small>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="list-icon">
+                                        <i class="fa fa-envelope"></i>
+                                    </div>
+                                    <div class="list-details">
+                                        <span>{{User?.email}}</span>
+                                        <small>Addresse Mail </small>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="row text-center mt-4">
+                                <div class="col p-2">
+                                    <h4 class="mb-1 line-height-5">{{nombreprojet}}</h4>
+                                    <small class="mb-0 font-weight-bold">Projects</small>
+                                </div>
+                                <div class="col p-2">
+                                    <h4 class="mb-1 line-height-5">{{nombreexperience}}</h4>
+                                    <small class="mb-0 font-weight-bold">Expérience Professionnelle</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+
+                <div class="card z-depth-3">
+                    <div class="card-body">
+                        <ul class="nav nav-pills nav-pills-primary nav-justified">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link px-4 active" data-bs-toggle="tab" href="#Profile" role="tab"
+                                    aria-selected="false" tabindex="1">
+                                    <span class="d-block d-sm-none"><i class="fas fa-home">Profile</i></span>
+                                    <span class="d-none d-sm-block">Profile</span>
+                                </a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link px-4" data-bs-toggle="tab" href="#Rendez-vous" role="tab"
+                                    aria-selected="false" tabindex="-1">
+                                    <span class="d-block d-sm-none"><i class="fas fa-home">Rendez-vous</i></span>
+                                    <span class="d-none d-sm-block">Rendez-vous</span>
+                                </a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link px-4 " data-bs-toggle="tab" href="#Projet" role="tab"
+                                    aria-selected="false" tabindex="1">
+                                    <span class="d-block d-sm-none"><i class="fas fa-home">Projet</i></span>
+                                    <span class="d-none d-sm-block">Projet</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link px-4" data-bs-toggle="tab" href="#Edit" role="tab"
+                                    aria-selected="false" tabindex="-1">
+                                    <i class="icon-note"></i> <span class="hidden-xs">Edit</span></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content p-3">
+                            <div class="tab-pane active show" id="Profile" role="tabpanel">
+                                <h5 class="mb-3">Profile</h5>
+                                <form name="form" (ngSubmit)="f.form.valid && ModifierProfilUser()" #f="ngForm"
+                                    novalidate>
+                                    <div class="row">
+                                        <!-- Debut du champ de saisie pour le nom -->
+                                        <div class="col-lg-6 col-md-12">
+                                            <div class="form-group">
+                                                <label>Votre nom</label>
+                                                <input type="text" class="form-control" name="nom"
+                                                    [(ngModel)]="form.nom" required minlength="3" maxlength="20"
+                                                    #nom="ngModel"
+                                                    [ngClass]="{ 'is-invalid': f.submitted && nom.errors }">
+                                                <div style="text-align: center;" class="invalid-feedback"
+                                                    *ngIf="nom.errors && f.submitted">
+                                                    <div *ngIf="nom.errors['required']">Nom est obligatoire</div>
+                                                    <div *ngIf="nom.errors['minlength']">
+                                                        Nom doit avoir au moins 3 caractères
+                                                    </div>
+                                                    <div *ngIf="nom.errors['maxlength']">
+                                                        Nom doit comporter au maximum 20 caractères
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Fin du champ de saisie pour le nom -->
+                                        <!-- Debut du champ de saisie pour le prenom -->
+                                        <div class="col-lg-6 col-md-12">
+                                            <div class="form-group">
+                                                <label>Votre prenom</label>
+                                                <input type="text" class="form-control" name="prenom"
+                                                    [(ngModel)]="form.prenom" required minlength="3" maxlength="20"
+                                                    #prenom="ngModel"
+                                                    [ngClass]="{ 'is-invalid': f.submitted && prenom.errors }">
+                                                <div style="text-align: center;" class="invalid-feedback"
+                                                    *ngIf="prenom.errors && f.submitted">
+                                                    <div *ngIf="prenom.errors['required']">Prénom est obligatoire</div>
+                                                    <div *ngIf="prenom.errors['minlength']">
+                                                        Prénom doit avoir au moins 3 caractères
+                                                    </div>
+                                                    <div *ngIf="prenom.errors['maxlength']">
+                                                        Prénom doit comporter au maximum 20 caractères
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Fin du champ de saisie pour le prenom -->
+                                        <!-- Debut du champ de saisie pour le numero -->
+                                        <div class="col-lg-6 col-md-12">
+                                            <div class="form-group">
+                                                <label>Votre numero</label>
+                                                <input class="form-control" type="tel" name="telephone"
+                                                    [(ngModel)]="form.telephone" required minlength="8" maxlength="13"
+                                                    #telephone="ngModel"
+                                                    [ngClass]="{ 'is-invalid': f.submitted && telephone.errors }">
+                                                <div style="text-align: center;" class="invalid-feedback"
+                                                    *ngIf="telephone.errors && f.submitted">
+                                                    <div *ngIf="telephone.errors['required']">Numero est obligatoire
+                                                    </div>
+                                                    <div *ngIf="telephone.errors['minlength']">
+                                                        numero doit avoir au moins 8 caractères
+                                                    </div>
+                                                    <div *ngIf="telephone.errors['maxlength']">
+                                                        Numéro doit comporter au maximum 13 caractères
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Fin du champ de saisie pour le numero -->
+
+                                        <!-- Debut du champ de saisie pour le email -->
+                                        <div class="col-lg-6 col-md-12">
+                                            <div class="form-group">
+                                                <label>Votre email</label>
+                                                <input class="form-control" name="email" [(ngModel)]="form.email"
+                                                    required email #email="ngModel"
+                                                    [ngClass]="{ 'is-invalid': f.submitted && email.errors }"
+                                                    type="email">
+                                                <div style="text-align: center;" class="invalid-feedback"
+                                                    *ngIf="email.errors && f.submitted">
+                                                    <div *ngIf="email.errors['required']">Email est obligatoire</div>
+                                                    <div *ngIf="email.errors['email']">
+                                                        Email doit être une adresse e-mail valide
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Fin du champ de saisie pour le email -->
+                                        <!-- Debut du champ de saisie pour la specialite -->
+                                        <div class="col-lg-6 col-md-12">
+                                            <div class="form-group">
+                                                <label>Votre specialite</label>
+                                                <select type="text" name="specialite" [(ngModel)]="form.specialite"
+                                                    class="form-control" required>
+                                                    <option *ngFor="let item of specialite" [value]="item.id">
+                                                        {{item.specialite}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!-- Fin du champ de saisie pour la specialite -->
+                                        <!-- Debut du champ de saisie pour le nom -->
+                                        <div class="col-lg-6 col-md-12">
+                                            <div class="form-group">
+                                                <label>Votre Adresse</label>
+                                                <input type="text" class="form-control" name="adresse"
+                                                    [(ngModel)]="form.adresse" required minlength="3" maxlength="20"
+                                                    #adresse="ngModel"
+                                                    [ngClass]="{ 'is-invalid': f.submitted && adresse.errors }">
+                                                <div style="text-align: center;" class="invalid-feedback"
+                                                    *ngIf="adresse.errors && f.submitted">
+                                                    <div *ngIf="adresse.errors['required']">Adresse est obligatoire
+                                                    </div>
+                                                    <div *ngIf="adresse.errors['minlength']">
+                                                        Adresse doit avoir au moins 3 caractères
+                                                    </div>
+                                                    <div *ngIf="adresse.errors['maxlength']">
+                                                        Adresse doit comporter au maximum 20 caractères
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Fin du champ de saisie pour le nom -->
+                                    </div>
+                                    <div class="col-12">
+                                        <hr class="mt-2 mb-6">
+                                        <div class="text-center pt-4">
+                                            <button type="submit" class="default-btn">Modifier votre profil</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!--/row-->
+                            </div>
+                            <div class="tab-pane show" id="Rendez-vous" role="tabpanel">
+                                <div class="alert alert-info alert-dismissible" role="tab">
+                                    <ul class="friend-list">
+                                        <li class="active bounceInDown">
+                                            <a href="#" class="clearfix">
+                                                <img src="https://bootdey.com/img/Content/user_1.jpg" alt=""
+                                                    class="img-circle">
+                                                <div class="friend-name">
+                                                    <strong>John Doe</strong>
+                                                </div>
+                                                <div class="last-message text-muted">Hello, Are you there?</div>
+                                                <small class="time text-muted">Just now</small>
+                                                <small class="chat-alert label label-danger">1</small>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div class="alert-icon">
+                                        <i class="icon-info"></i>
+                                    </div>
+                                </div>
+                                <!-- Liste des rdv -->
+
+                            </div>
+                            <div class="tab-pane" id="Projet" role="tabpanel">
+                                <div class="container">
+                                    <div class="row position-relative mt-n1-9">
+                                        <div class="col-md-6 col-lg-4 mt-1-9" *ngFor="let Projet of projet">
+                                            <div class="team-style1 text-center">
+                                                <img src="{{generateImageUrl(Projet?.photo)}}" class="border-radius-5 image-sizeresents crd"
+                                                    alt="...">
+                                                <div class="team-info">
+                                                    <h3 class="text-primary mb-1 h4">{{Projet?.titre}}</h3>
+                                                    <span class="font-weight-600 text-secondary">{{Projet?.typeProjet?.typeprojet}}</span>
+                                                </div>
+                                                <div class="team-overlay">
+                                                    <div class="d-table h-100 w-100">
+                                                        <div class="d-table-cell align-middle">
+                                                            <h3><a href="projects-details" class="text-white">A-propoos de mon
+                                                                    projets</a></h3>
+                                                            <p class="text-white mb-0">Les information de mon projets
+                                                            </p>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="Edit" role="tabpanel">
+                                <form name="ChangeMdpForm" (ngSubmit)="f1.form.valid && ModifierMotDePasse()"
+                                    #f1="ngForm" novalidate>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12">
+                                            <div class="form-group">
+                                                <label>Actuel mot de passe </label>
+                                                <input class="form-control" name="oldPassword"
+                                                    [(ngModel)]="ChangeMdpForm.oldPassword" required minlength="6"
+                                                    #oldPassword="ngModel"
+                                                    [ngClass]="{ 'is-invalid': f1.submitted && oldPassword.errors }"
+                                                    color="black" type="password" [type]="type ? 'password' : 'text'">
+                                                <span
+                                                    style="position: absolute; top: 120px; right: 40px; transform: translateY(-50%);"
+                                                    [ngClass]="type ? 'toggle-password fa fa-eye-slash' : 'toggle-password fa fa-eye'"
+                                                    (click)="changeType()"></span>
+                                                <div style="text-align: center;" class="invalid-feedback"
+                                                    *ngIf="oldPassword.errors && f1.submitted">
+                                                    <div *ngIf="oldPassword.errors['required']">Mot de passe actuel
+                                                        obligatoire</div>
+                                                    <div *ngIf="oldPassword.errors['minlength']">
+                                                        Mot de passe doit être au moins 6 caractères
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12">
+                                            <div class="form-group">
+                                                <label>Nouveau mot de passe </label>
+                                                <input class="form-control" name="newPassword"
+                                                    [(ngModel)]="ChangeMdpForm.newPassword" required minlength="6"
+                                                    #newPassword="ngModel"
+                                                    [ngClass]="{ 'is-invalid': f1.submitted && newPassword.errors }"
+                                                    color="black" type="password" [type]="type1 ? 'password' : 'text'">
+                                                <span
+                                                    style="position: absolute; top: 180px; right: 40px; transform: translateY(-50%);"
+                                                    [ngClass]="type1 ? 'toggle-password fa fa-eye-slash' : 'toggle-password fa fa-eye'"
+                                                    (click)="changeType1()"></span>
+                                                <div style="text-align: center;" class="invalid-feedback"
+                                                    *ngIf="newPassword.errors && f1.submitted">
+                                                    <div *ngIf="newPassword.errors['required']">Nouveau mot de passe
+                                                        obligatoire</div>
+                                                    <div *ngIf="newPassword.errors['minlength']">
+                                                        Mot de passe doit être au moins 6 caractères
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12">
+                                            <div class="form-group">
+                                                <label>Confirmer le mot de passe </label>
+                                                <input class="form-control" name="password2"
+                                                    [(ngModel)]="ChangeMdpForm.password2" required minlength="6"
+                                                    #password2="ngModel"
+                                                    [ngClass]="{ 'is-invalid': f1.submitted && password2.errors }"
+                                                    color="black" type="password" [type]="type2 ? 'password' : 'text'">
+                                                <span
+                                                    style="position: absolute; top: 240px; right: 40px; transform: translateY(-50%);"
+                                                    [ngClass]="type2 ? 'toggle-password fa fa-eye-slash' : 'toggle-password fa fa-eye'"
+                                                    (click)="changeType2()"></span>
+                                                <div style="text-align: center;" class="invalid-feedback"
+                                                    *ngIf="password2.errors && f1.submitted">
+                                                    <div *ngIf="password2.errors['required']">Confirmation obligatoire
+                                                    </div>
+                                                    <div *ngIf="password2.errors['minlength']">
+                                                        Mot de passe doit être au moins 6 caractères
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center pt-4">
+                                        <button type="submit" class="default-btn">Modifier</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

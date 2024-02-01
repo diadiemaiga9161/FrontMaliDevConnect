@@ -11,11 +11,11 @@ const URL_PHOTO: string = environment.Url_PHOTO;
 
 @Component({
   selector: 'app-profil-user',
-  templateUrl: './profil-user.component.html',
-  styleUrls: ['./profil-user.component.scss']
+  templateUrl: './profil-utilisateur.component.html',
+  styleUrls: ['./profil-utilisateur.component.scss']
 })
 
-export class ProfilUserComponent implements OnInit {
+export class ProfilUtilisateurComponent implements OnInit {
   selectedTab: string = 'profil'
   id: any;
   informaticien: any;
