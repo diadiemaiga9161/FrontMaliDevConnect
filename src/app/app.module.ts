@@ -16,7 +16,6 @@ import { ContactComponent } from './components/pages/contact/contact.component';
 import { BlogGridComponent } from './components/pages/blog-grid/blog-grid.component';
 import { ProfilesDetailsComponent } from './components/pages/profiles-details/profiles-details.component';
 import { PricingComponent } from './components/pages/pricing/pricing.component';
-import { TeamComponent } from './components/pages/team/team.component';
 import { PrivacyPolicyComponent } from './components/pages/privacy-policy/privacy-policy.component';
 import { ErrorComponent } from './components/pages/error/error.component';
 import { SignUpComponent } from './components/pages/sign-up/sign-up.component';
@@ -27,6 +26,7 @@ import { FormsModule } from '@angular/forms';
 import { ConnexionComponent } from './components/pages/connexion/connexion.component';
 import { profilInformaticienComponent } from './components/pages/profil-informaticien/profil-informaticien.component';
 import { ProfilUtilisateurComponent } from './components/pages/profil-utilisateur/profil-utilisateur.component';
+import { RdvDetailsComponent } from './components/pages/rdv-details/rdv-details.component';
 
 
 @NgModule({
@@ -42,18 +42,19 @@ import { ProfilUtilisateurComponent } from './components/pages/profil-utilisateu
     ContactComponent,
     BlogGridComponent,
     PricingComponent,
-    TeamComponent,
-
+    RdvDetailsComponent,
     PrivacyPolicyComponent,
     ErrorComponent,
     SignUpComponent,
     ComingSoonComponent,
     ProfilDevComponent,
+    ProfilUtilisateurComponent,
     ConnexionComponent,
     ProfilesDetailsComponent,
     CompleteProfilsComponent,
     profilInformaticienComponent,
     ProfilUtilisateurComponent,
+    RdvDetailsComponent,
     
 
   ],

@@ -5244,10 +5244,13 @@ Page Title Area CSS
         background-image: url(assets/img/team/dev.jpg);
     }
     &.item-bg-4 {
-        background-image: url(assets/img/team/dev.jpg);
+        background-image: url(assets/img/conf.jpg);
     }
     &.item-bg-5 {
         background-image: url(assets/img/team/apropos.png);
+    }
+    &.item-bg-6 {
+        background-image: url(assets/img/home-one/1.png);
     }
     &::before {
         content: '';

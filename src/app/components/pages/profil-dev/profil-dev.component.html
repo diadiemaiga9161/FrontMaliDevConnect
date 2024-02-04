@@ -29,7 +29,8 @@
                                 <div class="text-center border-end">
                                     <img src="/assets/img/team/amadou.jpg" class="img-fluid avatar-xxl rounded-circle"
                                         alt="">
-                                    <h4 class="text-primary font-size-20 mt-3 mb-2">{{informaticien?.prenom}} {{informaticien?.nom}} </h4>
+                                    <h4 class="text-primary font-size-20 mt-3 mb-2">{{informaticien?.prenom}}
+                                        {{informaticien?.nom}} </h4>
                                     <h5 style="font-size: 12px;" class="text-muted mb-0">{{specialite?.specialite}}</h5>
                                 </div>
                             </div><!-- end col -->
@@ -58,14 +59,16 @@
                                         <li class="nav-item" role="presentation">
                                             <a class="nav-link px-4 active" data-bs-toggle="tab" href="#projects-tab"
                                                 role="tab" aria-selected="false" tabindex="-1">
-                                                <span class="d-block d-sm-none"><i class="fas fa-home">Projects</i></span>
+                                                <span class="d-block d-sm-none"><i
+                                                        class="fas fa-home">Projects</i></span>
                                                 <span class="d-none d-sm-block">Projects</span>
                                             </a>
                                         </li><!-- end li -->
                                         <li class="nav-item" role="presentation">
-                                            <a class="nav-link px-4" data-bs-toggle="tab" href="#Rendez-vous"
-                                                role="tab" aria-selected="false" tabindex="-1">
-                                                <span class="d-block d-sm-none"><i class="fas fa-home">Rendez-vous</i></span>
+                                            <a class="nav-link px-4" data-bs-toggle="tab" href="#Rendez-vous" role="tab"
+                                                aria-selected="false" tabindex="-1">
+                                                <span class="d-block d-sm-none"><i
+                                                        class="fas fa-home">Rendez-vous</i></span>
                                                 <span class="d-none d-sm-block">Rendez-vous</span>
                                             </a>
                                         </li><!-- end li -->
@@ -95,16 +98,18 @@
                                     <div class="row position-relative mt-n1-9">
                                         <div class="col-md-6 col-lg-4 mt-1-9" *ngFor="let Projet of projet">
                                             <div class="team-style1 text-center">
-                                                <img src="{{generateImageUrl(Projet?.photo)}}" class="border-radius-5 image-sizeresents crd"
-                                                    alt="...">
+                                                <img src="{{generateImageUrl(Projet?.photo)}}"
+                                                    class="border-radius-5 image-sizeresents crd" alt="...">
                                                 <div class="team-info">
                                                     <h3 class="text-primary mb-1 h4">{{Projet?.titre}}</h3>
-                                                    <span class="font-weight-600 text-secondary">{{Projet?.typeProjet?.typeprojet}}</span>
+                                                    <span
+                                                        class="font-weight-600 text-secondary">{{Projet?.typeProjet?.typeprojet}}</span>
                                                 </div>
                                                 <div class="team-overlay">
                                                     <div class="d-table h-100 w-100">
                                                         <div class="d-table-cell align-middle">
-                                                            <h3><a href="projects-details" class="text-white">A-propoos de mon
+                                                            <h3><a href="projects-details" class="text-white">A-propoos
+                                                                    de mon
                                                                     projets</a></h3>
                                                             <p class="text-white mb-0">Les information de mon projets
                                                             </p>
@@ -134,52 +139,65 @@
                                 <div class="container">
                                     <div class="container">
                                         <div class="row no-gutters row-bordered">
-                                        <div class="comments-area">
-                                          <div class="comment-respond">
-                                              <div class="container mt-5">
-                                                  <h2>Rendez-vous avec nom du developpeur</h2>
-                                                  <form action="/votre-endpoint-backend" method="POST">
-                                                    
-                                                    <!-- Informations personnelles -->
-                                                    <div class="form-group">
-                                                      <label for="nom">Nom complet :</label>
-                                                      <input type="text" class="form-control" id="nom" name="nom" required>
-                                                    </div>
-                                                    
-                                                    <div class="form-group">
-                                                      <label for="email">Adresse Email :</label>
-                                                      <input type="email" class="form-control" id="email" name="email" required>
-                                                    </div>
-                                              
-                                                    <div class="form-group">
-                                                      <label for="telephone">Numéro de téléphone :</label>
-                                                      <input type="tel" class="form-control" id="telephone" name="telephone" required>
-                                                    </div>
-                                                    <!-- Date et heure du rendez-vous -->
-                                                    <div class="form-group">
-                                                      <label for="date">Date du Rendez-vous :</label>
-                                                      <input type="date" class="form-control" id="date" name="date" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                      <label for="heure">Heure du Rendez-vous :</label>
-                                                      <input type="time" class="form-control" id="heure" name="heure" required>
+                                            <div class="comments-area">
+                                                <div class="comment-respond">
+                                                    <div class="container mt-5">
+                                                        <h2>Rendez-vous avec nom du developpeur</h2>
+                                                        <form action="/votre-endpoint-backend" method="POST">
+
+                                                            <!-- Date et heure du rendez-vous -->
+                                                            <div class="form-group">
+                                                                <label for="date">Date du Rendez-vous :</label>
+                                                                <input type="date" class="form-control" id="date"
+                                                                    name="date" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="heure">Heure du Rendez-vous :</label>
+                                                                <input type="time" class="form-control" id="heure"
+                                                                    name="heure" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="validationTooltip04" class="form-label">Type
+                                                                    de Rendez-vous</label>
+                                                                <select class="form-select" id="validationTooltip04"
+                                                                    required>
+                                                                    <option selected disabled value="">Type Rdv...
+                                                                    </option>
+                                                                    <option>...</option>
+                                                                </select>
+                                                                <div class="invalid-tooltip">
+                                                                    Please select a valid state.
+                                                                </div>
+                                                            </div>
+                                                            <!-- Informations personnelles -->
+                                                            <div class="form-group">
+                                                                <label for="nom">Objet :</label>
+                                                                <textarea class="form-control"
+                                                                    placeholder="L'objet de votre Rendez-vous"
+                                                                    id="floatingTextarea2"
+                                                                    style="height: 100px"></textarea>
+                                                            </div>
+
+                                                            <br>
+                                                            <!-- Bouton de soumission -->
+                                                            <button type="submit" class="btn btn-primary">Prendre un
+                                                                Rendez-vous</button>
+
+                                                        </form>
                                                     </div>
 
-                                                   
-                                              <br>
-                                                    <!-- Bouton de soumission -->
-                                                    <button type="submit" class="btn btn-primary">Prendre un Rendez-vous</button>
-                                              
-                                                  </form>
+                                                    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js">
+                                                    </script>
+                                                    <script
+                                                        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js">
+                                                    </script>
+                                                    <script
+                                                        src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js">
+                                                    </script>
                                                 </div>
-                                              
-                                                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-                                                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-                                                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-                                          </div>
+                                            </div>
                                         </div>
-                                        </div>
-                                      </div>
+                                    </div>
                                 </div>
                                 <!-- end col -->
                             </div><!-- end row -->
@@ -194,7 +212,7 @@
                     </div>
                 </div><!-- end card -->
             </div><!-- end col -->
-       
+
             <div class="col-xl-4">
                 <div class="card">
                     <div class="card-body">
