@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user/user.service';
 import { environment } from 'src/environments/environment';
 
+
 const URL_PHOTO: string = environment.Url_PHOTO;
 
 
@@ -19,12 +20,26 @@ export class ProfilDevComponent implements OnInit {
   informaticien: any;
   specialite: any;
   projet: any;
+  profileImageUrl: string = ''; // Variable pour stocker le chemin de l'image de profil
 
 
+    //IMAGE
+    generateImageUrl(photoFileName: string): string {
+      const baseUrl = URL_PHOTO;
+      return baseUrl + photoFileName;
+    }
+      // IMAGE PAR DEFAUT USER
+   handleAuthorImageError(event: any) {
+    event.target.src = 'assets/img/team/tiec.jpg';
+  }
+
+  
   constructor(
     private route: ActivatedRoute,
     private serviceUser: UserService,
   ) { }
+
+
 
   ngOnInit(): void {
     //RECUPERER L'ID DE L'INFORMATICIEN
@@ -40,15 +55,6 @@ export class ProfilDevComponent implements OnInit {
     });
   }
 
-  handleAuthorImageError(event: any) {
-    event.target.src = 'assets/img/about/about3.png';
-  }
-
-  generateImageUrl(photoFileName: string): string {
-    return `${URL_PHOTO}${photoFileName}`;
-  }
-
-
   changeTab(tab: string) {
     this.selectedTab = tab;
   }
@@ -56,5 +62,6 @@ export class ProfilDevComponent implements OnInit {
   isTabActive(tab: string): boolean {
     return this.selectedTab === tab;
   }
+  
 
 }

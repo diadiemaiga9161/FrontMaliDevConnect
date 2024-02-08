@@ -122,7 +122,7 @@ img {
     margin-left: 16px;
     font: {
         size: $font-size;
-        weight: 500;
+        weight: 400;
     };
     &:hover {
         background-color: $main-color;
@@ -6016,17 +6016,15 @@ Sidebar Widget Area CSS
                 }
             }
             button {
-                position: absolute;
+                top: 0;
                 right: 0;
-                outline: 0;
-                bottom: 0;
-                height: 50px;
-                width: 50px;
-                z-index: 1;
+                height: 48px;
                 border: none;
-                color: $white-color;
-                background-color: $main-color;
-                transition: $transition;
+                font-size: 20px;
+                padding: 0 15px;
+                position: absolute;
+                color: var(--pinkColor);
+                background-color: transparent;
                 
                 &:hover {
                     background-color: $black-color;

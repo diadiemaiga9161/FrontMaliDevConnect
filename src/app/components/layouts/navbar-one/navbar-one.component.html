@@ -32,16 +32,16 @@
                     <link rel="stylesheet"
                         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
                 </ul>
-                <!-- <div class="others-option d-flex align-items-center" *ngIf="isLoginFailed == false">
+                <div class="others-option d-flex align-items-center" *ngIf="isLoginFailed == false">
                     <div class="option-item">
-                        <a routerLink="/connexion"  class="btn btn-oval btn-default">Connexion</a>
+                        <a routerLink="/connexion" style="font-size: 15px;" class="btn btn-outline-primary">Connexion</a>
                     </div>
                     <div class="option-item">
-                        <a routerLink="/inscription" class="default-btn">Inscription</a>
+                        <a routerLink="/inscription" style="font-size: 15px;" class="btn btn-outline-info">Inscription</a>
                     </div>
-                </div> -->
-                <a *ngIf="isLoginFailed == false" routerLink="/connexion" class="nav-link" class="gg-profile" routerLinkActive="active"
-                    [routerLinkActiveOptions]="{exact: true}">Inscription</a>
+                </div>
+                <!-- <a *ngIf="isLoginFailed == false" routerLink="/connexion" class="nav-link" class="gg-profile" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact: true}">Inscription</a> -->
                 <ul class="navbar-nav" *ngIf="isLoginFailed == true">
                     <li class="nav-item">
                         <a href="javascript:void(0);" class="dropdown-toggle profile-userlink" data-bs-toggle="dropdown"

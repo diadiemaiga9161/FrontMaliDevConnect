@@ -304,5 +304,59 @@ export class ProfilUtilisateurComponent implements OnInit {
     window.location.reload();
   }
 
+  onPhotoChange(event: any): void {
+    const selectedFile = event.target.files[0];
+
+    if (selectedFile) {
+        const maxSize = 5 * 1024 * 1024; // Taille maximale en octets (5 Mo)
+
+        if (selectedFile.size <= maxSize) {
+            // Vous pouvez également afficher des informations sur le fichier si nécessaire
+            // console.log(`Nom du fichier: ${selectedFile.name}`);
+            // console.log(`Type de fichier: ${selectedFile.type}`);
+            // console.log(`Taille du fichier: ${selectedFile.size} octets`);
+
+            // Ajoutez le fichier au formulaire et exécutez votre logique d'ajout ici
+            this.form.photo = selectedFile;
+            this.onAdd();
+        } else {
+            alert("La taille du fichier est supérieure à 5 Mo. Veuillez choisir un fichier plus petit.");
+            // Réinitialiser la sélection de fichier
+            event.target.value = '';
+        }
+    }
+}
+
+//AJOUTER LA PHOTO DE PROFIL
+onAdd(): void {
+  // console.log('Add button clicked');
+  const { photo } = this.form;
+  const user = this.storageService.getUser();
+  if (user && user.token && photo) {
+      this.serviceUser.changerPhoto(photo).subscribe(
+          successResponse => {
+              console.log('Photo changed successfully', successResponse);
+              console.log('Photo ', photo);
+              this.User.photos[0].nom = photo.name;
+              user.photos[0].nom = successResponse.message;
+              this.storageService.setUser(user);
+              console.log(this.User.photos[0].nom);
+              this.User.photos[0].nom = photo.name;
+              // this.generateImageUrl(photo.name);
+              // Mettez à jour le chemin de l'image de profil
+              this.profileImageUrl = this.generateImageUrl(photo.name) + '?timestamp=' + new Date().getTime();
+              const uniqueFileName = photo.name + `?timestamp=${new Date().getTime()}`;
+              this.User.photos[0].nom = uniqueFileName;
+              this.reloadPage();
+          },
+          error => {
+              // console.error('Error while changing photo', error);
+          }
+      );
+  } else {
+      // console.error('Token JWT missing or no photo selected');
+  }
+}
+
 
 }

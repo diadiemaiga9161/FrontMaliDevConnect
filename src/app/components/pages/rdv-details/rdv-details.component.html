@@ -14,3 +14,58 @@
         </div>
     </div>
 </div>
+
+<div class="container">
+    <div class="container">
+        <div class="row no-gutters row-bordered">
+            <div class="comments-area">
+                <div class="comment-respond">
+                    <div class="container mt-5">
+                        <h2>Rendez-vous avec nom du developpeur</h2>
+                        <form action="/votre-endpoint-backend" method="POST">
+
+                            <!-- Date et heure du rendez-vous -->
+                            <div class="form-group">
+                                <label for="date">Date du Rendez-vous :</label>
+                                <input type="date" class="form-control" id="date"
+                                    name="date" required>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label for="heure">Heure du Rendez-vous :</label>
+                                <input type="time" class="form-control" id="heure"
+                                    name="heure" required>
+                            </div>
+                            <div>
+                                <label for="nom">Objet :</label>
+                                <textarea class="form-control"
+                                    placeholder="L'objet de votre Rendez-vous"
+                                    id="floatingTextarea2"
+                                    style="height: 100px"></textarea>
+                            </div>
+                            <br>
+                            <!-- Bouton de soumission -->
+                            <div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-12" >
+                                        <button type="submit" style="margin-right: 1cm;" class="btn btn-danger">
+                                            Annulé </button>
+
+                                        <button type="submit" class="btn btn-primary">
+                                            Modifier </button>
+                                     </div>
+                                </div>
+                            </div>
+                           
+                          
+                            
+
+                               
+
+                        </form>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>

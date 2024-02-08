@@ -21,8 +21,14 @@
                 <div class="profile-card-4 z-depth-3">
                     <div class="card">
                         <div class="card-body text-center bg-primary rounded-top">
-                            <div class="user-box">
-                                <img [src]="profileImageUrl" (error)="handleAuthorImageError($event)" alt="user avatar">
+                            <div class="profile-img mb-3">
+                                <img [src]="profileImageUrl" alt="Admin" class="rounded-circle p-1"
+                                    style="background-color: #ffff;" (error)="handleAuthorImageError($event)" width="110">
+                                <div class="file change-photo-icon">
+                                    <i class="ri-camera-line"></i>
+                                    <input type="file" name="file" (change)="onPhotoChange($event)"
+                                        accept=".png, .jpeg, .jpg, .svg" />
+                                </div>
                             </div>
                             <h5 class="mb-1 text-white">{{User?.prenom}} {{User?.nom}} </h5>
                             <h6 class="text-light">{{User?.specialite?.specialite}}</h6>
@@ -251,7 +257,7 @@
                                                       <div class="candidate-list-details">
                                                         <div class="candidate-list-info">
                                                           <div class="candidate-list-title">
-                                                            <h5 class="mb-0"><a href="#">Amadou Maiga</a></h5>
+                                                            <h5 class="mb-0"><a href="rdv-details">Amadou Maiga</a></h5>
                                                           </div>
                                                           <div class="candidate-list-option">
                                                             <ul class="list-unstyled">

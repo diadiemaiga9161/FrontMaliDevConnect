@@ -14,7 +14,6 @@ import { AproposComponent } from './components/pages/apropos/apropos.component';
 import { InformaticienComponent } from './components/pages/Informaticien(e)/Informaticien.component';
 import { ContactComponent } from './components/pages/contact/contact.component';
 import { BlogGridComponent } from './components/pages/blog-grid/blog-grid.component';
-import { ProfilesDetailsComponent } from './components/pages/profiles-details/profiles-details.component';
 import { PricingComponent } from './components/pages/pricing/pricing.component';
 import { PrivacyPolicyComponent } from './components/pages/privacy-policy/privacy-policy.component';
 import { ErrorComponent } from './components/pages/error/error.component';
@@ -50,7 +49,6 @@ import { RdvDetailsComponent } from './components/pages/rdv-details/rdv-details.
     ProfilDevComponent,
     ProfilUtilisateurComponent,
     ConnexionComponent,
-    ProfilesDetailsComponent,
     CompleteProfilsComponent,
     profilInformaticienComponent,
     ProfilUtilisateurComponent,

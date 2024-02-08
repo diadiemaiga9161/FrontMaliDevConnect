@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AccueilComponent } from './components/pages/accueil/accueil.component';
 import { ContactComponent } from './components/pages/contact/contact.component';
-import { ProfilesDetailsComponent } from './components/pages/profiles-details/profiles-details.component';
 import { BlogGridComponent } from './components/pages/blog-grid/blog-grid.component';
 import { ComingSoonComponent } from './components/pages/coming-soon/coming-soon.component';
 import { ErrorComponent } from './components/pages/error/error.component';
@@ -32,7 +31,6 @@ const routes: Routes = [
     {path: 'error', component: ErrorComponent},
     {path: 'coming-soon', component: ComingSoonComponent},
     {path: 'blog-grid', component: BlogGridComponent},
-    {path: 'profiles-details', component: ProfilesDetailsComponent},
     {path: 'contact', component: ContactComponent},
     {path: 'profile-dev/:id', component: ProfilDevComponent},
     {path: 'profil-informaticien', component: profilInformaticienComponent},

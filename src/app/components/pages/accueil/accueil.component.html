@@ -343,7 +343,7 @@
             <div class="bar"></div>
         </div>
         <div class="row">
-            <div class="col-lg-4 col-md-6">
+            <!-- <div class="col-lg-4 col-md-6">
                 <div class="single-blog-item">
                     <div class="image">
                         <a routerLink="/profile-dev"><img src="assets/img/blog/dev1.png" alt="image"></a>
@@ -354,19 +354,22 @@
                       <a routerLink="/profile-dev" class="En savoir plus">En savoir plus</a>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
+            </div> -->
+            <div class="col-lg-4 col-md-6" *ngFor="let informaticien of informaticiens">
                 <div class="single-blog-item">
-                    <div class="image">
-                        <a routerLink="/profile-dev"><img src="assets/img/blog/dev2.png" alt="image"></a>
-                    </div>
-                    <div class="content">
-                        <span>15 décembre 2023</span>
-                        <h3><a routerLink="/dev-details">Moussa Diarra </a></h3>
-                        <a routerLink="/profile-dev" class="read-more">En savoir plus</a>
-                    </div>
+                  <div class="image">
+                    <a [routerLink]="['/profile-dev', informaticien.id]">
+                      <!-- Remplacez 'id' par la propriété réelle qui identifie l'informaticien -->
+                      <img src="assets/img/blog/dev2.png" alt="image">
+                    </a>
+                  </div>
+                  <div class="content">
+                    <h3><a [routerLink]="['/dev-details', informaticien.id]">{{ informaticien.nom }}</a></h3>
+                    <p>{{ informaticien.specialite }}</p>
+                    <!-- Remplacez 'nom' et 'specialite' par les propriétés réelles de l'informaticien -->
+                    <a [routerLink]="['/profile-dev', informaticien.id]" class="read-more">En savoir plus</a>
+                  </div>
                 </div>
-            </div>
             <div class="col-lg-4 col-md-6 offset-lg-0 offset-md-3">
                 <div class="single-blog-item">
                     <div class="image">
@@ -381,7 +384,7 @@
             </div>
         </div>
     </div>
-</section>
+    
 <section class="clients-section">
     <div class="container">
         <div class="section-title">
@@ -419,3 +422,5 @@
         </div>
     </div>
 </section>
+<br>
+

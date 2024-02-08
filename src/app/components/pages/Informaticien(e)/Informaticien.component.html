@@ -52,16 +52,19 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-5 col-sm-5" *ngFor="let Informaticien of informaticien">
-                <div class="single-protfolio-box">
-                    <div class="image">
-                        <a class="crd" (click)="goToDettailInformaticien(Informaticien?.id)"><img
-                                src="assets/img/blog/dev4.png" alt="image"></a>
-                    </div>
-                    <div class="content">
-                        <h3>{{Informaticien?.prenom}} {{Informaticien?.nom}}</h3>
-                        <span>{{Informaticien?.specialite?.specialite}}</span>
-                        <a (click)="goToDettailInformaticien(Informaticien?.id)" class="crd link-btn"></a>
+            <div class="col-lg-9 col-md-12 col-sm-12 row">
+
+                <div class="col-lg-4 col-md-5 col-sm-5" *ngFor="let Informaticien of informaticien">
+                    <div class="single-protfolio-box">
+                        <div class="image">
+                            <a class="crd" (click)="goToDettailInformaticien(Informaticien?.id)"><img
+                                    src="assets/img/blog/dev4.png" alt="image"></a>
+                        </div>
+                        <div class="content">
+                            <h3>{{Informaticien?.prenom}} {{Informaticien?.nom}}</h3>
+                            <span>{{Informaticien?.specialite?.specialite}}</span>
+                            <a (click)="goToDettailInformaticien(Informaticien?.id)" class="crd link-btn"></a>
+                        </div>
                     </div>
                 </div>
             </div>
