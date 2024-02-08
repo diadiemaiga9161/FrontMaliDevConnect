@@ -71,9 +71,11 @@ export class profilInformaticienComponent implements OnInit {
   }
 
   generateImageUrl(photoFileName: string): string {
+    const baseUrl = URL_PHOTO;
     return `${URL_PHOTO}${photoFileName}`;
   }
-
+ 
+ 
 
   changeTab(tab: string) {
     this.selectedTab = tab;

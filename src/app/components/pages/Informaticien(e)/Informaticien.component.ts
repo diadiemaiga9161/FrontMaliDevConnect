@@ -31,6 +31,15 @@ export class InformaticienComponent implements OnInit {
     // Gérer le cas où id est indéfini (facultatif)
     return Promise.resolve(false); // Retourner une promesse résolue avec `false` (ou une autre valeur appropriée)
   }
-
+  // filterSpecialite() {
+  //   const selectedSpecialite = this.searchForm.get('specialite')?.value;
+  
+  //   this.filteredSpecialite = this.specialite.filter(user =>
+  //     (!selectedSpecialite || user.specialite === selectedSpecialite)
+  //   );
+  
+  //   this.totalPages = Math.ceil(this.filteredSpecialite.length / this.itemsPerPage);
+  // }
+  
 
 }
