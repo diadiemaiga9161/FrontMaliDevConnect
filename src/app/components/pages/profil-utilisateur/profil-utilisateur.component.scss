@@ -9,6 +9,41 @@ body{
     
 }
 
+.profile-img {
+  text-align: center; /* Centre le contenu horizontalement */
+  position: relative; /* Permet de positionner l'icône de la caméra par rapport à l'image */
+}
+
+.profile-img img {
+  border: 3px solid #fff; /* Ajoute une bordure blanche autour de l'image */
+  border-radius: 50%; /* Arrondit les bords de l'image pour en faire un cercle */
+  width: 110px;
+  height: 110px;
+}
+
+/* Rend l'élément input transparent */
+.profile-img .file input {
+  position: absolute;
+  opacity: 0;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}
+.change-photo-icon {
+  position: absolute; /* Positionne l'icône de la caméra par rapport à l'image */
+  bottom: 5px; /* Ajuste la position verticale de l'icône par rapport à l'image */
+  right: 36%; /* Ajuste la position horizontale de l'icône par rapport à l'image */
+  background-color: #fff; /* Fond blanc pour l'icône */
+  border-radius: 50%; /* Arrondit les bords de l'icône pour en faire un cercle */
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer; /* Change le curseur de la souris en pointeur au survol */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Ajoute une ombre légère */
+}
+
 .user-box img {
     width: 100%;
     border-radius: 10%;

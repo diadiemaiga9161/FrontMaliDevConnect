@@ -106,7 +106,8 @@ export class SignUpComponent implements OnInit {
       },
       heightAuto: false
     })
-    const { nom, prenom, telephone, email, adresse, specialite, genre, password, role } = this.form;
+    const { nom, prenom, telephone, email, adresse, genre, password, role } = this.form;
+    console.log(this.form)
 
     swalWithBootstrapButtons.fire({
       text: "Etes-vous sûre de creer un compte ?",
@@ -117,7 +118,7 @@ export class SignUpComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this.authService.inscription(nom, prenom, telephone, adresse, genre, email,specialite, password, role).subscribe({
+        this.authService.inscription(nom, prenom, telephone, adresse, genre, email, password, role).subscribe({
           next: data => {
             this.isSuccessful = true;
             this.isSignUpFailed = false;

@@ -48,6 +48,8 @@ export class profilInformaticienComponent implements OnInit {
       adresse: this.User.adresse,
       specialite: this.User.specialite.id,
     };
+    console.log(this.User);
+    
   }
 
   ngOnInit(): void {

@@ -46,7 +46,7 @@ export class ProfilUtilisateurComponent implements OnInit {
       email: this.User.email,
       genre: this.User.genre,
       adresse: this.User.adresse,
-      specialite: this.User.specialite.id,
+      specialite: this.User?.specialite?.id,
     };
   }
 

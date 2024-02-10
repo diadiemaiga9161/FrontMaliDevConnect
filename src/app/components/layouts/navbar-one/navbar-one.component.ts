@@ -99,4 +99,19 @@ export class NavbarOneComponent implements OnInit {
     })
 
   }
+
+    // goToProfilUserOrInfo
+    goToProfilUserOrInfo() {
+      this.User = this.storageService.getUser();
+      if (this.User && this.User.roles) {
+          if (this.User.roles.includes('ROLE_INFORMATICIEN')) {
+            this.router.navigate(["/profil-informaticien"]);
+          } else {
+            this.router.navigate(["/profil-client"]);
+
+          } 
+      }
+
+    }
+  
 }

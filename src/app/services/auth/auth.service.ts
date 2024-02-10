@@ -1,3 +1,4 @@
+// Importation des modules Angular nécessaires
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { StorageService } from '../storage/storage.service';
@@ -5,24 +6,28 @@ import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 // import { CookieService } from 'ngx-cookie-service'; // Importez le CookieService
 
-const URL_BASE: string = environment.Url_BASE
+// Définition de l'URL de base pour les requêtes API
+const URL_BASE: string = environment.Url_BASE;
 
+// Options par défaut pour les requêtes HTTP
 const httpOptions: any = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
 
+// Injectable permettant l'injection de dépendances pour ce service dans l'ensemble de l'application
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  // Constructeur du service avec injection des dépendances nécessaires
   constructor(
     private http: HttpClient,
     private storageService: StorageService,
     // private cookieService: CookieService
   ) { }
 
-  // Méthode pour ajouter le token JWT aux en-têtes
+  // Méthode pour obtenir les en-têtes avec le token JWT
   getHeaders(): HttpHeaders {
     const token = this.storageService.getUser().token;
     return new HttpHeaders({
@@ -30,7 +35,7 @@ export class AuthService {
     });
   }
 
-  //METHODE PERMETTANT DE SE CONNECTER
+  // Méthode pour effectuer la connexion
   connexion(telephoneOrEmail: string, password: string): Observable<any> {
     console.log(telephoneOrEmail);
     console.log(password);
@@ -44,7 +49,7 @@ export class AuthService {
     );
   }
 
-  //METHODE PERMETTANT DE S'INSCRIRE
+  // Méthode pour effectuer l'inscription
   inscription(
     nom: string,
     prenom: string,
@@ -52,7 +57,6 @@ export class AuthService {
     adresse: string,
     genre: string,
     email: string,
-    specialiteId: number,
     password: string,
     roles: string,
   ): Observable<any> {
@@ -74,7 +78,6 @@ export class AuthService {
         adresse,
         genre,
         email,
-        specialite: { id: specialiteId }, // Envoyez l'ID de l'age dans un objet
         password,
         role: [roles, 'userRole']
       },
@@ -82,36 +85,32 @@ export class AuthService {
     );
   }
 
-  //METHODE PERMETTANT DE SE DECONNECTER
+  // Méthode pour effectuer la déconnexion
+  logout(): Observable<any> {
+    const req = new HttpRequest('POST', URL_BASE + '/logout', {}, httpOptions);
+    return this.http.request(req);
+  }
+   //METHODE PERMETTANT DE SE DECONNECTER
   // logout(): Observable<any> {
   //   const req = new HttpRequest('POST', URL_BASE + '/logout', {}, httpOptions);
   //   return this.http.request(req);
   // }
 
-  //METHODE PERMETTANT D'ACTUALISER LA PAGE
+  // Méthode pour actualiser la page
   reloadPage(): void {
     window.location.reload();
   }
 
-  //METHODE PERMETTANT DE SE DECONNECTER
-  logout(): Observable<any> {
-    //return this.http.post(AUTH_API + 'signout', {}, httpOptions);
-    const req = new HttpRequest('POST', URL_BASE + '/logout', {}, httpOptions);
-    return this.http.request(req);
-  }
-
-  //ENVOIE D'EMAIL POUR CHANGER LE PASSWORD
+  // Méthode pour envoyer un email de récupération de mot de passe
   forgotPassword(email: string): Observable<any> {
     const formData = new FormData();
     formData.append('email', email);
     console.log(email);
 
-    // const headers = this.getHeaders();
     return this.http.post(URL_BASE + 'auth/forgotPassword', formData);
   }
 
-
-  //CHANGER PASSWORD APRES OUBLIE
+  // Méthode pour changer le mot de passe après récupération
   ChangerPassword(token: string, newPassword: any): Observable<any> {
     const headers = this.getHeaders();
     const formData = new FormData();
@@ -120,5 +119,4 @@ export class AuthService {
     formData.append('newPassword', newPassword);
     return this.http.post(URL_BASE + 'auth/resetPassword', formData);
   }
-
 }
