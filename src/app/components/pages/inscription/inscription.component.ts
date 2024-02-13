@@ -6,12 +6,12 @@ import Swal from 'sweetalert2';
 import { SpecialiteService } from 'src/app/services/specialite/specialite.service';
 
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss']
+  selector: 'app-inscription',
+  templateUrl: './inscription.component.html',
+  styleUrls: ['./inscription.component.scss']
 })
 
-export class SignUpComponent implements OnInit {
+export class InscriptionComponent implements OnInit {
 
   isSuccessful = false;
   isSignUpFailed = false;

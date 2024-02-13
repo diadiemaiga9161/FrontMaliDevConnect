@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./rdv-details.component.scss']
 })
 export class RdvDetailsComponent implements OnInit {
+  
 
   constructor() { }
 

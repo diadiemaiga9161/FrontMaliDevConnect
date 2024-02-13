@@ -21,6 +21,7 @@ export class ProfilDevComponent implements OnInit {
   specialite: any;
   projet: any;
   profileImageUrl: string = ''; // Variable pour stocker le chemin de l'image de profil
+User: any;
 
 
     //IMAGE

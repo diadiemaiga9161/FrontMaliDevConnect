@@ -58,7 +58,7 @@
                     <div class="single-protfolio-box">
                         <div class="image">
                             <a class="crd" (click)="goToDettailInformaticien(Informaticien?.id)"><img
-                                    src="assets/img/blog/dev4.png" alt="image"></a>
+                                [src]="generateImageUrl" alt="Admin"  (error)="handleAuthorImageError($event)"></a>
                         </div>
                         <div class="content">
                             <h3>{{Informaticien?.prenom}} {{Informaticien?.nom}}</h3>

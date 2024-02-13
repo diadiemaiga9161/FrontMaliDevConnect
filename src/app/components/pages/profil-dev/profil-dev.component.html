@@ -27,8 +27,8 @@
                         <div class="row align-items-center">
                             <div class="col-md-4">
                                 <div class="text-center border-end">
-                                    <img src="/assets/img/team/amadou.jpg" class="img-fluid avatar-xxl rounded-circle"
-                                        alt="">
+                                    <img [src]="generateImageUrl(User?.photos[1]?.nom)"class="img-fluid avatar-xxl rounded-circle"
+                                        alt="" (error)="handleAuthorImageError($event)">
                                     <h4 class="text-primary font-size-20 mt-3 mb-2">{{informaticien?.prenom}}
                                         {{informaticien?.nom}} </h4>
                                     <h5 style="font-size: 12px;" class="text-muted mb-0">{{specialite?.specialite}}</h5>
@@ -108,7 +108,7 @@
                                                 <div class="team-overlay">
                                                     <div class="d-table h-100 w-100">
                                                         <div class="d-table-cell align-middle">
-                                                            <h3><a href="projects-details" class="text-white">A-propoos
+                                                            <h3><a href="projets-détaillé" class="text-white">A-propoos
                                                                     de mon
                                                                     projets</a></h3>
                                                             <p class="text-white mb-0">Les information de mon projets

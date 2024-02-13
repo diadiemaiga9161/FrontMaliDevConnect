@@ -21,100 +21,109 @@
                     <h2 id="heading">Completez votre profile</h2>
                     <p>Remplissez tous les champs du formulaire pour passer à l'étape suivante</p>
     
-                    <form id="msform">
+                    <form #form="ngForm" id="msform">
                         
                         <ul id="progressbar">
-                            <li class="active" id="account"><strong>Connaissance</strong></li>
-                            <li id="payment"><strong>Experience Professionnelle</strong></li>
-                            <li id="personal"><strong>Projet Informatique</strong></li>
-                            <li id="confirm"><strong>Finish</strong></li>
+                            <li  [ngClass]="step >= 1 ? 'active' : 'inactive'"  id="account"><strong>Connaissance</strong></li>
+                            <li  [ngClass]="step >= 2 ? 'active' : 'inactive'" id="personal"><strong>Experience Professionnelle</strong></li>
+                            <li  [ngClass]="step >= 3 ? 'active' : 'inactive'" id="payment"><strong>Projet Informatique</strong></li>
+                            <li  [ngClass]="step >= 4 ? 'active' : 'inactive'" id="confirm"><strong>Finish</strong></li>
                         </ul>
                         <div class="progress">
                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                         <br>
                      
-                        <fieldset>
+                        <fieldset *ngIf="step == 1">
                             <div class="form-card">
                                 <div class="row">
                                     <div class="col-7">
-                                        <h2 class="fs-title">Information Connaissance:</h2>
+                                        <h2 class="fs-title">Connaissance:</h2>
                                     </div>
                                     <div class="col-5">
-                                        <h2 class="steps">Step 1 - 4</h2>
+                                        <h2 class="steps">Etape 1 - 4</h2>
                                     </div>
                                 </div>
                                 <label class="form-label" for="customFile">Votre photo de profile</label>
                                 <input type="file" class="form-control" id="customFile" />
-                                <label class="fieldlabels">Status: *</label>
+                                <label class="fieldlabels">Connaissance: *</label>
                                 <input type="select" name="uname" placeholder="Votre status"/>
                             </div>
-                            <input type="button" name="next" class="next action-button" value="Next"/>
+                            <div class="button-container">
+                                <input (click)="next()" type="button" name="next" class="next action-button" value="Suivant" />
+                            </div>
                         </fieldset>
-                        <fieldset>
+
+                        <fieldset *ngIf="step == 2">
                             <div class="form-card">
                                 <div class="row">
                                     <div class="col-7">
-                                        <h2 class="fs-title">Information:</h2>
+                                        <h2 class="fs-title">Vos Experiences professionnelle :</h2>
                                     </div>
                                     <div class="col-5">
-                                        <h2 class="steps">Step 2 - 4</h2>
+                                        <h2 class="steps">Etape 2 - 4</h2>
                                     </div>
                                 </div>
-                                <label class="fieldlabels">First Name: *</label>
-                                <input type="text" name="fname" placeholder="First Name"/>
-                                <label class="fieldlabels">Last Name: *</label>
-                                <input type="text" name="lname" placeholder="Last Name"/>
-                                <label class="fieldlabels">Contact No.: *</label>
-                                <input type="text" name="phno" placeholder="Contact No."/>
-                                <label class="fieldlabels">Alternate Contact No.: *</label>
-                                <input type="text" name="phno_2" placeholder="Alternate Contact No."/>
+                                <label class="fieldlabels">Titre de votre Experience: *</label>
+                                <input type="text" name="fname" placeholder="Titre"/>
+                                <label class="fieldlabels">Date debut: *</label>
+                                <input type="date" name="lname" placeholder="date debut"/>
+                                <label class="fieldlabels">Date fin.: *</label>
+                                <input type="date" name="phno" placeholder="date fin"/>
+                                <label class="fieldlabels">Lieux: *</label>
+                                <input type="text" name="phno_2" placeholder="Lieux"/>
                             </div>
-                            <input type="button" name="next" class="next action-button" value="Next"/>
-                            <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                            <div class="button-container">
+                                <input (click)="next()" type="button" name="next" class="next action-button" value="Suivant" />
+                                <input (click)="previous()" type="button" name="previous" class="previous action-button-previous" value="Precedent" />
+                              </div>
                         </fieldset>
-                        <fieldset>
+                        <fieldset *ngIf="step == 3">
                             <div class="form-card">
                                 <div class="row">
                                     <div class="col-7">
-                                        <h2 class="fs-title">Image Upload:</h2>
+                                        <h2 class="fs-title">Vos projets Informatique</h2>
                                     </div>
                                     <div class="col-5">
-                                        <h2 class="steps">Step 3 - 4</h2>
+                                        <h2 class="steps">Etape 3 - 4</h2>
                                     </div>
                                 </div>
-                                <label class="fieldlabels">Upload Your Photo:</label>
-                                <input type="file" name="pic" accept="image/*">
-                                <label class="fieldlabels">Upload Signature Photo:</label>
-                                <input type="file" name="pic" accept="image/*">
+                                <label class="fieldlabels">Titre du projet:</label>
+                                <input type="text" name="titre" placeholder="Titre"/>
+                                <label class="fieldlabels">Description: *</label>
+                                <input type="text" name="Description" placeholder="Description"/>
+                                <label class="fieldlabels">Photo de vos projets : *</label>
+                                <input type="file" name="photo" placeholder="Description"/>
                             </div>
-                            <input type="button" name="next" class="next action-button" value="Submit"/>
-                            <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                            <div class="button-container">
+                                <input (click)="next()" type="button" name="next" class="next action-button" value="Suivant" />
+                                <input (click)="previous()" type="button" name="previous" class="previous action-button-previous" value="Precedent" />
+                              </div>
                         </fieldset>
-                        <fieldset>
+                        <fieldset *ngIf="step == 4">
                             <div class="form-card">
                                 <div class="row">
                                     <div class="col-7">
-                                        <h2 class="fs-title">Finish:</h2>
+                                        <h2 class="fs-title">Merci beaucoup:</h2>
                                     </div>
                                     <div class="col-5">
-                                        <h2 class="steps">Step 4 - 4</h2>
+                                        <h2 class="steps">Etape  4 - 4</h2>
                                     </div>
                                 </div>
                                 <br><br>
-                                <h2 class="purple-text text-center"><strong>SUCCESS !</strong></h2>
+                                <h2 class="purple-text text-center"><strong>Bravo !</strong></h2>
                                 <br>
                                 <div class="row justify-content-center">
-                                    <div class="col-3">
-                                        <img src="https://i.imgur.com/GwStPmg.png" class="fit-image">
-                                    </div>
-                                </div>
-                                <br><br>
-                                <div class="row justify-content-center">
                                     <div class="col-7 text-center">
-                                        <h5 class="purple-text text-center">You Have Successfully Signed Up</h5>
+                                        <h5 class="purple-text text-center">Vous avez complete votre Profile avec succès</h5>
                                     </div>
                                 </div>
+                                <div class="button-container">
+                                    <input (click)="submit()" type="submit" name="submit" class="submit action-button" value="Envoyer" />
+                                    <input (click)="previous()" type="button" name="previous" class="previous action-button-previous" value="Precedent" />
+                                  </div>
+                                <br><br>
+                               
                             </div>
                         </fieldset>
                     </form>

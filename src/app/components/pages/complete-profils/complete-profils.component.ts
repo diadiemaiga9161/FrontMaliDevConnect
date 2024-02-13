@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+
 
 @Component({
   selector: 'app-complete-profils',
@@ -6,11 +8,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./complete-profils.component.scss']
 })
 export class CompleteProfilsComponent implements OnInit {
-
-  constructor() { }
-
   ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
+  @ViewChild('form') form: NgForm;
+
+  step: number = 1;
+  formData: any = {};
+
+  next(): void {
+    this.step++;
   }
 
-}
+  previous(): void {
+    this.step--;
+  }
 
+  submit(): void {
+    // Vous pouvez soumettre les données ici
+    console.log('Form submitted!', this.formData);
+  }
+}
