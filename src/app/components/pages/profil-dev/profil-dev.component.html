@@ -27,8 +27,9 @@
                         <div class="row align-items-center">
                             <div class="col-md-4">
                                 <div class="text-center border-end">
-                                    <img [src]="generateImageUrl(User?.photos[1]?.nom)"class="img-fluid avatar-xxl rounded-circle"
-                                        alt="" (error)="handleAuthorImageError($event)">
+                                    <img [src]="generateImageUrl(User?.photos[1]?.nom)"
+                                        class="img-fluid avatar-xxl rounded-circle" alt=""
+                                        (error)="handleAuthorImageError($event)">
                                     <h4 class="text-primary font-size-20 mt-3 mb-2">{{informaticien?.prenom}}
                                         {{informaticien?.nom}} </h4>
                                     <h5 style="font-size: 12px;" class="text-muted mb-0">{{specialite?.specialite}}</h5>
@@ -149,39 +150,47 @@
                                                             <div class="form-group">
                                                                 <label for="date">Date du Rendez-vous :</label>
                                                                 <input type="date" class="form-control" id="date"
-                                                                    name="date" required>
+                                                                    name="dateRendezvous"
+                                                                    [(ngModel)]="RdvForm.dateRendezvous" required>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="heure">Heure du Rendez-vous :</label>
                                                                 <input type="time" class="form-control" id="heure"
-                                                                    name="heure" required>
+                                                                    name="heureRendezvous"
+                                                                    [(ngModel)]="RdvForm.heureRendezvous" required>
                                                             </div>
-                                                            <div class="form-group">
+                                                           <div class="form-group">
                                                                 <label for="validationTooltip04" class="form-label">Type
                                                                     de Rendez-vous</label>
                                                                 <select class="form-select" id="validationTooltip04"
-                                                                    required>
-                                                                    <option selected disabled value="">Type Rdv...
+                                                                    required name="typeRendezVousId"
+                                                                    [(ngModel)]="RdvForm.typeRendezVousId">
+                                                                    <option class="py-3">Choisir</option>
+                                                                    <option class="mb-3" *ngFor="let Type of type"
+                                                                    [value]="Type.id">
+                                                                        {{ Type.typerdv }}
                                                                     </option>
-                                                                    <option>...</option>
                                                                 </select>
-                                                                <div class="invalid-tooltip">
-                                                                    Please select a valid state.
-                                                                </div>
                                                             </div>
-                                                            <!-- Informations personnelles -->
-                                                            <div class="form-group">
+                                                             <div class="form-group">
                                                                 <label for="nom">Objet :</label>
                                                                 <textarea class="form-control"
                                                                     placeholder="L'objet de votre Rendez-vous"
-                                                                    id="floatingTextarea2"
+                                                                    name="objet" id="floatingTextarea2"
+                                                                    [(ngModel)]="RdvForm.objet"
                                                                     style="height: 100px"></textarea>
                                                             </div>
-
+                                                            <!-- <div ngIf="isSuccess" class="alert alert-success"
+                                                                role="alert">
+                                                                {{ errorMessage }}
+                                                            </div>
+                                                           <div ngIf="isError" class="alert alert-danger" role="alert">
+                                                                {{ errorMessage }}
+                                                            </div> -->
                                                             <br>
-                                                            <!-- Bouton de soumission -->
-                                                            <button type="submit" class="btn btn-primary">Prendre un
-                                                                Rendez-vous</button>
+                                                            <button type="submit" (click)="PrendreRvd()"
+                                                                class="btn btn-primary">Prendre un
+                                                                Rendez-vous</button> 
 
                                                         </form>
                                                     </div>

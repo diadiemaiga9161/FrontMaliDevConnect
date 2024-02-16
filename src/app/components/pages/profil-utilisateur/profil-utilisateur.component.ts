@@ -58,6 +58,7 @@ export class ProfilUtilisateurComponent implements OnInit {
       console.log(this.specialite);
     });
 
+    
     //AFFICHER UN INFORMATICIEN EN FONCTION DE SON ID
     this.serviceUser.AfficherInformaticienParId(this.User.id).subscribe(data => {
       this.nombreexperience = data?.experienceProfessionnelles?.length;
