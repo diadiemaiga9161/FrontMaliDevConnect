@@ -8,6 +8,8 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./complete-profils.component.scss']
 })
 export class CompleteProfilsComponent implements OnInit {
+
+  
   ngOnInit(): void {
     throw new Error('Method not implemented.');
   }

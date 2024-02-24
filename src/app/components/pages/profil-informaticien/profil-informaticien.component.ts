@@ -5,6 +5,7 @@ import { SpecialiteService } from 'src/app/services/specialite/specialite.servic
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { environment } from 'src/environments/environment';
+// import  { rendezVous } from 'src/app/services/rendezVous/rendezVous.service'
 import Swal from 'sweetalert2';
 
 const URL_PHOTO: string = environment.Url_PHOTO;
@@ -59,6 +60,12 @@ export class profilInformaticienComponent implements OnInit {
       this.specialite = data;
       console.log(this.specialite);
     });
+
+      // // AFFICHER LA LISTE DES INFORMATICIENS
+      // this.specialiteService.AfficherListeSPecialite().subscribe(data => {
+      //   this.specialite = data;
+      //   console.log(this.specialite);
+      // });
 
     //AFFICHER UN INFORMATICIEN EN FONCTION DE SON ID
     this.serviceUser.AfficherInformaticienParId(this.User.id).subscribe(data => {
@@ -361,6 +368,5 @@ onAdd(): void {
       // console.error('Token JWT missing or no photo selected');
   }
 }
-
 
 }
