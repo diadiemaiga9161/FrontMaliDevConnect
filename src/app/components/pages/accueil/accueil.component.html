@@ -343,42 +343,21 @@
             <div class="bar"></div>
         </div>
         <div class="row">
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-4 col-md-6" *ngFor="let Informaticien of informaticien">
                 <div class="single-blog-item">
                     <div class="image">
-                        <a routerLink="/profile-dev"><img src="assets/img/blog/dev1.png" alt="image"></a>
+                        <a class="crd" (click)="goToDettailInformaticien(Informaticien?.id)"><img class="imagesize"
+                            [src]="generateImageUrl(Informaticien?.utilisateurPhoto?.nom)" alt="Admin"  (error)="handleAuthorImageError($event)"></a>
                     </div>
                     <div class="content">
-                        <span>24 décembre 2023</span>
-                        <h3><a routerLink="/profile-dev">Mariam telly</a></h3>
-                      <a routerLink="/profile-dev" class="En savoir plus">En savoir plus</a>
+                        <span >{{Informaticien?.specialite?.specialite}}</span>
+                        <h3><a (click)="goToDettailInformaticien(Informaticien?.id)" >{{Informaticien?.prenom}} {{Informaticien?.nom}}</a></h3>
+                        <!-- <h4>{{Informaticien?.specialite?.specialite}}</h4> -->
+                        <a (click)="goToDettailInformaticien(Informaticien?.id)" class="crd link-btn"> En savoir plus </a>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="single-blog-item">
-                    <div class="image">
-                        <a routerLink="/profile-dev"><img src="assets/img/blog/dev3.png" alt="image"></a>
-                    </div>
-                    <div class="content">
-                        <span>24 décembre 2023</span>
-                        <h3><a routerLink="/profile-dev">Mamady Camara</a></h3>
-                      <a routerLink="/profile-dev" class="En savoir plus">En savoir plus</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="single-blog-item">
-                    <div class="image">
-                        <a routerLink="/profile-dev"><img src="assets/img/blog/dev2.png" alt="image"></a>
-                    </div>
-                    <div class="content">
-                        <span>24 décembre 2023</span>
-                        <h3><a routerLink="/profile-dev">Diarra Tiecoura</a></h3>
-                      <a routerLink="/profile-dev" class="En savoir plus">En savoir plus</a>
-                    </div>
-                </div>
-            </div>
+          
     </div>
     
 <section class="clients-section">
@@ -419,4 +398,5 @@
     </div>
 </section>
 <br>
+
 

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { UserService } from 'src/app/services/user/user.service';
+import { SpecialiteService } from 'src/app/services/specialite/specialite.service';
+import { ConnaissanceService } from 'src/app/services/connaissance/connaissance.service';
 
 const URL_PHOTO: string = environment.Url_PHOTO;
 
@@ -15,8 +17,13 @@ export class InformaticienComponent implements OnInit {
 
   User: any;
   informaticien: any;
+  p:number=1
+  searchTextSpecialite: any;
+  searchTextConnaissance: any;
+  searchText : any;
   specialite: any;
   profileImageUrl: string = ''; // Variable pour stocker le chemin de l'image de profil
+  connaissance: any;
 
 
 
@@ -32,6 +39,8 @@ export class InformaticienComponent implements OnInit {
   }
   constructor(
     private serviceUser: UserService,
+    private specialiteService: SpecialiteService,
+    private connaissanceService: ConnaissanceService,
     public router: Router,
   ) { }
 
@@ -42,6 +51,16 @@ export class InformaticienComponent implements OnInit {
     this.serviceUser.AfficherListeInformaticien().subscribe(data => {
       this.informaticien = data;
       console.log(this.informaticien);
+    });
+     // AFFICHER LA LISTE DES INFORMATICIENS
+     this.specialiteService.AfficherListeSPecialite().subscribe(data => {
+      this.specialite = data;
+      console.log(this.specialite);
+    });
+    // AFFICHER LA LISTE DES CONNAISSANCES
+    this.connaissanceService.AfficherListeConnaissance().subscribe(data => {
+      this.connaissance = data;
+      console.log(this.connaissance);
     });
   }
 

@@ -25,27 +25,26 @@
                             <h4>Filters:</h4>
                             <section class="panel">
                                 <div style="box-shadow: none; border: none;" class="panel-body">
-                                    <form role="form product-form">
+                                    <!-- <form role="form product-form"> -->
                                         <div class="form-group">
                                             <label>Specialite</label>
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>Specialite</option>
-                                                <option value="1">One</option>
+                                            <select class="form-select" aria-label="Default select example"  [(ngModel)]="searchTextSpecialite">
+                                                <option value="" selected>Tout</option>
+                                                <option  *ngFor="let Specialite of specialite"> {{ Specialite.specialite }}</option>
                                             </select>
                                         </div>
                                         <br>
                                         <div class="form-group">
                                             <label>Connaissance</label>
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>Connaissance</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
+                                            <select class="form-select" aria-label="Default select example" [(ngModel)]="searchTextConnaissance">
+                                                <option value="" selected>Tout</option>
+                                                <option  *ngFor="let Connaissance of connaissance"> {{ Connaissance.nom }}</option>
                                             </select>
                                         </div>
+                                       
                                         <br>
-                                        <button class="btn btn-primary" type="submit">Filter</button>
-                                    </form>
+                                        <!-- <button class="btn btn-primary" type="submit">Filter</button> -->
+                                    <!-- </form> -->
                                 </div>
                             </section>
                         </div>
@@ -54,29 +53,34 @@
             </div>
             <div class="col-lg-9 col-md-12 col-sm-12 row">
 
-                <div class="col-lg-4 col-md-5 col-sm-5" *ngFor="let Informaticien of informaticien">
+                <div class="col-lg-4 col-md-5 col-sm-5" *ngFor="let Informaticien of informaticien | filter:searchTextSpecialite | filter:searchTextConnaissance | paginate:{itemsPerPage :6, currentPage:p}">
                     <div class="single-protfolio-box">
                         <div class="image">
-                            <a class="crd" (click)="goToDettailInformaticien(Informaticien?.id)"><img
-                                [src]="generateImageUrl" alt="Admin"  (error)="handleAuthorImageError($event)"></a>
+                            <a class="crd" (click)="goToDettailInformaticien(Informaticien?.id)"><img class="imagesize"
+                                [src]="generateImageUrl(Informaticien?.utilisateurPhoto?.nom)" alt="Admin"  (error)="handleAuthorImageError($event)"></a>
                         </div>
                         <div class="content">
-                            <h3>{{Informaticien?.prenom}} {{Informaticien?.nom}}</h3>
+                            <h5>{{Informaticien?.prenom}} {{Informaticien?.nom}}</h5>
                             <span>{{Informaticien?.specialite?.specialite}}</span>
                             <a (click)="goToDettailInformaticien(Informaticien?.id)" class="crd link-btn"></a>
                         </div>
                     </div>
                 </div>
+                <pagination-controls *ngIf="informaticien && informaticien.length > 0" (pageChange)="p = $event" previousLabel="Précédent"
+                    nextLabel="Suivant" class="pagination" previousClass="pagination__previous" nextClass="pagination__next"
+                    containerClass="pagination__container" pageClass="pagination__page" activeClassName="pagination__page--active"
+                    disabledClass="pagination__page--disabled" ></pagination-controls>
             </div>
             <div class="col-lg-12 col-md-12">
-                <div class="pagination-area">
+               
+                <!-- <div class="pagination-area">
                     <a routerLink="/informaticien" class="prev page-numbers"><i class="flaticon-left"></i></a>
                     <a routerLink="/informaticien" class="page-numbers">1</a>
                     <span class="page-numbers current" aria-current="page">2</span>
                     <a routerLink="/informaticien" class="page-numbers">3</a>
                     <a routerLink="/" class="page-numbers">4</a>
                     <a routerLink="/informaticien" class="next page-numbers"><i class="flaticon-right"></i></a>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

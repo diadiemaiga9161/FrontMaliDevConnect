@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { RdvService } from 'src/app/services/rendezVous/rendezVous.service';
 import { SpecialiteService } from 'src/app/services/specialite/specialite.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { UserService } from 'src/app/services/user/user.service';
@@ -30,12 +31,14 @@ export class profilInformaticienComponent implements OnInit {
   errorMessage = '';
   nombreprojet: number = 0;
   nombreexperience: number = 0;
+  rdv: any;
 
 
   constructor(
     private serviceUser: UserService,
     private storageService: StorageService,
     private authService: AuthService,
+    private rdvService:  RdvService,
     private specialiteService: SpecialiteService,
     private router: Router,
   ) {
@@ -59,6 +62,12 @@ export class profilInformaticienComponent implements OnInit {
     this.specialiteService.AfficherListeSPecialite().subscribe(data => {
       this.specialite = data;
       console.log(this.specialite);
+    });
+
+    // AFFICHER LA LISTE DES CONNAISSANCES
+    this.rdvService.AfficherRdvParRecuParUserConnecter().subscribe(data => {
+      this.rdv = data;
+      console.log(this.rdv);
     });
 
       // // AFFICHER LA LISTE DES INFORMATICIENS

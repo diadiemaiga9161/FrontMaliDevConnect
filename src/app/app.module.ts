@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { PreloaderComponent } from './components/layouts/preloader/preloader.component';
 import { FooterComponent } from './components/layouts/footer/footer.component';
 import { AccueilComponent } from './components/pages/accueil/accueil.component';
+// import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { NavbarOneComponent } from './components/layouts/navbar-one/navbar-one.component';
 import { AproposComponent } from './components/pages/apropos/apropos.component';
@@ -23,6 +25,8 @@ import { profilInformaticienComponent } from './components/pages/profil-informat
 import { ProfilUtilisateurComponent } from './components/pages/profil-utilisateur/profil-utilisateur.component';
 import { RdvDetailsComponent } from './components/pages/rdv-details/rdv-details.component';
 import { ProjetsDétailléComponent } from './components/pages/projets-détaillé/projets-détaillé.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { PopupComponent } from './popup/popup.component';
 
 
 @NgModule({
@@ -49,6 +53,7 @@ import { ProjetsDétailléComponent } from './components/pages/projets-détaill�
     ProjetsDétailléComponent,
 
 
+
   ],
 
   
@@ -56,7 +61,9 @@ import { ProjetsDétailléComponent } from './components/pages/projets-détaill�
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,
+    Ng2SearchPipeModule,
+    NgxPaginationModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

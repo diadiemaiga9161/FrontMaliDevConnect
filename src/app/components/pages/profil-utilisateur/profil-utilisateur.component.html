@@ -20,12 +20,13 @@
             <div class="col-lg-4">
                 <div class="profile-card-4 z-depth-3">
                     <div class="card">
-                          <link rel="stylesheet"
-                        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-                        <div   class="card-body text-center bg-primary rounded-top">
+                        <link rel="stylesheet"
+                            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                        <div class="card-body text-center bg-primary rounded-top">
                             <div class="profile-img mb-3">
-                                <img [src]="generateImageUrl(User?.photos[0]?.nom)" alt="Admin" class="rounded-circle p-1"
-                                    style="background-color: #ffff;" (error)="handleAuthorImageError($event)">
+                                <img [src]="generateImageUrl(User?.photos[0]?.nom)" alt="Admin"
+                                    class="rounded-circle p-1" style="background-color: #ffff;"
+                                    (error)="handleAuthorImageError($event)">
                                 <div class="file change-photo-icon">
                                     <i class="fa fa-phone-square"></i>
                                     <input type="file" name="file" (change)="onPhotoChange($event)"
@@ -190,7 +191,7 @@
                                             </div>
                                         </div>
                                         <!-- Fin du champ de saisie pour le email -->
-                                     <!-- Debut du champ de saisie pour le nom -->
+                                        <!-- Debut du champ de saisie pour le nom -->
                                         <!-- Fin du champ de saisie pour le nom -->
                                     </div>
                                     <div class="col-12">
@@ -205,54 +206,67 @@
                             <div class="tab-pane show" id="Rendez-vous" role="tabpanel">
                                 <div class="container mt-3 mb-10">
                                     <div>
-                                          <div >
-                                            <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm">
-                                              <table class="table manage-candidates-top mb-0">
-                                                <thead>
-                                                  <tr>
-                                                    <th>Nom et Objet du Rendez-vous</th>
-                                                    <th class="text-center">Type de rendez-vous</th>
-                                                    <th class="action text-right">Date et heure</th>
-                                                  </tr>
-                                                </thead>
-                                                <tbody>
-                                                  <tr class="candidates-list">
-                                                    <td class="title">
-                                                      <div class="thumb">
-                                                        <img class="img-fluid" src="assets/img/home-one/1.png" alt="">
-                                                      </div>
-                                                      <div class="candidate-list-details">
-                                                        <div class="candidate-list-info">
-                                                          <div class="candidate-list-title">
-                                                            <h5 class="mb-0"><a href="rdv-details">{{User?.prenom}}  {{User?.nom}}</a></h5>
-                                                          </div>
-                                                          <div class="candidate-list-option">
-                                                            <ul class="list-unstyled">
-                                                              <li><i ></i>Objet du rendez-vous: </li>
-                                                            </ul>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </td>
-                                                    <td class="candidate-list-favourite-time text-center">
-                                                      <span >Site Web</span>
-                                                    </td>
-                                                    <td>
-                                                        <ul class="list-unstyled">
-                                                            <li><i ></i>Date:12/02/2024</li>
-                                                            <li><i ></i> Heure:15:30</li>
-                                                          </ul>
-                                                    </td>
-                                                  </tr>
-                                                </tbody>
-                                              </table>
+                                        <div>
+                                            <div
+                                                class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm">
+                                                <table class="table manage-candidates-top mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Nom et Objet du Rendez-vous</th>
+                                                            <th class="text-center">Type de rendez-vous</th>
+                                                            <th class="action text-right">Date et heure</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="candidates-list"
+                                                            *ngFor="let Rdv of rdv | paginate:{itemsPerPage :2, currentPage:p}">
+                                                            <td class="title">
+                                                                <div class="thumb">
+                                                                    <img class="img-fluid"
+                                                                        src="{{generateImageUrl(Rdv?.user?.utilisateurPhoto?.nom)}}"
+                                                                        alt="">
+                                                                </div>
+                                                                <div class="candidate-list-details">
+                                                                    <div class="candidate-list-info">
+                                                                        <div class="candidate-list-title">
+                                                                            <h5 class="mb-0"><a
+                                                                                    href="rdv-details">{{ Rdv?.user?.prenom }}
+                                                                                    {{ Rdv?.user?.nom}}</a></h5>
+                                                                        </div>
+                                                                        <div class="candidate-list-option">
+                                                                            <ul class="list-unstyled">
+                                                                                <li><i></i>Objet : {{ Rdv?.objet }}</li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="candidate-list-favourite-time text-center">
+                                                                <span>{{ Rdv?.typerdv?.typerdv }}</span>
+                                                            </td>
+                                                            <td>
+                                                                <ul class="list-unstyled">
+                                                                    <li><i></i>Date:{{ Rdv?.date }}</li>
+                                                                    <li><i></i> Heure:{{ Rdv?.heure }}</li>
+                                                                </ul>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <pagination-controls *ngIf="rdv && rdv.length > 0"
+                                                    (pageChange)="p = $event" previousLabel="Précédent"
+                                                    nextLabel="Suivant" class="pagination"
+                                                    previousClass="pagination__previous" nextClass="pagination__next"
+                                                    containerClass="pagination__container" pageClass="pagination__page"
+                                                    activeClassName="pagination__page--active"
+                                                    disabledClass="pagination__page--disabled"></pagination-controls>
                                             </div>
-                                          </div>
-                                        
-                                      </div>
-                                    </div>
-                                <!-- Liste des rdv -->
+                                        </div>
 
+                                    </div>
+                                </div>
+                                <!-- Liste des rdv -->
+                               
                             </div>
 
                             <div class="tab-pane" id="Edit" role="tabpanel">

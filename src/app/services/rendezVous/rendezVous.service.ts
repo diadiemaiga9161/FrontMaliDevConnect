@@ -105,4 +105,16 @@ export class RdvService {
     const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
     return this.http.get(`${URL_BASE}rdv/afficher`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
   }
+
+  AfficherRdvParRecuParUserConnecter(): Observable<any> {
+    const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
+    return this.http.get(`${URL_BASE}rdv/get/mine`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
+  }
+
+
+        // AFFICHER LA LISTE DES RENDEVOUS ENVOYER PAR USER CONNECTER
+  AfficherRdvParEnvoyerParUserConnecterNew(): Observable<any> {
+    const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
+    return this.http.get(`${URL_BASE}rdv/get`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
+  }
 }

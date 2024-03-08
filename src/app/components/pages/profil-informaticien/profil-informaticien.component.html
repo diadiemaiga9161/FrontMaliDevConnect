@@ -249,31 +249,31 @@
                                                   </tr>
                                                 </thead>
                                                 <tbody>
-                                                  <tr class="candidates-list">
+                                                  <tr class="candidates-list" *ngFor="let Rdv of rdv">
                                                     <td class="title">
                                                       <div class="thumb">
-                                                        <img class="img-fluid" src="assets/img/home-one/1.png" alt="">
+                                                        <img class="img-fluid" src="{{generateImageUrl(Rdv?.userenvoyer?.utilisateurPhoto?.nom)}}" alt="">
                                                       </div>
                                                       <div class="candidate-list-details">
                                                         <div class="candidate-list-info">
                                                           <div class="candidate-list-title">
-                                                            <h5 class="mb-0"><a href="rdv-details">Amadou Maiga</a></h5>
+                                                            <h5 class="mb-0"><a href="rdv-details">{{ Rdv?.userenvoyer?.prenom }} {{ Rdv?.userenvoyer?.nom}}</a></h5>
                                                           </div>
                                                           <div class="candidate-list-option">
                                                             <ul class="list-unstyled">
-                                                              <li><i ></i>Objet du rendez-vous: </li>
+                                                              <li><i ></i>Objet : {{ Rdv?.objet }}</li>
                                                             </ul>
                                                           </div>
                                                         </div>
                                                       </div>
                                                     </td>
                                                     <td class="candidate-list-favourite-time text-center">
-                                                      <span >Site Web</span>
+                                                      <span >{{ Rdv?.typerdv?.typerdv }}</span>
                                                     </td>
                                                     <td>
                                                         <ul class="list-unstyled">
-                                                            <li><i ></i>Date:12/02/2024</li>
-                                                            <li><i ></i> Heure:15:30</li>
+                                                            <li><i ></i>Date:{{ Rdv?.date }}</li>
+                                                            <li><i ></i> Heure:{{ Rdv?.heure }}</li>
                                                           </ul>
                                                     </td>
                                                   </tr>
@@ -288,29 +288,40 @@
                             </div>
                             <div class="tab-pane" id="Projet" role="tabpanel">
                                 <div class="container">
-                                    <div class="row position-relative mt-n1-9">
-                                        <div class="col-md-6 col-lg-4 mt-1-9" *ngFor="let Projet of projet">
-                                            <div class="team-style1 text-center">
-                                                <img src="{{generateImageUrl(Projet?.photo)}}" class="border-radius-5 image-sizeresents crd"
-                                                    alt="...">
-                                                <div class="team-info">
-                                                    <h3 class="text-primary mb-1 h4">{{Projet?.titre}}</h3>
-                                                    <span class="font-weight-600 text-secondary">{{Projet?.typeProjet?.typeprojet}}</span>
-                                                </div>
-                                                <div class="team-overlay">
-                                                    <div class="d-table h-100 w-100">
-                                                        <div class="d-table-cell align-middle">
-                                                            <h3><a href="projects-details" class="text-white">A-propoos de mon
-                                                                    projets</a></h3>
-                                                            <p class="text-white mb-0">Les information de mon projets
-                                                            </p>
-
+                                    <div class="row" id="all-projects">
+                                        <link rel="stylesheet"
+                                            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+                                            integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+                                            crossorigin="anonymous" referrerpolicy="no-referrer" />
+                                        <div class="container">
+                                            <div class="row position-relative mt-n1-9">
+                                                <div class="col-md-6 col-lg-4 mt-1-9" *ngFor="let Projet of projet">
+                                                    <div class="team-style1 text-center">
+                                                        <img src="{{generateImageUrl(Projet?.photo)}}"
+                                                            class="border-radius-5 image-sizeresents crd" alt="...">
+                                                        <div class="team-info">
+                                                            <h3 class="text-primary mb-1 h4">{{Projet?.titre}}</h3>
+                                                            <span
+                                                                class="font-weight-600 text-secondary">{{Projet?.typeProjet?.typeprojet}}</span>
+                                                        </div>
+                                                        <div class="team-overlay">
+                                                            <div class="d-table h-100 w-100">
+                                                                <div class="d-table-cell align-middle">
+                                                                    <h3><a href="projets-détaillé" class="text-white">A-propoos
+                                                                            de mon
+                                                                            projets</a></h3>
+                                                                    <p class="text-white mb-0">Les information de mon projets
+                                                                    </p>
+        
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                        <!-- end col -->
+                                    </div><!-- end row -->
                                 </div>
                             </div>
                             <div class="tab-pane" id="Edit" role="tabpanel">

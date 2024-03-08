@@ -10,6 +10,9 @@ const URL_BASE: string = environment.Url_BASE;
   providedIn: 'root'
 })
 export class TyperdvService {
+AfficherListeExperience() {
+  throw new Error('Method not implemented.');
+}
 
 
 // Constructeur du service avec injection des dépendances nécessaires

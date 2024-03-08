@@ -55,7 +55,7 @@ export class InscriptionComponent implements OnInit {
     confirmPassword: null,
     role: "Choisir"
   };
-  specialite: any;
+  specialite: any; 
 
   
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { RdvService } from 'src/app/services/rendezVous/rendezVous.service';
 import { SpecialiteService } from 'src/app/services/specialite/specialite.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { UserService } from 'src/app/services/user/user.service';
@@ -29,12 +30,15 @@ export class ProfilUtilisateurComponent implements OnInit {
   errorMessage = '';
   nombreprojet: number = 0;
   nombreexperience: number = 0;
+  rdv: any;
+  p:number=1
 
 
   constructor(
     private serviceUser: UserService,
     private storageService: StorageService,
     private authService: AuthService,
+    private rdvService:  RdvService,
     private specialiteService: SpecialiteService,
     private router: Router,
   ) {
@@ -58,6 +62,11 @@ export class ProfilUtilisateurComponent implements OnInit {
       console.log(this.specialite);
     });
 
+        // AFFICHER LA LISTE DES RENDEVOUS ENVOYER PAR USER CONNECTER
+        this.rdvService.AfficherRdvParEnvoyerParUserConnecterNew().subscribe(data => {
+          this.rdv = data;
+          console.log(this.rdv);
+        });
     
     //AFFICHER UN INFORMATICIEN EN FONCTION DE SON ID
     this.serviceUser.AfficherInformaticienParId(this.User.id).subscribe(data => {

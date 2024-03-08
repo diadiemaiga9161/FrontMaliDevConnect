@@ -1,15 +1,16 @@
-import { Injectable } from '@angular/core';  // Importe le décorateur Injectable pour permettre l'injection de dépendances
-import { StorageService } from '../storage/storage.service';  // Importe le service de stockage local
-import { HttpClient, HttpHeaders } from '@angular/common/http';  // Importe le service HTTPClient et HttpHeaders pour effectuer des requêtes HTTP
-import { Observable } from 'rxjs';  // Importe Observable pour gérer les opérations asynchrones
-import { environment } from 'src/environments/environment'; 
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { StorageService } from '../storage/storage.service';
+import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
-const URL_BASE: string = environment.Url_BASE; 
+// Définition de l'URL de base pour les requêtes API
+const URL_BASE: string = environment.Url_BASE;  // Définit l'URL de base pour les requêtes API à partir de l'environnement
 
 @Injectable({
   providedIn: 'root'
 })
-export class ConnaissanceService {
+export class ExperienceService {
   private accessToken!: string; // Variable pour stocker le jeton d'accès
 
   // Constructeur du service avec injection des dépendances nécessaires
@@ -31,8 +32,9 @@ export class ConnaissanceService {
     });
   }
 
-// Méthode pour afficher la liste des connaissance  
-AfficherListeConnaissance(): Observable<any> {
-    return this.http.get(`${URL_BASE}connaissance/afficher`);  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
+  // Méthode pour afficher la liste des experience
+  AfficherListeExperience(): Observable<any> {
+    const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
+    return this.http.get(`${URL_BASE}experience/afficher`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
   }
 }

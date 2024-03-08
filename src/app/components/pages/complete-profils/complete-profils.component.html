@@ -44,10 +44,11 @@
                                         <h2 class="steps">Etape 1 - 4</h2>
                                     </div>
                                 </div>
-                                <label class="form-label" for="customFile">Votre photo de profile</label>
-                                <input type="file" class="form-control" id="customFile" />
                                 <label class="fieldlabels">Connaissance: *</label>
-                                <input type="select" name="uname" placeholder="Votre status"/>
+                                <select  class="form-control" id="customFile"  [(ngModel)]="searchTextConnaissance">
+                                    <option value="" selected>Tout</option>
+                                    <option  *ngFor="let Connaissance of connaissance"> {{ Connaissance.nom }}</option>
+                                </select>
                             </div>
                             <div class="button-container">
                                 <input (click)="next()" type="button" name="next" class="next action-button" value="Suivant" />
