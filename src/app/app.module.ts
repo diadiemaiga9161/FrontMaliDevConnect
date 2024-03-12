@@ -26,7 +26,7 @@ import { ProfilUtilisateurComponent } from './components/pages/profil-utilisateu
 import { RdvDetailsComponent } from './components/pages/rdv-details/rdv-details.component';
 import { ProjetsDétailléComponent } from './components/pages/projets-détaillé/projets-détaillé.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
-import { PopupComponent } from './popup/popup.component';
+
 
 
 @NgModule({

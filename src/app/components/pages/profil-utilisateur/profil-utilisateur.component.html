@@ -28,8 +28,8 @@
                                     class="rounded-circle p-1" style="background-color: #ffff;"
                                     (error)="handleAuthorImageError($event)">
                                 <div class="file change-photo-icon">
-                                    <i class="fa fa-phone-square"></i>
-                                    <input type="file" name="file" (change)="onPhotoChange($event)"
+                                    <i class="fa-sharp fa-solid fa-camera-retro" style="color: #2009ec;"></i>
+                                 <input type="file" name="file" (change)="onPhotoChange($event)"
                                         accept=".png, .jpeg, .jpg, .svg" />
                                 </div>
                             </div>
@@ -230,7 +230,8 @@
                                                                     <div class="candidate-list-info">
                                                                         <div class="candidate-list-title">
                                                                             <h5 class="mb-0"><a
-                                                                                    href="rdv-details">{{ Rdv?.user?.prenom }}
+                                                                                class="" data-bs-toggle="modal"
+                                                                                data-bs-target="#exampleModal" data-bs-whatever="@mdo" href="">{{ Rdv?.user?.prenom }}
                                                                                     {{ Rdv?.user?.nom}}</a></h5>
                                                                         </div>
                                                                         <div class="candidate-list-option">
@@ -266,7 +267,53 @@
                                     </div>
                                 </div>
                                 <!-- Liste des rdv -->
-                               
+                                <!-- Popup pour rdv modif -->
+
+                                <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" data-bs-whatever="@mdo">RDV</button> -->
+
+                                <div class="modal fade" id="exampleModal" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Modifier rdv</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form>
+                                                    <div class="mb-3">
+                                                        <label for="recipient-name"
+                                                            class="col-form-label">Date:</label>
+                                                        <input type="text" class="form-control" id="recipient-name">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="recipient-name"
+                                                            class="col-form-label">Heure:</label>
+                                                        <input type="heure" class="form-control" id="recipient-name">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="recipient-name"
+                                                            class="col-form-label">Type rdv:</label>
+                                                        <input type="text" class="form-control" id="recipient-name">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="message-text"
+                                                            class="col-form-label">Message:</label>
+                                                        <textarea class="form-control" id="message-text"></textarea>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger"
+                                                    data-bs-dismiss="modal">Annuler</button>
+                                                <button type="button" class="btn btn-primary">Envoyer</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Popup pour fin -->
                             </div>
 
                             <div class="tab-pane" id="Edit" role="tabpanel">

@@ -14,6 +14,13 @@ const USER_KEY = 'auth-user';
   providedIn: 'root'
 })
 export class UserService {
+  getInformaticien // Récupération du jeton CSRF depuis le cookie (commenté car non utilisé dans le code actuel)
+    () {
+    throw new Error('Method not implemented.');
+  }
+  updateUser(userId: any, formData: any) {
+    throw new Error('Method not implemented.');
+  }
   private accessToken!: string; // Déclaration d'une variable pour stocker le token
 
   // Options pour les requêtes HTTP

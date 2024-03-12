@@ -42,8 +42,11 @@
                 </div>
                 <!-- <a *ngIf="isLoginFailed == false" routerLink="/connexion" class="nav-link" class="gg-profile" routerLinkActive="active"
                     [routerLinkActiveOptions]="{exact: true}">Inscription</a> -->
+                    
                 <ul class="navbar-nav" *ngIf="isLoginFailed == true">
                     <li class="nav-item">
+                        <i class="fa-regular fa-bell" style="width: 50px; height: 40px;">
+                        </i>
                         <a href="javascript:void(0);" class="dropdown-toggle profile-userlink" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             <img [src]="profileImageUrl" (error)="handleAuthorImageError($event)" alt="">
@@ -63,7 +66,18 @@
                                 </a>
                             </li>
                         </ul>
+
+                        
                     </li>
+                    
+                    <!-- <button type="button" class="bi bi-bell" class="btn btn-primary position-relative">
+                        Inbox
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                          99+
+                          <span class="visually-hidden">unread messages</span>
+                        </span>
+                      </button> -->
+                      
                 </ul>
             </div>
         </nav>

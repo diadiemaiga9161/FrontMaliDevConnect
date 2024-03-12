@@ -15,7 +15,14 @@ const URL_PHOTO: string = environment.Url_PHOTO;
 })
 export class CompleteProfilsComponent implements OnInit {
 
-  
+
+  titreExperience: string;
+  dateDebutExperience: Date;
+  dateFinExperience: Date;
+  lieuExperience: string;
+  titreProjet: string;
+  descriptionProjet: string;
+  photoProjet: string; 
   User: any;
 
   searchTextSpecialite: any;
@@ -74,6 +81,7 @@ export class CompleteProfilsComponent implements OnInit {
   }
 
   submit(): void {
+    
     // Vous pouvez soumettre les données ici
     console.log('Form submitted!', this.formData);
   }

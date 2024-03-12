@@ -22,6 +22,7 @@ export class AccueilComponent implements OnInit {
   specialite: any;
   profileImageUrl: string = ''; // Variable pour stocker le chemin de l'image de profil
   connaissance: any;
+  nombreprojet: number = 0;
   
     //IMAGE
     generateImageUrl(photoFileName: string): string {
@@ -38,6 +39,8 @@ export class AccueilComponent implements OnInit {
     private connaissanceService: ConnaissanceService,
     public router: Router,
   ) { }
+  
+  
 
   
 

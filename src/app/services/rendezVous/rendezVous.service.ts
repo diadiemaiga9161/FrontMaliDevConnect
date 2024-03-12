@@ -117,4 +117,9 @@ export class RdvService {
     const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
     return this.http.get(`${URL_BASE}rdv/get`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
   }
+
+   // Méthode pour afficher un rdv en fonction de son ID
+   AfficherRdvParId(id: number): Observable<any> {
+    return this.http.get(`${URL_BASE}rdv/afficherparId/${id}`);
+  }
 }

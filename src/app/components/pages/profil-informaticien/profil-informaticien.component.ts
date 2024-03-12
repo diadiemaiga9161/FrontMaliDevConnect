@@ -32,6 +32,7 @@ export class profilInformaticienComponent implements OnInit {
   nombreprojet: number = 0;
   nombreexperience: number = 0;
   rdv: any;
+  p:number=1
 
 
   constructor(
@@ -64,10 +65,16 @@ export class profilInformaticienComponent implements OnInit {
       console.log(this.specialite);
     });
 
-    // AFFICHER LA LISTE DES CONNAISSANCES
+    // AFFICHER LA LISTE DES RDV
     this.rdvService.AfficherRdvParRecuParUserConnecter().subscribe(data => {
       this.rdv = data;
-      console.log(this.rdv);
+      console.log( this.rdv);
+    });
+
+    // AFFICHER LA LISTE DES RDV PAR ID
+    this.rdvService.AfficherRdvParId(this.rdv.id ).subscribe(data => {
+      this.rdv = data;
+      console.log( this.rdv);
     });
 
       // // AFFICHER LA LISTE DES INFORMATICIENS
@@ -376,6 +383,13 @@ onAdd(): void {
   } else {
       // console.error('Token JWT missing or no photo selected');
   }
+}
+goToDettailRdv(id: number | undefined): Promise<boolean> {
+  if (id !== undefined) {
+    ;
+  }
+  // Gérer le cas où id est indéfini (facultatif)
+  return Promise.resolve(false); // Retourner une promesse résolue avec `false` (ou une autre valeur appropriée)
 }
 
 }
