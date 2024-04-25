@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { UserService } from 'src/app/services/user/user.service';
 import { SpecialiteService } from 'src/app/services/specialite/specialite.service';
 import { ConnaissanceService } from 'src/app/services/connaissance/connaissance.service';
+import { ExperienceService } from 'src/app/services/experience/experience.service';
 
 const URL_PHOTO: string = environment.Url_PHOTO;
 
@@ -22,8 +23,12 @@ export class InformaticienComponent implements OnInit {
   searchTextConnaissance: any;
   searchText : any;
   specialite: any;
+  Experience: any;
   profileImageUrl: string = ''; // Variable pour stocker le chemin de l'image de profil
   connaissance: any;
+  experienceService: any;
+  experience: any;
+  http: any;
 
 
 
@@ -35,7 +40,7 @@ export class InformaticienComponent implements OnInit {
     }
       // IMAGE PAR DEFAUT USER
    handleAuthorImageError(event: any) {
-    event.target.src = 'assets/img/team/tiec.jpg';
+    event.target.src = 'assets/img/team/amadou.jpg';
   }
   constructor(
     private serviceUser: UserService,
@@ -62,6 +67,18 @@ export class InformaticienComponent implements OnInit {
       this.connaissance = data;
       console.log(this.connaissance);
     });
+    this.experienceService.AfficherListEexperienceProfessionnelle().subscribe(data => {
+      this.experience = data;
+      console.log(this.experience);
+    });
+
+    this.serviceUser.AfficherListeInformaticien().subscribe(data => {
+      this.informaticien = data;
+      console.log(this.informaticien);
+    });
+  }
+     getHeaders() {
+    throw new Error('Method not implemented.');
   }
 
   goToDettailInformaticien(id: number | undefined): Promise<boolean> {

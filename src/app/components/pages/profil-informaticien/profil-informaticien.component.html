@@ -4,10 +4,10 @@
         <div class="d-table-cell">
             <div class="container">
                 <div class="page-title-content">
-                    <h2>Profile User</h2>
+                    <h2>{{User?.prenom}} {{User?.nom}}</h2>
                     <ul>
                         <li><a routerLink="/">Acceuil</a></li>
-                        <li>Profile User</li>
+                        <li>{{User?.prenom}} {{User?.nom}}</li>
                     </ul>
                 </div>
             </div>
@@ -18,14 +18,16 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-4">
-                <div class="profile-card-4 z-depth-3">
+                <div class="profile-card-4 z-depth-3 ">
                     <div class="card">
                         <div class="card-body text-center bg-primary rounded-top">
                             <div class="profile-img mb-3">
-                                <img [src]="generateImageUrl(User?.photos[0]?.nom)" alt="Admin" class="rounded-circle p-1"
-                                    style="background-color: #ffff;" (error)="handleAuthorImageError($event)">
+                                <img [src]="generateImageUrl(User?.photos[0]?.nom)" alt="Admin"
+                                    class="rounded-circle p-1" style="background-color: #ffff;"
+                                    (error)="handleAuthorImageError($event)">
                                 <div class="file change-photo-icon">
-                                    <i class="fa-sharp fa-solid fa-camera-retro" style="color: #000000;"></i>
+                                    <img src="assets/img/icone/caméra-removebg-preview.png" style="height: 25px;" alt="">
+                                    <!-- <i class="fa-sharp fa-solid fa-camera-retro" style="color: #000000;"></i> -->
                                     <input type="file" name="file" (change)="onPhotoChange($event)"
                                         accept=".png, .jpeg, .jpg, .svg" />
                                 </div>
@@ -63,13 +65,14 @@
                                     <h4 class="mb-1 line-height-5">{{nombreexperience}}</h4>
                                     <small class="mb-0 font-weight-bold">Expérience Professionnelle</small>
                                 </div>
-                                <button type="button" class="btn btn-primary" ><a href="complete-profils" style="color: rgb(255, 255, 255);">Completer profil </a></button> 
+                                <button type="button" class="btn btn-primary"><a href="complete"
+                                        style="color: rgb(255, 255, 255);">Completer profil </a></button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-         
+
             <div class="col-lg-8">
 
                 <div class="card z-depth-3">
@@ -94,6 +97,13 @@
                                     aria-selected="false" tabindex="1">
                                     <span class="d-block d-sm-none"><i class="fas fa-home">Projet</i></span>
                                     <span class="d-none d-sm-block">Projet</span>
+                                </a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link px-4 " data-bs-toggle="tab" href="#Experiences" role="tab"
+                                    aria-selected="false" tabindex="1">
+                                    <span class="d-block d-sm-none"><i class="fas fa-home">Experiences</i></span>
+                                    <span class="d-none d-sm-block">Experiences</span>
                                 </a>
                             </li>
 
@@ -240,68 +250,76 @@
                             <div class="tab-pane show" id="Rendez-vous" role="tabpanel">
                                 <div class="container mt-3 mb-10">
                                     <div>
-                                          <div >
-                                            <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm">
-                                              <table class="table manage-candidates-top mb-0">
-                                                <thead>
-                                                  <tr>
-                                                    <th>Nom et Objet du Rendez-vous</th>
-                                                    <th class="text-center">Type de rendez-vous</th>
-                                                    <th class="action text-right">Date et heure</th>
-                                                  </tr>
-                                                </thead>
-                                                <tbody>
-                                                  <tr class="candidates-list" *ngFor="let Rdv of rdv| paginate:{itemsPerPage :2, currentPage:p}">
-                                                    <td class="title">
-                                                      <div class="thumb">
-                                                        <img class="img-fluid" src="{{generateImageUrl(Rdv?.userenvoyer?.utilisateurPhoto?.nom)}}" alt="">
-                                                      </div>
-                                                      <div class="candidate-list-details">
-                                                        <div class="candidate-list-info">
-                                                          <div class="candidate-list-title">
-                                                            <h5 class="mb-0"><a (click)="goToDettailRdv(Rdv?.id)" data-bs-toggle="modal"
-                                                                data-bs-target="#exampleModal" data-bs-whatever="@mdo">{{ Rdv?.userenvoyer?.prenom }} {{ Rdv?.userenvoyer?.nom}}</a></h5>
-                                                          </div>
-                                                          <div class="candidate-list-option">
-                                                            <ul class="list-unstyled">
-                                                              <li><i ></i>Objet : {{ Rdv?.objet }}</li>
-                                                            </ul>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </td>
-                                                    <td class="candidate-list-favourite-time text-center">
-                                                      <span >{{ Rdv?.typerdv?.typerdv }}</span>
-                                                    </td>
-                                                    <td>
-                                                        <ul class="list-unstyled">
-                                                            <li><i ></i>Date:{{ Rdv?.date }}</li>
-                                                            <li><i ></i> Heure:{{ Rdv?.heure }}</li>
-                                                          </ul>
-                                                    </td>
-                                                  </tr>
-                                                </tbody>
-                                              </table>
-                                              <pagination-controls *ngIf="rdv && rdv.length > 0"
-                                                (pageChange)="p = $event" previousLabel="Précédent"
-                                                nextLabel="Suivant" class="pagination"
-                                                previousClass="pagination__previous" nextClass="pagination__next"
-                                                containerClass="pagination__container" pageClass="pagination__page"
-                                                activeClassName="pagination__page--active"
-                                                disabledClass="pagination__page--disabled"></pagination-controls>
+                                        <div>
+                                            <div
+                                                class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm">
+                                                <table class="table manage-candidates-top mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Nom et Objet du Rendez-vous</th>
+                                                            <th class="text-center">Type de rendez-vous</th>
+                                                            <th class="action text-right">Date et heure</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="candidates-list"
+                                                            *ngFor="let Rdv of rdv| paginate:{itemsPerPage :2, currentPage:p}">
+                                                            <td class="title">
+                                                                <div class="thumb">
+                                                                    <img class="img-fluid"
+                                                                        src="{{generateImageUrl(Rdv?.userenvoyer?.utilisateurPhoto?.nom)}}"
+                                                                        alt="">
+                                                                </div>
+                                                                <div class="candidate-list-details">
+                                                                    <div class="candidate-list-info">
+                                                                        <div class="candidate-list-title">
+                                                                            <h5 class="mb-0"><a
+                                                                                    (click)="goToDettailRdv(Rdv?.id)"
+                                                                                    data-bs-toggle="modal"
+                                                                                    data-bs-target="#exampleModal"
+                                                                                    data-bs-whatever="@mdo">{{ Rdv?.userenvoyer?.prenom }}
+                                                                                    {{ Rdv?.userenvoyer?.nom}}</a></h5>
+                                                                        </div>
+                                                                        <div class="candidate-list-option">
+                                                                            <ul class="list-unstyled">
+                                                                                <li><i></i>Objet : {{ Rdv?.objet }}</li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="candidate-list-favourite-time text-center">
+                                                                <span>{{ Rdv?.typerdv?.typerdv }}</span>
+                                                            </td>
+                                                            <td>
+                                                                <ul class="list-unstyled">
+                                                                    <li><i></i>Date:{{ Rdv?.date }}</li>
+                                                                    <li><i></i> Heure:{{ Rdv?.heure }}</li>
+                                                                </ul>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <pagination-controls *ngIf="rdv && rdv.length > 0"
+                                                    (pageChange)="p = $event" previousLabel="Précédent"
+                                                    nextLabel="Suivant" class="pagination"
+                                                    previousClass="pagination__previous" nextClass="pagination__next"
+                                                    containerClass="pagination__container" pageClass="pagination__page"
+                                                    activeClassName="pagination__page--active"
+                                                    disabledClass="pagination__page--disabled"></pagination-controls>
                                             </div>
-                                           
-                                          </div>
-                                      </div>
+
+                                        </div>
                                     </div>
-                                    
+                                </div>
+
                                 <!-- Liste des rdv -->
-                                  <!-- Popup pour rdv modif -->
+                                <!-- Popup pour rdv modif -->
 
                                 <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal" data-bs-whatever="@mdo">RDV</button> -->
 
-                                    <div class="modal fade" id="exampleModal" tabindex="-1"
+                                <div class="modal fade" id="exampleModal" tabindex="-1"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -314,7 +332,8 @@
                                                 <form>
                                                     <div class="mb-3" *ngFor="let Rdv of rdv">
                                                         <label for="recipient-name"
-                                                            class="col-form-label">Date:{{ Rdv?.date }} {{ Rdv?.heure }}</label>
+                                                            class="col-form-label">Date:{{ Rdv?.date }}
+                                                            {{ Rdv?.heure }}</label>
                                                         <input type="text" class="form-control" id="recipient-name">
                                                     </div>
                                                     <div class="mb-3">
@@ -323,8 +342,8 @@
                                                         <input type="heure" class="form-control" id="recipient-name">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="recipient-name"
-                                                            class="col-form-label">Type rdv:</label>
+                                                        <label for="recipient-name" class="col-form-label">Type
+                                                            rdv:</label>
                                                         <input type="text" class="form-control" id="recipient-name">
                                                     </div>
                                                     <div class="mb-3">
@@ -351,33 +370,34 @@
                                             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
                                             integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
                                             crossorigin="anonymous" referrerpolicy="no-referrer" />
-                                            <div class="container">
-                                                <div class="row position-relative mt-n1-9">
-                                                    <div class="col-md-6 col-lg-4 mt-1-9" *ngFor="let Projet of projet">
-                                                        <div class="team-style1 text-center">
-            
-                                                            <img src="{{generateImageUrl(Projet?.photo)}}"
-                                                            
-                                                                class="border-radius-5 image-sizeresents crd" alt="...">
-                                                            <div class="team-info">
-                                                                <h3 class="text-primary mb-1 h4">{{Projet?.titre}}</h3>
-                                                                <span
-                                                                    class="font-weight-600 text-secondary">{{Projet?.typeProjet?.typeprojet}}</span>
-                                                            </div>
-                                                            <div class="team-overlay">
-                                                                <div class="d-table h-100 w-100">
-                                                                    <div class="d-table-cell align-middle">
-                                                                        <h3><a href="projets-détaillé" class="text-white">{{Projet?.description}}</a></h3>
-                                                                        <p class="text-white mb-0">Les information de mon projets
-                                                                        </p>
-            
-                                                                    </div>
+                                        <div class="container">
+                                            <div class="row position-relative mt-n1-9">
+                                                <div class="col-md-6 col-lg-4 mt-1-9" *ngFor="let Projet of projet">
+                                                    <div class="team-style1 text-center">
+                                                        <img src="{{generateImageUrl(Projet?.photo)}}"
+                                                            class="border-radius-5 image-sizeresents crd" alt="...">
+                                                        <div class="team-info">
+                                                            <h3 class="text-primary mb-1 h4">{{Projet?.titre}}</h3>
+                                                            <span
+                                                                class="font-weight-600 text-secondary">{{Projet?.typeprojet}}</span>
+                                                        </div>
+                                                        <div class="team-overlay">
+                                                            <div class="d-table h-100 w-100">
+                                                                <div class="d-table-cell align-middle">
+                                                                    <h3><a href="projets-détaillé"
+                                                                            class="text-white">{{Projet?.description}}</a>
+                                                                    </h3>
+                                                                    <p class="text-white mb-0">Les information de mon
+                                                                        projets
+                                                                    </p>
+
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
                                         <!-- end col -->
                                     </div><!-- end row -->
                                 </div>

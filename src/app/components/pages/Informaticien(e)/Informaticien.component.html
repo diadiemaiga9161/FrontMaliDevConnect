@@ -16,11 +16,12 @@
 </div>
 
 <section class="projects-section pt-100 pb-70">
+    
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-12 col-sm-4">
                 <div>
-                    <div class="activity-sidebar">
+                    <div class="activity-sidebar cards">
                         <div class="filters">
                             <h4>Filters:</h4>
                             <section class="panel">
@@ -51,10 +52,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-9 col-md-12 col-sm-12 row">
+            <div class="col-lg-9 col-md-12 col-sm-12 row ">
 
                 <div class="col-lg-4 col-md-5 col-sm-5" *ngFor="let Informaticien of informaticien | filter:searchTextSpecialite | filter:searchTextConnaissance | paginate:{itemsPerPage :6, currentPage:p}">
-                    <div class="single-protfolio-box">
+                    <div class="single-protfolio-box ">
                         <div class="image">
                             <a class="crd" (click)="goToDettailInformaticien(Informaticien?.id)"><img class="imagesize"
                                 [src]="generateImageUrl(Informaticien?.utilisateurPhoto?.nom)" alt="Admin"  (error)="handleAuthorImageError($event)"></a>
@@ -75,6 +76,9 @@
                 </div> 
                 </div>  
             </div>
+
+            
+            
             
             <!-- <div class="col-lg-12 col-md-12">
                

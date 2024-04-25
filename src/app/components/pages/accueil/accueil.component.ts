@@ -4,6 +4,7 @@ import { ConnaissanceService } from 'src/app/services/connaissance/connaissance.
 import { SpecialiteService } from 'src/app/services/specialite/specialite.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { environment } from 'src/environments/environment';
+import { ProjetService } from 'src/app/services/projet/projet.service'
 
 const URL_PHOTO: string = environment.Url_PHOTO;
 
@@ -23,6 +24,10 @@ export class AccueilComponent implements OnInit {
   profileImageUrl: string = ''; // Variable pour stocker le chemin de l'image de profil
   connaissance: any;
   nombreprojet: number = 0;
+  nombreinformaticiens: number = 0;
+  http: any;
+  nombreDeProjets: number;
+  nombreInformaticiens: number;
   
     //IMAGE
     generateImageUrl(photoFileName: string): string {
@@ -31,12 +36,13 @@ export class AccueilComponent implements OnInit {
     }
       // IMAGE PAR DEFAUT USER
    handleAuthorImageError(event: any) {
-    event.target.src = 'assets/img/team/tiec.jpg';
+    event.target.src = 'assets/img/team/amadou.jpg';
   }
   constructor(
     private serviceUser: UserService,
     private specialiteService: SpecialiteService,
     private connaissanceService: ConnaissanceService,
+    private projetService: ProjetService,
     public router: Router,
   ) { }
   
@@ -47,8 +53,13 @@ export class AccueilComponent implements OnInit {
   ngOnInit(): void {
     // AFFICHER LA LISTE DES INFORMATICIENS
     this.serviceUser.AfficherListeInformaticien().subscribe(data => {
-      this.informaticien = data;
+      this.informaticien = data.reverse();
       console.log(this.informaticien);
+    });
+
+    this.serviceUser.AfficherListeInformaticien().subscribe(data => {
+      this.nombreInformaticiens = data;
+      console.log(this.nombreInformaticiens);
     });
      // AFFICHER LA LISTE DES INFORMATICIENS
      this.specialiteService.AfficherListeSPecialite().subscribe(data => {
@@ -59,7 +70,22 @@ export class AccueilComponent implements OnInit {
     this.connaissanceService.AfficherListeConnaissance().subscribe(data => {
       this.connaissance = data;
       console.log(this.connaissance);
+    });    
+    this.projetService.AfficherListeProjetInformatique().subscribe(data => {
+       this.nombreDeProjets = data;
+      console.log(this.nombreDeProjets);
     });
+    // this.projetService.AfficherListeProjetInformatique().subscribe(
+    //   (nombre: number) => {
+    //     this.nombreDeProjets = nombre;
+    //   },
+    //   (erreur) => {
+    //     console.error('Erreur lors de la récupération du nombre de projets', erreur);
+    //   }
+    // );
+  }
+  getHeaders(): any {
+    throw new Error('Method not implemented.');
   }
 
   goToDettailInformaticien(id: number | undefined): Promise<boolean> {
@@ -69,5 +95,11 @@ export class AccueilComponent implements OnInit {
     // Gérer le cas où id est indéfini (facultatif)
     return Promise.resolve(false); // Retourner une promesse résolue avec `false` (ou une autre valeur appropriée)
   }
+  
 
+  
 }
+function AfficherListeProjetInformatique() {
+  throw new Error('Function not implemented.');
+}
+

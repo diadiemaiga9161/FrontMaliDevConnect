@@ -1197,7 +1197,7 @@ Banner Area CSS
 
 .home-sliders .home-item {
   position: relative;
-  height: 100vh;
+  height: 80px;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -1217,24 +1217,30 @@ Banner Area CSS
 }
 
 .home-sliders .home-item.item-bg1 {
+  width: 100px;
+  height: 200px;
   background-image: url(../../assets/img/home-one/dev2.jpeg);
 }
 
 .home-sliders .home-item.item-bg2 {
+  width: 100px;
+  /* height: 200px; */
   background-image: url(../../assets/img/home-one/dev1.jpg);
 }
 
 .home-sliders .home-item.item-bg3 {
+  width: 100px;
+  /* height: 200px; */
   background-image: url(../../assets/img/home-one/dev3.jpeg);
 }
 
 .home-sliders .home-item .main-banner-content {
   position: relative;
-  max-width: 500px;
+  max-width: 100px;
 }
 
 .home-sliders .home-item .main-banner-content h1 {
-  font-size: 70px;
+  font-size: 50px;
   color: #ffffff;
   margin: 5px 0 15px 0;
 }
@@ -1270,7 +1276,7 @@ Banner Area CSS
   top: 70px;
   right: 0;
   text-align: right;
-  max-width: 550px;
+  max-width: 450px;
 }
 
 .home-sliders.owl-theme .owl-nav {

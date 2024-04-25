@@ -1,251 +1,248 @@
-<div class="page-title-area item-bg-3">
-    <div class="d-table">
-        <div class="d-table-cell">
-            <div class="container">
-                <div class="page-title-content">
-                    <h2>Creation de compte</h2>
-                    <ul>
-                        <li><a routerLink="/">Accueil</a></li>
-                        <li>Inscription</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
-<div class="container">
-    <div class="container px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
-        <div class="card card0 border-0">
-            <div class="row d-flex">
-                <div class="col-md-5 monimage">
-                    <div class="card1 pb-5">
-                        <!-- <div class="row">
-                            <img src="https://i.imgur.com/CXQmsmF.png" class="logo">
-                        </div> -->
-                        <div class="row px-3 justify-content-center mt-4 mb-5 border-line">
-                            <img src="assets/img/acc3.jpg" class="image" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-7 ">
-                    <div class="card border-0 px-4 py-2 mt-3">
-                        <form name="form" (ngSubmit)="f.form.valid && inscription()" #f="ngForm" novalidate>
-                            <div class="row mb-1">
-                                <div class="mb-2 col-md-6 row px-3">
-                                    <label>Votre nom
-                                        <span class="oblig">*</span></label>
-                                    <input name="nom" [(ngModel)]="form.nom" required minlength="3" maxlength="20"
-                                        #nom="ngModel" type="text" placeholder="Votre nom" [ngClass]="{
+<body class="bg-maiga">
+
+    <div class="container" style="justify-content: center; padding-bottom: 5px; padding-top: 5px;">
+                <div class="row" style="justify-content: center;">
+                    <div class="form" style="justify-content: center;">
+
+                        <div  class="card border-0 px-4 py-2 mt-3">
+                            <form name="form" (ngSubmit)="f.form.valid && inscription()" #f="ngForm" novalidate>
+                                <p class="title" style="justify-content: center;">Dev-Mali-Connect</p>
+                                <p class="message" style="text-align: center;">Inscrivez-vous maintenant et obtenez
+                                    un accès complet à notre plateforme. </p>
+                                <div class="row "style="justify-content: center;" >
+                                    <div class="col-md-6 row px-3 ">
+                                        <label>Votre nom
+                                            <span class="oblig">*</span>
+                                          
+                                            <input  style="width: 195px;" name="nom" class="input" [(ngModel)]="form.nom"
+                                                required minlength="3" maxlength="20" #nom="ngModel" type="text"
+                                                placeholder="Votre nom" [ngClass]="{
                                             'is-invalid':
                                                 f.submitted && nom.errors
                                         }" />
-                                    <div class="invalid-feedback text-center" *ngIf="nom.errors && f.submitted">
-                                        <div *ngIf="nom.errors['required']">
-                                            Nom est obligatoire
-                                        </div>
-                                        <div *ngIf="nom.errors['minlength']">
-                                            Nom doit avoir au moins 3 caractères
-                                        </div>
-                                        <div *ngIf="nom.errors['maxlength']">
-                                            Nom doit comporter au maximum
-                                            20 caractères
+                                        </label>
+                                        <div class="invalid-feedback text-center" *ngIf="nom.errors && f.submitted">
+                                            <div *ngIf="nom.errors['required']">
+                                                Nom est obligatoire
+                                            </div>
+                                            <div *ngIf="nom.errors['minlength']">
+                                                Nom doit avoir au moins 3 caractères
+                                            </div>
+                                            <div *ngIf="nom.errors['maxlength']">
+                                                Nom doit comporter au maximum
+                                                20 caractères
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="mb-2 col-md-6 row px-3">
-                                    <label>Votre prenom
-                                        <span class="oblig">*</span></label>
+                                    <div class="col-md-6 row px-3">
+                                        <label>Votre prenom
+                                            <span class="oblig">*</span>
 
-                                    <input type="text" name="prenom" [(ngModel)]="form.prenom" required minlength="3"
-                                        maxlength="20" #prenom="ngModel" [ngClass]="{
+                                            <input style="width: 195px;" type="text" class="input" name="prenom"
+                                                [(ngModel)]="form.prenom" required minlength="3" maxlength="20"
+                                                #prenom="ngModel" [ngClass]="{
                                             'is-invalid':
                                                 f.submitted && prenom.errors
                                         }" placeholder="Votre prenom" />
-                                    <div style="text-align: center" class="invalid-feedback"
-                                        *ngIf="prenom.errors && f.submitted">
-                                        <div *ngIf="prenom.errors['required']">
-                                            Prenom est obligatoire
-                                        </div>
-                                        <div *ngIf="prenom.errors['minlength']">
-                                            Prenom doit avoir au moins 3
-                                            caractères
-                                        </div>
-                                        <div *ngIf="prenom.errors['maxlength']">
-                                            Prenom doit comporter au maximum
-                                            20 caractères
+                                        </label>
+                                        <div style="text-align: center" class="invalid-feedback"
+                                            *ngIf="prenom.errors && f.submitted">
+                                            <div *ngIf="prenom.errors['required']">
+                                                Prenom est obligatoire
+                                            </div>
+                                            <div *ngIf="prenom.errors['minlength']">
+                                                Prenom doit avoir au moins 3
+                                                caractères
+                                            </div>
+                                            <div *ngIf="prenom.errors['maxlength']">
+                                                Prenom doit comporter au maximum
+                                                20 caractères
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="mb-2 col-md-6 row px-3">
-                                    <label>Votre numero
-                                        <span class="oblig">*</span></label>
 
-                                    <input type="text" name="telephone" [(ngModel)]="form.telephone" required
-                                        minlength="8" maxlength="13" #telephone="ngModel" [ngClass]="{
+                                    <div class="col-md-6 row px-3">
+                                        <label>Votre numero
+                                            <span class="oblig">*</span>
+
+                                            <input style="width: 195px;" type="text" class="input" name="telephone"
+                                                [(ngModel)]="form.telephone" required minlength="8" maxlength="13"
+                                                #telephone="ngModel" [ngClass]="{
                                             'is-invalid':
                                                 f.submitted && telephone.errors
                                         }" placeholder="Votre Numero" />
-                                    <div style="text-align: center" class="invalid-feedback"
-                                        *ngIf="telephone.errors && f.submitted">
-                                        <div *ngIf="telephone.errors['required']">
-                                            telephone est obligatoire
-                                        </div>
-                                        <div *ngIf="
+                                        </label>
+                                        <div style="text-align: center" class="invalid-feedback"
+                                            *ngIf="telephone.errors && f.submitted">
+                                            <div *ngIf="telephone.errors['required']">
+                                                telephone est obligatoire
+                                            </div>
+                                            <div *ngIf="
                                                 telephone.errors['minlength']
                                             ">
-                                            telephone doit avoir au moins 8
-                                            caractères
-                                        </div>
-                                        <div *ngIf="
+                                                telephone doit avoir au moins 8
+                                                caractères
+                                            </div>
+                                            <div *ngIf="
                                                 telephone.errors['maxlength']
                                             ">
-                                            Numéro doit comporter au maximum
-                                            13 caractères
+                                                Numéro doit comporter au maximum
+                                                13 caractères
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="mb-2 col-md-6 row px-3">
-                                    <label>Votre Email
-                                        <span class="oblig">*</span></label>
-                                    <input type="email" name="email" [(ngModel)]="form.email" required email
-                                        #email="ngModel" [ngClass]="{
+                                    <div class="col-md-6 row px-3">
+                                        <label>Votre Email
+                                            <span class="oblig">*</span>
+                                            <input style="width: 195px;" type="email" class="input" name="email"
+                                                [(ngModel)]="form.email" required email #email="ngModel" [ngClass]="{
                                             'is-invalid':
                                                 f.submitted && email.errors
                                         }" placeholder="Votre Email" />
-                                    <div class="invalid-feedback text-center" *ngIf="email.errors && f.submitted">
-                                        <div *ngIf="email.errors['required']">
-                                            Email est obligatoire
-                                        </div>
-                                        <div *ngIf="email.errors['email']">
-                                            Email non valide
+                                        </label>
+                                        <div class="invalid-feedback text-center" *ngIf="email.errors && f.submitted">
+                                            <div *ngIf="email.errors['required']">
+                                                Email est obligatoire
+                                            </div>
+                                            <div *ngIf="email.errors['email']">
+                                                Email non valide
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6 row px-3">
-                                    <label class="mb-1">Type d'utilisateur
-                                        <span class="oblig">*</span></label>
-                                    <select (change)="onChange($event.target)" type="text" class="form-control mb-4"
-                                        style="width: 96%" name="role" [(ngModel)]="form.role" required role
-                                        #role="ngModel">
-                                        <option class="py-3">Choisir</option>
-                                        <option class="mb-3" *ngFor="let TypeUser of typeUser" [value]="TypeUser.value">
-                                            {{ TypeUser.nom }}
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6 row px-3">
-                                    <label class="mb-1">Genre
-                                        <span class="oblig">*</span></label>
-                                    <select type="text" class="form-control mb-4" style="width: 96%" name="genre"
-                                        [(ngModel)]="form.genre" required role #role="ngModel">
-                                        <option class="py-3">Choisir</option>
-                                        <option class="mb-3" *ngFor="let Genre of genre" [value]="Genre.value">
-                                            {{ Genre.nom }}
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="mb-2 col-md-12 row px-3" *ngIf="currentUser != 'Choisir'">
-                                    <label class="mb-1">Specialite
-                                        <span class="oblig">*</span></label>
-                                    <select type="text" class="form-control mb-4" style="width: 96%" name="specialite"
-                                        [(ngModel)]="form.specialite" required role #role="ngModel">
-                                        <option class="py-3">Choisir</option>
-                                        <option class="mb-3" *ngFor="let Specialite of specialite"
-                                            [value]="Specialite.id"> 
-                                            {{ Specialite.specialite }}
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6 row px-3">
-                                    <label>Mot de passe
-                                        <span class="oblig">*</span></label>
-                                    <div style="position: relative;">
-                                        <input type="password" placeholder="Entrer votre mot de passe" name="password"
-                                            type="password" name="password" [(ngModel)]="form.password" required
-                                            minlength="6" #password="ngModel" [ngClass]="{
+                                    <div class="col-md-6 row px-3">
+                                        <label class="mb-1">Type d'utilisateur
+                                            <span class="oblig">*</span>
+                                            <select style="width: 195px;" (change)="onChange($event.target)" type="text"
+                                                class="input" name="role" [(ngModel)]="form.role" required role
+                                                #role="ngModel">
+                                                <option class="py-3 input">Choisir</option>
+                                                <option class="mb-3" *ngFor="let TypeUser of typeUser"
+                                                    [value]="TypeUser.value">
+                                                    {{ TypeUser.nom }}
+                                                </option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6 row px-3">
+                                        <label class="mb-1">Genre
+                                            <span class="oblig">*</span>
+                                            <select style="width: 250px;" type="text" class="input" name="genre"
+                                                style="width: 96%" [(ngModel)]="form.genre" required role
+                                                #role="ngModel">
+                                                <option class="py-3">Choisir</option>
+                                                <option class="mb-3" *ngFor="let Genre of genre" [value]="Genre.value">
+                                                    {{ Genre.nom }}
+                                                </option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6 row px-3" *ngIf="currentUser != 'Choisir'">
+                                        <label class="mb-1">Specialite
+                                            <span class="oblig">*</span>
+                                            <select style="width: 195px;" type="text" class="input" style="width: 96%"
+                                                name="specialite" [(ngModel)]="form.specialite" required role
+                                                #role="ngModel">
+                                                <option class="py-3">Choisir</option>
+                                                <option class="mb-3" *ngFor="let Specialite of specialite"
+                                                    [value]="Specialite.id">
+                                                    {{ Specialite.specialite }}
+                                                </option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6 row px-3">
+                                        <label>Mot de passe
+                                            <span class="oblig">*</span>
+                                            <div style="position: relative;">
+                                                <input style="width: 195px;" type="password" class="input"
+                                                    placeholder="Entrer votre mot de passe" name="password"
+                                                    type="password" name="password" [(ngModel)]="form.password" required
+                                                    minlength="6" #password="ngModel" [ngClass]="{
                                                     'is-invalid':
                                                         f.submitted && password.errors
                                                 }" color="black" [type]="Toggledata ? 'password' : 'text'" />
-                                        <span
-                                            style="position: absolute; top: 24px; right: 20px; transform: translateY(-50%);"
-                                            [ngClass]="Toggledata ? 'toggle-password fa fa-eye-slash' : 'toggle-password fa fa-eye'"
-                                            (click)="iconLogle()">
-                                        </span>
-                                        <div *ngIf="password.errors && f.submitted"
-                                            class="invalid-feedback text-center">
-                                            <div *ngIf="password.errors['required']">
-                                                Mot de passe obligatoire
+                                                <span
+                                                    style="position: absolute; top: 20px; right: 20px;left: 175px;  transform: translateY(-0%);"
+                                                    [ngClass]="Toggledata ? 'toggle-password fa fa-eye-slash' : 'toggle-password fa fa-eye'"
+                                                    (click)="iconLogle()">
+                                                </span>
+                                                <div *ngIf="password.errors && f.submitted"
+                                                    class="invalid-feedback text-center">
+                                                    <div *ngIf="password.errors['required']">
+                                                        Mot de passe obligatoire
+                                                    </div>
+                                                    <div *ngIf="password.errors['minlength']">
+                                                        Mot de passe minimun 6 caractères
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div *ngIf="password.errors['minlength']">
-                                                Mot de passe minimun 6 caractères
-                                            </div>
-                                        </div>
+                                        </label>
                                     </div>
-                                </div>
-                                <div class="col-md-6 row px-3">
-                                    <label>Confirmer mot de passe
-                                        <span class="oblig">*</span></label>
-                                    <div style="position: relative;">
-                                        <input type="password" placeholder="Entrer votre mot de passe de confirmation"
-                                            name="password" [(ngModel)]="form.confirmPassword" required minlength="6"
-                                            #confirmPassword="ngModel" [ngClass]="{
+                                    <div class="col-md-6 row px-3">
+                                        <label>Confirmer mot de passe
+                                            <span class="oblig">*</span>
+                                            <div style="position: relative;">
+                                                <input style="width: 195px;" type="password" class="input"
+                                                    placeholder="Entrer votre mot de passe de confirmation"
+                                                    name="password" [(ngModel)]="form.confirmPassword" required
+                                                    minlength="6" #confirmPassword="ngModel" [ngClass]="{
                                                     'is-invalid':
                                                         f.submitted &&
                                                         confirmPassword.errors
                                                 }" color="black" type="password"
-                                            [type]="ToggledataC ? 'password' : 'text'" />
-                                        <span
-                                            style="position: absolute; top: 24px; right: 20px; transform: translateY(-50%);"
-                                            [ngClass]="ToggledataC ? 'toggle-password fa fa-eye-slash' : 'toggle-password fa fa-eye'"
-                                            (click)="iconLogleC()">
-                                        </span>
-                                        <div class="invalid-feedback text-center" *ngIf="
+                                                    [type]="ToggledataC ? 'password' : 'text'" />
+                                                <span
+                                                    style="position: absolute; top: 24px; right: 20px;left: 175px; transform: translateY(-50%);"
+                                                    [ngClass]="ToggledataC ? 'toggle-password fa fa-eye-slash' : 'toggle-password fa fa-eye'"
+                                                    (click)="iconLogleC()">
+                                                </span>
+                                                <div class="invalid-feedback text-center" *ngIf="
                                                     confirmPassword.errors &&
                                                     f.submitted
                                                 ">
-                                            <div *ngIf="
+                                                    <div *ngIf="
                                                         confirmPassword.errors[
                                                             'required'
                                                         ]
                                                     ">
-                                                Confirmation obligatoire
-                                            </div>
-                                            <div *ngIf="
+                                                        Confirmation obligatoire
+                                                    </div>
+                                                    <div *ngIf="
                                                         confirmPassword.errors[
                                                             'minlength'
                                                         ]
                                                     ">
-                                                Confirme mot de passe doit être au
-                                                moins 6 caractères
+                                                        Confirme mot de passe doit être au
+                                                        moins 6 caractères
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
+                                        </label>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="default-btn text-center  row mb-2 px-3" style="width: 96%; ">
-                                <button type="submit"
-                                    style="border: none; background-color: transparent; color: white;">
-                                    S'inscrire
-                                </button>
-                            </div>
-                            <div class="row mb-4 px-3" style="margin-left: auto; margin-right: auto">
-                                <small class="font-weight-bold">Déjà un compte ?
-                                    <a routerLink="/connexion" class="text-danger">Connexion</a></small>
-                            </div>
-                        </form>
+                                <div class="button-65 text-center   row mb-2 px-3" style="width: 96%; "
+                                    class="btn-15 button-18 submit">
+                                    <button type="submit"
+                                        style="border: none; background-color: transparent; color: white;">
+                                        S'inscrire
+                                    </button>
+                                </div>
+                                <div class="row mb-4 px-3" style="margin-left: auto; margin-right: auto">
+                                    <small class="font-weight-bold">Déjà un compte ?
+                                        <a routerLink="/connexion" class="text-danger">Connexion</a></small>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
+                </div>
+       
+        
 
 
-
-
+</body>

@@ -1,4 +1,4 @@
-<div class="page-title-area item-bg-3">
+<!-- <div class="page-title-area item-bg-3">
   <div class="d-table">
       <div class="d-table-cell">
           <div class="container">
@@ -12,30 +12,17 @@
           </div>
       </div>
   </div>
-</div>
-
+</div> -->
+<!-- <body class="bg-maiga">
+<br>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
 
 <div class="container">
-
     <div class="container px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
-        <div class="card card0 border-0">
-            <div class="row d-flex">
-                <div class="col-md-6 monimage">
-                    <div class="card1 pb-5">
-                        <!-- <div class="row">
-                            <img src="https://i.imgur.com/CXQmsmF.png" class="logo">
-                        </div> -->
-                        <div class="row px-3 justify-content-center mt-4 mb-5 border-line">
-                            <img src="assets/img/acc3.jpg" class="image">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card2 card border-0 px-4 py-5">
+      <div class="row d-flex">
+        <div class="col login-form  card">
                         <form #f="ngForm" (ngSubmit)="f.form.valid && seConnecter()" novalidate>
                             <div class="row px-3">
                                 <label class="mb-1">
@@ -77,8 +64,8 @@
                                 <a routerLink="/mdpoublie" class="text-sm">Mot de passe oublié?</a>
                                
                             </div>
-                            <div class="row mb-3 px-3" style="margin-left: auto; margin-right: auto;">
-                                <button type="submit" class="default-btn text-center">Se connecter</button>
+                            <div class=" row mb-2 px-3" style="  justify-content: center;">
+                                <button type="submit" class=" btn-15 button-18 button-65 text-center" style="font-size: 15px;" class="btn-14 button-17">Se connecter</button>
                             </div>
                             <div class="row mb-4 px-3" style="margin-left: auto; margin-right: auto;">
                                 <small class="font-weight-bold">Pas de compte ? <a routerLink="/inscription"
@@ -89,5 +76,58 @@
                 </div>
             </div>
         </div>
+ 
+
+</body> -->
+
+
+<body class="bg-maiga">
+    <div class="container">
+      <div class="container px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
+        <div class="row d-flex" style=" justify-content: center; padding-top: 15px; padding-bottom: 15px;">
+          <div class="col login-form  card" >
+            <div class="avatar">
+              <!--       <img src="https://68.media.tumblr.com/avatar_8671f0f36a5f_128.png" alt="" /> -->
+            </div>
+            <div class="registration">
+              Besoin d'un compte? <a href="/inscription">Cliquez ici</a>.
+            </div>
+            <form #f="ngForm" (ngSubmit)="f.form.valid && seConnecter()" novalidate>
+              <label for="login" class="login">
+                <input class="input"  type="text" name="telephoneOrEmail" [(ngModel)]="form.telephoneOrEmail" required
+                  #telephoneOrEmail="ngModel" [ngClass]="{ 'is-invalid': f.submitted && telephoneOrEmail.errors }"
+                  placeholder="Numero ou Email" />
+                <div style="text-align: center;" *ngIf="telephoneOrEmail.errors && f.submitted" class="invalid-feedback">
+                  <div *ngIf="telephoneOrEmail.errors['required']">Numero ou Email obligatoire</div>
+                </div>
+              </label>
+              <label for="passwd" class="passwd">
+                <input type="password" placeholder="Entrer votre mot de passe" name="password" [(ngModel)]="form.password"
+                  required minlength="6" #password="ngModel" [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
+                  name="password" color="black" type="password" [type]="Toggledata ? 'password' : 'text'" />
+                <span class="crd" style="position: absolute; top: 10px; right: 20px; transform: translateY(-50%);"
+                  [ngClass]="Toggledata ? 'toggle-password fa fa-eye-slash' : 'toggle-password fa fa-eye'"
+                  (click)="iconLogle()">
+                </span>
+                <div *ngIf="password.errors && f.submitted" class="invalid-feedback text-center">
+                  <div *ngIf="password.errors['required']">Mot de passe obligatoire</div>
+                  <div *ngIf="password.errors['minlength']">
+                    Mot de passe minimun 6 caractères
+                  </div>
+                </div>
+              </label>
+              <div>
+                <button type="submit" class=" btn-15 button-18 button-65 " style="font-size: 15px;"
+                class="btn-14 button-17">Se connecter</button>
+              </div>
+             
+            </form>
+            <div class="lost-passwd">
+              <a href="/mdp-oublie">Mot de passe oublier?</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+  
+  </body>

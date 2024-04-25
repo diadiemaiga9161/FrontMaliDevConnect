@@ -35,4 +35,23 @@ export class ConnaissanceService {
 AfficherListeConnaissance(): Observable<any> {
     return this.http.get(`${URL_BASE}connaissance/afficher`);  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
   }
+
+  
+
+
+
+Ajouter(nom: string,): Observable<any> {
+  console.log(nom);
+  return this.http.post(
+    URL_BASE + 'connaissance/ajouter',
+    {
+      nom,
+     // Correction ici
+    },
+    { withCredentials: true }
+  );
+}
+
+
+  
 }

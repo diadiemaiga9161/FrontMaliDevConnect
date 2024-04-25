@@ -82,7 +82,7 @@ export class RdvService {
   //   return this.http.delete<void>(`${URL_BASE}Rdv/supprimer/${id}`, { headers });
   // }
 
-  //PRENDRE RENDEZ-VOUS EN FONCTION DU BIEN
+  //PRENDRE RENDEZ-VOUS 
   PrendreRdv(
     objet: string, 
     dateRendezvous: string, 

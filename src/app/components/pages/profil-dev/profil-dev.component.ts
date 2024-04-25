@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user/user.service';
 import { environment } from 'src/environments/environment';
 import  { RdvService } from 'src/app/services/rendezVous/rendezVous.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { TyperdvService } from 'src/app/services/typerdv/typerdv.service';
+import { ExperienceService } from 'src/app/services/experience/experience.service';
+
 import Swal from 'sweetalert2';
+import { ConnaissanceService } from 'src/app/services/connaissance/connaissance.service';
 
 
 const URL_PHOTO: string = environment.Url_PHOTO;
@@ -24,7 +27,11 @@ export class ProfilDevComponent implements OnInit {
   informaticien: any;
   specialite: any;
   projet: any;
-  
+  experienceProfessionnelle: any;
+  non: any;
+  typeConnaissances: any;
+  connaissances: any;
+  connaissance: any;
   profileImageUrl: string = ''; // Variable pour stocker le chemin de l'image de profil
 User: any;
 errorMessage: any = '';
@@ -49,9 +56,12 @@ errorMessage: any = '';
   constructor(
     private route: ActivatedRoute,
     private serviceUser: UserService,
+    private experienceService:ExperienceService,
     private serviceTypeRdv: TyperdvService,
+    private connaissanceService : ConnaissanceService,
     private storageService: StorageService,
-    private rdvService: RdvService 
+    private rdvService: RdvService,
+    public router: Router,
   ) { }
   
 
@@ -65,14 +75,31 @@ errorMessage: any = '';
       console.log(this.type);
     });
 
+    this.experienceService.AfficherListEexperienceProfessionnelle().subscribe(data => {
+      this.type = data;
+      console.log(this.type);
+    });
+
+    
+    this.connaissanceService.AfficherListeConnaissance().subscribe(data => {
+      this.type = data;
+      console.log(this.type);
+    });
+
+
 
     //AFFICHER UN INFORMATICIEN EN FONCTION DE SON ID
     this.serviceUser.AfficherInformaticienParId(this.id).subscribe(data => {
       this.informaticien = data;
       this.specialite = data?.specialite;
       this.projet = data?.projetInformatiques;
+      this.connaissances = data?.connaissance;
+      this.experienceProfessionnelle = this.informaticien.experienceProfessionnelles;
       console.log(this.informaticien);
     });
+
+    
+    
   }
 
   RdvForm: any = {
@@ -163,5 +190,23 @@ errorMessage: any = '';
       // console.error("Token JWT manquant");
     }
   }
+
+  goToDettailProjets(id: number | undefined): Promise<boolean> {
+    if (id !== undefined) {
+      return this.router.navigate(['projets-détaillé', id]);
+    }
+    // Gérer le cas où id est indéfini (facultatif)
+    return Promise.resolve(false); // Retourner une promesse résolue avec `false` (ou une autre valeur appropriée)
+  }
+
+  // goToDettailInformaticien(id: number | undefined): Promise<boolean> {
+  //   if (id !== undefined) {
+  //     return this.router.navigate(['profil-détaillé', id]);
+  //   }
+  //   // Gérer le cas où id est indéfini (facultatif)
+  //   return Promise.resolve(false); // Retourner une promesse résolue avec `false` (ou une autre valeur appropriée)
+  // }
+
+  
 
 }

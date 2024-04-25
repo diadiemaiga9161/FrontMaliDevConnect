@@ -27,11 +27,12 @@
                                 <img [src]="generateImageUrl(User?.photos[0]?.nom)" alt="Admin"
                                     class="rounded-circle p-1" style="background-color: #ffff;"
                                     (error)="handleAuthorImageError($event)">
-                                <div class="file change-photo-icon">
-                                    <i class="fa-sharp fa-solid fa-camera-retro" style="color: #2009ec;"></i>
-                                 <input type="file" name="file" (change)="onPhotoChange($event)"
-                                        accept=".png, .jpeg, .jpg, .svg" />
-                                </div>
+                                    <div class="file change-photo-icon">
+                                        <img src="assets/img/icone/caméra-removebg-preview.png" style="height: 25px;" alt="">
+                                        <!-- <i class="fa-sharp fa-solid fa-camera-retro" style="color: #000000;"></i> -->
+                                        <input type="file" name="file" (change)="onPhotoChange($event)"
+                                            accept=".png, .jpeg, .jpg, .svg" />
+                                    </div>
                             </div>
                             <h5 class="mb-1 text-white">{{User?.prenom}} {{User?.nom}} </h5>
                             <!-- <h6 class="text-light">{{User?.specialite?.specialite}}</h6> -->
@@ -215,6 +216,7 @@
                                                             <th>Nom et Objet du Rendez-vous</th>
                                                             <th class="text-center">Type de rendez-vous</th>
                                                             <th class="action text-right">Date et heure</th>
+                                                            <th class="action text-right">Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -248,6 +250,12 @@
                                                             <td>
                                                                 <ul class="list-unstyled">
                                                                     <li><i></i>Date:{{ Rdv?.date }}</li>
+                                                                    <li><i></i> Heure:{{ Rdv?.heure }}</li>
+                                                                </ul>
+                                                            </td>
+                                                            <td>
+                                                                <ul class="list-unstyled">
+                                                                    <li><i></i><a href=""> <img src="" alt=""></a></li>
                                                                     <li><i></i> Heure:{{ Rdv?.heure }}</li>
                                                                 </ul>
                                                             </td>

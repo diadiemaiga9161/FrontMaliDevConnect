@@ -6,7 +6,8 @@
                     <h2>Projets Détaillé</h2>
                     <ul>
                         <li><a routerLink="/">Accueil</a></li>
-                        <li>Projets Détaillé</li>
+                        <li>{{informaticien?.prenom}}
+                            {{informaticien?.nom}}</li>
                     </ul>
                 </div>
             </div>
@@ -25,22 +26,13 @@
        <div class="row">
             <div class="col-md-7">
                 <div class="product-gallery">
-                    <div class="primary-image">
+                    <div class="primary-image" *ngFor="let ProjetInformatique of projet">
                         <a  class="theater" rel="group" hidefocus="true">
-                            <img src="assets/img/inov.jpg" class="img-responsive" alt="">
+                            <img src="{{generateImageUrl(projet?.photo)}}" class="img-responsive" alt="">
                         </a>
                     </div>
                     <div class="thumbnail-images">
                         <a class="theater" rel="group" hidefocus="true">
-                            <img src="assets/img/inov.jpg" alt="">
-                        </a>
-                        <a  class="theater" rel="group" hidefocus="true">
-                            <img src="assets/img/inov.jpg" alt="">
-                        </a>
-                        <a  class="theater" rel="group" hidefocus="true">
-                            <img src="assets/img/inov.jpg" alt="">
-                        </a>
-                        <a  class="theater" rel="group" hidefocus="true">
                             <img src="assets/img/inov.jpg" alt="">
                         </a>
                     </div>
@@ -48,11 +40,11 @@
             </div>
             <div class="col-md-5">
                 <div class="product-info">
-                    <h1>Nom Projets </h1>
+                    <h1>titre</h1>
                     <span class="clearfix"></span> 
                     <div class="wp-block property list no-border">
                         <div class="wp-block-content clearfix">
-                            <small>Type de projet</small>
+                            <small></small>
                             <h4 class="content-title">Description du projet</h4>
                             <p class="description mb-15">Lorem ipsum dolor sit amet, consectetur adipisg elitm Ut tincidunt purus iaculis ipsum dctum non dtum quam. Donec id elit non mi porta gravida at eget metus. Lorem ipsum dolor sit amet, consectetur adipisg elitm Ut.</p>
                         </div>

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { StorageService } from '../storage/storage.service';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ProjetService } from 'src/app/services/projet/projet.service';
 // import { CookieService } from 'ngx-cookie-service';
 
 // Définition de l'URL de base de l'API
@@ -14,6 +15,24 @@ const USER_KEY = 'auth-user';
   providedIn: 'root'
 })
 export class UserService {
+  // ajouterProjet(titre: string, description: string, typeProjet: string, photo: File): Observable<any> {
+  //   const formData = new FormData();
+  //   formData.append('titre', titre);
+  //   formData.append('description', description);
+  //   formData.append('typeProjet', typeProjet);
+  //   formData.append('photo', photo);
+  
+  //   const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
+  
+  //   return this.http.post(`${URL_BASE}projetInformatique/ajouter`, formData, { headers });
+  // }
+  ajouterExperience(experience: any): Observable<any> {
+    return this.http.post(`${URL_BASE}experienceProfessionnelle/ajouter`, experience);
+  }
+
+  ajouterProjet(projetInformatique: any): Observable<any> {
+    return this.http.post(`${URL_BASE}projetInformatique/ajouter`, projetInformatique);
+  }
   getInformaticien // Récupération du jeton CSRF depuis le cookie (commenté car non utilisé dans le code actuel)
     () {
     throw new Error('Method not implemented.');
@@ -65,10 +84,52 @@ export class UserService {
     return this.http.get(`${URL_BASE}user/byRole/ROLE_INFORMATICIEN`);
   }
 
+  AfficherListEexperienceProfessionnelle(): Observable<any> {
+    const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
+    return this.http.get(`${URL_BASE}experienceProfessionnelle/afficher`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
+  }
+
+  AfficherListConnaissance(): Observable<any> {
+    const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
+    return this.http.get(`${URL_BASE}connaissance/afficher`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
+  }
+
+  // listeUtilisateur(): Observable<any> {
+  //   return this.http.get(`${URL_BASE}user/afficher`);
+  // }
+
   // Méthode pour afficher un informaticien en fonction de son ID
   AfficherInformaticienParId(id: number): Observable<any> {
     return this.http.get(`${URL_BASE}user/userparid/${id}`);
   }
+
+  AfficherProjetInformatiqueParId(id: number): Observable<any> {
+    return this.http.get(`${URL_BASE}projetInformatique/projetparid/${id}`);
+  }
+  
+AfficherListeProjetInformatique(): Observable<any> {
+  const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
+  return this.http.get(`${URL_BASE}projetInformatique/afficher`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
+}
+
+// Méthode pour effectuer la connexion
+Ajouter(titre: string, datedebut: string, datefin: string, lieux: string, id_utilisateur: any): Observable<any> {
+  console.log(titre);
+  console.log(datedebut);
+  return this.http.post(
+    URL_BASE + 'experienceProfessionnelle/ajouter',
+    {
+      titre,
+      datedebut,
+      datefin,
+      lieux,
+      id_utilisateur // Correction ici
+    },
+    { withCredentials: true }
+  );
+}
+
+
 
   // Méthode pour modifier le profil de l'utilisateur
   modifierProfilUser(
@@ -94,28 +155,7 @@ export class UserService {
     );
   }
 
-  // Méthode pour compléter le profil financier de l'utilisateur
-  completerProfilFinacier(
-    communeId: number,
-    ageId: number,
-    situationMatrimonialeId: number,
-    revenuId: number,
-    depenseId: number
-  ): Observable<any> {
-    const headers = this.getHeaders();
-    console.log(headers);
-    return this.http.put(
-      URL_BASE + 'user/completer',
-      {
-        commune: { id: communeId },
-        age: { id: ageId },
-        situationmatrimoniale: { id: situationMatrimonialeId },
-        revenu: { id: revenuId },
-        depense: { id: depenseId },
-      },
-      { headers }
-    );
-  }
+
 
   // Méthode pour afficher la photo de l'utilisateur connecté
   AfficherPhotoUserConnecter(): Observable<any> {

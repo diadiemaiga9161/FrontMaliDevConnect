@@ -14,6 +14,12 @@ import { ConnexionComponent } from './components/pages/connexion/connexion.compo
 import { RdvDetailsComponent } from './components/pages/rdv-details/rdv-details.component';
 import { profilInformaticienComponent } from './components/pages/profil-informaticien/profil-informaticien.component';
 import {CompleteProfilsComponent } from './components/pages/complete-profils/complete-profils.component';
+import { SingInComponent } from './components/pages/sing-in/sing-in.component';
+import { MotPasseComponent } from './components/pages/mot-passe/mot-passe.component';
+import { NewPasseComponent } from './components/pages/new-passe/new-passe.component';
+import { ConnaissanceComponent } from './connaissance/connaissance.component';
+import { CompleteComponent } from './components/pages/complete/complete.component';
+
 
 const routes: Routes = [
     {path: '', component: AccueilComponent},
@@ -30,9 +36,18 @@ const routes: Routes = [
     {path: 'profil-détaillé/:id', component: ProfilDevComponent},
     {path: 'profil-informaticien', component: profilInformaticienComponent},
     {path: 'apropos', component: AproposComponent},
-    {path: 'projets-détaillé', component: ProjetsDétailléComponent},
+    {path: 'projets-détaillé/:id', component: ProjetsDétailléComponent},
     {path: 'rdv-details', component: RdvDetailsComponent},
     {path: 'complete-profils', component: CompleteProfilsComponent},
+    {path: 'sing-in', component: SingInComponent},
+    {path: 'mdp-oublie', component: MotPasseComponent},
+    {path: 'new-mdp', component: NewPasseComponent},
+    {path: 'connaissence', component: ConnaissanceComponent},
+    {path: 'complete', component: CompleteComponent},
+
+
+
+    
     // Here add new pages component
 
     {path: '**', component: ErrorComponent} // This line will remain down from the whole pages component list

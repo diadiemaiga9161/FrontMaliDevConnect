@@ -26,6 +26,11 @@ import { ProfilUtilisateurComponent } from './components/pages/profil-utilisateu
 import { RdvDetailsComponent } from './components/pages/rdv-details/rdv-details.component';
 import { ProjetsDétailléComponent } from './components/pages/projets-détaillé/projets-détaillé.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { SingInComponent } from './components/pages/sing-in/sing-in.component';
+import { MotPasseComponent } from './components/pages/mot-passe/mot-passe.component';
+import { NewPasseComponent } from './components/pages/new-passe/new-passe.component';
+import { ConnaissanceComponent } from './connaissance/connaissance.component';
+import { CompleteComponent } from './components/pages/complete/complete.component';
 
 
 
@@ -51,6 +56,11 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     ProfilUtilisateurComponent,
     RdvDetailsComponent,
     ProjetsDétailléComponent,
+    SingInComponent,
+    MotPasseComponent,
+    NewPasseComponent,
+    ConnaissanceComponent,
+    CompleteComponent,
 
 
 
@@ -63,7 +73,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     HttpClientModule,
     Ng2SearchPipeModule,
     NgxPaginationModule,
-    FormsModule
+    FormsModule,
+ 
   ],
   providers: [],
   bootstrap: [AppComponent]

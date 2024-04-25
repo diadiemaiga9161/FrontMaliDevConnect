@@ -6,6 +6,11 @@ import { SpecialiteService } from 'src/app/services/specialite/specialite.servic
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { environment } from 'src/environments/environment';
+import { ProjetService } from 'src/app/services/projet/projet.service';
+import { ExperienceService } from 'src/app/services/experience/experience.service';
+
+
+
 // import  { rendezVous } from 'src/app/services/rendezVous/rendezVous.service'
 import Swal from 'sweetalert2';
 
@@ -23,16 +28,28 @@ export class profilInformaticienComponent implements OnInit {
   informaticien: any;
   specialite: any;
   projet: any;
+  experience: any;
   User: any;
   form: any;
+  datecreation:any;
   isSuccessful = false;
   isSignUpFailed = false;
   profileImageUrl: string = ''; // Variable pour stocker le chemin de l'image de profil
   errorMessage = '';
   nombreprojet: number = 0;
   nombreexperience: number = 0;
+  id_utilisateur: any;
   rdv: any;
   p:number=1
+  titre: string;
+  descriptionProjet: string;
+  photoProjet: string;
+  datedebut: any;
+  datefin: any;
+  lieu: string;
+  description: string;
+  selectedInformaticienId: string;
+
 
 
   constructor(
@@ -41,8 +58,11 @@ export class profilInformaticienComponent implements OnInit {
     private authService: AuthService,
     private rdvService:  RdvService,
     private specialiteService: SpecialiteService,
+    private projetService: Router,
+    private experienceService: ExperienceService,
     private router: Router,
   ) {
+
     this.User = this.storageService.getUser();
     this.form = {
       nom: this.User.nom,
@@ -51,11 +71,13 @@ export class profilInformaticienComponent implements OnInit {
       email: this.User.email,
       genre: this.User.genre,
       adresse: this.User.adresse,
+      connaissance: this.User.connaissance,
       specialite: this.User.specialite.id,
     };
     console.log(this.User);
     
-  }
+  };
+
 
   ngOnInit(): void {
 
@@ -71,11 +93,24 @@ export class profilInformaticienComponent implements OnInit {
       console.log( this.rdv);
     });
 
+      // AFFICHER LA LISTE DES RDV ENVOYER 
+      this.rdvService.AfficherRdvParEnvoyerParUserConnecterNew().subscribe(data => {
+        this.rdv = data;
+        console.log( this.rdv);
+      });
+  
+
     // AFFICHER LA LISTE DES RDV PAR ID
     this.rdvService.AfficherRdvParId(this.rdv.id ).subscribe(data => {
       this.rdv = data;
       console.log( this.rdv);
     });
+
+     // AFFICHER LA LISTE DES RDV PAR ID
+    //  this.projetService.AfficherListeProjetInformatique(this.projet.id ).subscribe(data => {
+    //   this.rdv = data;
+    //   console.log( this.rdv);
+    // });
 
       // // AFFICHER LA LISTE DES INFORMATICIENS
       // this.specialiteService.AfficherListeSPecialite().subscribe(data => {
@@ -87,6 +122,13 @@ export class profilInformaticienComponent implements OnInit {
     this.serviceUser.AfficherInformaticienParId(this.User.id).subscribe(data => {
       this.nombreexperience = data?.experienceProfessionnelles?.length;
       this.nombreprojet = data?.projetInformatiques?.length;
+      this.projet = data?.projetInformatiques;
+      console.log("info",this.informaticien);
+    });
+    this.serviceUser.AfficherInformaticienParId(this.id).subscribe(data => {
+      this.informaticien = data;
+      this.specialite = data?.specialite;
+      this.projet = data?.projetInformatiques;
       console.log(this.informaticien);
     });
   }

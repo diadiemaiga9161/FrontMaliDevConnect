@@ -22,6 +22,7 @@ export class NavbarOneComponent implements OnInit {
   errorMessage = '';
   User: any
   profileImageUrl: string = '';
+  sidebarservice: any;
 
 
   constructor(
@@ -58,7 +59,7 @@ export class NavbarOneComponent implements OnInit {
 
   // IMAGE PAR DEFAUT USER
   handleAuthorImageError(event: any) {
-    event.target.src = 'assets/img/team/tiec.jpg';
+    event.target.src = 'assets/img/team/amadou.jpg';
   }
 
   //METHODE PERMETTANT DE SE DECONNECTER
@@ -113,5 +114,16 @@ export class NavbarOneComponent implements OnInit {
       }
 
     }
+    toggleSidebar() {
+      this.sidebarservice.setSidebarState(!this.sidebarservice.getSidebarState());
+  }
+  
+  getSideBarState() {
+      return this.sidebarservice.getSidebarState();
+  }
+
+  hideSidebar() {
+      this.sidebarservice.setSidebarState(true);
+  }
   
 }

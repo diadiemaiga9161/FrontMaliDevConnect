@@ -19,6 +19,7 @@ const httpOptions: any = {
   providedIn: 'root'
 })
 export class AuthService {
+  currentUser: any;
 
   // Constructeur du service avec injection des dépendances nécessaires
   constructor(

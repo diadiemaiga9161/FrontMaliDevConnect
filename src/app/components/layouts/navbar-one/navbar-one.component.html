@@ -5,8 +5,9 @@
     <div class="container">
         <nav class="navbar navbar-expand-md navbar-light">
             <a class="navbar-brand" routerLink="/">
-                <img src="assets/img/logo.png" alt="logo">
+                <img src="assets/img/logo.png" style="width: 75px;" alt="logo">
             </a>
+            <h3 style="padding-top: 10px;">DevMaliConnect</h3>
 
             <button class="navbar-toggler" type="button">
                 <span class="navbar-toggler-icon"></span>
@@ -34,19 +35,27 @@
                 </ul>
                 <div class="others-option d-flex align-items-center" *ngIf="isLoginFailed == false">
                     <div class="option-item">
-                        <a routerLink="/connexion" style="font-size: 15px;" class="btn btn-outline-primary">Connexion</a>
+                        <a routerLink="/connexion" style="font-size: 15px;" class="btn-14 button-17" role="button" >Connexion</a>
+    
                     </div>
+                   
+                
                     <div class="option-item">
-                        <a routerLink="/inscription" style="font-size: 15px;" class="btn btn-outline-info">Inscription</a>
+                        <a routerLink="/inscription" style="font-size: 15px;" class="btn-15 button-18" role="button" > <img src="../../../../assets/img/" alt="">Inscription</a>
                     </div>
                 </div>
                 <!-- <a *ngIf="isLoginFailed == false" routerLink="/connexion" class="nav-link" class="gg-profile" routerLinkActive="active"
                     [routerLinkActiveOptions]="{exact: true}">Inscription</a> -->
                     
                 <ul class="navbar-nav" *ngIf="isLoginFailed == true">
-                    <li class="nav-item">
-                        <i class="fa-regular fa-bell" style="width: 50px; height: 40px;">
-                        </i>
+                    <!-- <ul>
+                        <li>
+                            <a href=""><img src="assets/img/icone/notification.png" style="height: 20px; padding-left: 10px;" alt=""></a>               
+                        </li>
+                    </ul> -->
+                    
+                    
+                     <li class="nav-item">
                         <a href="javascript:void(0);" class="dropdown-toggle profile-userlink" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             <img [src]="profileImageUrl" (error)="handleAuthorImageError($event)" alt="">

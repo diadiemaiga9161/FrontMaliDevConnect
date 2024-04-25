@@ -32,9 +32,31 @@ export class ExperienceService {
     });
   }
 
+
+  // Méthode d'ajouter des experience
+  ajouterexperienceProfessionnelle(experience: any): Observable<any> {
+    return this.http.post(`${URL_BASE}experienceProfessionnelle/ajouter`, experience);
+  }
+  
+// Méthode pour effectuer la connexion
+// Méthode pour effectuer la connexion
+Ajouterexperience(titre: any, datedebut: any, datefin: any, lieux: any, id_utilisateur: any): Observable<any> {
+  const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
+  const data = { 
+    "titre" : titre,
+    "datedebut" : datedebut,
+    "datefin" : datefin,
+    "lieux" : lieux,
+    "id_utilisateur" : id_utilisateur
+  };
+  return this.http.post(
+    URL_BASE + 'experienceProfessionnelle/ajouter',data, { headers }
+  );
+}
+
   // Méthode pour afficher la liste des experience
-  AfficherListeExperience(): Observable<any> {
+  AfficherListEexperienceProfessionnelle(): Observable<any> {
     const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
-    return this.http.get(`${URL_BASE}experience/afficher`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
+    return this.http.get(`${URL_BASE}experienceProfessionnelle/afficher`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
   }
 }
