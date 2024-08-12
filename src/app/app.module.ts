@@ -59,8 +59,8 @@ import { CompleteComponent } from './components/pages/complete/complete.componen
     SingInComponent,
     MotPasseComponent,
     NewPasseComponent,
-    ConnaissanceComponent,
     CompleteComponent,
+    ConnaissanceComponent
 
 
 

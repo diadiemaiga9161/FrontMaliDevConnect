@@ -1,4 +1,5 @@
 import { Component, Injectable, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ConnaissanceService } from 'src/app/services/connaissance/connaissance.service';
@@ -22,22 +23,22 @@ const URL_PHOTO: string = environment.Url_PHOTO;
 })
 export class CompleteComponent implements OnInit {
 
-  titre: string; 
+  titre: string;
   User: any;
   public currentInformaticien = 'Choisir';
   informaticien: any;
   connaissance: any;
   typeprojet: any;
-  
 
-    //IMAGE
-    generateImageUrl(photoFileName: string): string {
-      const baseUrl = URL_PHOTO;
-      return baseUrl + photoFileName;
-    }
-      // IMAGE PAR DEFAUT USER
-   handleAuthorImageError(event: any) {
-    event.target.src = 'assets/img/team/tiec.jpg';
+
+  //IMAGE
+  generateImageUrl(photoFileName: string): string {
+    const baseUrl = URL_PHOTO;
+    return baseUrl + photoFileName;
+  }
+  // IMAGE PAR DEFAUT USER
+  handleAuthorImageError(event: any) {
+    event.target.src = 'assets/img/team/amadou.jpg';
   }
   constructor(
     private serviceUser: UserService,
@@ -48,17 +49,17 @@ export class CompleteComponent implements OnInit {
     private typeProjetService: TypeProjetService,
     private typeConnaissanceService: TypeConnaissanceService,
     public router: Router,
-  ) { 
-    
+  ) {
+
   }
   form: any = {
-  titre: null,
-  datedebut: null,
-  datefin: null,
-  lieux: null,
-  idinf: null
+    titre: null,
+    datedebut: null,
+    datefin: null,
+    lieux: null,
+    idinf: null
   };
-  
+
   form1 = {
     titre: '',
     description: '',
@@ -68,44 +69,44 @@ export class CompleteComponent implements OnInit {
   };
 
 
-    form2: any = {
-      connaissance: null,
-      idinf: null
-      };
-  
+  form2: any = {
+    connaissance: null,
+    idinf: null
+  };
 
-      ngOnInit(): void {
 
-        this.serviceUser.AfficherInfoUserConnecte().subscribe(data => {
-          this.User = data;
-          console.log(this.User);
-      }
-  );
-  
+  ngOnInit(): void {
 
-  // AFFICHER LA LISTE DES INFORMATICIENS
-  this.serviceUser.AfficherListeInformaticien().subscribe(data => {
-    this.informaticien = data;
-    console.log(this.informaticien);
-  });
+    this.serviceUser.AfficherInfoUserConnecte().subscribe(data => {
+      this.User = data;
+      console.log(this.User);
+    }
+    );
 
-  
-  // AFFICHER LA LISTE DES INFORMATICIENS
-  this.typeProjetService.AfficherListeTypeProjet().subscribe(data => {
-    this.typeprojet = data;
-    console.log(this.typeprojet);
-  });
+
+    // AFFICHER LA LISTE DES INFORMATICIENS
+    this.serviceUser.AfficherListeInformaticien().subscribe(data => {
+      this.informaticien = data;
+      console.log(this.informaticien);
+    });
+
+
+    // AFFICHER LA LISTE DES INFORMATICIENS
+    this.typeProjetService.AfficherListeTypeProjet().subscribe(data => {
+      this.typeprojet = data;
+      console.log(this.typeprojet);
+    });
 
     // AFFICHER LA LISTE DES ttypes de connaissance 
     this.typeConnaissanceService.AfficherListeTypeConnaissance().subscribe(data => {
       this.typeConnaissanceService = data;
       console.log(this.typeConnaissanceService);
     });
- // AFFICHER LA LISTE DES CONNAISSANCES
- this.connaissanceService.AfficherListeConnaissance().subscribe(data => {
-  this.connaissance = data;
-  console.log(this.connaissance);
-});
+    // AFFICHER LA LISTE DES CONNAISSANCES
+    this.connaissanceService.AfficherListeConnaissance().subscribe(data => {
+      this.connaissance = data;
+      console.log(this.connaissance);
+    });
 
   }
 
@@ -120,20 +121,29 @@ export class CompleteComponent implements OnInit {
 
 
   submitForm() {
-    this.experienceService.Ajouterexperience(this.form.titre,this.form.datedebut,this.form.datefin,this.form.lieux,this.form.idinf ).subscribe((data) => {
+    this.experienceService.Ajouterexperience(this.form.titre, this.form.datedebut, this.form.datefin, this.form.lieux, this.form.idinf).subscribe((data) => {
       // Enregistrez les données de l'utilisateur dans le service de stockage (session storage ou autre)
       console.log(data);
-      console.log(this.informaticien.id );
+      console.log(this.informaticien.id);
+      location.reload();
     });
   }
 
-  submitForm1() {
-    this.projetService.AjouterProjet(this.form1.titre,this.form1.description,this.form1.typeProjet,this.form1.photo, ).subscribe((data) => {
+  submitForm1(form1:NgForm) {
+    const data = new FormData()
+    data.append("titre",form1.value['titre']);
+    data.append("description",form1.value['description']);
+    data.append("typeProjet",this.form1['typeProjet']);
+    data.append("photo",form1.value['photo']);
+    this.projetService.AjouterProjet(data).subscribe((data) => {
       // Enregistrez les données de l'utilisateur dans le service de stockage (session storage ou autre)
-      console.log(data);
-      console.log(this.informaticien.id );
+     console.log(data);
     });
-  }
+  } 
+  // submitForm1(form1:NgForm) {
+    
+  //   console.log(form1.value)
+  //   }
 
   // submitForm1() {
   //   this.projetService.ajouter(this.form1.titre, this.form1.description, this.form1.typeProjet, this.form1.photo).subscribe(
@@ -149,10 +159,10 @@ export class CompleteComponent implements OnInit {
   // }
 
   submitForm2() {
-    this.connaissanceService.Ajouter(this.form.nom, ).subscribe((data) => {
+    this.connaissanceService.Ajouter(this.form.nom,).subscribe((data) => {
       // Enregistrez les données de l'utilisateur dans le service de stockage (session storage ou autre)
       console.log(data);
-      console.log(this.informaticien.id );
+      console.log(this.informaticien.id);
     });
   }
 }

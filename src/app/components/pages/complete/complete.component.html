@@ -53,7 +53,9 @@
                                             crossorigin="anonymous" referrerpolicy="no-referrer" />
                                         <div class="container">
                                             <div class="row position-relative mt-n1-9">
-                                                <form class="row g-3" #f="ngForm"  novalidate>
+                                                
+                                                <!-- <form #forms="ngForm" (ngSubmit)="submitForm1(forms)"> -->
+                                                <form class="row g-3" #f="ngForm" (ngSubmit)="submitForm1(form)"  novalidate>
                                                     <div class="col-md-6">
                                                         <label for="inputFirstName" class="form-label">Titre</label>
                                                         <input type="text" class="form-control" placeholder="titre"  id="titre" name="titre" [(ngModel)]="form1.titre">
@@ -90,7 +92,7 @@
                                                         </div> -->
                                                     </div>
                                                     <div class="col-12">
-                                                        <button type="submit" class="btn btn-primary px-5" (click)="submitForm1()">Enregistre</button>
+                                                        <button type="submit" class="btn btn-primary px-5">Enregistre</button>
                                                     </div>
                                                 </form>
                                             </div>

@@ -84,6 +84,11 @@ export class UserService {
     return this.http.get(`${URL_BASE}user/byRole/ROLE_INFORMATICIEN`);
   }
 
+   // Méthode pour afficher la liste des client
+   AfficherListeClient(): Observable<any> {
+    return this.http.get(`${URL_BASE}user/byRole/ROLE_CLIENT`);
+  }
+
   AfficherListEexperienceProfessionnelle(): Observable<any> {
     const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
     return this.http.get(`${URL_BASE}experienceProfessionnelle/afficher`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
@@ -94,9 +99,11 @@ export class UserService {
     return this.http.get(`${URL_BASE}connaissance/afficher`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
   }
 
-  // listeUtilisateur(): Observable<any> {
-  //   return this.http.get(`${URL_BASE}user/afficher`);
-  // }
+  listeUtilisateur(): Observable<any> {
+    return this.http.get(`${URL_BASE}user/afficher`);
+  }
+
+
 
   // Méthode pour afficher un informaticien en fonction de son ID
   AfficherInformaticienParId(id: number): Observable<any> {

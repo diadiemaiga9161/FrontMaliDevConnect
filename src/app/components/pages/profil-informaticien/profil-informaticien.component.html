@@ -284,12 +284,19 @@
                                                                             <ul class="list-unstyled">
                                                                                 <li><i></i>Objet : {{ Rdv?.objet }}</li>
                                                                             </ul>
+                                                                            <br>
+                                                                            <li><i></i> Number: {{ Rdv?.userenvoyer?.telephone}}</li>
+                                                                            <!-- <span> Telephone:{{ Rdv?.userenvoyer?.telephone}}</span> -->
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                             <td class="candidate-list-favourite-time text-center">
                                                                 <span>{{ Rdv?.typerdv?.typerdv }}</span>
+                                                                
+                                                            </td>
+                                                            <td class="candidate-list-favourite-time text-center">
+                                                                <span>{{ Rdv?.telephone?.telephone }}</span>
                                                             </td>
                                                             <td>
                                                                 <ul class="list-unstyled">

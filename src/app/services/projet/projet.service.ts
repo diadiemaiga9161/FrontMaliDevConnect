@@ -67,13 +67,9 @@ AfficherProjetParId(id: number): Observable<any> {
   return this.http.get(`${URL_BASE}projetInformatique/projetparid/${id}`);
 }
 
-AjouterProjet(titre: any, description: any, typeProjet: any, photo: any): Observable<any> {
+AjouterProjet(data: FormData) {
   const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
-  const data = new FormData()
-    data.append("titre",titre) ,
-    data.append("description",description)
-    data.append("typeProjet",typeProjet)
-    data.append("photo",photo)
+
   return this.http.post(
     URL_BASE + 'projetInformatique/ajouter',data, { headers }
   );
@@ -91,15 +87,15 @@ ajouter(titre: string, description: string, typeprojet: string, photo: File): Ob
   return this.http.post<Object>('{URL_BASE}projetInformatique/ajouter', formData);
 }
 
-ajouterProjet(titre: string, description: string, typeProjet: string, photo: File): Observable<any> {
-  const formData = new FormData();
-  formData.append('titre', titre);
-  formData.append('description', description);
-  formData.append('typeProjet', typeProjet);
-  formData.append('photo', photo);
+// ajouterProjet(titre: string, description: string, typeProjet: string, photo: File): Observable<any> {
+//   const formData = new FormData();
+//   formData.append('titre', titre);
+//   formData.append('description', description);
+//   formData.append('typeProjet', typeProjet);
+//   formData.append('photo', photo);
 
-  return this.http.post('{URL_BASE}projetInformatique/ajouter', formData);
-}
+//   return this.http.post('{URL_BASE}projetInformatique/ajouter', formData);
+// }
 // ajouterProjet(titre: string, description: string, typeProjet: string, photo: File): Observable<any> {
 //   const formData = new FormData();
 //   formData.append('titre', titre);

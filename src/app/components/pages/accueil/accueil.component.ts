@@ -16,17 +16,16 @@ const URL_PHOTO: string = environment.Url_PHOTO;
 export class AccueilComponent implements OnInit {
   User: any;
   informaticien: any;
-  p:number=1
-  searchTextSpecialite: any;
-  searchTextConnaissance: any;
   searchText : any;
   specialite: any;
   profileImageUrl: string = ''; // Variable pour stocker le chemin de l'image de profil
   connaissance: any;
-  nombreprojet: number = 0;
+  // nombreDeClient: number = 0;
+
   nombreinformaticiens: number = 0;
   http: any;
   nombreDeProjets: number;
+  nombreDeClient: number;
   nombreInformaticiens: number;
   
     //IMAGE
@@ -56,11 +55,11 @@ export class AccueilComponent implements OnInit {
       this.informaticien = data.reverse();
       console.log(this.informaticien);
     });
-
-    this.serviceUser.AfficherListeInformaticien().subscribe(data => {
-      this.nombreInformaticiens = data;
-      console.log(this.nombreInformaticiens);
-    });
+    this.projetService.AfficherListeProjetInformatique().subscribe(data => {
+      this.nombreDeProjets = data;
+     console.log(this.nombreDeProjets);
+   });
+   // th
      // AFFICHER LA LISTE DES INFORMATICIENS
      this.specialiteService.AfficherListeSPecialite().subscribe(data => {
       this.specialite = data;
@@ -75,6 +74,17 @@ export class AccueilComponent implements OnInit {
        this.nombreDeProjets = data;
       console.log(this.nombreDeProjets);
     });
+//nombre de client 
+    this.serviceUser.AfficherListeClient().subscribe(data => {
+      this.nombreDeClient = data;
+     console.log(this.nombreDeClient);
+   });
+
+   //nombre informaticien 
+//    this.serviceUser.AfficherListeInformaticien().subscribe(data => {
+//     this.nombreInformaticiens = data;
+//    console.log(this.nombreInformaticiens);
+//  });
     // this.projetService.AfficherListeProjetInformatique().subscribe(
     //   (nombre: number) => {
     //     this.nombreDeProjets = nombre;
