@@ -166,9 +166,9 @@
                                                                     required name="typeRendezVousId"
                                                                     [(ngModel)]="RdvForm.typeRendezVousId">
                                                                     <option class="py-3">Choisir</option>
-                                                                    <option class="mb-3" *ngFor="let Type of type"
-                                                                    [value]="Type.id">
-                                                                        {{ Type.typerdv }}
+                                                                    <option class="mb-3" *ngFor="let Typerdv of typerdv"
+                                                                    [value]="Typerdv.id">
+                                                                        {{ Typerdv.typerdv }}
                                                                     </option>
                                                                 </select>
                                                             </div>
@@ -268,7 +268,7 @@
                                         </tr><!-- end tr -->
                                         <tr>
                                             <th scope="row">Site web</th>
-                                            <td>mysite@public.com</td>
+                                            <td>mysite@gmail.com</td>
                                         </tr><!-- end tr -->
                                     </tbody><!-- end tbody -->
                                 </table><!-- end table -->

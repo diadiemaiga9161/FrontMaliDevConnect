@@ -29,6 +29,7 @@ export class ProfilDevComponent implements OnInit {
   projet: any;
   experienceProfessionnelle: any;
   non: any;
+  typerdv: any;
   typeConnaissances: any;
   connaissances: any;
   connaissance: any;
@@ -71,8 +72,8 @@ errorMessage: any = '';
 
      // AFFICHER LA LISTE DES INFORMATICIENS
      this.serviceTypeRdv.AfficherListeTyperdv().subscribe(data => {
-      this.type = data;
-      console.log(this.type);
+      this.typerdv = data;
+      console.log(this.typerdv);
     });
 
     this.experienceService.AfficherListEexperienceProfessionnelle().subscribe(data => {

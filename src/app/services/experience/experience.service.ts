@@ -38,8 +38,7 @@ export class ExperienceService {
     return this.http.post(`${URL_BASE}experienceProfessionnelle/ajouter`, experience);
   }
   
-// Méthode pour effectuer la connexion
-// Méthode pour effectuer la connexion
+// Méthode pour effectuer l'ajout 
 Ajouterexperience(titre: any, datedebut: any, datefin: any, lieux: any, id_utilisateur: any): Observable<any> {
   const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
   const data = { 

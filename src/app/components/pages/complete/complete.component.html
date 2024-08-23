@@ -55,20 +55,20 @@
                                             <div class="row position-relative mt-n1-9">
                                                 
                                                 <!-- <form #forms="ngForm" (ngSubmit)="submitForm1(forms)"> -->
-                                                <form class="row g-3" #f="ngForm" (ngSubmit)="submitForm1(form)"  novalidate>
+                                                <form class="row g-3" #f="ngForm">
                                                     <div class="col-md-6">
                                                         <label for="inputFirstName" class="form-label">Titre</label>
-                                                        <input type="text" class="form-control" placeholder="titre"  id="titre" name="titre" [(ngModel)]="form1.titre">
+                                                        <input type="text" class="form-control" placeholder="titre"  id="titre" name="titre"  [(ngModel)]="formData.titre">
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label for="inputDate" class="form-label">Description</label>
-                                                        <textarea class="form-control" id="description" name="description" [(ngModel)]="form1.description" maxlength="500"></textarea>
+                                                        <textarea class="form-control" id="description" name="description" [(ngModel)]="formData.description" maxlength="500"></textarea>
                                                         <!-- <input type="text" class="form-control" id="description" name="datedebut" [(ngModel)]="form1.description"> -->
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label for="inputState" class="form-label"  >type projet</label>
                                                         <select   class="form-select"  type="text"
-                                                        id="id_typeprojet"name="id_typeprojet" [(ngModel)]="form.idinf" >
+                                                        id="id_typeprojet"name="id_typeprojet" [(ngModel)]="formData.typeProjet" >
                                                                     <option >Choisir</option>
                                                                     <option  *ngFor="let typeprojet of typeprojet"
                                                                     [value]="typeprojet.id">
@@ -78,7 +78,7 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label for="inputLieux" class="form-label">Photo-projet</label>
-                                                        <input type="file" class="form-control"placeholder="photo" id="photo" name="photo" accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf" multiple id="photo" name="photo" [(ngModel)]="form1.photo">
+                                                        <input type="file" class="form-control"placeholder="photo" accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf" multiple id="photo" name="photo" id="photo" (change)="onFileSelected($event)">
                                                         <!-- <div class="card radius-15">
                                                             <div class="card-body">
                                                                 <div class="card-title">
@@ -92,7 +92,7 @@
                                                         </div> -->
                                                     </div>
                                                     <div class="col-12">
-                                                        <button type="submit" class="btn btn-primary px-5">Enregistre</button>
+                                                        <button type="submit" class="btn btn-primary px-5" (click)="onSubmit()">Enregistre</button>
                                                     </div>
                                                 </form>
                                             </div>

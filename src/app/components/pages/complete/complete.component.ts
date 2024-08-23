@@ -65,9 +65,14 @@ export class CompleteComponent implements OnInit {
     description: '',
     typeProjet: null,
     photo: null,
-    idinf: null
   };
 
+  formData = {
+    titre: '',
+    description: '',
+    typeProjet: '',
+    photo: null,
+  };
 
   form2: any = {
     connaissance: null,
@@ -82,7 +87,6 @@ export class CompleteComponent implements OnInit {
       console.log(this.User);
     }
     );
-
 
     // AFFICHER LA LISTE DES INFORMATICIENS
     this.serviceUser.AfficherListeInformaticien().subscribe(data => {
@@ -157,7 +161,23 @@ export class CompleteComponent implements OnInit {
   //     }
   //   );
   // }
+  onSubmit() {
+    console.log(this.formData);
+    
+    this.projetService.ajouter(this.formData)
+      .subscribe(response => {
+        console.log('Response:', response);
+      }, error => {
+        console.error('Error:', error);
+      });
+  }
 
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+        this.formData.photo = file;
+    }
+}
   submitForm2() {
     this.connaissanceService.Ajouter(this.form.nom,).subscribe((data) => {
       // Enregistrez les données de l'utilisateur dans le service de stockage (session storage ou autre)

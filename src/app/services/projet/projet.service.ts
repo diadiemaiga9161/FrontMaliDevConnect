@@ -25,7 +25,6 @@ constructor(
   setAccessToken(token: string) {
     this.accessToken = token;  // Affecte la valeur du jeton d'accès reçu à la variable privée accessToken
   }
-
   // Méthode pour obtenir les en-têtes avec le token JWT
   getHeaders(): HttpHeaders {
     const token = this.storageService.getUser().token;  // Obtient le jeton d'accès à partir du service de stockage local
@@ -33,7 +32,7 @@ constructor(
       'Authorization': `Bearer ${token}`  // Crée et retourne les en-têtes HTTP avec le jeton d'accès
     });
   }
- 
+
 
   ajouterProjetinformatique(projet: any): Observable<any> {
     return this.http.post(`${URL_BASE}projetInformatique/ajouter`, projet);
@@ -75,17 +74,50 @@ AjouterProjet(data: FormData) {
   );
 }
 
-ajouter(titre: string, description: string, typeprojet: string, photo: File): Observable<Object> {
-  const formData: FormData = new FormData();
-  formData.append('titre', titre);
-  formData.append('description', description);
-  formData.append('typeProjet', typeprojet);
-  if (photo) {
-    formData.append('photo', photo, photo.name);
-  }
-  // return this.http.post(`${URL_BASE}projetInformatique/ajouter`, data,);
+ajouterProjet(formData: FormData): Observable<any> {
   return this.http.post<Object>('{URL_BASE}projetInformatique/ajouter', formData);
 }
+
+// ajouter(titre: string, description: string, typeprojet: string, photo: File): Observable<Object> {
+//   const formData: FormData = new FormData();
+//   formData.append('titre', titre);
+//   formData.append('description', description);
+//   formData.append('typeProjet', typeprojet);
+  
+//   if (photo) {
+//     formData.append('photo', photo, photo.name);
+//   }
+  
+//   return this.http.post<Object>('{URL_BASE}projetInformatique/ajouter', formData);
+// }
+
+ajouter(data: any): Observable<any> {
+
+  const headers = this.getHeaders();
+  const formData = new FormData();
+  formData.append('titre', data.titre);
+  formData.append('description', data.description);
+  formData.append('typeProjet', data.typeProjet);
+  formData.append('photo', data.photo);
+   console.log(formData);
+  console.log('data', data);
+
+  console.log('data', headers);
+
+  return this.http.post(URL_BASE  + 'projetInformatique/ajouter',formData, { headers });
+}
+
+
+
+// ajouterProjet(titre: string, description: string, typeProjet: string, photo: File): Observable<any> {
+//   const formData: FormData = new FormData();
+//   formData.append('titre', titre);
+//   formData.append('description', description);
+//   formData.append('typeProjet', typeProjet);
+//   formData.append('photo', photo);
+
+//   return this.http.post<Object>('{URL_BASE}projetInformatique/ajouter', formData);
+// }
 
 // ajouterProjet(titre: string, description: string, typeProjet: string, photo: File): Observable<any> {
 //   const formData = new FormData();
