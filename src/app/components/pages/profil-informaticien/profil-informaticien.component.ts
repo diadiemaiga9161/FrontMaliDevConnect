@@ -41,6 +41,7 @@ export class profilInformaticienComponent implements OnInit {
   id_utilisateur: any;
   rdv: any;
   p:number=1
+  experienceProfessionnelle: any;
   titre: string;
   descriptionProjet: string;
   photoProjet: string;
@@ -58,7 +59,7 @@ export class profilInformaticienComponent implements OnInit {
     private authService: AuthService,
     private rdvService:  RdvService,
     private specialiteService: SpecialiteService,
-    private projetService: Router,
+    private projetService: ProjetService,
     private experienceService: ExperienceService,
     private router: Router,
   ) {
@@ -98,12 +99,22 @@ export class profilInformaticienComponent implements OnInit {
         this.rdv = data;
         console.log( this.rdv);
       });
-  
+   // AFFICHER LA LISTE projet par user
+   this.projetService.AfficherProjet().subscribe(data => {
+    this.projet = data;
+    console.log( this.projet);
+  });
 
-    // AFFICHER LA LISTE DES RDV PAR ID
-    this.rdvService.AfficherRdvParId(this.rdv.id ).subscribe(data => {
-      this.rdv = data;
-      console.log( this.rdv);
+    // // AFFICHER LA LISTE DES RDV PAR ID
+    // this.rdvService.AfficherRdvParId(this.rdv.id ).subscribe(data => {
+    //   this.rdv = data;
+    //   console.log( this.rdv);
+    // });
+
+    
+    this.experienceService.VoirexperienceProfessionnelle().subscribe(data => {
+      this.experienceProfessionnelle = data;
+      console.log(this.experienceProfessionnelle);
     });
 
      // AFFICHER LA LISTE DES RDV PAR ID

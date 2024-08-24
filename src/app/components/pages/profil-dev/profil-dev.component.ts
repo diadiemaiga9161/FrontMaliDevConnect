@@ -83,8 +83,8 @@ errorMessage: any = '';
 
     
     this.connaissanceService.AfficherListeConnaissance().subscribe(data => {
-      this.type = data;
-      console.log(this.type);
+      this.connaissance = data;
+      console.log(this.connaissance);
     });
 
 

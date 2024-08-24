@@ -58,4 +58,10 @@ Ajouterexperience(titre: any, datedebut: any, datefin: any, lieux: any, id_utili
     const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
     return this.http.get(`${URL_BASE}experienceProfessionnelle/afficher`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
   }
+
+   // Méthode pour afficher la liste des experience
+   VoirexperienceProfessionnelle(): Observable<any> {
+    const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
+    return this.http.get(`${URL_BASE}experienceProfessionnelle/voir`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
+  }
 }

@@ -29,7 +29,7 @@ export class CompleteComponent implements OnInit {
   informaticien: any;
   connaissance: any;
   typeprojet: any;
-
+  typeConnaissances:any;
 
   //IMAGE
   generateImageUrl(photoFileName: string): string {
@@ -76,7 +76,7 @@ export class CompleteComponent implements OnInit {
 
   form2: any = {
     connaissance: null,
-    idinf: null
+    id_typeConnaissances: null
   };
 
 
@@ -103,8 +103,8 @@ export class CompleteComponent implements OnInit {
 
     // AFFICHER LA LISTE DES ttypes de connaissance 
     this.typeConnaissanceService.AfficherListeTypeConnaissance().subscribe(data => {
-      this.typeConnaissanceService = data;
-      console.log(this.typeConnaissanceService);
+      this.typeConnaissances = data;
+      console.log(this.typeConnaissances);
     });
     // AFFICHER LA LISTE DES CONNAISSANCES
     this.connaissanceService.AfficherListeConnaissance().subscribe(data => {
@@ -179,7 +179,7 @@ export class CompleteComponent implements OnInit {
     }
 }
   submitForm2() {
-    this.connaissanceService.Ajouter(this.form.nom,).subscribe((data) => {
+    this.connaissanceService.Ajouter(this.form2.nom,this.form2.typeConnaissances).subscribe((data) => {
       // Enregistrez les données de l'utilisateur dans le service de stockage (session storage ou autre)
       console.log(data);
       console.log(this.informaticien.id);

@@ -33,19 +33,20 @@ export class ConnaissanceService {
 
 // Méthode pour afficher la liste des connaissance  
 AfficherListeConnaissance(): Observable<any> {
-    return this.http.get(`${URL_BASE}connaissance/afficher`);  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
+    return this.http.get(`${URL_BASE}connaissance/voir`);  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
   }
 
   
 
 
 
-Ajouter(nom: string,): Observable<any> {
+Ajouter(nom: string,typeConnaissances:string): Observable<any> {
   console.log(nom);
   return this.http.post(
     URL_BASE + 'connaissance/ajouter',
     {
       nom,
+      typeConnaissances,
      // Correction ici
     },
     { withCredentials: true }
