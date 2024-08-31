@@ -77,6 +77,7 @@ export class InformaticienComponent implements OnInit {
       console.log(this.informaticien);
     });
   }
+  
      getHeaders() {
     throw new Error('Method not implemented.');
   }

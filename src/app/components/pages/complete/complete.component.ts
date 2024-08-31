@@ -30,6 +30,7 @@ export class CompleteComponent implements OnInit {
   connaissance: any;
   typeprojet: any;
   typeConnaissances:any;
+  id_typeConnaissances: any;
 
   //IMAGE
   generateImageUrl(photoFileName: string): string {

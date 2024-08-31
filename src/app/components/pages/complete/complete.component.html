@@ -164,11 +164,11 @@
                                     <div class="col-md-6">
                                         <label for="inputState" class="form-label"  >Type-connaissance</label>
                                         <select   class="form-select"  type="text"
-                                        id="id_typeConnaissances"name="id_typeConnaissances" [(ngModel)]="form.typeConnaissances" >
+                                        id="id_typeConnaissances"name="id_typeConnaissances" [(ngModel)]="form2.id_typeConnaissances" >
                                                     <option >Choisir</option>
                                                     <option  *ngFor="let TypeConnaissances of typeConnaissances"
-                                                    [value]="typeConnaissances.id">
-                                                        {{typeConnaissances.typeConnaissances }}
+                                                    [value]="id_typeConnaissances">
+                                                        {{typeConnaissances.typeconnaissances }}
                                                     </option>
                                         </select>
                                     </div>

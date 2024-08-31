@@ -24,9 +24,9 @@ export class AccueilComponent implements OnInit {
 
   nombreinformaticiens: number = 0;
   http: any;
-  nombreDeProjets: number;
-  nombreDeClient: number;
-  nombreInformaticiens: number;
+  nombreDeProjets: number= 0;
+  nombreDeClient:number= 0;
+  nombreInformaticiens: number= 0;
   
     //IMAGE
     generateImageUrl(photoFileName: string): string {
@@ -50,15 +50,18 @@ export class AccueilComponent implements OnInit {
   
 
   ngOnInit(): void {
-    // AFFICHER LA LISTE DES INFORMATICIENS
-    this.serviceUser.AfficherListeInformaticien().subscribe(data => {
-      this.informaticien = data.reverse();
-      console.log(this.informaticien);
-    });
-    this.projetService.AfficherListeProjetInformatique().subscribe(data => {
-      this.nombreDeProjets = data;
-     console.log(this.nombreDeProjets);
-   });
+  // AFFICHER LA LISTE DES INFORMATICIENS ET COMPTER LE NOMBRE
+ this.serviceUser.AfficherListeInformaticien().subscribe(data => {
+  this.informaticien = data.reverse();
+  this.nombreInformaticiens = this.informaticien.length; // Compte le nombre d'informaticiens
+  console.log('Nombre d\'informaticiens:', this.nombreInformaticiens);
+});
+
+this.projetService.AfficherListeProjetInformatique().subscribe(data => {
+  this.nombreDeProjets = data.length;  // Obtenir le nombre total de projets
+  console.log('Nombre de projets:', this.nombreDeProjets);
+});
+
    // th
      // AFFICHER LA LISTE DES INFORMATICIENS
      this.specialiteService.AfficherListeSPecialite().subscribe(data => {
@@ -70,15 +73,12 @@ export class AccueilComponent implements OnInit {
       this.connaissance = data;
       console.log(this.connaissance);
     });    
-    this.projetService.AfficherListeProjetInformatique().subscribe(data => {
-       this.nombreDeProjets = data;
-      console.log(this.nombreDeProjets);
-    });
+    
 //nombre de client 
-    this.serviceUser.AfficherListeClient().subscribe(data => {
-      this.nombreDeClient = data;
-     console.log(this.nombreDeClient);
-   });
+this.serviceUser.AfficherListeClient().subscribe(data => {
+  this.nombreDeClient = data.length; // Compte le nombre de clients
+  console.log('Nombre de clients:', this.nombreDeClient);
+});
 
    //nombre informaticien 
 //    this.serviceUser.AfficherListeInformaticien().subscribe(data => {

@@ -63,8 +63,10 @@ AfficherListeProjetInformatique(): Observable<any> {
 
 //Projet apr id  : /api/projects/{id}
 AfficherProjetParId(id: number): Observable<any> {
+  const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
   return this.http.get(`${URL_BASE}projetInformatique/projetparid/${id}`);
 }
+
 
 //Projet apr id  : /api/projects/{id}
 AfficherProjet(): Observable<any> {
