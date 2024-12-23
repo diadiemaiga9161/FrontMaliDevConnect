@@ -34,6 +34,7 @@
                             </div>
                             <h5 class="mb-1 text-white">{{User?.prenom}} {{User?.nom}} </h5>
                             <h6 class="text-light">{{User?.specialite?.specialite}}</h6>
+                            
                         </div>
                         <div class="card-body">
                             <ul class="list-group shadow-none">
@@ -371,43 +372,28 @@
                                 <!-- Popup pour fin -->
                             </div>
                             <div class="tab-pane" id="Projet" role="tabpanel">
-                                <div class="container">
-                                    <div class="row" id="all-projects">
-                                        <link rel="stylesheet"
-                                            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-                                            integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-                                            crossorigin="anonymous" referrerpolicy="no-referrer" />
-                                        <div class="container">
-                                            <div class="row position-relative mt-n1-9">
-                                                <div class="col-md-6 col-lg-4 mt-1-9" *ngFor="let Projet of projet">
-                                                    <div class="team-style1 text-center">
-                                                        <img src="{{generateImageUrl(Projet?.photo)}}"
-                                                            class="border-radius-5 image-sizeresents crd" alt="...">
-                                                        <div class="team-info">
-                                                            <h3 class="text-primary mb-1 h4">{{Projet?.titre}}</h3>
-                                                            <span
-                                                                class="font-weight-600 text-secondary">{{Projet?.typeprojet}}</span>
-                                                        </div>
-                                                        <div class="team-overlay">
-                                                            <div class="d-table h-100 w-100">
-                                                                <div class="d-table-cell align-middle">
-                                                                    <h3><a href="projets-détaillé"
-                                                                            class="text-white">{{Projet?.description}}</a>
-                                                                    </h3>
-                                                                    <p class="text-white mb-0">Les information de mon
-                                                                        projets
-                                                                    </p>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                <div class="row position-relative mt-n1-9">
+                                    <div class="col-md-6 col-lg-4 mt-1-9" *ngFor="let Projet of projet">
+                                      <div class="team-style1 text-center">
+                                        <div class="image-container">
+                                          <img src="{{generateImageUrl(Projet?.photo)}}" class="border-radius-5 image-sizeresents crd" alt="Projet Image">
                                         </div>
-                                        <!-- end col -->
-                                    </div><!-- end row -->
-                                </div>
+                                        <div class="team-info">
+                                          <h3 class="text-primary mb-1 h4">{{Projet?.titre}}</h3>
+                                          <span class="font-weight-600 text-secondary">{{Projet?.typeprojet}}</span>
+                                        </div>
+                                        <div class="team-overlay">
+                                          <div class="d-table h-100 w-100">
+                                            <div class="d-table-cell align-middle">
+                                              <h3><a href="projets-détaillé" class="text-white">{{Projet?.titre}}</a></h3>
+                                              <p class="text-white description">{{Projet?.description}}</p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
                             </div>
                             <div class="tab-pane" id="Experiences" role="tabpanel">
                                 <div >

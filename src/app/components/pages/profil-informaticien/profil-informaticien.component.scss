@@ -1,3 +1,63 @@
+/* Taille de la carte ajustée */
+.team-style1 {
+  position: relative;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Garde la largeur à 100% */
+  min-height: 350px; /* Hauteur légèrement augmentée, mais pas trop grande */
+  display: flex;
+  flex-direction: column; /* Aligne les éléments en colonne */
+  justify-content: space-between; /* Répartit l'espace */
+}
+
+/* Container pour l'image */
+.image-container {
+  position: relative;
+  overflow: hidden;
+  height: 200px; /* Taille plus petite pour l'image */
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%; /* L'image remplit le container */
+  object-fit: cover; /* Recadrage propre de l'image */
+}
+
+/* Informations sur le projet */
+.team-info {
+  margin-top: 10px; /* Espacement réduit pour un look plus compact */
+}
+
+.team-info h3 {
+  margin-bottom: 5px;
+}
+
+/* Description visible sans effet de hover */
+.description {
+  max-height: 3em; /* Limite à environ 2 lignes */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limite à 2 lignes */
+  -webkit-box-orient: vertical;
+  position: relative;
+  margin-top: auto; /* Assure que la description est en bas si la carte est plus grande */
+  padding-top: 10px; /* Ajoute un espacement au-dessus de la description */
+}
+
+.description::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1em;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+}
+
+
 
 .work-activity {
   position: relative;
@@ -161,7 +221,7 @@ display: flex;
 justify-content: center;
 align-items: center;
 cursor: pointer; /* Change le curseur de la souris en pointeur au survol */
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Ajoute une ombre légère */
+// box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Ajoute une ombre légère */
 }
 
 .user-box img {
@@ -799,4 +859,165 @@ box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
 
 .user-dashboard-info-box .candidates-list .thumb {
 margin-right: 20px;
+}
+
+
+
+
+/* Pour les appareils mobiles */
+@media only screen and (max-width: 767px) {
+  .team-style1 {
+    margin-bottom: 20px;
+  }
+  .image-container {
+    width: 100%; /* L'image prend toute la largeur disponible */
+  }
+  .image-sizeresents {
+    height: auto; /* Ajuste la hauteur en fonction de la largeur */
+    max-width: 100%; /* L'image ne dépasse pas la largeur de son conteneur */
+  }
+  .team-info h3 {
+    font-size: 18px; /* Taille de texte plus petite sur mobile */
+  }
+  .team-info span {
+    font-size: 14px;
+  }
+  .team-overlay h3 {
+    font-size: 18px;
+  }
+  .team-overlay p {
+    font-size: 14px;
+  }
+}
+
+/* Pour les tablettes */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  .team-style1 {
+    margin-bottom: 30px;
+  }
+  .image-container {
+    width: 90%; /* L'image occupe 90% du conteneur */
+  }
+  .image-sizeresents {
+    height: auto;
+    max-width: 100%;
+  }
+  .team-info h3 {
+    font-size: 20px; /* Taille de texte ajustée pour les tablettes */
+  }
+  .team-info span {
+    font-size: 16px;
+  }
+  .team-overlay h3 {
+    font-size: 20px;
+  }
+  .team-overlay p {
+    font-size: 16px;
+  }
+}
+
+/* Pour les appareils desktop */
+@media only screen and (min-width: 1025px) {
+  .team-style1 {
+    margin-bottom: 40px;
+  }
+  .image-container {
+    width: 80%; /* Ajuste la taille des images pour les grands écrans */
+  }
+  .image-sizeresents {
+    height: auto;
+    max-width: 100%;
+  }
+  .team-info h3 {
+    font-size: 22px;
+  }
+  .team-info span {
+    font-size: 18px;
+  }
+  .team-overlay h3 {
+    font-size: 22px;
+  }
+  .team-overlay p {
+    font-size: 18px;
+  }
+}
+
+
+
+/* Pour les écrans larges (ordinateurs) */
+@media (min-width: 1025px) {
+  .team-style1 {
+    margin-bottom: 40px;
+    max-width: 300px; /* Limite la largeur de la carte pour qu'elle reste élégante */
+    margin-left: auto; /* Centrer les cartes */
+    margin-right: auto;
+  }
+
+  .image-container {
+    width: 100%;
+    height: 200px; /* Ajuste la hauteur de l'image pour être uniforme */
+    overflow: hidden; /* Cache les débordements de l'image */
+  }
+
+  .image-container img {
+    width: 100%; /* S'assure que l'image occupe toute la largeur */
+    height: 100%; /* Remplit la hauteur définie */
+    object-fit: cover; /* Coupe l'image de manière proportionnée */
+  }
+
+  .team-info h3 {
+    font-size: 22px;
+  }
+
+  .team-info span {
+    font-size: 18px;
+  }
+
+  .team-overlay {
+    background: rgba(0, 0, 0, 0.7); /* Ajoute une transparence pour un effet élégant */
+    padding: 15px;
+  }
+
+  .team-overlay h3,
+  .team-overlay p {
+    font-size: 18px;
+  }
+}
+
+
+/* Pour les grands écrans */
+@media (min-width: 1025px) {
+  .team-style1 {
+    margin-bottom: 40px;
+  }
+
+  .image-container {
+    width: 100%;
+    height: 250px; /* Ajuste la hauteur de l'image pour être uniforme */
+    overflow: hidden;
+  }
+
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Coupe l'image de manière proportionnée */
+  }
+
+  .team-info h3 {
+    font-size: 22px;
+  }
+
+  .team-info span {
+    font-size: 18px;
+  }
+
+  .team-overlay {
+    background: rgba(0, 0, 0, 0.7); /* Ajoute une transparence à l'overlay */
+    padding: 15px;
+  }
+
+  .team-overlay h3,
+  .team-overlay p {
+    font-size: 18px;
+  }
 }

@@ -1,0 +1,78 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.layout {
+    display: flex;
+    width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 20%;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-body h4 {
+    margin: 10px 0;
+}
+
+/* Cards Container Styles */
+.cards-container {
+    margin-left: 20%;
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap; /* Permet de passer à la ligne après chaque 3 cartes */
+    gap: 20px;
+    padding: 20px;
+}
+
+.card {
+    width: 33.33%; /* Chaque carte occupe 1/3 de la largeur du conteneur */
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.card-header img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.tag {
+    display: inline-block;
+    background-color: #ddd;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.user img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}

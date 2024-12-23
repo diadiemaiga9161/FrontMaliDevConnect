@@ -17,8 +17,10 @@ import {CompleteProfilsComponent } from './components/pages/complete-profils/com
 import { SingInComponent } from './components/pages/sing-in/sing-in.component';
 import { MotPasseComponent } from './components/pages/mot-passe/mot-passe.component';
 import { NewPasseComponent } from './components/pages/new-passe/new-passe.component';
-import { ConnaissanceComponent } from './connaissance/connaissance.component';
 import { CompleteComponent } from './components/pages/complete/complete.component';
+import { ChatComponent } from './components/pages/chat/chat/chat.component';
+import { ProjetComponent } from './components/pages/projet/projet.component';
+import { ProductComponent } from './components/pages/product/product.component';
 
 
 const routes: Routes = [
@@ -42,8 +44,12 @@ const routes: Routes = [
     {path: 'sing-in', component: SingInComponent},
     {path: 'mdp-oublie', component: MotPasseComponent},
     {path: 'new-mdp', component: NewPasseComponent},
-    {path: 'connaissence', component: ConnaissanceComponent},
     {path: 'complete', component: CompleteComponent},
+    // {path: 'chat', component: ChatComponent},
+    {path: 'projet', component: ProjetComponent},
+    {path: 'product', component: ProductComponent},
+    {path: 'chats', component: ChatComponent},
+
 
 
 

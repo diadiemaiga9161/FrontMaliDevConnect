@@ -144,6 +144,8 @@ export class CompleteComponent implements OnInit {
       // Enregistrez les données de l'utilisateur dans le service de stockage (session storage ou autre)
      console.log(data);
     });
+    location.reload();
+
   } 
   // submitForm1(form1:NgForm) {
     
@@ -171,6 +173,8 @@ export class CompleteComponent implements OnInit {
       }, error => {
         console.error('Error:', error);
       });
+      location.reload();
+
   }
 
   onFileSelected(event: any) {
@@ -185,5 +189,7 @@ export class CompleteComponent implements OnInit {
       console.log(data);
       console.log(this.informaticien.id);
     });
+    location.reload();
+
   }
 }

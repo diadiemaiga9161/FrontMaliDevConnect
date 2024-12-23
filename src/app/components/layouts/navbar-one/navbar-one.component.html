@@ -35,50 +35,84 @@
                 </ul>
                 <div class="others-option d-flex align-items-center" *ngIf="isLoginFailed == false">
                     <div class="option-item">
-                        <a routerLink="/connexion" style="font-size: 15px;" class="btn-14 button-17" role="button" >Connexion</a>
-    
+                        <a routerLink="/connexion" style="font-size: 15px;" class="btn-14 button-17"
+                            role="button">Connexion</a>
+
                     </div>
-                   
-                
+
+
                     <div class="option-item">
-                        <a routerLink="/inscription" style="font-size: 15px;" class="btn-15 button-18" role="button" > <img src="../../../../assets/img/" alt="">Inscription</a>
+                        <a routerLink="/inscription" style="font-size: 15px;" class="btn-15 button-18" role="button">
+                            <img src="../../../../assets/img/" alt="">Inscription</a>
                     </div>
                 </div>
                 <!-- <a *ngIf="isLoginFailed == false" routerLink="/connexion" class="nav-link" class="gg-profile" routerLinkActive="active"
                     [routerLinkActiveOptions]="{exact: true}">Inscription</a> -->
-                    
+
                 <ul class="navbar-nav" *ngIf="isLoginFailed == true">
                     <!-- <ul>
                         <li>
                             <a href=""><img src="assets/img/icone/notification.png" style="height: 20px; padding-left: 10px;" alt=""></a>               
                         </li>
                     </ul> -->
-                    
-                    
-                     <li class="nav-item">
-                        <a href="javascript:void(0);" class="dropdown-toggle profile-userlink" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <img [src]="profileImageUrl" (error)="handleAuthorImageError($event)" alt="">
-                            <span style="color: black;">{{User?.prenom}} {{User?.nom}}</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="nav-item">
-                                <a  (click)="goToProfilUserOrInfo()" class="nav-link crd" routerLinkActive="active"
-                                    [routerLinkActiveOptions]="{exact: true}">
-                                    Profil
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a (click)="logout()" class="nav-link crd" routerLinkActive="active"
-                                    [routerLinkActiveOptions]="{exact: true}">
-                                    Deconnexion
-                                </a>
-                            </li>
-                        </ul>
-
+                    <div class="collapse navbar-collapse">
+                        <!-- Notification bell in the navbar -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="notificationsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-bell" style="font-size: 24px;"></i>
+                                <span *ngIf="notificationCount > 0" class="badge rounded-pill bg-danger">{{ notificationCount }}</span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="notificationsDropdown">
+                                <li class="dropdown-header">Votre dernier rendez-vous</li>
                         
-                    </li>
-                    
+                                <!-- Afficher uniquement le dernier rendez-vous -->
+                                <li *ngIf="rdv?.length > 0">
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item">
+                                        <strong>{{ rdv[rdv.length - 1]?.userenvoyer?.prenom }} {{ rdv[rdv.length - 1]?.userenvoyer?.nom }}</strong><br>
+                                        <span>Date: {{ rdv[rdv.length - 1]?.date }} à {{ rdv[rdv.length - 1]?.heure }}</span>
+                                    </a>
+                                </li>
+                                <div class="dropdown-divider"></div>
+                        
+                                <!-- Rediriger l'utilisateur vers son profil et réinitialiser le compteur -->
+                                <li>
+                                    <a class="dropdown-item" (click)="goToProfilUserOrInfo(); resetNotificationCount()" style="cursor: pointer;">
+                                        Voir tous les rendez-vous
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a href="javascript:void(0);" class="dropdown-toggle profile-userlink"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <img [src]="profileImageUrl" (error)="handleAuthorImageError($event)" alt="">
+                                <span style="color: black;">{{User?.prenom}} {{User?.nom}}</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item">
+                                    <a (click)="goToProfilUserOrInfo()" class="nav-link crd" routerLinkActive="active"
+                                        [routerLinkActiveOptions]="{exact: true}">
+                                        Profil
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a (click)="logout()" class="nav-link crd" routerLinkActive="active"
+                                        [routerLinkActiveOptions]="{exact: true}">
+                                        Deconnexion
+                                    </a>
+                                </li>
+                            </ul>
+
+
+                        </li>
+                    </div>
+
+
+
+
+
                     <!-- <button type="button" class="bi bi-bell" class="btn btn-primary position-relative">
                         Inbox
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -86,9 +120,83 @@
                           <span class="visually-hidden">unread messages</span>
                         </span>
                       </button> -->
-                      
+
                 </ul>
             </div>
         </nav>
     </div>
 </div>
+
+
+
+<!-- Bottom Navbar pour Mobile
+<nav class="navbar navbar-dark bg-info navbar-expand fixed-bottom d-md-none  navbar navbar-expand-md navbar-light">
+    <ul class="navbar-nav nav-justified w-100 flex-nowrap" style="overflow-x: auto; white-space: nowrap;">        <li class="nav-item">
+            <a  routerLink="/" class="nav-link">
+                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-house" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+                    <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+                </svg>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a  routerLink="/apropos"class="nav-link">
+                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                    <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                </svg>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a  routerLink="/informaticien" class="nav-link">
+                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                    <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg>
+            </a>
+        </li>
+        
+        <li class="nav-item">
+            <a  routerLink="/contact" class="nav-link">
+                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-heart" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                </svg>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-person" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6 5c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                </svg>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="javascript:void(0);" class="dropdown-toggle profile-userlink"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                <img [src]="profileImageUrl" (error)="handleAuthorImageError($event)" alt="">
+                <span style="color: black;">{{User?.prenom}} {{User?.nom}}</span>
+                
+            </a>
+            <ul class="dropdown-menu">
+                <li class="nav-item">
+                    <a (click)="goToProfilUserOrInfo()" class="nav-link crd" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">
+                        Profil
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a (click)="logout()" class="nav-link crd" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">
+                        Deconnexion
+                    </a>
+                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-person" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6 5c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                    </svg>
+                </li>
+            </ul>
+
+
+        </li>
+    </ul>
+</nav> -->

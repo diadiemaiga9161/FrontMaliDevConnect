@@ -11,6 +11,8 @@ import Swal from 'sweetalert2';
 })
 export class ConnexionComponent implements OnInit {
 
+  
+
   returnUrl: any;
   User: any;
   roles: string[] = [];
@@ -53,57 +55,92 @@ export class ConnexionComponent implements OnInit {
     this.Toggledata = !this.Toggledata;
   }
 
+  
+
   //METHODE PERMETTANT DE SE CONNECTER
   seConnecter(): void {
     const { telephoneOrEmail, password } = this.form;
     const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: '',
-        cancelButton: '',
-      },
-      heightAuto: false
+        customClass: {
+            confirmButton: '',
+            cancelButton: '',
+        },
+        heightAuto: false
     });
 
     // Appel du service AuthService pour gérer la connexion de l'utilisateur
     this.authService.connexion(telephoneOrEmail, password).subscribe((data) => {
-      // Enregistrez les données de l'utilisateur dans le service de stockage (session storage ou autre)
-      this.storageService.saveUser(data);
+        // Enregistrez les données de l'utilisateur dans le service de stockage (session storage ou autre)
+        this.storageService.saveUser(data);
 
-      console.log(data);
+        console.log(data);
 
-      // Réinitialisez les indicateurs d'erreur et définissez isLoggedIn à true
-      this.isLoginFailed = false;
-      this.isLoggedIn = true;
+        // Vérifiez le statut de l'utilisateur
+        if (data.statut === 0) { // Remplacez `status` par le nom réel de la propriété dans votre objet `data`
+            // Affichez une notification et arrêtez la connexion
+            swalWithBootstrapButtons.fire(
+                "",
+                `<h1 style='font-size: 1em !important; font-weight: bold; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;'>Vous êtes banni et ne pouvez pas vous connecter.</h1>`,
+                "error"
+            );
 
-      // Obtenez les rôles de l'utilisateur à partir des données
-      this.roles = this.storageService.getUser().roles;
+            // Définissez isLoggedIn à false et isLoginFailed à true
+            this.isLoggedIn = false;
+            this.isLoginFailed = true;
+            return; // Arrêtez l'exécution ici
+        }
 
+        // Réinitialisez les indicateurs d'erreur et définissez isLoggedIn à true
+        this.isLoginFailed = false;
+        this.isLoggedIn = true;
+
+        // Obtenez les rôles de l'utilisateur à partir des données
+        this.roles = this.storageService.getUser().roles;
+
+        // Vérifiez si l'utilisateur a le rôle "admin"
+        if (this.roles.includes('ROLE_ADMIN')) {
+            // Affichez une notification et arrêtez la connexion
+            swalWithBootstrapButtons.fire(
+                "",
+                `<h1 style='font-size: 1em !important; font-weight: bold; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;'>Vous ne pouvez pas vous connecter avec le rôle d'administrateur.</h1>`,
+                "error"
+            );
+
+            // Définissez isLoggedIn à false et isLoginFailed à true
+            this.isLoggedIn = false;
+            this.isLoginFailed = true;
+            return; // Arrêtez l'exécution ici
+        }
+
+        // Redirigez l'utilisateur vers la page d'accueil si le rôle n'est pas "admin"
         this.router.navigate(['']).then(() => {
             window.location.reload();
-          });
-      // Redirigez l'utilisateur vers la page d'accueil
-      // this.reloadPage()
-      if (this.storageService.isLoggedIn()) {
-        this.isLoggedIn = true;
-      } else if (!this.storageService.isLoggedIn()) {
-        this.isLoginFailed = false;
-      }
+        });
+
+        if (this.storageService.isLoggedIn()) {
+            this.isLoggedIn = true;
+        } else if (!this.storageService.isLoggedIn()) {
+            this.isLoginFailed = false;
+        }
     }, (error) => {
-      // Gestion des erreurs en cas d'échec de la connexion
-      const errorMessage = error.error && error.error.message ? error.error.message : 'Erreur inconnue';
-      console.log(error);
+        // Gestion des erreurs en cas d'échec de la connexion
+        const errorMessage = error.error && error.error.message ? error.error.message : 'Erreur inconnue';
+        console.log(error);
 
-      // Affichage d'une notification d'erreur à l'aide de la bibliothèque SweetAlert (Swal)
-      swalWithBootstrapButtons.fire(
-        "",
-        `<h1 style='font-size: 1em !important; font-weight; bold; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;'>${errorMessage}</h1>`,
-        "error"
-      );
+        // Affichage d'une notification d'erreur à l'aide de la bibliothèque SweetAlert (Swal)
+        swalWithBootstrapButtons.fire(
+            "",
+            `<h1 style='font-size: 1em !important; font-weight: bold; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;'>${errorMessage}</h1>`,
+            "error"
+        );
 
-      // Définissez isLoginFailed à true pour indiquer que la connexion a échoué
-      this.isLoginFailed = true;
+        // Définissez isLoginFailed à true pour indiquer que la connexion a échoué
+        this.isLoginFailed = true;
     });
-  }
+}
+
+
+
 
   // Méthode pour changer l'onglet sélectionné
   changeTab(tab: string) {

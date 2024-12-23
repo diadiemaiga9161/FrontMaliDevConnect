@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { RdvService } from 'src/app/services/rendezVous/rendezVous.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
@@ -17,6 +18,9 @@ const URL_PHOTO: string = environment.Url_PHOTO;
 })
 export class NavbarOneComponent implements OnInit {
 
+  rdv: any[] = []; // Liste des rendez-vous
+  notificationCount: number = 0; // Compteur de notifications
+
   isLoggedIn = false;
   isLoginFailed = true;
   errorMessage = '';
@@ -28,10 +32,19 @@ export class NavbarOneComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private rdvService: RdvService
   ) { }
 
   ngOnInit(): void {
+
+
+       // AFFICHER LA LISTE DES RDV
+       this.rdvService.AfficherRdvParRecuParUserConnecter().subscribe(data => {
+        this.rdv = data;
+        this.notificationCount = this.rdv.length; // Initialiser le compteur avec le nombre de RDVs
+        console.log( this.rdv);
+      });
     this.User = this.storageService.getUser();
     console.log(this.User);
     if (this.storageService.isLoggedIn()) {
@@ -44,6 +57,14 @@ export class NavbarOneComponent implements OnInit {
       this.profileImageUrl = this.generateImageUrl(this.User.photos[0]?.nom);
     }
   }
+
+
+// Méthode pour réinitialiser le compteur
+resetNotificationCount(): void {
+  this.notificationCount = 0;
+}
+
+ 
 
   classApplied = false;
   toggleClass() {
@@ -101,9 +122,12 @@ export class NavbarOneComponent implements OnInit {
 
   }
 
+
+  
     // goToProfilUserOrInfo
     goToProfilUserOrInfo() {
       this.User = this.storageService.getUser();
+      this.notificationCount = 0; // Réinitialiser le compteur de notifications
       if (this.User && this.User.roles) {
           if (this.User.roles.includes('ROLE_INFORMATICIEN')) {
             this.router.navigate(["/profil-informaticien"]);
@@ -127,3 +151,9 @@ export class NavbarOneComponent implements OnInit {
   }
   
 }
+
+
+
+
+
+

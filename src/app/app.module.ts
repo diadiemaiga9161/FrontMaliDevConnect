@@ -29,8 +29,9 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { SingInComponent } from './components/pages/sing-in/sing-in.component';
 import { MotPasseComponent } from './components/pages/mot-passe/mot-passe.component';
 import { NewPasseComponent } from './components/pages/new-passe/new-passe.component';
-import { ConnaissanceComponent } from './connaissance/connaissance.component';
 import { CompleteComponent } from './components/pages/complete/complete.component';
+import { ProjetComponent } from './components/pages/projet/projet.component';
+import { CommentComponent } from './components/pages/comment/comment.component';
 
 
 
@@ -60,8 +61,9 @@ import { CompleteComponent } from './components/pages/complete/complete.componen
     MotPasseComponent,
     NewPasseComponent,
     CompleteComponent,
-    ConnaissanceComponent
-
+    ProjetComponent,
+    CommentComponent,
+    
 
 
   ],

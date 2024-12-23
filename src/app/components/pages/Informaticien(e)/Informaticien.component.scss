@@ -877,3 +877,94 @@
   
 
 
+  .single-protfolio-box .content h5,
+  .single-protfolio-box .content span {
+      white-space: nowrap; /* Empêche le texte de s'étendre sur plusieurs lignes */
+      overflow: hidden; /* Cache le texte qui déborde */
+      text-overflow: ellipsis; /* Ajoute "..." à la fin du texte débordant */
+      display: block;
+  }
+  
+  .single-protfolio-box .content span {
+      max-width: 100%; /* Limite la largeur du texte pour qu'il ne déborde pas */
+      text-align: center; /* Centrer le texte si nécessaire */
+      font-size: 14px; /* Ajuste la taille de la police si nécessaire */
+  }
+  .image img {
+    width: 100%;          /* Assure que l'image prend toute la largeur du conteneur */
+    height: 200px;        /* Hauteur fixe pour garantir une taille uniforme */
+    object-fit: cover;    /* L'image sera coupée pour remplir le conteneur sans déformation */
+    border-radius: 10px;  /* Ajoute des coins arrondis pour un effet esthétique */
+}
+  
+
+
+
+
+
+.ribbon2 {
+    width: 60px;
+    padding: 10px 0;
+    position: absolute;
+    top: -6px;
+    left: 25px;
+    text-align: center;
+    border-top-left-radius: 3px;
+    background: #F47530;
+   }
+   .ribbon2:before {
+    height: 0;
+    width: 0;
+    right: -5.5px;
+    top: 0.1px;
+    border-bottom: 6px solid #8D5A20;
+    border-right: 6px solid transparent;
+   }
+   .ribbon2:before, .ribbon2:after {
+     content: "";
+     position: absolute;
+   }
+   .ribbon2:after {
+     height: 0;
+     width: 0;
+     bottom: -29.5px;
+     left: 0;
+     border-left: 30px solid #F47530;
+     border-right: 30px solid #F47530;
+     border-bottom: 30px solid transparent;
+   }
+
+
+
+   .ribbon4 {
+    position: absolute;
+    top: 15px;
+    padding: 5px 8px;
+    color: #ffffff;
+    background: #0330facb;
+    box-shadow: -1px 2px 3px rgba(0,0,0,.3);
+  }
+  .ribbon4:before, .ribbon4:after {
+    content: "";
+    position: absolute;
+  }
+  .ribbon4:before {
+    width: 7px;
+    height: 100%;
+    top: 0;
+    left: -6.5px;
+    padding: 0 0 7px;
+    background: inherit;
+    border-radius: 5px 0 0 5px;
+  }
+  .ribbon4:after {
+    width: 5px;
+    height: 5px;
+    bottom: -5px;
+    left: -4.5px;
+    background: lightblue;
+    border-radius: 5px 0 0 5px;
+   }
+  
+  
+  

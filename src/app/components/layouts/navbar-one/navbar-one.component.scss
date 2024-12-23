@@ -281,3 +281,116 @@ button {
 .btn-15:active {
   top: 2px;
 }
+
+
+
+/* Custom CSS for responsive design */
+
+/* Desktop View */
+.navbar-area {
+  background-color: #fff;
+  border-bottom: 1px solid #eaeaea;
+  padding: 10px 0;
+}
+
+.navbar-title {
+  font-size: 24px;
+  margin-left: 15px;
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+  .navbar-brand img {
+      width: 50px; /* Reduce logo size */
+  }
+
+  .navbar-title {
+      font-size: 18px;
+  }
+
+  .btn {
+      font-size: 14px;
+      padding: 10px;
+  }
+
+  .navbar-collapse {
+      background-color: #f8f9fa; /* Background for the collapsed menu */
+  }
+  
+  .navbar-nav .nav-item {
+      text-align: center;
+      padding: 10px;
+  }
+}
+
+/* Tablet View */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .navbar-brand img {
+      width: 65px; /* Adjust logo size for tablets */
+  }
+
+  .navbar-title {
+      font-size: 22px;
+  }
+}
+
+.dropdown-menu {
+  width: 300px; /* Ajustez la largeur si nécessaire */
+}
+
+.candidates-list {
+  padding: 10px; /* Ajoutez un peu d'espace autour de chaque notification */
+}
+
+
+
+.navbar-area {
+  background-color: #f8f9fa; /* Couleur de fond */
+}
+
+.navbar-title {
+  display: none; /* Cacher le titre par défaut */
+}
+
+/* Afficher le titre uniquement sur les écrans plus larges */
+@media (min-width: 768px) {
+  .navbar-title {
+      display: inline; /* Afficher le titre */
+      margin-left: 15px; /* Espacement */
+  }
+}
+
+/* Ajustements pour les éléments du menu */
+.navbar-nav .nav-link {
+  padding: 10px 15px; /* Espacement autour des liens */
+}
+
+.others-option {
+  margin-left: auto; /* Aligner à droite */
+}
+
+/* Styles pour les boutons de connexion et d'inscription */
+.btn-link {
+  color: #007bff; /* Couleur des liens */
+  text-decoration: none; /* Enlever le soulignement */
+}
+
+.btn-link:hover {
+  text-decoration: underline; /* Soulignement au survol */
+}
+
+/* Responsive: Ajuster la taille de la police et l'espacement sur mobile */
+@media (max-width: 767px) {
+  .navbar-nav .nav-link {
+      font-size: 14px; /* Taille de police réduite sur mobile */
+      padding: 8px; /* Espacement réduit */
+  }
+
+  .others-option {
+      flex-direction: column; /* Alignement vertical */
+      align-items: flex-start; /* Alignement à gauche */
+  }
+}
+
+
+

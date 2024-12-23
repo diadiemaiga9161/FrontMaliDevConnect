@@ -1,7 +1,126 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
+
+<body class="bg-maiga">
+
+    <div class="container" style="padding: 5px;">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card border-0 px-4 py-2 mt-3">
+                    <form name="form" (ngSubmit)="f.form.valid && inscription()" #f="ngForm" novalidate>
+                        <p class="title text-center">Dev-Mali-Connect</p>
+                        <p class="message text-center">Inscrivez-vous maintenant et obtenez un accès complet à notre plateforme.</p>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label>Votre nom <span class="oblig">*</span></label>
+                                <input name="nom" class="form-control" [(ngModel)]="form.nom" required minlength="3" maxlength="20" #nom="ngModel" type="text" placeholder="Votre nom" [ngClass]="{'is-invalid': f.submitted && nom.errors}" />
+                                <div class="invalid-feedback" *ngIf="nom.errors && f.submitted">
+                                    <div *ngIf="nom.errors['required']">Nom est obligatoire</div>
+                                    <div *ngIf="nom.errors['minlength']">Nom doit avoir au moins 3 caractères</div>
+                                    <div *ngIf="nom.errors['maxlength']">Nom doit comporter au maximum 20 caractères</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Votre prénom <span class="oblig">*</span></label>
+                                <input name="prenom" class="form-control" [(ngModel)]="form.prenom" required minlength="3" maxlength="20" #prenom="ngModel" type="text" placeholder="Votre prénom" [ngClass]="{'is-invalid': f.submitted && prenom.errors}" />
+                                <div class="invalid-feedback" *ngIf="prenom.errors && f.submitted">
+                                    <div *ngIf="prenom.errors['required']">Prénom est obligatoire</div>
+                                    <div *ngIf="prenom.errors['minlength']">Prénom doit avoir au moins 3 caractères</div>
+                                    <div *ngIf="prenom.errors['maxlength']">Prénom doit comporter au maximum 20 caractères</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Votre numéro <span class="oblig">*</span></label>
+                                <input name="telephone" class="form-control" [(ngModel)]="form.telephone" required minlength="8" maxlength="13" #telephone="ngModel" type="text" placeholder="Votre numéro" [ngClass]="{'is-invalid': f.submitted && telephone.errors}" />
+                                <div class="invalid-feedback" *ngIf="telephone.errors && f.submitted">
+                                    <div *ngIf="telephone.errors['required']">Numéro est obligatoire</div>
+                                    <div *ngIf="telephone.errors['minlength']">Numéro doit avoir au moins 8 caractères</div>
+                                    <div *ngIf="telephone.errors['maxlength']">Numéro doit comporter au maximum 13 caractères</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Votre Email <span class="oblig">*</span></label>
+                                <input name="email" class="form-control" [(ngModel)]="form.email" required email #email="ngModel" type="email" placeholder="Votre email" [ngClass]="{'is-invalid': f.submitted && email.errors}" />
+                                <div class="invalid-feedback" *ngIf="email.errors && f.submitted">
+                                    <div *ngIf="email.errors['required']">Email est obligatoire</div>
+                                    <div *ngIf="email.errors['email']">Email non valide</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Type d'utilisateur <span class="oblig">*</span></label>
+                                <select name="role" class="form-control" [(ngModel)]="form.role" required #role="ngModel" (change)="onChange($event.target)">
+                                    <option>Choisir</option>
+                                    <option *ngFor="let TypeUser of typeUser" [value]="TypeUser.value">{{ TypeUser.nom }}</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Genre <span class="oblig">*</span></label>
+                                <select name="genre" class="form-control" [(ngModel)]="form.genre" required>
+                                    <option>Choisir</option>
+                                    <option *ngFor="let Genre of genre" [value]="Genre.value">{{ Genre.nom }}</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3" *ngIf="currentUser != 'Choisir'">
+                                <label>Spécialité <span class="oblig">*</span></label>
+                                <select name="specialite" class="form-control" [(ngModel)]="form.specialite" required>
+                                    <option>Choisir</option>
+                                    <option *ngFor="let Specialite of specialite" [value]="Specialite.id">{{ Specialite.specialite }}</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Mot de passe <span class="oblig">*</span></label>
+                                <div class="input-group">
+                                    <input type="{{Toggledata ? 'password' : 'text'}}" name="password" class="form-control" [(ngModel)]="form.password" required minlength="6" #password="ngModel" placeholder="Entrer votre mot de passe" [ngClass]="{'is-invalid': f.submitted && password.errors}" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" (click)="iconLogle()"><i class="{{Toggledata ? 'fa fa-eye-slash' : 'fa fa-eye'}}"></i></span>
+                                    </div>
+                                    <div class="invalid-feedback" *ngIf="password.errors && f.submitted">
+                                        <div *ngIf="password.errors['required']">Mot de passe obligatoire</div>
+                                        <div *ngIf="password.errors['minlength']">Mot de passe minimun 6 caractères</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Confirmer mot de passe <span class="oblig">*</span></label>
+                                <div class="input-group">
+                                    <input type="{{ToggledataC ? 'password' : 'text'}}" name="confirmPassword" class="form-control" [(ngModel)]="form.confirmPassword" required minlength="6" #confirmPassword="ngModel" placeholder="Confirmer votre mot de passe" [ngClass]="{'is-invalid': f.submitted && confirmPassword.errors}" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" (click)="iconLogleC()"><i class="{{ToggledataC ? 'fa fa-eye-slash' : 'fa fa-eye'}}"></i></span>
+                                    </div>
+                                    <div class="invalid-feedback" *ngIf="confirmPassword.errors && f.submitted">
+                                        <div *ngIf="confirmPassword.errors['required']">Confirmation obligatoire</div>
+                                        <div *ngIf="confirmPassword.errors['minlength']">Mot de passe doit être au moins 6 caractères</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="text-center mb-2">
+                            <button type="submit" class="btn btn-primary">S'inscrire</button>
+                        </div>
+                        <div class="text-center">
+                            <small>Déjà un compte ? <a routerLink="/connexion" class="text-danger">Connexion</a></small>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <body class="bg-maiga">
 
@@ -245,4 +364,4 @@
         
 
 
-</body>
+</body> -->

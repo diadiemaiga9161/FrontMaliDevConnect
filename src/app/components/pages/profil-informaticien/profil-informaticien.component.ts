@@ -94,6 +94,20 @@ export class profilInformaticienComponent implements OnInit {
       console.log( this.rdv);
     });
 
+    this.rdvService.AfficherRdvParRecuParUserConnecters().subscribe(data => {
+      this.rdv = data;
+      console.log(this.rdv);
+      this.afficherNotifications(this.rdv);  // Appeler la fonction pour afficher les notifications
+
+    });
+    
+
+  // // Méthode pour afficher une notification
+  // this.rdvService.afficherNotification(rdv: any) {
+  //   // Ici, vous pouvez personnaliser la façon dont vous voulez afficher la notification
+  //   // Vous pouvez utiliser une librairie comme Toastr, Angular Material Snackbar, etc.
+  //   alert(`Nouveau rendez-vous reçu : ${this.rdv.objet} le ${this.rdv.date} à ${this.rdv.heure}`);
+  // }
       // AFFICHER LA LISTE DES RDV ENVOYER 
       this.rdvService.AfficherRdvParEnvoyerParUserConnecterNew().subscribe(data => {
         this.rdv = data;
@@ -142,6 +156,9 @@ export class profilInformaticienComponent implements OnInit {
       this.projet = data?.projetInformatiques;
       console.log(this.informaticien);
     });
+  }
+  afficherNotifications(rdv: any) {
+    throw new Error('Method not implemented.');
   }
 
   handleAuthorImageError(event: any) {
@@ -446,3 +463,7 @@ goToDettailRdv(id: number | undefined): Promise<boolean> {
 }
 
 }
+function AfficherRdvParRecuParUserConnecter() {
+  throw new Error('Function not implemented.');
+}
+

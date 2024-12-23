@@ -98,6 +98,11 @@ export class UserService {
     const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
     return this.http.get(`${URL_BASE}connaissance/afficher`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
   }
+ // Méthode pour afficher la liste des commentaires  
+ AfficherListeCommentaire(): Observable<any> {
+     return this.http.get(`${URL_BASE}commentaires/afficher`);  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
+   }
+ 
 
   listeUtilisateur(): Observable<any> {
     return this.http.get(`${URL_BASE}user/afficher`);

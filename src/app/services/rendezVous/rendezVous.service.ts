@@ -36,6 +36,7 @@ const URL_BASE: string = environment.Url_BASE;
   providedIn: 'root'
 })
 export class RdvService {
+  [x: string]: any;
 
   private accessToken!: string;
 
@@ -122,4 +123,11 @@ export class RdvService {
    AfficherRdvParId(id: number): Observable<any> {
     return this.http.get(`${URL_BASE}rdv/afficherparId/${id}`);
   }
+
+
+    // Méthode pour récupérer les rendez-vous non notifiés pour l'utilisateur connecté
+    AfficherRdvParRecuParUserConnecters(): Observable<any> {
+      const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
+      return this.http.get(`${URL_BASE}rdv/rdvNonNotifies`, { headers });
+    }
 }
