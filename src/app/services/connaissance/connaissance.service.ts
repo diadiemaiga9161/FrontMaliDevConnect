@@ -33,7 +33,7 @@ export class ConnaissanceService {
 
 // Méthode pour afficher la liste des connaissance  
 AfficherListeConnaissance(): Observable<any> {
-    return this.http.get(`${URL_BASE}connaissance/voir`);  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
+    return this.http.get(`${URL_BASE}connaissance/voirs`);  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
   }
 
   

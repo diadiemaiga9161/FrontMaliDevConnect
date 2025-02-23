@@ -189,7 +189,7 @@ export class CompleteComponent implements OnInit {
       console.log(data);
       console.log(this.informaticien.id);
     });
-    location.reload();
+    // location.reload();
 
   }
 }

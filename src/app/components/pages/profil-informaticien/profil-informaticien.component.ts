@@ -48,6 +48,7 @@ export class profilInformaticienComponent implements OnInit {
   datedebut: any;
   datefin: any;
   lieu: string;
+  biographie: string;
   description: string;
   selectedInformaticienId: string;
 
@@ -87,6 +88,12 @@ export class profilInformaticienComponent implements OnInit {
       this.specialite = data;
       console.log(this.specialite);
     });
+
+      // AFFICHER LA LISTE DES biographie
+      this.serviceUser.Afficherbiographie().subscribe(data => {
+        this.biographie = data;
+        console.log(this.biographie);
+      });
 
     // AFFICHER LA LISTE DES RDV
     this.rdvService.AfficherRdvParRecuParUserConnecter().subscribe(data => {
@@ -131,6 +138,12 @@ export class profilInformaticienComponent implements OnInit {
       console.log(this.experienceProfessionnelle);
     });
 
+      // AFFICHER LA LISTE DES biographie
+      this.serviceUser.Afficherbiographie().subscribe(data => {
+        this.biographie = data;
+        console.log(this.biographie);
+      });
+
      // AFFICHER LA LISTE DES RDV PAR ID
     //  this.projetService.AfficherListeProjetInformatique(this.projet.id ).subscribe(data => {
     //   this.rdv = data;
@@ -152,6 +165,7 @@ export class profilInformaticienComponent implements OnInit {
     });
     this.serviceUser.AfficherInformaticienParId(this.id).subscribe(data => {
       this.informaticien = data;
+      this.biographie  = data?.specialite;
       this.specialite = data?.specialite;
       this.projet = data?.projetInformatiques;
       console.log(this.informaticien);

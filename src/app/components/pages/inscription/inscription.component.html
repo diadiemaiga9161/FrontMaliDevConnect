@@ -4,7 +4,7 @@
 
 <body class="bg-maiga">
 
-    <div class="container" style="padding: 5px;">
+    <div class="container" style="padding: 5px;">   
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card border-0 px-4 py-2 mt-3">
@@ -70,10 +70,15 @@
 
                             <div class="col-md-6 mb-3" *ngIf="currentUser != 'Choisir'">
                                 <label>Spécialité <span class="oblig">*</span></label>
-                                <select name="specialite" class="form-control" [(ngModel)]="form.specialite" required>
+                                <select name="specialite" class="form-control" [(ngModel)]="form.specialite" (change)="onSpecialiteChange($event)" required> 
                                     <option>Choisir</option>
                                     <option *ngFor="let Specialite of specialite" [value]="Specialite.id">{{ Specialite.specialite }}</option>
                                 </select>
+
+                                <!-- <select name="specialite" class="form-control" [(ngModel)]="form.specialite" required>
+                                    <option>Choisir</option>
+                                    <option *ngFor="let Specialite of specialite" [value]="Specialite.id">{{ Specialite.specialite }}</option>
+                                </select> -->
                             </div>
 
                             <div class="col-md-6 mb-3">

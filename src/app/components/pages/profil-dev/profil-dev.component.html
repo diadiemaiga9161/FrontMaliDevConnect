@@ -39,21 +39,39 @@
                                     <h5 style="font-size: 12px;" class="text-muted mb-0">{{specialite?.specialite}}</h5>
                                     <br>
                                     <div class="text-left" style="margin-bottom: 10px;">
-                                        <input type="radio" id="star5" name="rating" value="5" />
-                                        <label for="star5" style="font-size: 25px;" class="fa fa-star mg"></label>
-
-                                        <input type="radio" id="star4" name="rating" value="4" />
-                                        <label for="star4" style="font-size: 25px;" class="fa fa-star mg"></label>
-
-                                        <input type="radio" id="star3" name="rating" value="3" />
-                                        <label for="star3" style="font-size: 25px;" class="fa fa-star mg"></label>
-
-                                        <input type="radio" id="star2" name="rating" value="2" />
-                                        <label for="star2" style="font-size: 25px;" class="fa fa-star mg"></label>
-
-                                        <input type="radio" id="star1" name="rating" value="1" />
-                                        <label for="star1" style="font-size: 25px;" class="fa fa-star mg"></label>
+                                        <label for="star5"
+                                               style="font-size: 25px;"
+                                               class="fa fa-star mg"
+                                               [class.red-star]="commentaire.length >= 10"
+                                               [class.grey-star]="commentaire.length < 10"></label>
+                                        
+                                        <label for="star4"
+                                               style="font-size: 25px;"
+                                               class="fa fa-star mg"
+                                               [class.red-star]="commentaire.length >= 8"
+                                               [class.grey-star]="commentaire.length < 8"></label>
+                                        
+                                        <label for="star3"
+                                               style="font-size: 25px;"
+                                               class="fa fa-star mg"
+                                               [class.red-star]="commentaire.length >= 6"
+                                               [class.grey-star]="commentaire.length < 6"></label>
+                                        
+                                        <label for="star2"
+                                               style="font-size: 25px;"
+                                               class="fa fa-star mg"
+                                               [class.red-star]="commentaire.length >= 4"
+                                               [class.grey-star]="commentaire.length < 4"></label>
+                                        
+                                        <label for="star1"
+                                               style="font-size: 25px;"
+                                               class="fa fa-star mg"
+                                               [class.red-star]="commentaire.length >= 2"
+                                               [class.grey-star]="commentaire.length < 2"></label>
                                     </div>
+                                    
+                                    
+                                    
                                     <br>
 
                                 </div>
@@ -62,8 +80,10 @@
                                 <div class="ms-3">
                                     <div>
                                         <h4 class="card-title mb-2">Biographie</h4>
-                                        <p class="mb-0 text-muted">Je suis malien et je suis passionné par
-                                            l'informatique</p>
+                                        <p class="mb-0 text-muted"  *ngFor="let biographie of biographie ">
+                                               {{biographie?.biographie}}
+                                        </p>
+                                    
                                     </div>
                                     <div class="row my-4">
                                         <div class="col-md-12">
@@ -165,95 +185,65 @@
                                     <h4 class="card-title mb-4">Mes Commentaires</h4>
 
                                     <div class="container">
-                                       
-                                            <div  class="col-12">
-                                                <div class="inbox-message">
-                                                    <div >
-                                                        <ul   *ngFor="let commentaire of commentaire">
-                                                            <li>
-                                                                <a href="#">
-                                                                    <div class="message-avatar">
-                                                                        <img  src="{{generateImageUrl(commentaire?.userEvoyer?.utilisateurPhoto?.nom)}}"
-                                                                            alt="">
-                                                                    </div>
-                                                                    <div class="message-body">
-                                                                        <div class="message-body-heading">
-                                                                            <h5>{{commentaire?.userEvoyer?.prenom}} {{commentaire?.userEvoyer?.nom}}
-                                                                                <!-- <span class="unread">Unread</span> -->
-                                                                                </h5>
-                                                                                    <span>{{ commentaire?.userEvoyer.date | date: 'dd/MM/yyyy' }} à {{ commentaire?.userEvoyer.date | date: 'HH:mm' }}</span>
 
-                                                                        </div>
-                                                                        <p>{{commentaire?.commentaires}}</p>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-<!-- 
-                                                        <ul>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <div class="message-avatar">
-                                                                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                                            alt="">
-                                                                    </div>
-                                                                    <div class="message-body">
-                                                                        <div class="message-body-heading">
-                                                                            <h5>Daniel Dock <span
-                                                                                    class="unread">Unread</span></h5>
-                                                                            <span>22/12/2024</span>
-                                                                        </div>
-                                                                        <p>Hello, Lorem ipsum dolor sit amet,
-                                                                            consectetur adipiscing elit, sed do eiusmod
-                                                                            tempor incididunt ut labore et dolor....</p>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                        </ul> -->
-                                                    </div>
-                                                    <br>
-                                                    <br>
+                                        <div class="col-12">
+                                            <div class="inbox-message">
+                                                <div>
+                                                    <ul *ngFor="let commentaire of commentaire">
+                                                        <li>
+                                                          
+                                                                <div class="message-avatar">
+                                                                    <img src="{{generateImageUrl(commentaire?.userEvoyer?.utilisateurPhoto?.nom)}}"
+                                                                        alt="">
+                                                                </div>
+                                                                <div class="message-body">
+                                                                    <div class="message-body-heading">
+                                                                        <h5>{{commentaire?.userEvoyer?.prenom}}
+                                                                            {{commentaire?.userEvoyer?.nom}}
+                                                                            <!-- <span class="unread">Unread</span> -->
+                                                                        </h5>
+                                                                        <span>{{ commentaire?.userEvoyer.date | date:
+                                                                            'dd/MM/yyyy' }} à {{
+                                                                            commentaire?.userEvoyer.date | date: 'HH:mm'
+                                                                            }}</span>
 
-                                                    <!-- <form (ngSubmit)="AjouterCommentaire()" #commentForm="ngForm">
-                                                        <div>
-                                                          <label for="commentaire">Commentaire :</label>
-                                                          <textarea
-                                                            id="commentaire"
-                                                            name="commentaire"
-                                                            [(ngModel)]="CommentaireForm.commentaire"
-                                                            required
-                                                            placeholder="Écrivez votre commentaire ici"
-                                                            class="form-control"
-                                                          ></textarea>
-                                                        </div>                                                      
-                                                        <button type="submit" class="btn btn-primary" [disabled]="commentForm.invalid">
-                                                          Envoyer le commentaire
-                                                        </button>
-                                                      </form> -->
-                                                      
-                                                      <form (ngSubmit)="AjouterCommentaire()" #commentaireForm="ngForm">
-                                                        <div class="form-group">
-                                                          <label for="commentaires">Commentaire :</label>
-                                                          <textarea
-                                                            class="form-control"
-                                                            id="commentaires"
-                                                            placeholder="Votre commentaire"
-                                                            name="commentaire"
-                                                            [(ngModel)]="CommentaireForm.commentaires"
-                                                            style="height: 100px"
-                                                            required
-                                                          ></textarea>
-                                                        </div>
-                                                      
-                                                        <br />
-                                                      
-                                                        <button type="submit" class="btn btn-primary" [disabled]="commentaireForm.invalid">
-                                                          Envoyer
-                                                        </button>
-                                                      </form>
-                                                      
+                                                                    </div>
+                                                                    <p>{{commentaire?.commentaires}}</p>
+                                                                </div>
+                                                       
+                                                        </li>
+                                                    </ul>
                                                 </div>
+                                                <br>
+                                                <br>
+
+
+                                                <form (ngSubmit)="AjouterCommentaire()" #commentaireForm="ngForm">
+                                                    <div class="form-group">
+                                                      <label for="commentaires">Commentaire :</label>
+                                                      <textarea class="form-control" id="commentaires"
+                                                                placeholder="Votre commentaire" name="commentaire"
+                                                                [(ngModel)]="CommentaireForm.commentaires"
+                                                                style="height: 100px" required></textarea>
+                                                    </div>
+                                                  
+                                                    <!-- Affiche une alerte si c'est le propre profil -->
+                                                    <div *ngIf="isSelfComment()" class="alert alert-warning mt-2">
+                                                      Vous ne pouvez pas mettre de commentaire sur votre propre profil.
+                                                    </div>
+                                                  
+                                                    <br />
+                                                  
+                                                    <button type="submit" class="btn btn-primary"
+                                                            [disabled]="commentaireForm.invalid || isSelfComment()">
+                                                      Envoyer
+                                                    </button>
+                                                  </form>
+                                                  
+                                                  
+
                                             </div>
+                                        </div>
 
                                     </div>
                                 </div>

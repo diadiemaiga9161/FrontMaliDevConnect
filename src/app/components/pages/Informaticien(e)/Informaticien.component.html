@@ -58,8 +58,30 @@
                 </div>
             </div>
             <div class="col-lg-9 col-md-12 col-sm-12 row ">
+<!-- Skeleton Loader affiché pendant le chargement -->
+<div *ngIf="isLoading" class="skeleton-loader-container">
+  <div class="skeleton-loader" *ngFor="let i of [1, 2, 3, 4, 5, 6]"></div>
+</div>
 
-                <div class="col-lg-4 col-md-5 col-sm-5"
+<!-- Liste des informaticiens -->
+<div *ngIf="!isLoading" class="informaticien-container">
+  <div class="single-protfolio-box"
+       *ngFor="let Informaticien of informaticien | filter:searchTextSpecialite | filter:searchTextConnaissance | paginate:{itemsPerPage: 6, currentPage: p}">
+    <div class="image">
+      <a class="crd" (click)="goToDettailInformaticien(Informaticien?.id)">
+        <img class="imagesize" [src]="generateImageUrl(Informaticien?.utilisateurPhoto?.nom)" alt="Admin"
+             (error)="handleAuthorImageError($event)">
+      </a>
+    </div>
+    <div class="content">
+      <h5>{{ Informaticien?.prenom }} {{ Informaticien?.nom }}</h5>
+      <span>{{ Informaticien?.specialite?.specialite }}</span>
+      <a (click)="goToDettailInformaticien(Informaticien?.id)" class="crd link-btn"></a>
+    </div>
+  </div>
+</div>
+
+                <!-- <div class="col-lg-4 col-md-5 col-sm-5"
                     *ngFor="let Informaticien of informaticien | filter:searchTextSpecialite | filter:searchTextConnaissance | paginate:{itemsPerPage :6, currentPage:p}">
                     <div class="single-protfolio-box ">
                         <div class="image">
@@ -73,7 +95,7 @@
                             <a (click)="goToDettailInformaticien(Informaticien?.id)" class="crd link-btn"></a>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="col-lg-12 col-md-12">
                     <div class="pagination-area">
                         <pagination-controls *ngIf="informaticien && informaticien.length > 0" (pageChange)="p = $event"

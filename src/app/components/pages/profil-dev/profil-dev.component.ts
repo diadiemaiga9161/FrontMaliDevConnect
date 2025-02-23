@@ -33,6 +33,7 @@ export class ProfilDevComponent implements OnInit {
   typerdv: any;
   typeConnaissances: any;
   connaissances: any;
+  biographie: any;
   connaissance: any;
   profileImageUrl: string = ''; // Variable pour stocker le chemin de l'image de profil
 User: any;
@@ -52,7 +53,7 @@ errorMessage: any = '';
     }
       // IMAGE PAR DEFAUT USER
    handleAuthorImageError(event: any) {
-    event.target.src = 'assets/img/team/tiec.jpg';
+    event.target.src = 'assets/img/team/amadou.jpg';
   }
 
   
@@ -84,6 +85,13 @@ errorMessage: any = '';
       console.log(this.typerdv);
     });
 
+    
+      // AFFICHER LA LISTE DES biographie
+      this.serviceUser.Afficherbiographie().subscribe(data => {
+        this.biographie = data;
+        console.log(this.biographie);
+      });
+
     // this.experienceService.AfficherListEexperienceProfessionnelle().subscribe(data => {
     //   this.type = data;
     //   console.log(this.type);
@@ -107,8 +115,9 @@ errorMessage: any = '';
       this.informaticien = data;
       this.specialite = data?.specialite;
       this.projet = data?.projetInformatiques;
+      this.biographie = data?.biographie;
       this.commentaire = data?.commentaires;
-      this.connaissances = data?.connaissance;
+      this.connaissance = data?.connaissances;
       this.experienceProfessionnelle = this.informaticien.experienceProfessionnelles;
       console.log(this.informaticien);
     });
@@ -121,6 +130,8 @@ errorMessage: any = '';
     commentaires: '',
     userRecu: ''
   };
+
+  
 
   RdvForm: any = {
     objet: null,
@@ -307,16 +318,33 @@ errorMessage: any = '';
   //     this.isError = true;
   //   }
   // }
+
+  // isSelfComment(): boolean {
+  //   const user = this.storageService.getUser();
+  //   return user && user.id === this.route.snapshot.params["id"];
+  // }
+  
   
   AjouterCommentaire(): void {
-    this.id = this.route.snapshot.params["id"];
     const user = this.storageService.getUser();
+    const idProfil = this.route.snapshot.params["id"];
   
+    // Vérifiez si l'utilisateur essaie de commenter son propre profil
+    if (user && user.id === idProfil) {
+      Swal.fire({
+        title: 'Action non autorisée',
+        text: 'Vous ne pouvez pas mettre de commentaire sur votre propre profil.',
+        icon: 'warning',
+        confirmButtonColor: '#0857b5',
+        heightAuto: false,
+      });
+      return; // Stoppe l'exécution ici
+    }
+  
+    // Continuez avec l'envoi du commentaire si les IDs ne correspondent pas
     if (user && user.token) {
-      // Définissez le token dans le service serviceUser
       this.serviceUser.setAccessToken(user.token);
   
-      // Boîte de confirmation avant d'envoyer le commentaire
       Swal.fire({
         title: 'Êtes-vous sûr ?',
         text: "Voulez-vous vraiment envoyer ce commentaire ?",
@@ -327,14 +355,12 @@ errorMessage: any = '';
         confirmButtonText: 'Oui, envoyer',
         cancelButtonText: 'Annuler',
         heightAuto: false,
-        reverseButtons: true, // Positionne le bouton Annuler à gauche
+        reverseButtons: true,
       }).then((result) => {
         if (result.isConfirmed) {
-          // Si l'utilisateur confirme, envoyez le commentaire
-          this.commentaireService.Commentaire(this.CommentaireForm.commentaires, this.id).subscribe({
+          this.commentaireService.Commentaire(this.CommentaireForm.commentaires, idProfil).subscribe({
             next: (data) => {
               if (data.status) {
-                let timerInterval = 2000;
                 Swal.fire({
                   position: 'center',
                   text: data.message,
@@ -342,8 +368,7 @@ errorMessage: any = '';
                   icon: 'success',
                   heightAuto: false,
                   showConfirmButton: false,
-                  confirmButtonColor: '#0857b5',
-                  timer: timerInterval,
+                  timer: 2000,
                   timerProgressBar: true,
                 }).then(() => {
                   this.CommentaireForm.commentaires = "";
@@ -362,10 +387,9 @@ errorMessage: any = '';
               }
             },
             error: (err) => {
-              this.errorMessage = err.error.message || 'Une erreur s\'est produite.';
               Swal.fire({
                 position: 'center',
-                text: this.errorMessage,
+                text: err.error.message || 'Une erreur s\'est produite.',
                 title: 'Erreur',
                 icon: 'error',
                 heightAuto: false,
@@ -378,7 +402,6 @@ errorMessage: any = '';
         }
       });
     } else {
-      // Si le token est manquant
       Swal.fire({
         title: 'Erreur',
         text: 'Votre session a expiré ou vous n\'êtes pas connecté.',
@@ -388,6 +411,14 @@ errorMessage: any = '';
       });
     }
   }
+  
+  isSelfComment(): boolean {
+    const user = this.storageService.getUser();
+    const idProfil = this.route.snapshot.params["id"];
+    return user && user.id === idProfil;
+  }
+  
+  
   
   
   // AjouterCommentaire(): void {

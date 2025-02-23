@@ -745,11 +745,11 @@ input[type="radio"]:checked ~ label {
 // label:hover ~ label {
 //   color: rgb(252, 31, 31);
 // }
-.mg:hover,
-.mg:hover ~ label {
-  color: rgb(252, 31, 31);
-  font-size: 2em;
-}
+// .mg:hover,
+// .mg:hover ~ label {
+//   color: rgb(252, 31, 31);
+//   font-size: 2em;
+// }
 
 
 
@@ -919,6 +919,14 @@ a:hover{
 
 
 
+
+.red-star {
+  color: rgb(0, 81, 255); /* Couleur rouge pour les étoiles actives */
+}
+
+.grey-star {
+  color: grey; /* Couleur grise pour les étoiles inactives */
+}
 
 
 

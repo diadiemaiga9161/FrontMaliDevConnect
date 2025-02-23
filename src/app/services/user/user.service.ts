@@ -108,6 +108,10 @@ export class UserService {
     return this.http.get(`${URL_BASE}user/afficher`);
   }
 
+  Afficherbiographie(): Observable<any> {
+    return this.http.get(`${URL_BASE}biographie/afficher`);
+  }
+
 
 
   // Méthode pour afficher un informaticien en fonction de son ID

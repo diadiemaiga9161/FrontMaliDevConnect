@@ -15,19 +15,21 @@ const URL_PHOTO: string = environment.Url_PHOTO;
   styleUrls: ['./Informaticien.component.scss']
 })
 export class InformaticienComponent implements OnInit {
-
+  isLoading: boolean = true; // Loading state for the skeleton loader
+  informaticien: any[] = [];
+  specialite: any[] = [];
+  biographie: any[] = [];
+  connaissance: any[] = [];
+  experience: any[] = [];
+  searchTextSpecialite: string = '';
+  searchTextConnaissance: string = '';
+  p: number = 1;
   User: any;
-  informaticien: any;
-  p:number=1
-  searchTextSpecialite: any;
-  searchTextConnaissance: any;
+
   searchText : any;
-  specialite: any;
   Experience: any;
   profileImageUrl: string = ''; // Variable pour stocker le chemin de l'image de profil
-  connaissance: any;
   experienceService: any;
-  experience: any;
   http: any;
 
 
@@ -71,6 +73,12 @@ export class InformaticienComponent implements OnInit {
   
 
   ngOnInit(): void {
+
+    this.isLoading = true;
+// Once all data is loaded, set isLoading to false
+setTimeout(() => {
+  this.isLoading = false;
+}, 2000);
     // AFFICHER LA LISTE DES INFORMATICIENS
     this.serviceUser.AfficherListeInformaticien().subscribe(data => {
       this.informaticien = data;
@@ -86,6 +94,12 @@ export class InformaticienComponent implements OnInit {
       this.connaissance = data;
       console.log(this.connaissance);
     });
+
+      // AFFICHER LA LISTE DES biographie
+      this.serviceUser.Afficherbiographie().subscribe(data => {
+        this.biographie = data;
+        console.log(this.biographie);
+      });
     this.experienceService.AfficherListEexperienceProfessionnelle().subscribe(data => {
       this.experience = data;
       console.log(this.experience);

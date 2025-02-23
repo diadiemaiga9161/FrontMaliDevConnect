@@ -35,7 +35,7 @@ export class ExperienceService {
 
   // Méthode d'ajouter des experience
   ajouterexperienceProfessionnelle(experience: any): Observable<any> {
-    return this.http.post(`${URL_BASE}experienceProfessionnelle/ajouter`, experience);
+    return this.http.post(`${URL_BASE}amadou/ajouter`, experience);
   }
   
 // Méthode pour effectuer l'ajout 
@@ -49,19 +49,19 @@ Ajouterexperience(titre: any, datedebut: any, datefin: any, lieux: any, id_utili
     "id_utilisateur" : id_utilisateur
   };
   return this.http.post(
-    URL_BASE + 'experienceProfessionnelle/ajouter',data, { headers }
+    URL_BASE + 'amadou/ajouter',data, { headers }
   );
 }
 
   // Méthode pour afficher la liste des experience
   AfficherListEexperienceProfessionnelle(): Observable<any> {
     const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
-    return this.http.get(`${URL_BASE}experienceProfessionnelle/afficher`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
+    return this.http.get(`${URL_BASE}amadou/afficher`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
   }
 
    // Méthode pour afficher la liste des experience
    VoirexperienceProfessionnelle(): Observable<any> {
     const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
-    return this.http.get(`${URL_BASE}experienceProfessionnelle/voir`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
+    return this.http.get(`${URL_BASE}amadou/voir`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
   }
 }

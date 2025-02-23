@@ -902,69 +902,88 @@
 
 
 
-.ribbon2 {
-    width: 60px;
-    padding: 10px 0;
-    position: absolute;
-    top: -6px;
-    left: 25px;
+.informaticien-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Toujours 3 colonnes */
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  /* Ajustement des cartes */
+  .single-protfolio-box {
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    position: relative;
+  }
+  
+  /* Images */
+  .image img {
+    width: 100%;
+    border-radius: 5px;
+  }
+  
+  /* Contenu */
+  .content {
     text-align: center;
-    border-top-left-radius: 3px;
-    background: #F47530;
-   }
-   .ribbon2:before {
-    height: 0;
-    width: 0;
-    right: -5.5px;
-    top: 0.1px;
-    border-bottom: 6px solid #8D5A20;
-    border-right: 6px solid transparent;
-   }
-   .ribbon2:before, .ribbon2:after {
-     content: "";
-     position: absolute;
-   }
-   .ribbon2:after {
-     height: 0;
-     width: 0;
-     bottom: -29.5px;
-     left: 0;
-     border-left: 30px solid #F47530;
-     border-right: 30px solid #F47530;
-     border-bottom: 30px solid transparent;
-   }
-
-
-
-   .ribbon4 {
-    position: absolute;
-    top: 15px;
-    padding: 5px 8px;
-    color: #ffffff;
-    background: #0330facb;
-    box-shadow: -1px 2px 3px rgba(0,0,0,.3);
   }
-  .ribbon4:before, .ribbon4:after {
-    content: "";
-    position: absolute;
+  
+  .content h5 {
+    font-size: 18px;
+    margin-top: 10px;
   }
-  .ribbon4:before {
-    width: 7px;
-    height: 100%;
-    top: 0;
-    left: -6.5px;
-    padding: 0 0 7px;
-    background: inherit;
-    border-radius: 5px 0 0 5px;
+  
+  .content span {
+    font-size: 14px;
+    color: #777;
   }
-  .ribbon4:after {
-    width: 5px;
-    height: 5px;
-    bottom: -5px;
-    left: -4.5px;
-    background: lightblue;
-    border-radius: 5px 0 0 5px;
-   }
   
+  /* Skeleton loader ajusté pour 3 colonnes fixes */
+  .skeleton-loader-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colonnes */
+    gap: 20px;
+  }
   
+  .skeleton-loader {
+    height: 200px;
+    background: linear-gradient(90deg, #eee 25%, #ddd 50%, #eee 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+    border-radius: 10px;
+  }
   
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  
+  /* RESPONSIVE : Garder 3 colonnes sauf si écran très petit */
+  @media (max-width: 992px) { /* Tablettes */
+    .informaticien-container {
+      grid-template-columns: repeat(2, 1fr); /* 2 colonnes sur tablette */
+    }
+  }
+  
+  @media (max-width: 600px) { /* Mobiles */
+    .informaticien-container {
+      grid-template-columns: repeat(1, 1fr); /* 1 colonne sur mobile */
+    }
+  }
+  
+  /* Cartes des informaticiens */
+.single-protfolio-box {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 5px; /* Réduction de l'espace interne */
+    position: relative;
+    width: 200%; /* S'assurer que la carte occupe l'espace défini */
+    max-width: 298px; /* Réduction de la largeur des cartes */
+  }

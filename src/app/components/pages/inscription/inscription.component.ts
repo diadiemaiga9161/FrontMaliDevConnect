@@ -22,7 +22,7 @@ export class InscriptionComponent implements OnInit {
   public currentUser = 'Choisir';
   typeUser: any[] = [
     { nom: 'CLIENT', value: 'client' },
-    { nom: 'INFORMATICIEN', value: 'informaticien' }
+    { nom: 'PROFESSIONNEL', value: 'informaticien' }
   ];
 
   onChange(typeUser: any) {
@@ -35,6 +35,12 @@ export class InscriptionComponent implements OnInit {
       this.currentUser = 'Choisir';
     }
   }
+
+  onSpecialiteChange(event: any) {
+    console.log("Spécialité sélectionnée:", event.target.value);
+    this.form.specialite = event.target.value;
+  }
+  
   
   genre: any[] = [
     { nom: 'Femme', value: 'Femme' },
@@ -106,8 +112,9 @@ export class InscriptionComponent implements OnInit {
       },
       heightAuto: false
     })
-    const { nom, prenom, telephone, email, adresse, genre, password, role } = this.form;
+    const { nom, prenom, telephone,adresse,specialite,genre,email,password, role} = this.form;
     console.log(this.form)
+    console.log("Données envoyées:", { nom, prenom, telephone, email, adresse, specialite, genre, password, role });
 
     swalWithBootstrapButtons.fire({
       text: "Etes-vous sûre de creer un compte ?",
@@ -118,7 +125,7 @@ export class InscriptionComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this.authService.inscription(nom, prenom, telephone, adresse, genre, email, password, role).subscribe({
+        this.authService.inscription(nom, prenom, telephone,adresse,specialite,genre,email,password, role).subscribe({
           next: data => {
             this.isSuccessful = true;
             this.isSignUpFailed = false;
@@ -183,12 +190,13 @@ export class InscriptionComponent implements OnInit {
       this.form.nom = '',
         this.form.prenom = '',
         this.form.telephone = '',
-        this.form.email = '',
-        this.form.genre = "Choisir",
         this.form.adresse = '',
-        this.form.password = '',
+        this.form.specialite = "Choisir",
+        this.form.genre = "Choisir",
+        this.form.email = '',
         this.form.confirmPassword = '',
         this.form.roles = "Choisir"
+
     })
   }
 

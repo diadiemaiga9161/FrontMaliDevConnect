@@ -56,6 +56,7 @@ export class AuthService {
     prenom: string,
     telephone: string,
     adresse: string,
+    specialite:string,
     genre: string,
     email: string,
     password: string,
@@ -66,6 +67,7 @@ export class AuthService {
     console.log(email);
     console.log(telephone);
     console.log(adresse);
+    console.log(specialite);
     console.log(genre);
     console.log(password);
     console.log(roles);
@@ -77,6 +79,7 @@ export class AuthService {
         prenom,
         telephone,
         adresse,
+        specialite,
         genre,
         email,
         password,
