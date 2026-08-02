@@ -12,6 +12,7 @@ import { CommentaireService } from 'src/app/services/commentaire/commentaire.ser
 import { ProjetService } from 'src/app/services/projet/projet.service';
 import { FavorisService } from 'src/app/services/favoris/favoris.service';
 import { ContactService } from 'src/app/services/contact/contact.service';
+import { WebsocketService } from 'src/app/services/websocket.service';
 
 const URL_PHOTO: string = environment.Url_PHOTO;
 
@@ -114,8 +115,13 @@ export class ProfilDevComponent implements OnInit {
     private projetService: ProjetService,
     private favorisService: FavorisService,
     private contactService: ContactService,
+    private wsService: WebsocketService,
     public router: Router,
   ) { }
+
+  isOnline(): boolean {
+    return this.wsService.estEnLigne(this.professionnel?.email);
+  }
 
   form: any = {
     commentaires: null,

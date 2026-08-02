@@ -36,6 +36,7 @@
                                 <img [src]="generateImageUrl(professionnel?.utilisateurPhoto?.nom)"
                                      (error)="handleAuthorImageError($event)"
                                      alt="{{professionnel?.prenom}} {{professionnel?.nom}}">
+                                <span class="presence-dot" *ngIf="isOnline()" title="En ligne"></span>
                             </div>
                             <!-- Actions : contact, favoris, partage -->
                             <div class="d-flex flex-wrap gap-2 ms-auto pb-1" *ngIf="isLoggedIn && !isOwnProfile">

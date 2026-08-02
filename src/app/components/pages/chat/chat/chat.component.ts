@@ -122,6 +122,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     return `${user?.prenom || ''} ${user?.nom || ''}`.trim() || user?.email || 'Contact';
   }
 
+  isOnline(user: any): boolean {
+    return this.wsService.estEnLigne(user?.email);
+  }
+
   getMessageDate(message: any): Date | null {
     return message?.dateEnvoi || message?.dateCreation || null;
   }

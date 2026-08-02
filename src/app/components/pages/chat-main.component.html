@@ -72,6 +72,7 @@
                (error)="handleImageError($event)"
                [alt]="(conv.contact || conv.user || conv.otherUser)?.prenom">
           <span class="online-dot" *ngIf="(conv.nonLus || conv.unreadCount) > 0"></span>
+          <span class="presence-dot" *ngIf="isOnline((conv.contact || conv.user || conv.otherUser)?.email)" title="En ligne"></span>
         </div>
 
         <div class="conv-body">
@@ -121,11 +122,11 @@
           <img [src]="generateImageUrl(otherUser?.utilisateurPhoto?.nom)"
                (error)="handleImageError($event)"
                [alt]="otherUser?.prenom">
-          <span class="online-dot active"></span>
+          <span class="presence-dot" *ngIf="isOnline(otherUser?.email)" title="En ligne"></span>
         </div>
         <div class="header-info">
           <strong>{{otherUser?.prenom}} {{otherUser?.nom}}</strong>
-          <span>{{otherUser?.specialite?.specialite || 'Professionnel'}}</span>
+          <span>{{ isOnline(otherUser?.email) ? 'En ligne' : (otherUser?.specialite?.specialite || 'Professionnel') }}</span>
         </div>
       </div>
 

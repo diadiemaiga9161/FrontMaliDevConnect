@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Client, Message } from '@stomp/stompjs';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { StorageService } from './storage/storage.service';
 import { environment } from 'src/environments/environment';
+
+const URL_BASE: string = environment.Url_BASE;
 
 function resolveWsUrl(): string {
   if (environment.Url_WS) return environment.Url_WS;
@@ -17,8 +20,9 @@ export class WebsocketService {
   private isConnected = new BehaviorSubject<boolean>(false);
   private messagesPrives = new Subject<any>();
   private notifications = new Subject<any>();
+  private utilisateursEnLigne = new BehaviorSubject<Set<string>>(new Set());
 
-  constructor(private storageService: StorageService) {}
+  constructor(private storageService: StorageService, private http: HttpClient) {}
 
   connect(): Observable<boolean> {
     const user = this.storageService.getUser();
@@ -40,16 +44,29 @@ export class WebsocketService {
 
     this.stompClient.onConnect = () => {
       this.isConnected.next(true);
-      const email = user.email;
 
-      // Messages privés
-      this.stompClient?.subscribe(`/user/${email}/queue/messages`, (msg: Message) => {
+      // Messages privés — destination "/user/**" : Spring route automatiquement vers
+      // la session authentifiée courante, il ne faut PAS mettre l'email dans le chemin
+      // (sinon ça ne matche jamais ce que le serveur envoie via convertAndSendToUser).
+      this.stompClient?.subscribe(`/user/queue/messages`, (msg: Message) => {
         this.messagesPrives.next(JSON.parse(msg.body));
       });
 
       // Notifications
-      this.stompClient?.subscribe(`/user/${email}/queue/notifications`, (msg: Message) => {
+      this.stompClient?.subscribe(`/user/queue/notifications`, (msg: Message) => {
         this.notifications.next(JSON.parse(msg.body));
+      });
+
+      // Présence en ligne : snapshot initial (REST) + mises à jour en direct (WS)
+      this.http.get<string[]>(`${URL_BASE}presence/en-ligne`).subscribe({
+        next: (emails) => this.utilisateursEnLigne.next(new Set(emails)),
+        error: () => {}
+      });
+      this.stompClient?.subscribe(`/topic/presence`, (msg: Message) => {
+        const evt = JSON.parse(msg.body);
+        const current = new Set(this.utilisateursEnLigne.value);
+        if (evt.online) { current.add(evt.email); } else { current.delete(evt.email); }
+        this.utilisateursEnLigne.next(current);
       });
     };
 
@@ -90,5 +107,14 @@ export class WebsocketService {
 
   getConnectionStatus(): Observable<boolean> {
     return this.isConnected.asObservable();
+  }
+
+  // ========== PRÉSENCE EN LIGNE ==========
+  getUtilisateursEnLigne(): Observable<Set<string>> {
+    return this.utilisateursEnLigne.asObservable();
+  }
+
+  estEnLigne(email: string | undefined | null): boolean {
+    return !!email && this.utilisateursEnLigne.value.has(email);
   }
 }

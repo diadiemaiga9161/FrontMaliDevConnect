@@ -281,6 +281,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     event.target.src = 'assets/img/team/amadou.jpg';
   }
 
+  isOnline(email: string | undefined | null): boolean {
+    return this.webSocketService.estEnLigne(email);
+  }
+
   goToProfile(token: string, id?: number): void {
     if (token) {
       this.router.navigate(['/professionnel', token]);

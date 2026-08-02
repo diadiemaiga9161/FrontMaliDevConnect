@@ -354,6 +354,18 @@ $radius:     14px;
   border: 2px solid $white;
 }
 
+// Pastille verte de présence en ligne (distincte du badge "non lu" ci-dessus)
+.cm-presence-dot {
+  position: absolute;
+  bottom: 1px;
+  left: 1px;
+  width: 10px;
+  height: 10px;
+  background: #22c55e;
+  border-radius: 50%;
+  border: 2px solid $white;
+}
+
 .cm-conv-info {
   flex: 1;
   min-width: 0;

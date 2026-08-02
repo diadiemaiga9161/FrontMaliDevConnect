@@ -1157,6 +1157,25 @@
   flex-shrink: 0;
 }
 
+.pro-presence-wrap {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+  flex-shrink: 0;
+}
+
+.pro-presence-dot {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #22c55e;
+  border: 2px solid #fff;
+  z-index: 3;
+}
+
 .pro-list-info {
   flex: 1;
   min-width: 0;

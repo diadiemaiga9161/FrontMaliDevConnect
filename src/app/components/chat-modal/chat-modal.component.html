@@ -89,6 +89,7 @@
                  [alt]="(conv.contact || conv.user || conv.otherUser)?.prenom"
                  class="cm-avatar">
             <span class="cm-online-dot" *ngIf="(conv.nonLus || conv.unreadCount) > 0"></span>
+            <span class="cm-presence-dot" *ngIf="isOnline((conv.contact || conv.user || conv.otherUser)?.email)" title="En ligne"></span>
           </div>
           <div class="cm-conv-info">
             <div class="cm-conv-name-row">
@@ -122,13 +123,16 @@
           <button class="cm-icon-btn cm-back-btn" (click)="backToList()">
             <i class="fa fa-arrow-left"></i>
           </button>
-          <img [src]="generateImageUrl(otherUser?.utilisateurPhoto?.nom)"
-               (error)="handleImageError($event)"
-               [alt]="otherUser?.prenom"
-               class="cm-avatar">
+          <div class="cm-avatar-wrap">
+            <img [src]="generateImageUrl(otherUser?.utilisateurPhoto?.nom)"
+                 (error)="handleImageError($event)"
+                 [alt]="otherUser?.prenom"
+                 class="cm-avatar">
+            <span class="cm-presence-dot" *ngIf="isOnline(otherUser?.email)" title="En ligne"></span>
+          </div>
           <div class="cm-chat-header-info">
             <strong>{{ otherUser?.prenom }} {{ otherUser?.nom }}</strong>
-            <span>{{ otherUser?.specialite?.specialite || 'Professionnel' }}</span>
+            <span>{{ isOnline(otherUser?.email) ? 'En ligne' : (otherUser?.specialite?.specialite || 'Professionnel') }}</span>
           </div>
           <span class="cm-lock-badge" title="Chiffrement E2E">
             <i class="fa fa-lock"></i>

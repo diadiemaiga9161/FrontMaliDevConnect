@@ -77,12 +77,13 @@ export class CompleteComponent implements OnInit {
     photo: null,
   };
 
-  formData = {
+  formData: any = {
     titre: '',
     description: '',
     typeProjet: '',
     lienProjet: '',
     photo: null,
+    photosSuppl: null,
   };
 
   form2: any = {
@@ -165,16 +166,23 @@ export class CompleteComponent implements OnInit {
   } 
 
   onSubmit() {
-    console.log(this.formData);
-    
-    this.projetService.ajouter(this.formData)
+    const data = new FormData();
+    data.append('titre', this.formData.titre);
+    data.append('description', this.formData.description || '');
+    if (this.formData.lienProjet) { data.append('lienProjet', this.formData.lienProjet); }
+    data.append('typeProjet', this.formData.typeProjet);
+    if (this.formData.photo) { data.append('photos', this.formData.photo); }
+    if (this.formData.photosSuppl) {
+      Array.from(this.formData.photosSuppl as FileList).forEach((f: File) => data.append('photos', f));
+    }
+
+    this.projetService.ajouterProjet(data)
       .subscribe(response => {
         console.log('Response:', response);
+        location.reload();
       }, error => {
         console.error('Error:', error);
       });
-      location.reload();
-
   }
 
   onFileSelected(event: any) {
@@ -182,7 +190,11 @@ export class CompleteComponent implements OnInit {
     if (file) {
         this.formData.photo = file;
     }
-}
+  }
+
+  onPhotosSupplChange(event: any) {
+    this.formData.photosSuppl = event.target.files;
+  }
   submitForm2() {
     this.connaissanceService.Ajouter(this.form2.nom, this.form2.typeConnaissances).subscribe((data) => {
       console.log(data);

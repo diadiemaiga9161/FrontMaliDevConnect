@@ -8,6 +8,7 @@ import { RechercheService } from 'src/app/services/recherche/recherche.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { FavorisService } from 'src/app/services/favoris/favoris.service';
 import { ContactService } from 'src/app/services/contact/contact.service';
+import { WebsocketService } from 'src/app/services/websocket.service';
 import Swal from 'sweetalert2';
 
 const URL_PHOTO: string = environment.Url_PHOTO;
@@ -67,6 +68,7 @@ export class ProfessionnelComponent implements OnInit {
     private storageService: StorageService,
     private favorisService: FavorisService,
     private contactService: ContactService,
+    private wsService: WebsocketService,
     public router: Router,
   ) { }
 
@@ -177,6 +179,10 @@ export class ProfessionnelComponent implements OnInit {
 
   isFavori(id: number): boolean {
     return this.favoritesList.includes(id);
+  }
+
+  isOnline(pro: any): boolean {
+    return this.wsService.estEnLigne(pro?.email);
   }
 
   toggleFavori(pro: any, event: Event): void {

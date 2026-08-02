@@ -279,6 +279,18 @@ $transition: 0.15s ease;
 
     &.active { background: #42b883; }
   }
+
+  // Pastille de présence en ligne réelle (distincte de .online-dot qui sert au badge "non lu")
+  .presence-dot {
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #22c55e;
+    border: 2px solid white;
+  }
 }
 
 // ─── Bouton scroll bas ────────────────────────────────

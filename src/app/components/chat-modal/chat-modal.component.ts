@@ -74,13 +74,14 @@ export class ChatModalComponent implements OnInit, OnDestroy, AfterViewChecked {
     const url = this.router.url;
     this.isHiddenRoute = this.hiddenRoutes.some(r => url.startsWith(r));
 
+    // Connexion WebSocket dès que l'utilisateur est connecté (pas seulement à
+    // l'ouverture du widget) pour que les messages/notifications arrivent en instantané.
+    if (this.isLoggedIn) { this.connectWS(); }
+
     this.chatModalService.open$.pipe(takeUntil(this.destroy$)).subscribe((open) => {
       this.isOpen = open;
-      if (open && this.isLoggedIn) {
-        if (this.conversations.length === 0) {
-          this.loadConversations();
-          this.connectWS();
-        }
+      if (open && this.isLoggedIn && this.conversations.length === 0) {
+        this.loadConversations();
       }
     });
 
@@ -92,11 +93,16 @@ export class ChatModalComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     this.storageService.userChanged$.pipe(takeUntil(this.destroy$)).subscribe(user => {
       this.currentUser = user;
-      if (!user) { this.reset(); }
+      if (!user) { this.reset(); this.wsConnected = false; }
+      else if (!this.wsConnected) { this.connectWS(); }
     });
   }
 
+  private wsConnected = false;
+
   private connectWS(): void {
+    if (this.wsConnected) return;
+    this.wsConnected = true;
     this.wsService.connect().pipe(takeUntil(this.destroy$)).subscribe();
     this.wsService.getMessagesPrives().pipe(takeUntil(this.destroy$)).subscribe({
       next: (message: any) => {
@@ -108,6 +114,11 @@ export class ChatModalComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.loadConversations();
       }
     });
+  }
+
+  // ========== PRÉSENCE EN LIGNE ==========
+  isOnline(email: string | undefined | null): boolean {
+    return this.wsService.estEnLigne(email);
   }
 
   loadConversations(): void {
