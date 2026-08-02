@@ -35,9 +35,20 @@ export class SpecialiteService {
     });
   }
 
-  // Méthode pour afficher la liste des spécialités
   AfficherListeSPecialite(): Observable<any> {
-    const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
-    return this.http.get(`${URL_BASE}specialite/afficher`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
+    const headers = this.getHeaders();
+    return this.http.get(`${URL_BASE}specialite/afficher`, { headers });
+  }
+
+  ajouterSpecialite(data: any): Observable<any> {
+    return this.http.post(`${URL_BASE}specialite/ajouter`, data, { headers: this.getHeaders() });
+  }
+
+  modifierSpecialite(id: number, data: any): Observable<any> {
+    return this.http.put(`${URL_BASE}specialite/modifier/${id}`, data, { headers: this.getHeaders() });
+  }
+
+  supprimerSpecialite(id: number): Observable<any> {
+    return this.http.delete(`${URL_BASE}specialite/supprimer/${id}`, { headers: this.getHeaders() });
   }
 }

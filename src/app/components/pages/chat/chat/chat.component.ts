@@ -1,101 +1,136 @@
-import { Component, OnInit } from '@angular/core';
-import { ChatUsers } from 'src/app/components/shared/model/chat.model';
-import { ChatService } from 'src/app/components/shared/services/chat.service';
-// import { ChatUsers } from '../../../../shared/model/chat.model';
-// import { ChatService } from '../shared/services/chat.service';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { MessagesChatService } from 'src/app/services/messages-chat/messages-chat.service';
+import { WebsocketService } from 'src/app/services/websocket.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
+import { environment } from 'src/environments/environment';
+
+const URL_PHOTO = environment.Url_PHOTO;
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit {
-  
-  public openTab : string = "call";
-  public users : ChatUsers[] = []
-  public searchUsers : ChatUsers[] = []
-  public chatUser : any;
-  public profile : any;
-  public chats : any;
-  public chatText : string;
-  public error : boolean = false;
-  public notFound: boolean = false;
-  public id : any;
-  public searchText : string;
-  public showEmojiPicker:boolean = false;
-  public emojies: any;
-  public mobileToggle: boolean = false
+export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
-  constructor(private chatService: ChatService) {   
-    this.chatService.getUsers().subscribe(users => { 
-      this.searchUsers = users
-      this.users = users
-    })
+  @ViewChild('messagesList') messagesListRef!: ElementRef;
+
+  conversations: any[] = [];
+  messagesActuels: any[] = [];
+  contactActuel: any = null;
+  nouveauMessage = '';
+  currentUser: any;
+  private wsSub?: Subscription;
+  private needsScroll = false;
+  showScrollBtn = false;
+
+  constructor(
+    private chatService: MessagesChatService,
+    private wsService: WebsocketService,
+    private storageService: StorageService
+  ) {}
+
+  ngOnInit(): void {
+    this.currentUser = this.storageService.getUser();
+    this.chargerConversations();
+
+    this.wsService.connect();
+    this.wsSub = this.wsService.getMessagesPrives().subscribe((msg) => {
+      if (this.contactActuel && (msg.expediteur?.id === this.contactActuel.id || msg.destinataire?.id === this.contactActuel.id)) {
+        this.messagesActuels.push(msg);
+        this.needsScroll = true;
+      }
+      this.chargerConversations();
+    });
   }
 
-  ngOnInit() {  
-    this.userChat(this.id)
-    this.getProfile()
-  }
-
-  public toggleEmojiPicker(){
-    this.showEmojiPicker=!this.showEmojiPicker;
-  }
-
-  addEmoji(event){
-    const text = `${event.emoji.native}`;
-    this.chatText = text;
-    this.showEmojiPicker = false;
-  }
-
-  public tabbed(val) {
-  	this.openTab = val
-  }
-
-  // Get user Profile
-  public getProfile() {
-    this.chatService.getCurrentUser().subscribe(userProfile => this.profile = userProfile)
-  }
-
-  // User Chat
-  public userChat(id:number =1){    
-    this.chatService.chatToUser(id).subscribe(chatUser => this.chatUser = chatUser)
-    this.chatService.getChatHistory(id).subscribe(chats => this.chats = chats)
-  }
-  
-  // Send Message to User
-  public sendMessage(form) {
-    if(!form.value.message){
-      this.error = true
-      return false
+  ngAfterViewChecked(): void {
+    if (this.needsScroll) {
+      this.scrollToBottom();
+      this.needsScroll = false;
     }
-    this.error = false
-    let chat = {
-      sender: this.profile.id,
-      receiver: this.chatUser.id,
-      receiver_name: this.chatUser.name,
-      message: form.value.message
-    }
-    this.chatService.sendMessage(chat) 
-    this.chatText = ''
-    this.chatUser.seen = 'online'
-    this.chatUser.online = true
   }
 
-  searchTerm(term: any) {
-    if(!term) return this.searchUsers = this.users
-    term = term.toLowerCase();
-    let user = []
-    this.users.filter(users => {
-      if(users.name.toLowerCase().includes(term)) {
-        user.push(users)
-      } 
-    })
-    this.searchUsers = user
+  scrollToBottom(): void {
+    try {
+      const el = this.messagesListRef?.nativeElement;
+      if (el) el.scrollTop = el.scrollHeight;
+    } catch (_) {}
   }
 
-  mobileMenu() {
-    this.mobileToggle = !this.mobileToggle;
+  onScroll(): void {
+    const el = this.messagesListRef?.nativeElement;
+    if (!el) return;
+    this.showScrollBtn = el.scrollHeight - el.scrollTop - el.clientHeight > 120;
   }
-    
+
+  chargerConversations(): void {
+    this.chatService.getConversations().subscribe({
+      next: (data) => { this.conversations = data; },
+      error: () => {}
+    });
+  }
+
+  ouvrirConversation(conversation: any): void {
+    const contact = conversation?.contact || conversation;
+    if (!contact?.id) return;
+    this.contactActuel = contact;
+
+    this.chatService.getConversation(contact.id).subscribe({
+      next: (msgs) => {
+        this.messagesActuels = msgs || [];
+        this.needsScroll = true;
+        this.chatService.marquerConversationCommeLue(contact.id).subscribe(() => {
+          if (conversation?.contact) conversation.nonLus = 0;
+        });
+      },
+      error: () => {}
+    });
+  }
+
+  getContent(msg: any): string {
+    return msg.contenu || msg.content || '';
+  }
+
+  envoyerMessage(): void {
+    const contenu = this.nouveauMessage.trim();
+    if (!contenu || !this.contactActuel) return;
+
+    this.chatService.envoyerMessage(this.contactActuel.id, contenu).subscribe({
+      next: (msg) => {
+        this.messagesActuels.push(msg);
+        this.nouveauMessage = '';
+        this.needsScroll = true;
+        this.chargerConversations();
+      },
+      error: () => {}
+    });
+  }
+
+  getPhoto(user: any): string {
+    if (user?.utilisateurPhoto?.nom) return URL_PHOTO + user.utilisateurPhoto.nom;
+    if (user?.photos?.[0]?.nom) return URL_PHOTO + user.photos[0].nom;
+    return 'assets/img/team/amadou.jpg';
+  }
+
+  handleImageError(event: Event): void {
+    (event.target as HTMLImageElement).src = 'assets/img/team/amadou.jpg';
+  }
+
+  getNom(user: any): string {
+    return `${user?.prenom || ''} ${user?.nom || ''}`.trim() || user?.email || 'Contact';
+  }
+
+  getMessageDate(message: any): Date | null {
+    return message?.dateEnvoi || message?.dateCreation || null;
+  }
+
+  estMon(msg: any): boolean {
+    return msg.expediteur?.id === this.currentUser?.id;
+  }
+
+  ngOnDestroy(): void {
+    this.wsSub?.unsubscribe();
+  }
 }

@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { SpecialiteService } from 'src/app/services/specialite/specialite.service';
+import { environment } from 'src/environments/environment';
+
+declare var google: any;
 
 @Component({
   selector: 'app-inscription',
@@ -11,7 +14,7 @@ import { SpecialiteService } from 'src/app/services/specialite/specialite.servic
   styleUrls: ['./inscription.component.scss']
 })
 
-export class InscriptionComponent implements OnInit {
+export class InscriptionComponent implements OnInit, AfterViewInit {
 
   isSuccessful = false;
   isSignUpFailed = false;
@@ -21,17 +24,15 @@ export class InscriptionComponent implements OnInit {
   message: string | undefined;
   public currentUser = 'Choisir';
   typeUser: any[] = [
-    { nom: 'CLIENT', value: 'client' },
-    { nom: 'PROFESSIONNEL', value: 'informaticien' }
+    { nom: 'Client / Entreprise', value: 'client' },
+    { nom: 'Professionnel', value: 'professionnel' }
   ];
 
   onChange(typeUser: any) {
-    if (typeUser.value === "informaticien") {
-      this.specialite;
+    this.form.role = typeUser.value;
+    if (typeUser.value === "professionnel") {
       this.currentUser = typeUser.value;
-    }else {
-      // Réinitialisez la spécialité et le currentUser si un autre type d'utilisateur est sélectionné
-      this.specialite = [];
+    } else {
       this.currentUser = 'Choisir';
     }
   }
@@ -73,11 +74,116 @@ export class InscriptionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // AFFICHER LA LISTE DES INFORMATICIENS
     this.specialiteService.AfficherListeSPecialite().subscribe(data => {
       this.specialite = data;
-      console.log(this.specialite);
     });
+  }
+
+  ngAfterViewInit(): void {
+    const tryInit = () => {
+      if (typeof google !== 'undefined') {
+        google.accounts.id.initialize({
+          client_id: environment.googleClientId,
+          callback: (response: any) => this.handleGoogleResponse(response),
+        });
+        google.accounts.id.renderButton(
+          document.getElementById('google-btn-inscription'),
+          { theme: 'outline', size: 'large', width: 320, text: 'signup_with', locale: 'fr' }
+        );
+      } else {
+        setTimeout(tryInit, 300);
+      }
+    };
+    tryInit();
+  }
+
+  handleGoogleResponse(response: any): void {
+    if (!response?.credential) return;
+    const credential = response.credential;
+
+    // 1er appel : vérifier si le compte existe déjà
+    Swal.fire({ title: 'Vérification…', allowOutsideClick: false, heightAuto: false, didOpen: () => Swal.showLoading() });
+
+    this.authService.loginAvecGoogle(credential, 'client').subscribe({
+      next: (data: any) => {
+        Swal.close();
+        if (data?.isNewUser) {
+          this.demanderRole(credential);
+        } else {
+          this.finalisConnexion(data);
+        }
+      },
+      error: (err: any) => {
+        Swal.fire({ text: err?.error?.message || 'Erreur Google', icon: 'error', heightAuto: false });
+      }
+    });
+  }
+
+  private demanderRole(credential: string): void {
+    Swal.fire({
+      title: 'Vous êtes ?',
+      html: `
+        <p style="color:#64748b;font-size:.9rem;margin-bottom:16px;">Choisissez votre type de compte</p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+          <button id="btn-professionnel"
+            style="background:#086AD8;padding:14px 28px;border-radius:12px;font-size:.95rem;color:#fff;border:none;cursor:pointer;display:flex;align-items:center;gap:8px;">
+            <i class="fa fa-briefcase"></i> Professionnel
+          </button>
+          <button id="btn-client"
+            style="background:#10b981;padding:14px 28px;border-radius:12px;font-size:.95rem;color:#fff;border:none;cursor:pointer;display:flex;align-items:center;gap:8px;">
+            <i class="fa fa-user"></i> Client / Entreprise
+          </button>
+        </div>`,
+      showConfirmButton: false,
+      showCancelButton: false,
+      heightAuto: false,
+      didOpen: () => {
+        document.getElementById('btn-professionnel')?.addEventListener('click', () => {
+          Swal.close();
+          this.envoyerGoogleAuth(credential, 'professionnel');
+        });
+        document.getElementById('btn-client')?.addEventListener('click', () => {
+          Swal.close();
+          this.envoyerGoogleAuth(credential, 'client');
+        });
+      }
+    });
+  }
+
+  envoyerGoogleAuth(credential: string, role: string): void {
+    Swal.fire({ title: 'Création du compte…', allowOutsideClick: false, heightAuto: false, didOpen: () => Swal.showLoading() });
+    this.authService.loginAvecGoogle(credential, role).subscribe({
+      next: (data: any) => {
+        Swal.close();
+        this.finalisConnexion(data);
+      },
+      error: (err: any) => {
+        const msg = err?.error?.message || 'Erreur de connexion avec Google';
+        Swal.fire({ text: msg, icon: 'error', heightAuto: false });
+      }
+    });
+  }
+
+  private finalisConnexion(data: any): void {
+    if (!data?.token) {
+      Swal.fire({ text: 'Réponse inattendue du serveur.', icon: 'error', heightAuto: false });
+      return;
+    }
+    this.storageService.saveUser(data);
+    const roles: string[] = data.roles || [];
+    const estAdmin = roles.includes('ROLE_ADMIN') || roles.includes('ROLE_SUPERADMIN');
+    const estProfessionnel = roles.some((r: string) => r === 'ROLE_PROFESSIONNEL');
+    const aSpecialite = !!data.specialite;
+    const profilComplete = !!data.profilcompleter;
+    if (estAdmin) {
+      this.router.navigate(['/admin']);
+    } else if (estProfessionnel && !aSpecialite && !profilComplete) {
+      this.router.navigate(['/complete']);
+    } else if (estProfessionnel) {
+      this.router.navigate(['/profil-professionnel']);
+    } else {
+      this.router.navigate(['']).then(() => window.location.reload());
+    }
   }
 
   path() {
@@ -112,12 +218,10 @@ export class InscriptionComponent implements OnInit {
       },
       heightAuto: false
     })
-    const { nom, prenom, telephone,adresse,specialite,genre,email,password, role} = this.form;
-    console.log(this.form)
-    console.log("Données envoyées:", { nom, prenom, telephone, email, adresse, specialite, genre, password, role });
+    const { nom, prenom, telephone, genre, email, password, role } = this.form;
 
     swalWithBootstrapButtons.fire({
-      text: "Etes-vous sûre de creer un compte ?",
+      text: "Créer votre compte ?",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Confirmer',
@@ -125,7 +229,7 @@ export class InscriptionComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this.authService.inscription(nom, prenom, telephone,adresse,specialite,genre,email,password, role).subscribe({
+        this.authService.inscription(nom, prenom, telephone, '', null, genre, email, password, role).subscribe({
           next: data => {
             this.isSuccessful = true;
             this.isSignUpFailed = false;

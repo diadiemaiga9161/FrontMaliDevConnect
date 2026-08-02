@@ -1,372 +1,172 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<section class="auth-section d-flex align-items-center min-vh-100 py-4">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-11 col-md-9 col-lg-7 col-xl-6">
 
-<body class="bg-maiga">
+        <div class="card shadow border-0 rounded-4">
+          <div class="card-body p-4 p-md-5">
 
-    <div class="container" style="padding: 5px;">   
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card border-0 px-4 py-2 mt-3">
-                    <form name="form" (ngSubmit)="f.form.valid && inscription()" #f="ngForm" novalidate>
-                        <p class="title text-center">Dev-Mali-Connect</p>
-                        <p class="message text-center">Inscrivez-vous maintenant et obtenez un accès complet à notre plateforme.</p>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label>Votre nom <span class="oblig">*</span></label>
-                                <input name="nom" class="form-control" [(ngModel)]="form.nom" required minlength="3" maxlength="20" #nom="ngModel" type="text" placeholder="Votre nom" [ngClass]="{'is-invalid': f.submitted && nom.errors}" />
-                                <div class="invalid-feedback" *ngIf="nom.errors && f.submitted">
-                                    <div *ngIf="nom.errors['required']">Nom est obligatoire</div>
-                                    <div *ngIf="nom.errors['minlength']">Nom doit avoir au moins 3 caractères</div>
-                                    <div *ngIf="nom.errors['maxlength']">Nom doit comporter au maximum 20 caractères</div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label>Votre prénom <span class="oblig">*</span></label>
-                                <input name="prenom" class="form-control" [(ngModel)]="form.prenom" required minlength="3" maxlength="20" #prenom="ngModel" type="text" placeholder="Votre prénom" [ngClass]="{'is-invalid': f.submitted && prenom.errors}" />
-                                <div class="invalid-feedback" *ngIf="prenom.errors && f.submitted">
-                                    <div *ngIf="prenom.errors['required']">Prénom est obligatoire</div>
-                                    <div *ngIf="prenom.errors['minlength']">Prénom doit avoir au moins 3 caractères</div>
-                                    <div *ngIf="prenom.errors['maxlength']">Prénom doit comporter au maximum 20 caractères</div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label>Votre numéro <span class="oblig">*</span></label>
-                                <input name="telephone" class="form-control" [(ngModel)]="form.telephone" required minlength="8" maxlength="13" #telephone="ngModel" type="text" placeholder="Votre numéro" [ngClass]="{'is-invalid': f.submitted && telephone.errors}" />
-                                <div class="invalid-feedback" *ngIf="telephone.errors && f.submitted">
-                                    <div *ngIf="telephone.errors['required']">Numéro est obligatoire</div>
-                                    <div *ngIf="telephone.errors['minlength']">Numéro doit avoir au moins 8 caractères</div>
-                                    <div *ngIf="telephone.errors['maxlength']">Numéro doit comporter au maximum 13 caractères</div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label>Votre Email <span class="oblig">*</span></label>
-                                <input name="email" class="form-control" [(ngModel)]="form.email" required email #email="ngModel" type="email" placeholder="Votre email" [ngClass]="{'is-invalid': f.submitted && email.errors}" />
-                                <div class="invalid-feedback" *ngIf="email.errors && f.submitted">
-                                    <div *ngIf="email.errors['required']">Email est obligatoire</div>
-                                    <div *ngIf="email.errors['email']">Email non valide</div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label>Type d'utilisateur <span class="oblig">*</span></label>
-                                <select name="role" class="form-control" [(ngModel)]="form.role" required #role="ngModel" (change)="onChange($event.target)">
-                                    <option>Choisir</option>
-                                    <option *ngFor="let TypeUser of typeUser" [value]="TypeUser.value">{{ TypeUser.nom }}</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label>Genre <span class="oblig">*</span></label>
-                                <select name="genre" class="form-control" [(ngModel)]="form.genre" required>
-                                    <option>Choisir</option>
-                                    <option *ngFor="let Genre of genre" [value]="Genre.value">{{ Genre.nom }}</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-6 mb-3" *ngIf="currentUser != 'Choisir'">
-                                <label>Spécialité <span class="oblig">*</span></label>
-                                <select name="specialite" class="form-control" [(ngModel)]="form.specialite" (change)="onSpecialiteChange($event)" required> 
-                                    <option>Choisir</option>
-                                    <option *ngFor="let Specialite of specialite" [value]="Specialite.id">{{ Specialite.specialite }}</option>
-                                </select>
-
-                                <!-- <select name="specialite" class="form-control" [(ngModel)]="form.specialite" required>
-                                    <option>Choisir</option>
-                                    <option *ngFor="let Specialite of specialite" [value]="Specialite.id">{{ Specialite.specialite }}</option>
-                                </select> -->
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label>Mot de passe <span class="oblig">*</span></label>
-                                <div class="input-group">
-                                    <input type="{{Toggledata ? 'password' : 'text'}}" name="password" class="form-control" [(ngModel)]="form.password" required minlength="6" #password="ngModel" placeholder="Entrer votre mot de passe" [ngClass]="{'is-invalid': f.submitted && password.errors}" />
-                                    <div class="input-group-append">
-                                        <span class="input-group-text" (click)="iconLogle()"><i class="{{Toggledata ? 'fa fa-eye-slash' : 'fa fa-eye'}}"></i></span>
-                                    </div>
-                                    <div class="invalid-feedback" *ngIf="password.errors && f.submitted">
-                                        <div *ngIf="password.errors['required']">Mot de passe obligatoire</div>
-                                        <div *ngIf="password.errors['minlength']">Mot de passe minimun 6 caractères</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label>Confirmer mot de passe <span class="oblig">*</span></label>
-                                <div class="input-group">
-                                    <input type="{{ToggledataC ? 'password' : 'text'}}" name="confirmPassword" class="form-control" [(ngModel)]="form.confirmPassword" required minlength="6" #confirmPassword="ngModel" placeholder="Confirmer votre mot de passe" [ngClass]="{'is-invalid': f.submitted && confirmPassword.errors}" />
-                                    <div class="input-group-append">
-                                        <span class="input-group-text" (click)="iconLogleC()"><i class="{{ToggledataC ? 'fa fa-eye-slash' : 'fa fa-eye'}}"></i></span>
-                                    </div>
-                                    <div class="invalid-feedback" *ngIf="confirmPassword.errors && f.submitted">
-                                        <div *ngIf="confirmPassword.errors['required']">Confirmation obligatoire</div>
-                                        <div *ngIf="confirmPassword.errors['minlength']">Mot de passe doit être au moins 6 caractères</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="text-center mb-2">
-                            <button type="submit" class="btn btn-primary">S'inscrire</button>
-                        </div>
-                        <div class="text-center">
-                            <small>Déjà un compte ? <a routerLink="/connexion" class="text-danger">Connexion</a></small>
-                        </div>
-                    </form>
-                </div>
+            <div class="text-center mb-4">
+              <h4 class="fw-bold text-primary mb-1">MaliDevConnect</h4>
+              <p class="text-muted small">Créez votre compte gratuitement</p>
             </div>
-        </div>
-    </div>
-</body>
-<!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<body class="bg-maiga">
+            <form name="form" (ngSubmit)="f.form.valid && inscription()" #f="ngForm" novalidate>
 
-    <div class="container" style="justify-content: center; padding-bottom: 5px; padding-top: 5px;">
-                <div class="row" style="justify-content: center;">
-                    <div class="form" style="justify-content: center;">
+              <div class="row g-3">
 
-                        <div  class="card border-0 px-4 py-2 mt-3">
-                            <form name="form" (ngSubmit)="f.form.valid && inscription()" #f="ngForm" novalidate>
-                                <p class="title" style="justify-content: center;">Dev-Mali-Connect</p>
-                                <p class="message" style="text-align: center;">Inscrivez-vous maintenant et obtenez
-                                    un accès complet à notre plateforme. </p>
-                                <div class="row "style="justify-content: center;" >
-                                    <div class="col-md-6 row px-3 ">
-                                        <label>Votre nom
-                                            <span class="oblig">*</span>
-                                          
-                                            <input  style="width: 195px;" name="nom" class="input" [(ngModel)]="form.nom"
-                                                required minlength="3" maxlength="20" #nom="ngModel" type="text"
-                                                placeholder="Votre nom" [ngClass]="{
-                                            'is-invalid':
-                                                f.submitted && nom.errors
-                                        }" />
-                                        </label>
-                                        <div class="invalid-feedback text-center" *ngIf="nom.errors && f.submitted">
-                                            <div *ngIf="nom.errors['required']">
-                                                Nom est obligatoire
-                                            </div>
-                                            <div *ngIf="nom.errors['minlength']">
-                                                Nom doit avoir au moins 3 caractères
-                                            </div>
-                                            <div *ngIf="nom.errors['maxlength']">
-                                                Nom doit comporter au maximum
-                                                20 caractères
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 row px-3">
-                                        <label>Votre prenom
-                                            <span class="oblig">*</span>
+                <!-- Nom -->
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold">Nom <span class="text-danger">*</span></label>
+                  <input name="nom" class="form-control" [(ngModel)]="form.nom" required minlength="2" maxlength="30"
+                    #nom="ngModel" type="text" placeholder="Votre nom"
+                    [ngClass]="{'is-invalid': f.submitted && nom.errors}" />
+                  <div class="invalid-feedback" *ngIf="nom.errors && f.submitted">
+                    <span *ngIf="nom.errors['required']">Nom obligatoire</span>
+                    <span *ngIf="nom.errors['minlength']">Minimum 2 caractères</span>
+                  </div>
+                </div>
 
-                                            <input style="width: 195px;" type="text" class="input" name="prenom"
-                                                [(ngModel)]="form.prenom" required minlength="3" maxlength="20"
-                                                #prenom="ngModel" [ngClass]="{
-                                            'is-invalid':
-                                                f.submitted && prenom.errors
-                                        }" placeholder="Votre prenom" />
-                                        </label>
-                                        <div style="text-align: center" class="invalid-feedback"
-                                            *ngIf="prenom.errors && f.submitted">
-                                            <div *ngIf="prenom.errors['required']">
-                                                Prenom est obligatoire
-                                            </div>
-                                            <div *ngIf="prenom.errors['minlength']">
-                                                Prenom doit avoir au moins 3
-                                                caractères
-                                            </div>
-                                            <div *ngIf="prenom.errors['maxlength']">
-                                                Prenom doit comporter au maximum
-                                                20 caractères
-                                            </div>
-                                        </div>
-                                    </div>
+                <!-- Prénom -->
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold">Prénom <span class="text-danger">*</span></label>
+                  <input name="prenom" class="form-control" [(ngModel)]="form.prenom" required minlength="2" maxlength="30"
+                    #prenom="ngModel" type="text" placeholder="Votre prénom"
+                    [ngClass]="{'is-invalid': f.submitted && prenom.errors}" />
+                  <div class="invalid-feedback" *ngIf="prenom.errors && f.submitted">
+                    <span *ngIf="prenom.errors['required']">Prénom obligatoire</span>
+                  </div>
+                </div>
 
-                                    <div class="col-md-6 row px-3">
-                                        <label>Votre numero
-                                            <span class="oblig">*</span>
+                <!-- Téléphone -->
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold">Téléphone <span class="text-danger">*</span></label>
+                  <input name="telephone" class="form-control" [(ngModel)]="form.telephone" required minlength="8"
+                    maxlength="13" #telephone="ngModel" type="text" placeholder="+223 XX XX XX XX"
+                    [ngClass]="{'is-invalid': f.submitted && telephone.errors}" />
+                  <div class="invalid-feedback" *ngIf="telephone.errors && f.submitted">
+                    <span *ngIf="telephone.errors['required']">Numéro obligatoire</span>
+                    <span *ngIf="telephone.errors['minlength']">Minimum 8 chiffres</span>
+                  </div>
+                </div>
 
-                                            <input style="width: 195px;" type="text" class="input" name="telephone"
-                                                [(ngModel)]="form.telephone" required minlength="8" maxlength="13"
-                                                #telephone="ngModel" [ngClass]="{
-                                            'is-invalid':
-                                                f.submitted && telephone.errors
-                                        }" placeholder="Votre Numero" />
-                                        </label>
-                                        <div style="text-align: center" class="invalid-feedback"
-                                            *ngIf="telephone.errors && f.submitted">
-                                            <div *ngIf="telephone.errors['required']">
-                                                telephone est obligatoire
-                                            </div>
-                                            <div *ngIf="
-                                                telephone.errors['minlength']
-                                            ">
-                                                telephone doit avoir au moins 8
-                                                caractères
-                                            </div>
-                                            <div *ngIf="
-                                                telephone.errors['maxlength']
-                                            ">
-                                                Numéro doit comporter au maximum
-                                                13 caractères
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 row px-3">
-                                        <label>Votre Email
-                                            <span class="oblig">*</span>
-                                            <input style="width: 195px;" type="email" class="input" name="email"
-                                                [(ngModel)]="form.email" required email #email="ngModel" [ngClass]="{
-                                            'is-invalid':
-                                                f.submitted && email.errors
-                                        }" placeholder="Votre Email" />
-                                        </label>
-                                        <div class="invalid-feedback text-center" *ngIf="email.errors && f.submitted">
-                                            <div *ngIf="email.errors['required']">
-                                                Email est obligatoire
-                                            </div>
-                                            <div *ngIf="email.errors['email']">
-                                                Email non valide
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 row px-3">
-                                        <label class="mb-1">Type d'utilisateur
-                                            <span class="oblig">*</span>
-                                            <select style="width: 195px;" (change)="onChange($event.target)" type="text"
-                                                class="input" name="role" [(ngModel)]="form.role" required role
-                                                #role="ngModel">
-                                                <option class="py-3 input">Choisir</option>
-                                                <option class="mb-3" *ngFor="let TypeUser of typeUser"
-                                                    [value]="TypeUser.value">
-                                                    {{ TypeUser.nom }}
-                                                </option>
-                                            </select>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-6 row px-3">
-                                        <label class="mb-1">Genre
-                                            <span class="oblig">*</span>
-                                            <select style="width: 250px;" type="text" class="input" name="genre"
-                                                style="width: 96%" [(ngModel)]="form.genre" required role
-                                                #role="ngModel">
-                                                <option class="py-3">Choisir</option>
-                                                <option class="mb-3" *ngFor="let Genre of genre" [value]="Genre.value">
-                                                    {{ Genre.nom }}
-                                                </option>
-                                            </select>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-6 row px-3" *ngIf="currentUser != 'Choisir'">
-                                        <label class="mb-1">Specialite
-                                            <span class="oblig">*</span>
-                                            <select style="width: 195px;" type="text" class="input" style="width: 96%"
-                                                name="specialite" [(ngModel)]="form.specialite" required role
-                                                #role="ngModel">
-                                                <option class="py-3">Choisir</option>
-                                                <option class="mb-3" *ngFor="let Specialite of specialite"
-                                                    [value]="Specialite.id">
-                                                    {{ Specialite.specialite }}
-                                                </option>
-                                            </select>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-6 row px-3">
-                                        <label>Mot de passe
-                                            <span class="oblig">*</span>
-                                            <div style="position: relative;">
-                                                <input style="width: 195px;" type="password" class="input"
-                                                    placeholder="Entrer votre mot de passe" name="password"
-                                                    type="password" name="password" [(ngModel)]="form.password" required
-                                                    minlength="6" #password="ngModel" [ngClass]="{
-                                                    'is-invalid':
-                                                        f.submitted && password.errors
-                                                }" color="black" [type]="Toggledata ? 'password' : 'text'" />
-                                                <span
-                                                    style="position: absolute; top: 20px; right: 20px;left: 175px;  transform: translateY(-0%);"
-                                                    [ngClass]="Toggledata ? 'toggle-password fa fa-eye-slash' : 'toggle-password fa fa-eye'"
-                                                    (click)="iconLogle()">
-                                                </span>
-                                                <div *ngIf="password.errors && f.submitted"
-                                                    class="invalid-feedback text-center">
-                                                    <div *ngIf="password.errors['required']">
-                                                        Mot de passe obligatoire
-                                                    </div>
-                                                    <div *ngIf="password.errors['minlength']">
-                                                        Mot de passe minimun 6 caractères
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-6 row px-3">
-                                        <label>Confirmer mot de passe
-                                            <span class="oblig">*</span>
-                                            <div style="position: relative;">
-                                                <input style="width: 195px;" type="password" class="input"
-                                                    placeholder="Entrer votre mot de passe de confirmation"
-                                                    name="password" [(ngModel)]="form.confirmPassword" required
-                                                    minlength="6" #confirmPassword="ngModel" [ngClass]="{
-                                                    'is-invalid':
-                                                        f.submitted &&
-                                                        confirmPassword.errors
-                                                }" color="black" type="password"
-                                                    [type]="ToggledataC ? 'password' : 'text'" />
-                                                <span
-                                                    style="position: absolute; top: 24px; right: 20px;left: 175px; transform: translateY(-50%);"
-                                                    [ngClass]="ToggledataC ? 'toggle-password fa fa-eye-slash' : 'toggle-password fa fa-eye'"
-                                                    (click)="iconLogleC()">
-                                                </span>
-                                                <div class="invalid-feedback text-center" *ngIf="
-                                                    confirmPassword.errors &&
-                                                    f.submitted
-                                                ">
-                                                    <div *ngIf="
-                                                        confirmPassword.errors[
-                                                            'required'
-                                                        ]
-                                                    ">
-                                                        Confirmation obligatoire
-                                                    </div>
-                                                    <div *ngIf="
-                                                        confirmPassword.errors[
-                                                            'minlength'
-                                                        ]
-                                                    ">
-                                                        Confirme mot de passe doit être au
-                                                        moins 6 caractères
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="button-65 text-center   row mb-2 px-3" style="width: 96%; "
-                                    class="btn-15 button-18 submit">
-                                    <button type="submit"
-                                        style="border: none; background-color: transparent; color: white;">
-                                        S'inscrire
-                                    </button>
-                                </div>
-                                <div class="row mb-4 px-3" style="margin-left: auto; margin-right: auto">
-                                    <small class="font-weight-bold">Déjà un compte ?
-                                        <a routerLink="/connexion" class="text-danger">Connexion</a></small>
-                                </div>
-                            </form>
-                        </div>
+                <!-- Email -->
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold">Email <span class="text-danger">*</span></label>
+                  <input name="email" class="form-control" [(ngModel)]="form.email" required email #email="ngModel"
+                    type="email" placeholder="votre@email.com"
+                    [ngClass]="{'is-invalid': f.submitted && email.errors}" />
+                  <div class="invalid-feedback" *ngIf="email.errors && f.submitted">
+                    <span *ngIf="email.errors['required']">Email obligatoire</span>
+                    <span *ngIf="email.errors['email']">Email invalide</span>
+                  </div>
+                </div>
+
+                <!-- Type de compte -->
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold">Type de compte <span class="text-danger">*</span></label>
+                  <select name="role" class="form-select" [(ngModel)]="form.role" required #role="ngModel"
+                    (change)="onChange($event.target)" [ngClass]="{'is-invalid': f.submitted && role.errors}">
+                    <option value="Choisir" disabled>-- Choisir --</option>
+                    <option *ngFor="let t of typeUser" [value]="t.value">{{ t.nom }}</option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="role.errors && f.submitted">
+                    <span *ngIf="role.errors['required']">Choisissez un type</span>
+                  </div>
+                </div>
+
+                <!-- Genre -->
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold">Genre <span class="text-danger">*</span></label>
+                  <select name="genre" class="form-select" [(ngModel)]="form.genre" required #genreRef="ngModel"
+                    [ngClass]="{'is-invalid': f.submitted && genreRef.errors}">
+                    <option value="Choisir" disabled>-- Choisir --</option>
+                    <option *ngFor="let g of genre" [value]="g.value">{{ g.nom }}</option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="genreRef.errors && f.submitted">
+                    <span *ngIf="genreRef.errors['required']">Genre obligatoire</span>
+                  </div>
+                </div>
+
+                <!-- Mot de passe -->
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold">Mot de passe <span class="text-danger">*</span></label>
+                  <div class="input-group">
+                    <input [type]="Toggledata ? 'password' : 'text'" name="password" class="form-control"
+                      [(ngModel)]="form.password" required minlength="6" #password="ngModel"
+                      placeholder="Minimum 6 caractères"
+                      [ngClass]="{'is-invalid': f.submitted && password.errors}" />
+                    <button class="btn btn-outline-secondary" type="button" (click)="iconLogle()">
+                      <i class="fa" [ngClass]="Toggledata ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    </button>
+                    <div class="invalid-feedback" *ngIf="password.errors && f.submitted">
+                      <span *ngIf="password.errors['required']">Mot de passe obligatoire</span>
+                      <span *ngIf="password.errors['minlength']">Minimum 6 caractères</span>
                     </div>
+                  </div>
                 </div>
+
+                <!-- Confirmer mot de passe -->
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold">Confirmer le mot de passe <span class="text-danger">*</span></label>
+                  <div class="input-group">
+                    <input [type]="ToggledataC ? 'password' : 'text'" name="confirmPassword" class="form-control"
+                      [(ngModel)]="form.confirmPassword" required minlength="6" #confirmPassword="ngModel"
+                      placeholder="Répéter le mot de passe"
+                      [ngClass]="{'is-invalid': f.submitted && confirmPassword.errors}" />
+                    <button class="btn btn-outline-secondary" type="button" (click)="iconLogleC()">
+                      <i class="fa" [ngClass]="ToggledataC ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    </button>
+                    <div class="invalid-feedback" *ngIf="confirmPassword.errors && f.submitted">
+                      <span *ngIf="confirmPassword.errors['required']">Confirmation obligatoire</span>
+                    </div>
+                  </div>
                 </div>
-       
-        
 
+              </div>
 
-</body> -->
+              <!-- Info professionnel -->
+              <div class="alert alert-info small mt-3 py-2" *ngIf="form.role === 'professionnel'">
+                <i class="fa fa-info-circle me-1"></i>
+                Après la création de votre compte, vous pourrez compléter votre profil (spécialité, adresse...).
+              </div>
+
+              <!-- Alerte erreur -->
+              <div class="alert alert-danger py-2 small mt-3" *ngIf="isSignUpFailed && errorMessage">
+                {{ errorMessage }}
+              </div>
+
+              <!-- Bouton submit -->
+              <div class="mt-4">
+                <button type="submit" class="btn btn-primary btn-lg w-100 rounded-3">
+                  Créer mon compte
+                </button>
+              </div>
+
+            </form>
+
+            <!-- Séparateur Google -->
+            <div class="d-flex align-items-center gap-2 my-3">
+              <hr class="flex-grow-1 m-0">
+              <span class="text-muted small px-1">ou</span>
+              <hr class="flex-grow-1 m-0">
+            </div>
+
+            <!-- Bouton Google -->
+            <div class="d-flex justify-content-center mb-3">
+              <div id="google-btn-inscription"></div>
+            </div>
+
+            <hr class="my-3">
+            <p class="text-center text-muted small mb-0">
+              Déjà un compte ?
+              <a routerLink="/connexion" class="text-primary fw-semibold text-decoration-none">Se connecter</a>
+            </p>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

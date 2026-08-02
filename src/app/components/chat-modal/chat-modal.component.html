@@ -1,0 +1,215 @@
+<!-- ══ BULLE FLOTTANTE (modale fermée) ══ -->
+<button class="cm-fab"
+        *ngIf="!isOpen && !isHiddenRoute && isLoggedIn"
+        (click)="openModal()"
+        title="Ouvrir les messages">
+  <i class="fa fa-comments"></i>
+  <span class="cm-fab-badge" *ngIf="totalUnread > 0">{{ totalUnread > 99 ? '99+' : totalUnread }}</span>
+</button>
+
+<!-- ══ MODALE CHAT ══ -->
+<div class="cm-wrap" *ngIf="isOpen && !isHiddenRoute" [class.cm-minimized]="isMinimized">
+
+  <!-- ── Header ── -->
+  <div class="cm-header" (click)="isMinimized && toggleMinimize()">
+    <div class="cm-header-left">
+      <i class="fa fa-comments cm-logo"></i>
+      <span class="cm-title">Messages</span>
+      <span class="cm-badge" *ngIf="totalUnread > 0">{{ totalUnread }}</span>
+    </div>
+    <div class="cm-header-right">
+      <button class="cm-hbtn" (click)="goToFullPage(); $event.stopPropagation()" title="Ouvrir en plein écran">
+        <i class="fa fa-expand"></i>
+      </button>
+      <button class="cm-hbtn" (click)="toggleMinimize(); $event.stopPropagation()" title="Réduire">
+        <i class="fa" [ngClass]="isMinimized ? 'fa-chevron-up' : 'fa-minus'"></i>
+      </button>
+      <button class="cm-hbtn cm-close" (click)="closeModal(); $event.stopPropagation()" title="Fermer">
+        <i class="fa fa-times"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Corps (masqué si minimisé) ── -->
+  <div class="cm-body" *ngIf="!isMinimized">
+
+    <!-- ═══ SIDEBAR CONVERSATIONS ═══ -->
+    <div class="cm-sidebar" [class.cm-sidebar-hidden]="selectedConversation">
+
+      <!-- Barre de recherche -->
+      <div class="cm-search-bar">
+        <div class="cm-search-field">
+          <i class="fa fa-search cm-search-ico"></i>
+          <input type="text" placeholder="Rechercher…"
+                 [(ngModel)]="searchText"
+                 (ngModelChange)="searchUsersByName()">
+        </div>
+        <button class="cm-new-btn" (click)="showUserSearch = !showUserSearch" title="Nouvelle conversation">
+          <i class="fa fa-edit"></i>
+        </button>
+      </div>
+
+      <!-- Panel nouvelle conversation -->
+      <div class="cm-new-panel" *ngIf="showUserSearch">
+        <div class="cm-new-panel-head">
+          <span>Nouvelle conversation</span>
+          <button class="cm-icon-btn" (click)="showUserSearch = false"><i class="fa fa-times"></i></button>
+        </div>
+        <div class="cm-spinner" *ngIf="loadingUsers"><div class="cm-spin"></div></div>
+        <div *ngIf="!loadingUsers">
+          <div class="cm-contact-item" *ngFor="let u of searchUsers" (click)="startChatWithUser(u)">
+            <img [src]="generateImageUrl(u?.utilisateurPhoto?.nom)" (error)="handleImageError($event)" [alt]="u.prenom" class="cm-mini-avatar">
+            <div>
+              <strong>{{ u.prenom }} {{ u.nom }}</strong>
+              <span>{{ u.specialite?.specialite }}</span>
+            </div>
+          </div>
+          <div class="cm-empty-small" *ngIf="searchUsers.length === 0 && searchText">Aucun résultat</div>
+        </div>
+      </div>
+
+      <!-- Liste conversations -->
+      <div class="cm-conv-list">
+        <div class="cm-spinner" *ngIf="loadingConversations" style="padding:1.5rem 0;">
+          <div class="cm-spin"></div>
+        </div>
+
+        <div class="cm-conv-empty" *ngIf="!loadingConversations && conversations.length === 0">
+          <i class="fa fa-comments"></i>
+          <p>Aucune conversation</p>
+        </div>
+
+        <div class="cm-conv-item"
+             *ngFor="let conv of conversations"
+             [class.cm-conv-active]="(conv.contact?.id || conv.user?.id || conv.otherUser?.id) === otherUser?.id"
+             (click)="selectConversation(conv)">
+          <div class="cm-avatar-wrap">
+            <img [src]="generateImageUrl((conv.contact || conv.user || conv.otherUser)?.utilisateurPhoto?.nom)"
+                 (error)="handleImageError($event)"
+                 [alt]="(conv.contact || conv.user || conv.otherUser)?.prenom"
+                 class="cm-avatar">
+            <span class="cm-online-dot" *ngIf="(conv.nonLus || conv.unreadCount) > 0"></span>
+          </div>
+          <div class="cm-conv-info">
+            <div class="cm-conv-name-row">
+              <span class="cm-conv-name">{{ (conv.contact || conv.user || conv.otherUser)?.prenom }} {{ (conv.contact || conv.user || conv.otherUser)?.nom }}</span>
+              <span class="cm-conv-time">{{ formatTime(conv.dateDernierMessage) }}</span>
+            </div>
+            <span class="cm-conv-preview" [class.cm-unread]="(conv.nonLus || conv.unreadCount) > 0">
+              {{ conv.dernierMessage || '…' }}
+            </span>
+          </div>
+          <span class="cm-unread-dot" *ngIf="(conv.nonLus || conv.unreadCount) > 0">
+            {{ conv.nonLus || conv.unreadCount }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PANEL CHAT ═══ -->
+    <div class="cm-panel" [class.cm-panel-visible]="selectedConversation">
+
+      <!-- Écran d'accueil -->
+      <div class="cm-welcome" *ngIf="!selectedConversation">
+        <i class="fa fa-comments cm-welcome-icon"></i>
+        <p>Sélectionnez une conversation</p>
+      </div>
+
+      <ng-container *ngIf="selectedConversation && otherUser">
+
+        <!-- Header conversation -->
+        <div class="cm-chat-header">
+          <button class="cm-icon-btn cm-back-btn" (click)="backToList()">
+            <i class="fa fa-arrow-left"></i>
+          </button>
+          <img [src]="generateImageUrl(otherUser?.utilisateurPhoto?.nom)"
+               (error)="handleImageError($event)"
+               [alt]="otherUser?.prenom"
+               class="cm-avatar">
+          <div class="cm-chat-header-info">
+            <strong>{{ otherUser?.prenom }} {{ otherUser?.nom }}</strong>
+            <span>{{ otherUser?.specialite?.specialite || 'Professionnel' }}</span>
+          </div>
+          <span class="cm-lock-badge" title="Chiffrement E2E">
+            <i class="fa fa-lock"></i>
+          </span>
+        </div>
+
+        <!-- Messages -->
+        <div class="cm-messages" #messagesContainer (scroll)="onMessagesScroll()">
+          <div class="cm-spinner" *ngIf="loadingMessages" style="margin:auto;"><div class="cm-spin"></div></div>
+
+          <div *ngIf="!loadingMessages">
+            <div class="cm-chat-empty" *ngIf="messages.length === 0">
+              <img [src]="generateImageUrl(otherUser?.utilisateurPhoto?.nom)"
+                   (error)="handleImageError($event)"
+                   [alt]="otherUser?.prenom"
+                   class="cm-avatar-lg">
+              <strong>{{ otherUser?.prenom }} {{ otherUser?.nom }}</strong>
+              <p>Commencez la conversation !</p>
+            </div>
+
+            <div class="cm-msg-row"
+                 *ngFor="let msg of messages"
+                 [class.cm-mine]="isFromMe(msg)"
+                 [class.cm-theirs]="!isFromMe(msg)">
+
+              <div class="cm-msg-group">
+                <!-- Mode édition -->
+                <ng-container *ngIf="editingMessageId === msg.id; else showMsg">
+                  <div class="cm-bubble cm-editing">
+                    <textarea class="cm-edit-area"
+                              [(ngModel)]="editingText"
+                              (keydown.enter)="!$event.shiftKey && saveEdit(msg)"
+                              (keydown.escape)="cancelEdit()"
+                              rows="2" autofocus></textarea>
+                    <div class="cm-edit-btns">
+                      <button class="cm-edit-save" (click)="saveEdit(msg)">Sauver</button>
+                      <button class="cm-edit-cancel" (click)="cancelEdit()">Annuler</button>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <ng-template #showMsg>
+                  <div class="cm-bubble" [class.cm-bubble-mine]="isFromMe(msg)">
+                    <p class="cm-msg-text">{{ getContent(msg) }}</p>
+                    <span class="cm-msg-time">{{ formatTime(msg.dateEnvoi || msg.dateCreation) }}</span>
+                  </div>
+                  <div class="cm-msg-actions" *ngIf="isFromMe(msg)">
+                    <button class="cm-act-btn" (click)="startEdit(msg)" title="Modifier">
+                      <i class="fa fa-pencil"></i>
+                    </button>
+                    <button class="cm-act-btn cm-act-del" (click)="deleteMessage(msg)" title="Supprimer">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bouton scroll bas -->
+        <button class="cm-scroll-bottom" *ngIf="showScrollBtn" (click)="scrollModalToBottom()" title="Aller en bas">
+          <i class="fa fa-chevron-down"></i>
+        </button>
+
+        <!-- Zone de saisie -->
+        <div class="cm-input-area">
+          <div class="cm-input-row">
+            <textarea class="cm-textarea"
+                      placeholder="Aa"
+                      [(ngModel)]="messageText"
+                      (keydown.enter)="!$event.shiftKey && sendMessage(); $event.shiftKey || $event.preventDefault()"
+                      [disabled]="sendingMessage"
+                      rows="1"></textarea>
+            <button class="cm-send-btn" (click)="sendMessage()" [disabled]="!messageText.trim() || sendingMessage">
+              <i class="fa fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+
+      </ng-container>
+    </div>
+  </div>
+</div>

@@ -75,7 +75,7 @@ export class CompleteProfilsComponent implements OnInit {
   }
 
 
-  goToDettailInformaticien(id: number | undefined): Promise<boolean> {
+  goToDettailProfessionnel(id: number | undefined): Promise<boolean> {
     if (id !== undefined) {
       return this.router.navigate(['profil-détaillé', id]);
     }
@@ -140,7 +140,7 @@ export class CompleteProfilsComponent implements OnInit {
     });
   }
 
-  // goToDettailInformaticien(id: number | undefined): Promise<boolean> {
+  // goToDettailProfessionnel(id: number | undefined): Promise<boolean> {
   //   if (id !== undefined) {
   //     return this.router.navigate(['profil-détaillé', id]);
   //   }

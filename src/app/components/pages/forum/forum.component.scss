@@ -1,0 +1,54 @@
+.form-control:focus {
+  border-color: #086AD8;
+  box-shadow: 0 0 0 3px rgba(8, 106, 216, 0.12);
+}
+
+.sujet-card {
+  border-radius: 14px !important;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(8, 106, 216, 0.1) !important;
+  }
+}
+
+.sujet-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #086AD8, #10dce8);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.reponse-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.reponse-card {
+  transition: box-shadow 0.2s ease;
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08) !important;
+  }
+}
+
+.form-sujet {
+  border-top: 3px solid #086AD8 !important;
+}

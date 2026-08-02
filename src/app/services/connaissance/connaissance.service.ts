@@ -25,20 +25,17 @@ export class ConnaissanceService {
 
   // Méthode pour obtenir les en-têtes avec le token JWT
   getHeaders(): HttpHeaders {
-    const token = this.storageService.getUser().token;  // Obtient le jeton d'accès à partir du service de stockage local
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`  // Crée et retourne les en-têtes HTTP avec le jeton d'accès
-    });
+    const token = this.storageService.getUser()?.token;
+    if (!token) {
+      return new HttpHeaders();
+    }
+    return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
   }
 
-// Méthode pour afficher la liste des connaissance  
+// Méthode pour afficher la liste des connaissance
 AfficherListeConnaissance(): Observable<any> {
-    return this.http.get(`${URL_BASE}connaissance/voirs`);  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
+    return this.http.get(`${URL_BASE}connaissance/toutes`);
   }
-
-  
-
-
 
 Ajouter(nom: string,typeConnaissances:string): Observable<any> {
   console.log(nom);
@@ -53,6 +50,41 @@ Ajouter(nom: string,typeConnaissances:string): Observable<any> {
   );
 }
 
+modifierConnaissance(connaissance: any): Observable<any> {
+  const headers = this.getHeaders();
+  return this.http.put(`${URL_BASE}connaissance/modifier`, connaissance, { headers });
+}
 
-  
+supprimerConnaissance(id: number): Observable<any> {
+  const headers = this.getHeaders();
+  return this.http.delete(`${URL_BASE}connaissance/supprimer/${id}`, { headers });
+}
+
+lierConnaissance(connaissanceId: number): Observable<any> {
+  const headers = this.getHeaders();
+  return this.http.post(`${URL_BASE}connaissance/lier/${connaissanceId}`, {}, { headers });
+}
+
+lierPlusieurs(ids: number[]): Observable<any> {
+  const headers = this.getHeaders();
+  return this.http.post(`${URL_BASE}connaissance/lier-plusieurs`, ids, { headers });
+}
+
+retirerConnaissance(id: number): Observable<any> {
+  const headers = this.getHeaders();
+  return this.http.delete(`${URL_BASE}connaissance/retirer/${id}`, { headers });
+}
+
+getConnaissancesParUser(userId: number): Observable<any> {
+  return this.http.get(`${URL_BASE}connaissance/par-user/${userId}`);
+}
+
+getMesConnaissances(): Observable<any> {
+  const headers = this.getHeaders();
+  return this.http.get(`${URL_BASE}connaissance/afficher`, { headers });
+}
+
+getToutesConnaissances(): Observable<any> {
+  return this.http.get(`${URL_BASE}connaissance/toutes`);
+}
 }

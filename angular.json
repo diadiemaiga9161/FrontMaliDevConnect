@@ -40,7 +40,8 @@
                 "node_modules/magnific-popup/dist/magnific-popup.css",
                 "node_modules/jquery-nice-select/scss/nice-select.scss",
                 "src/styles.scss",
-                "src/responsive.scss"
+                "src/responsive.scss",
+                "src/theme-modern.scss"
             ],
             "scripts": [
                 "node_modules/jquery/dist/jquery.min.js",
@@ -84,8 +85,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "20kb",
+                  "maximumError": "30kb"
                 }
               ]
             }

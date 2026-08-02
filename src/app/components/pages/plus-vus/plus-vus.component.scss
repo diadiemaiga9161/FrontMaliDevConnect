@@ -1,0 +1,75 @@
+.podium-card {
+  text-align: center;
+  padding: 20px 16px;
+  border-radius: 20px;
+  position: relative;
+  overflow: visible;
+
+  &.or {
+    background: linear-gradient(135deg, #fefce8, #fef9c3);
+    border: 2px solid #f59e0b;
+    box-shadow: 0 8px 32px rgba(245, 158, 11, 0.2);
+    margin-top: -20px; // podium effect
+  }
+  &.argent {
+    background: linear-gradient(135deg, #f9fafb, #f3f4f6);
+    border: 2px solid #9ca3af;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+  &.bronze {
+    background: linear-gradient(135deg, #fdf8f0, #fef3c7);
+    border: 2px solid #b45309;
+    box-shadow: 0 4px 16px rgba(180,83,9,0.12);
+  }
+}
+
+.rang-badge {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.vues-badge {
+  display: inline-block;
+  background: rgba(8, 106, 216, 0.08);
+  color: #086AD8;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+
+  &.or-vues {
+    background: rgba(249, 115, 22, 0.1);
+    color: #ea580c;
+  }
+}
+
+.profil-card {
+  border-radius: 14px !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(8, 106, 216, 0.1) !important;
+  }
+}
+
+.rang-number {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 0.9rem;
+  background: #f3f4f6;
+  color: #6b7280;
+
+  &.rang-or { background: #fef3c7; color: #d97706; }
+  &.rang-argent { background: #f3f4f6; color: #6b7280; }
+  &.rang-bronze { background: #fde68a; color: #92400e; }
+}

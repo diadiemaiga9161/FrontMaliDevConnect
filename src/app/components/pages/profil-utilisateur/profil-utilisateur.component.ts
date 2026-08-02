@@ -17,7 +17,8 @@ const URL_PHOTO: string = environment.Url_PHOTO;
 })
 
 export class ProfilUtilisateurComponent implements OnInit {
-  selectedTab: string = 'profil'
+  selectedTab: string = 'profil';
+  selectedSousTab: string = 'tous';
   id: any;
   informaticien: any;
   specialite: any;
@@ -30,9 +31,23 @@ export class ProfilUtilisateurComponent implements OnInit {
   errorMessage = '';
   nombreprojet: number = 0;
   nombreexperience: number = 0;
-  rdv: any;
-  p:number=1
+ 
+  rdvRecus: any[] = [];
+  rdvEnvoyes: any[] = [];
+  rdvEnAttente: any[] = [];
+  rdvAcceptes: any[] = [];
+  rdvRefuses: any[] = [];
+  rdvAnnules: any[] = [];
+  
+  // Pagination
+  pRecus: number = 1;
+  pEnvoyes: number = 1;
+  pEnAttente: number = 1;
+  pAcceptes: number = 1;
 
+  motifAction: string = '';
+  rdvSelectionne: any = null;
+  actionEnCours: string = '';
 
   constructor(
     private serviceUser: UserService,
@@ -55,26 +70,235 @@ export class ProfilUtilisateurComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadAllData();
+  }
 
-    // AFFICHER LA LISTE DES INFORMATICIENS
-    this.specialiteService.AfficherListeSPecialite().subscribe(data => {
-      this.specialite = data;
-      console.log(this.specialite);
-    });
+  afficherNotifications(rdv: any) {
+    throw new Error('Method not implemented.');
+  }
 
-        // AFFICHER LA LISTE DES RENDEVOUS ENVOYER PAR USER CONNECTER
-        this.rdvService.AfficherRdvParEnvoyerParUserConnecterNew().subscribe(data => {
-          this.rdv = data;
-          console.log(this.rdv);
-        });
-    
-    //AFFICHER UN INFORMATICIEN EN FONCTION DE SON ID
-    this.serviceUser.AfficherInformaticienParId(this.User.id).subscribe(data => {
-      this.nombreexperience = data?.experienceProfessionnelles?.length;
-      this.nombreprojet = data?.projetInformatiques?.length;
-      console.log(this.informaticien);
+
+  loadAllData(): void {
+    this.loadRendezVousRecus();
+    this.loadRendezVousEnvoyes();
+    this.loadRendezVousNonNotifies();
+  }
+  loadRendezVousEnvoyes(): void {
+    // Rendez-vous envoyés (ceux que j'ai pris)
+    this.rdvService.AfficherRdvParEnvoyerParUserConnecterNew().subscribe(data => {
+      this.rdvEnvoyes = data || [];
+      console.log('Rendez-vous envoyés (pris par moi):', this.rdvEnvoyes);
+    }, error => {
+      console.error('Erreur chargement RDV envoyés:', error);
+      this.rdvEnvoyes = [];
     });
   }
+  loadRendezVousRecus(): void {
+    // Rendez-vous reçus
+    this.rdvService.AfficherRdvParRecuParUserConnecter().subscribe(data => {
+      this.rdvRecus = data || [];
+      console.log('Rendez-vous reçus:', this.rdvRecus);
+      
+      // Filtrer par statut
+      this.rdvEnAttente = this.rdvRecus.filter(rdv => rdv?.statut === 'EN_ATTENTE');
+      this.rdvAcceptes = this.rdvRecus.filter(rdv => rdv?.statut === 'ACCEPTE');
+      this.rdvRefuses = this.rdvRecus.filter(rdv => rdv?.statut === 'REFUSE');
+      this.rdvAnnules = this.rdvRecus.filter(rdv => rdv?.statut === 'ANNULE');
+    }, error => {
+      console.error('Erreur chargement RDV reçus:', error);
+      this.rdvRecus = [];
+    });
+  }
+  loadRendezVousNonNotifies(): void {
+    this.rdvService.AfficherRdvParRecuParUserConnecters().subscribe(data => {
+      console.log('Rendez-vous non notifiés:', data);
+      if (data && data.length > 0) {
+        this.showNotifications(data);
+      }
+    }, error => {
+      console.error('Erreur chargement RDV non notifiés:', error);
+    });
+  }
+  // ============= METHODES POUR LES RENDEZ-VOUS =============
+
+  // Accepter un rendez-vous
+  AccepterRendezVous(rdv: any): void {
+    Swal.fire({
+      title: 'Accepter le rendez-vous',
+      text: `Voulez-vous accepter le rendez-vous de ${rdv?.userenvoyer?.prenom || ''} ${rdv?.userenvoyer?.nom || ''} ?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Oui, accepter',
+      cancelButtonText: 'Annuler',
+      confirmButtonColor: '#28a745'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.rdvService.AccepterRendezVous(rdv.id).subscribe({
+          next: (response) => {
+            Swal.fire({
+              title: 'Succès!',
+              text: response.message || 'Rendez-vous accepté avec succès',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            });
+            this.loadRendezVousRecus(); // Recharger les données
+          },
+          error: (error) => {
+            Swal.fire({
+              title: 'Erreur!',
+              text: error.error?.message || 'Erreur lors de l\'acceptation du rendez-vous',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
+          }
+        });
+      }
+    });
+  }
+
+  // Refuser un rendez-vous avec motif
+  RefuserRendezVous(rdv: any): void {
+    Swal.fire({
+      title: 'Refuser le rendez-vous',
+      html: `
+        <p>Voulez-vous refuser le rendez-vous de ${rdv?.userenvoyer?.prenom || ''} ${rdv?.userenvoyer?.nom || ''} ?</p>
+        <div class="form-group mt-3">
+          <label for="motifRefus">Motif du refus (optionnel):</label>
+          <textarea id="motifRefus" class="swal2-textarea" placeholder="Saisissez le motif du refus..."></textarea>
+        </div>
+      `,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui, refuser',
+      cancelButtonText: 'Annuler',
+      confirmButtonColor: '#dc3545',
+      preConfirm: () => {
+        const motif = (document.getElementById('motifRefus') as HTMLTextAreaElement)?.value;
+        return this.rdvService.RefuserRendezVous(rdv.id, motif).toPromise();
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Refusé!',
+          text: 'Rendez-vous refusé avec succès',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+        this.loadRendezVousRecus();
+      }
+    }).catch((error) => {
+      Swal.fire({
+        title: 'Erreur!',
+        text: error.error?.message || 'Erreur lors du refus du rendez-vous',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    });
+  }
+
+  // Annuler un rendez-vous que j'ai pris
+  AnnulerRendezVous(rdv: any): void {
+    Swal.fire({
+      title: 'Annuler le rendez-vous',
+      html: `
+        <p>Voulez-vous annuler votre rendez-vous avec ${rdv?.user?.prenom || ''} ${rdv?.user?.nom || ''} ?</p>
+        <div class="form-group mt-3">
+          <label for="motifAnnulation">Motif de l'annulation (optionnel):</label>
+          <textarea id="motifAnnulation" class="swal2-textarea" placeholder="Saisissez le motif de l'annulation..."></textarea>
+        </div>
+      `,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui, annuler',
+      cancelButtonText: 'Non',
+      confirmButtonColor: '#ffc107',
+      preConfirm: () => {
+        const motif = (document.getElementById('motifAnnulation') as HTMLTextAreaElement)?.value;
+        return this.rdvService.AnnulerRendezVous(rdv.id, motif).toPromise();
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Annulé!',
+          text: 'Rendez-vous annulé avec succès',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+        this.loadRendezVousEnvoyes();
+      }
+    }).catch((error) => {
+      Swal.fire({
+        title: 'Erreur!',
+        text: error.error?.message || 'Erreur lors de l\'annulation du rendez-vous',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    });
+  }
+
+  // Voir les détails d'un rendez-vous
+  VoirDetailsRdv(rdv: any): void {
+    this.rdvSelectionne = rdv;
+    
+    const statutLibelle = this.getStatutLibelle(rdv?.statut);
+    const statutCouleur = this.getStatutCouleur(rdv?.statut);
+    
+    let motifHtml = '';
+    if (rdv?.motifAnnulation) {
+      motifHtml = `<p><strong>Motif:</strong> ${rdv.motifAnnulation}</p>`;
+    }
+    
+    let datesHtml = '';
+    if (rdv?.dateAcceptation) {
+      datesHtml += `<p><strong>Accepté le:</strong> ${new Date(rdv.dateAcceptation).toLocaleString()}</p>`;
+    }
+    if (rdv?.dateAnnulation) {
+      datesHtml += `<p><strong>Annulé/Refusé le:</strong> ${new Date(rdv.dateAnnulation).toLocaleString()}</p>`;
+    }
+    
+    Swal.fire({
+      title: 'Détails du rendez-vous',
+      html: `
+        <div style="text-align: left;">
+          <p><strong>Objet:</strong> ${rdv?.objet || 'Non spécifié'}</p>
+          <p><strong>Date:</strong> ${rdv?.date || 'Non spécifiée'}</p>
+          <p><strong>Heure:</strong> ${rdv?.heure || 'Non spécifiée'}</p>
+          <p><strong>Type:</strong> ${rdv?.typerdv?.typerdv || 'Non spécifié'}</p>
+          <p><strong>Statut:</strong> <span class="badge bg-${statutCouleur}">${statutLibelle}</span></p>
+          ${motifHtml}
+          ${datesHtml}
+          <p><strong>Créé le:</strong> ${new Date(rdv?.createdAt).toLocaleString()}</p>
+        </div>
+      `,
+      icon: 'info',
+      confirmButtonText: 'Fermer'
+    });
+  }
+
+  // Afficher les notifications (renommé pour éviter le conflit)
+  showNotifications(rdvs: any[]): void {
+    if (rdvs && rdvs.length > 0) {
+      const nouveauRdv = rdvs[0];
+      Swal.fire({
+        title: 'Nouveau rendez-vous!',
+        html: `
+          <p>Vous avez reçu un nouveau rendez-vous de <strong>${nouveauRdv?.userenvoyer?.prenom || ''} ${nouveauRdv?.userenvoyer?.nom || ''}</strong></p>
+          <p><strong>Objet:</strong> ${nouveauRdv?.objet || ''}</p>
+          <p><strong>Date:</strong> ${nouveauRdv?.date || ''} à ${nouveauRdv?.heure || ''}</p>
+        `,
+        icon: 'info',
+        confirmButtonText: 'Voir',
+        showCancelButton: true,
+        cancelButtonText: 'Plus tard'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.selectedTab = 'rendezvous';
+          this.VoirDetailsRdv(nouveauRdv);
+        }
+      });
+    }
+  }
+
 
   handleAuthorImageError(event: any) {
     event.target.src = 'assets/img/team/amadou.jpg';
@@ -89,6 +313,10 @@ export class ProfilUtilisateurComponent implements OnInit {
 
   changeTab(tab: string) {
     this.selectedTab = tab;
+    // Réinitialiser le sous-onglet quand on change d'onglet principal
+    if (tab === 'rendezvous') {
+      this.selectedSousTab = 'tous';
+    }
   }
 
   isTabActive(tab: string): boolean {
@@ -347,28 +575,75 @@ onAdd(): void {
   if (user && user.token && photo) {
       this.serviceUser.changerPhoto(photo).subscribe(
           successResponse => {
-              console.log('Photo changed successfully', successResponse);
-              console.log('Photo ', photo);
-              this.User.photos[0].nom = photo.name;
-              user.photos[0].nom = successResponse.message;
+              const newPath = successResponse.message;
+              if (!user.photos || user.photos.length === 0) {
+                  user.photos = [{ nom: newPath }];
+              } else {
+                  user.photos[0].nom = newPath;
+              }
+              user.utilisateurPhoto = { nom: newPath };
               this.storageService.setUser(user);
-              console.log(this.User.photos[0].nom);
-              this.User.photos[0].nom = photo.name;
-              // this.generateImageUrl(photo.name);
-              // Mettez à jour le chemin de l'image de profil
-              this.profileImageUrl = this.generateImageUrl(photo.name) + '?timestamp=' + new Date().getTime();
-              const uniqueFileName = photo.name + `?timestamp=${new Date().getTime()}`;
-              this.User.photos[0].nom = uniqueFileName;
               this.reloadPage();
           },
-          error => {
-              // console.error('Error while changing photo', error);
-          }
+          error => {}
       );
   } else {
       // console.error('Token JWT missing or no photo selected');
   }
 }
 
+goToDettailRdv(id: number | undefined): Promise<boolean> {
+  if (id !== undefined) {
+    return this.router.navigate(['/details-rdv', id]);
+  }
+  return Promise.resolve(false);
+}
+
+// Méthodes utilitaires pour les statuts
+getStatutLibelle(statut: string): string {
+  const statuts: { [key: string]: string } = {
+    'EN_ATTENTE': 'En attente',
+    'ACCEPTE': 'Accepté',
+    'REFUSE': 'Refusé',
+    'ANNULE': 'Annulé'
+  };
+  return statuts[statut] || statut || 'Inconnu';
+}
+
+getStatutCouleur(statut: string): string {
+  const couleurs: { [key: string]: string } = {
+    'EN_ATTENTE': 'warning',
+    'ACCEPTE': 'success',
+    'REFUSE': 'danger',
+    'ANNULE': 'secondary'
+  };
+  return couleurs[statut] || 'dark';
+}
+
+getStatutIcone(statut: string): string {
+  const icones: { [key: string]: string } = {
+    'EN_ATTENTE': 'clock',
+    'ACCEPTE': 'check-circle',
+    'REFUSE': 'times-circle',
+    'ANNULE': 'ban'
+  };
+  return icones[statut] || 'circle';
+}
+
+// Vérifier les permissions
+peutAccepter(rdv: any): boolean {
+  return rdv && rdv.statut === 'EN_ATTENTE' && rdv.user?.id === this.User?.id;
+}
+
+peutRefuser(rdv: any): boolean {
+  return rdv && rdv.statut === 'EN_ATTENTE' && rdv.user?.id === this.User?.id;
+}
+
+peutAnnuler(rdv: any): boolean {
+  return rdv && 
+         (rdv.statut === 'EN_ATTENTE' || rdv.statut === 'ACCEPTE') && 
+         rdv.userEvoyer?.id === this.User?.id;
+}
 
 }
+

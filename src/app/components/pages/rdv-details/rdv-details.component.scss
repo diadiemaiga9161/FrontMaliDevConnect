@@ -1,0 +1,26 @@
+.rdv-card {
+  border-radius: 14px !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(8, 106, 216, 0.1) !important;
+  }
+}
+
+.stat-box {
+  border-radius: 12px !important;
+  transition: box-shadow 0.2s ease;
+  &:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08) !important; }
+}
+
+.rdv-info {
+  background: rgba(8, 106, 216, 0.03);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.btn-xs {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+}

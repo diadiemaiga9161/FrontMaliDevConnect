@@ -46,7 +46,7 @@
                                     </div>
                                 </div>
                                 <label class="fieldlabels">Connaissance: *</label>
-                                <select  class="form-control" id="customFile"  [(ngModel)]="searchTextConnaissance">
+                                <select class="form-control" id="customFile" name="searchTextConnaissance" [(ngModel)]="searchTextConnaissance">
                                     <option value="" selected>Tout</option>
                                     <option  *ngFor="let Connaissance of connaissance"> {{ Connaissance.nom }}</option>
                                 </select>

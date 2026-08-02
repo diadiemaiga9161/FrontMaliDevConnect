@@ -1,0 +1,58 @@
+.stat-card {
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border-radius: 14px !important;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(8, 106, 216, 0.1) !important;
+  }
+
+  &.active {
+    border-color: #086AD8 !important;
+    background: rgba(8, 106, 216, 0.04);
+  }
+}
+
+.contact-card {
+  border-radius: 14px !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1) !important;
+  }
+}
+
+.nav-pills .nav-link {
+  border-radius: 10px;
+  color: #666;
+  font-weight: 500;
+  padding: 8px 18px;
+
+  &.active {
+    background: #086AD8;
+    color: #fff;
+  }
+
+  &:not(.active):hover {
+    background: rgba(8, 106, 216, 0.08);
+    color: #086AD8;
+  }
+}
+
+.default-btn {
+  display: inline-block;
+  padding: 11px 26px;
+  background: #086AD8;
+  color: #fff;
+  border-radius: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #0555b0;
+    color: #fff;
+  }
+}

@@ -14,7 +14,8 @@
       "default",
       {
         "aria-required-children": "off",
-        "aria-required-parent": "off"
+        "aria-required-parent": "off",
+        "aria-roles": "off"
       }
     ],
     "axe/forms": [

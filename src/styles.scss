@@ -11,10 +11,11 @@ $white-color: #ffffff;
 $black-color: #212121;
 $paragraph-color: #666666;
 $font-size: 15px;
-$transition: .5s;
+$transition: 0.35s ease;
 
 body {
     padding: 0;
+    padding-top: 68px;
     margin: 0;
     font: {
         family: $main-font-family;
@@ -99,31 +100,33 @@ img {
 }
 .default-btn {
     display: inline-block;
-    padding: 10px 30px 13px;
+    padding: 12px 28px 14px;
     background-color: $main-color;
     color: $white-color;
-    font-size: 10px;
-    border-radius: 2px;
+    font-size: 14px;
+    border-radius: 12px;
     font: {
         size: $font-size;
-        weight: 200;
+        weight: 600;
     };
+    transition: transform 0.2s ease, box-shadow 0.3s ease, background-color 0.3s ease;
     &:hover {
-        background-color: $optional-color;
+        background-color: #0660b8;
         color: $white-color;
     }
 }
 .optional-btn {
     display: inline-block;
-    padding: 13px 35px 14px;
+    padding: 12px 28px 14px;
     background-color: $optional-color;
     color: $white-color;
-    border-radius: 2px;
-    margin-left: 16px;
+    border-radius: 12px;
+    margin-left: 12px;
     font: {
         size: $font-size;
-        weight: 400;
+        weight: 600;
     };
+    transition: transform 0.2s ease, box-shadow 0.3s ease, background-color 0.3s ease;
     &:hover {
         background-color: $main-color;
         color: $white-color;
@@ -139,7 +142,8 @@ img {
         font-size: 40px;
         margin-bottom: 12px;
         position: relative;
-        line-height: 1;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
     }
     span {
         color: $main-color;
@@ -6966,4 +6970,115 @@ Go Top CSS
             }
         }
     }
+}
+
+/*================================================
+Auth Section – Connexion / Inscription
+=================================================*/
+.auth-section {
+    background: linear-gradient(135deg, #0a1628 0%, #0d47a1 50%, #086AD8 100%);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        width: 500px; height: 500px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.04);
+        top: -150px; right: -150px;
+        pointer-events: none;
+    }
+    &::after {
+        content: '';
+        position: absolute;
+        width: 320px; height: 320px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.04);
+        bottom: -80px; left: -80px;
+        pointer-events: none;
+    }
+
+    .card {
+        border: none !important;
+        box-shadow: 0 24px 80px rgba(0,0,0,.22) !important;
+        border-radius: 20px !important;
+        position: relative;
+        z-index: 1;
+    }
+
+    .form-control,
+    .form-select {
+        border-radius: 10px;
+        border: 1.5px solid #e8eaf0;
+        padding: .6rem .9rem;
+        font-size: .9rem;
+        transition: border-color .25s, box-shadow .25s;
+
+        &:focus {
+            border-color: #086AD8;
+            box-shadow: 0 0 0 3px rgba(8,106,216,.15);
+        }
+    }
+
+    .input-group .form-control { border-right:0; }
+    .input-group .btn-outline-secondary {
+        border-left: 0;
+        border-radius: 0 10px 10px 0;
+        border-color: #e8eaf0;
+        color: #888;
+        &:hover { background: #f5f5f5; }
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg,#086AD8,#0d47a1);
+        border: none;
+        border-radius: 10px;
+        font-weight: 700;
+        letter-spacing: .3px;
+        padding: .7rem;
+        transition: all .3s ease;
+        &:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(8,106,216,.35); }
+    }
+}
+
+/*================================================
+Page Title Area – Modernized overlay
+=================================================*/
+.page-title-area {
+    height: 280px !important;
+
+    &::before {
+        background: linear-gradient(135deg,rgba(13,71,161,.88),rgba(8,106,216,.75)) !important;
+        opacity: 1 !important;
+    }
+}
+.page-title-content h2 {
+    font-size: 36px !important;
+}
+
+/*================================================
+Navbar – Active underline
+=================================================*/
+.navbar-area .navbar-nav .nav-link.active {
+    color: #086AD8 !important;
+    font-weight: 600;
+}
+
+/*================================================
+Global card hover improvement
+=================================================*/
+.single-protfolio-box {
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all .3s ease;
+    box-shadow: 0 4px 16px rgba(0,0,0,.08);
+    &:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(8,106,216,.15); }
+}
+
+/*================================================
+Mobile bottom padding (for bottom tabs)
+=================================================*/
+@media(max-width:767px){
+    body { padding-bottom: 60px; }
 }

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../services/user/user.service';
-import { AuthService } from '../services/auth/auth.service';
-import { ExperienceService } from '../services/experience/experience.service';
+import { UserService } from 'src/app/services/user/user.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { ExperienceService } from 'src/app/services/experience/experience.service';
 import { Router } from '@angular/router';
 
 import { environment } from 'src/environments/environment';
-import { StorageService } from '../services/storage/storage.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
 
 const URL_PHOTO: string = environment.Url_PHOTO;
 

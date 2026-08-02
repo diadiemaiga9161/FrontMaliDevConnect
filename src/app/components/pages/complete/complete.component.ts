@@ -5,10 +5,13 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { ConnaissanceService } from 'src/app/services/connaissance/connaissance.service';
 import { ExperienceService } from 'src/app/services/experience/experience.service';
 import { ProjetService } from 'src/app/services/projet/projet.service';
+import { SpecialiteService } from 'src/app/services/specialite/specialite.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
 import { TypeConnaissanceService } from 'src/app/services/type-connaissance/type-connaissance.service';
 import { TypeProjetService } from 'src/app/services/typeProjet/type-projet.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { environment } from 'src/environments/environment';
+import Swal from 'sweetalert2';
 
 
 const URL_PHOTO: string = environment.Url_PHOTO;
@@ -29,8 +32,11 @@ export class CompleteComponent implements OnInit {
   informaticien: any;
   connaissance: any;
   typeprojet: any;
-  typeConnaissances:any;
+  typeConnaissances: any;
   id_typeConnaissances: any;
+  specialites: any[] = [];
+  profilCompleteForm: any = { specialiteId: null, genre: '', adresse: '' };
+  profilComplete = false;
 
   //IMAGE
   generateImageUrl(photoFileName: string): string {
@@ -49,12 +55,15 @@ export class CompleteComponent implements OnInit {
     private projetService: ProjetService,
     private typeProjetService: TypeProjetService,
     private typeConnaissanceService: TypeConnaissanceService,
+    private specialiteService: SpecialiteService,
+    private storageService: StorageService,
     public router: Router,
-  ) {
-
-  }
+  ) {}
   form: any = {
     titre: null,
+    poste: null,
+    entreprise: null,
+    description: null,
     datedebut: null,
     datefin: null,
     lieux: null,
@@ -72,6 +81,7 @@ export class CompleteComponent implements OnInit {
     titre: '',
     description: '',
     typeProjet: '',
+    lienProjet: '',
     photo: null,
   };
 
@@ -80,14 +90,20 @@ export class CompleteComponent implements OnInit {
     id_typeConnaissances: null
   };
 
+  formBio: any = { contenu: '' };
+  selectedConnaissanceIds: number[] = [];
+  currentStep: number = 1;
+
 
   ngOnInit(): void {
-
     this.serviceUser.AfficherInfoUserConnecte().subscribe(data => {
       this.User = data;
-      console.log(this.User);
-    }
-    );
+      this.profilComplete = data?.profilcompleter === true;
+    });
+
+    this.specialiteService.AfficherListeSPecialite().subscribe(data => {
+      this.specialites = data;
+    });
 
     // AFFICHER LA LISTE DES INFORMATICIENS
     this.serviceUser.AfficherListeInformaticien().subscribe(data => {
@@ -116,7 +132,7 @@ export class CompleteComponent implements OnInit {
   }
 
 
-  goToDettailInformaticien(id: number | undefined): Promise<boolean> {
+  goToDettailProfessionnel(id: number | undefined): Promise<boolean> {
     if (id !== undefined) {
       return this.router.navigate(['profil-détaillé', id]);
     }
@@ -126,7 +142,7 @@ export class CompleteComponent implements OnInit {
 
 
   submitForm() {
-    this.experienceService.Ajouterexperience(this.form.titre, this.form.datedebut, this.form.datefin, this.form.lieux, this.form.idinf).subscribe((data) => {
+    this.experienceService.Ajouterexperience(this.form.titre, this.form.poste, this.form.entreprise, this.form.description, this.form.datedebut, this.form.datefin, this.form.lieux, this.form.idinf).subscribe((data) => {
       // Enregistrez les données de l'utilisateur dans le service de stockage (session storage ou autre)
       console.log(data);
       console.log(this.informaticien.id);
@@ -147,23 +163,7 @@ export class CompleteComponent implements OnInit {
     location.reload();
 
   } 
-  // submitForm1(form1:NgForm) {
-    
-  //   console.log(form1.value)
-  //   }
 
-  // submitForm1() {
-  //   this.projetService.ajouter(this.form1.titre, this.form1.description, this.form1.typeProjet, this.form1.photo).subscribe(
-  //     response => {
-  //       console.log(response);
-  //       // Gérez la réponse ici
-  //     },
-  //     error => {
-  //       console.error(error);
-  //       // Gérez l'erreur ici
-  //     }
-  //   );
-  // }
   onSubmit() {
     console.log(this.formData);
     
@@ -184,12 +184,83 @@ export class CompleteComponent implements OnInit {
     }
 }
   submitForm2() {
-    this.connaissanceService.Ajouter(this.form2.nom,this.form2.typeConnaissances).subscribe((data) => {
-      // Enregistrez les données de l'utilisateur dans le service de stockage (session storage ou autre)
+    this.connaissanceService.Ajouter(this.form2.nom, this.form2.typeConnaissances).subscribe((data) => {
       console.log(data);
-      console.log(this.informaticien.id);
     });
-    // location.reload();
+  }
 
+  nextStep(): void {
+    if (this.currentStep < 5) this.currentStep++;
+  }
+
+  prevStep(): void {
+    if (this.currentStep > 1) this.currentStep--;
+  }
+
+  goToStep(step: number): void {
+    if (step >= 1 && step <= 5) this.currentStep = step;
+  }
+
+  toggleConnaissance(id: number): void {
+    const idx = this.selectedConnaissanceIds.indexOf(id);
+    if (idx === -1) {
+      this.selectedConnaissanceIds.push(id);
+    } else {
+      this.selectedConnaissanceIds.splice(idx, 1);
+    }
+  }
+
+  lierConnaissances(): void {
+    if (this.selectedConnaissanceIds.length === 0) return;
+    this.connaissanceService.lierPlusieurs(this.selectedConnaissanceIds).subscribe({
+      next: () => {
+        Swal.fire({ title: 'Succès', text: 'Compétences liées à votre profil !', icon: 'success', timer: 2000, showConfirmButton: false, heightAuto: false });
+        this.selectedConnaissanceIds = [];
+      },
+      error: (err) => {
+        Swal.fire({ title: 'Erreur', text: err.error?.message || 'Erreur lors de la liaison des compétences', icon: 'error', heightAuto: false });
+      }
+    });
+  }
+
+  submitBiographie(): void {
+    const contenu = this.formBio.contenu?.trim();
+    if (!contenu || contenu.length < 10) {
+      Swal.fire({ title: '', text: 'Veuillez saisir une biographie d\'au moins 10 caractères.', icon: 'warning', heightAuto: false });
+      return;
+    }
+    this.serviceUser.ajouterBiographie(contenu).subscribe({
+      next: () => {
+        Swal.fire({ title: 'Succès', text: 'Biographie enregistrée !', icon: 'success', timer: 2000, showConfirmButton: false, heightAuto: false });
+        this.formBio.contenu = '';
+      },
+      error: (err) => {
+        Swal.fire({ title: 'Erreur', text: err.error?.message || 'Erreur lors de l\'enregistrement de la biographie', icon: 'error', heightAuto: false });
+      }
+    });
+  }
+
+  completerProfil(): void {
+    if (!this.profilCompleteForm.specialiteId || !this.profilCompleteForm.genre || !this.profilCompleteForm.adresse) {
+      Swal.fire('', 'Veuillez remplir tous les champs obligatoires.', 'warning');
+      return;
+    }
+    const payload = {
+      specialite: { id: this.profilCompleteForm.specialiteId },
+      genre: this.profilCompleteForm.genre,
+      adresse: this.profilCompleteForm.adresse
+    };
+    this.serviceUser.completerProfil(payload).subscribe({
+      next: (data) => {
+        this.storageService.setUser({ ...this.storageService.getUser(), profilcompleter: true, specialite: { id: this.profilCompleteForm.specialiteId } });
+        this.profilComplete = true;
+        Swal.fire({ title: '', text: 'Profil complété avec succès !', icon: 'success', timer: 1500, showConfirmButton: false, heightAuto: false }).then(() => {
+          this.nextStep();
+        });
+      },
+      error: () => {
+        Swal.fire('', 'Erreur lors de la complétion du profil.', 'error');
+      }
+    });
   }
 }

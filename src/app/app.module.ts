@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,7 +13,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
 import { NavbarOneComponent } from './components/layouts/navbar-one/navbar-one.component';
 import { AproposComponent } from './components/pages/apropos/apropos.component';
-import { InformaticienComponent } from './components/pages/Informaticien(e)/Informaticien.component';
+import { ProfessionnelComponent } from './components/pages/professionnel/professionnel.component';
 import { ContactComponent } from './components/pages/contact/contact.component';
 import { ErrorComponent } from './components/pages/error/error.component';
 import { InscriptionComponent } from './components/pages/inscription/inscription.component';
@@ -21,7 +22,7 @@ import { ProfilDevComponent } from './components/pages/profil-dev/profil-dev.com
 import { CompleteProfilsComponent } from './components/pages/complete-profils/complete-profils.component';
 import { FormsModule } from '@angular/forms';
 import { ConnexionComponent } from './components/pages/connexion/connexion.component';
-import { profilInformaticienComponent } from './components/pages/profil-informaticien/profil-informaticien.component';
+import { ProfilProfessionnelComponent } from './components/pages/profil-professionnel/profil-professionnel.component';
 import { ProfilUtilisateurComponent } from './components/pages/profil-utilisateur/profil-utilisateur.component';
 import { RdvDetailsComponent } from './components/pages/rdv-details/rdv-details.component';
 import { ProjetsDétailléComponent } from './components/pages/projets-détaillé/projets-détaillé.component';
@@ -32,6 +33,14 @@ import { NewPasseComponent } from './components/pages/new-passe/new-passe.compon
 import { CompleteComponent } from './components/pages/complete/complete.component';
 import { ProjetComponent } from './components/pages/projet/projet.component';
 import { CommentComponent } from './components/pages/comment/comment.component';
+import { NotificationComponent } from './components/pages/notification/notification.component';
+import { ForumComponent } from './components/pages/forum/forum.component';
+import { DirectoryComponent } from './components/pages/directory.component';
+import { ChatComponent } from './components/pages/chat-main.component';
+import { FavorisComponent } from './components/pages/favoris/favoris.component';
+import { ContactsComponent } from './components/pages/contacts/contacts.component';
+import { PlusVusComponent } from './components/pages/plus-vus/plus-vus.component';
+import { ChatModalComponent } from './components/chat-modal/chat-modal.component';
 
 
 
@@ -43,7 +52,7 @@ import { CommentComponent } from './components/pages/comment/comment.component';
     FooterComponent,
     AccueilComponent,
     NavbarOneComponent,
-    InformaticienComponent,
+    ProfessionnelComponent,
     ContactComponent,
     RdvDetailsComponent,
     ErrorComponent,
@@ -53,9 +62,7 @@ import { CommentComponent } from './components/pages/comment/comment.component';
     ProfilUtilisateurComponent,
     ConnexionComponent,
     CompleteProfilsComponent,
-    profilInformaticienComponent,
-    ProfilUtilisateurComponent,
-    RdvDetailsComponent,
+    ProfilProfessionnelComponent,
     ProjetsDétailléComponent,
     SingInComponent,
     MotPasseComponent,
@@ -63,7 +70,15 @@ import { CommentComponent } from './components/pages/comment/comment.component';
     CompleteComponent,
     ProjetComponent,
     CommentComponent,
-    
+    NotificationComponent,
+    ForumComponent,
+    DirectoryComponent,
+    ChatComponent,
+    FavorisComponent,
+    ContactsComponent,
+    PlusVusComponent,
+    ChatModalComponent,
+
 
 
   ],
@@ -78,7 +93,9 @@ import { CommentComponent } from './components/pages/comment/comment.component';
     FormsModule,
  
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

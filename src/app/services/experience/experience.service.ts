@@ -26,10 +26,11 @@ export class ExperienceService {
 
   // Méthode pour obtenir les en-têtes avec le token JWT
   getHeaders(): HttpHeaders {
-    const token = this.storageService.getUser().token;  // Obtient le jeton d'accès à partir du service de stockage local
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`  // Crée et retourne les en-têtes HTTP avec le jeton d'accès
-    });
+    const token = this.storageService.getUser()?.token;
+    if (!token) {
+      return new HttpHeaders();
+    }
+    return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
   }
 
 
@@ -38,19 +39,19 @@ export class ExperienceService {
     return this.http.post(`${URL_BASE}amadou/ajouter`, experience);
   }
   
-// Méthode pour effectuer l'ajout 
-Ajouterexperience(titre: any, datedebut: any, datefin: any, lieux: any, id_utilisateur: any): Observable<any> {
-  const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
-  const data = { 
-    "titre" : titre,
-    "datedebut" : datedebut,
-    "datefin" : datefin,
-    "lieux" : lieux,
-    "id_utilisateur" : id_utilisateur
+Ajouterexperience(titre: any, poste: any, entreprise: any, description: any, datedebut: any, datefin: any, lieux: any, id_utilisateur: any): Observable<any> {
+  const headers = this.getHeaders();
+  const data = {
+    "titre"       : titre,
+    "poste"       : poste,
+    "entreprise"  : entreprise,
+    "description" : description,
+    "datedebut"   : datedebut,
+    "datefin"     : datefin,
+    "lieux"       : lieux,
+    "id_utilisateur": id_utilisateur
   };
-  return this.http.post(
-    URL_BASE + 'amadou/ajouter',data, { headers }
-  );
+  return this.http.post(URL_BASE + 'amadou/ajouter', data, { headers });
 }
 
   // Méthode pour afficher la liste des experience
@@ -63,5 +64,19 @@ Ajouterexperience(titre: any, datedebut: any, datefin: any, lieux: any, id_utili
    VoirexperienceProfessionnelle(): Observable<any> {
     const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
     return this.http.get(`${URL_BASE}amadou/voir`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
+  }
+
+  modifierExperience(experience: any): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.put(`${URL_BASE}amadou/modifier`, experience, { headers });
+  }
+
+  supprimerExperience(id: number): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.delete(`${URL_BASE}amadou/supprimer/${id}`, { headers });
+  }
+
+  getExperiencesParUser(userId: number): Observable<any> {
+    return this.http.get(`${URL_BASE}amadou/par-user/${userId}`);
   }
 }

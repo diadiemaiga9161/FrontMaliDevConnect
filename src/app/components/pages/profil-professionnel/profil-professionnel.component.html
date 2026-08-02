@@ -1,0 +1,770 @@
+<!-- Bannière -->
+<div class="page-title-area item-bg-3">
+    <div class="d-table"><div class="d-table-cell">
+        <div class="container">
+            <div class="page-title-content">
+                <h2>Mon Espace Professionnel</h2>
+                <ul>
+                    <li><a routerLink="/">Accueil</a></li>
+                    <li>Mon profil</li>
+                </ul>
+            </div>
+        </div>
+    </div></div>
+</div>
+
+<section class="ptb-60" style="background:#f4f6fb; min-height:80vh;">
+<div class="container py-4">
+<div class="row g-4">
+
+    <!-- ══════════ SIDEBAR ══════════ -->
+    <div class="col-lg-3">
+        <div class="sidebar-card card border-0 shadow-sm">
+
+            <!-- Photo + infos identité -->
+            <div class="text-center p-4 pb-3" style="background:linear-gradient(135deg,#086AD8,#10dce8); border-radius:14px 14px 0 0;">
+                <div class="position-relative d-inline-block mb-3">
+                    <img [src]="generateImageUrl(User?.utilisateurPhoto?.nom || User?.photos?.[0]?.nom)"
+                         (error)="handleAuthorImageError($event)"
+                         class="rounded-circle"
+                         style="width:90px;height:90px;object-fit:cover;border:3px solid #fff;">
+                    <label class="position-absolute bottom-0 end-0 d-flex align-items-center justify-content-center rounded-circle bg-white"
+                           style="width:28px;height:28px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.2);" title="Changer la photo">
+                        <i class="fa fa-camera text-primary" style="font-size:.75rem;"></i>
+                        <input type="file" hidden (change)="onPhotoChange($event)" accept=".png,.jpeg,.jpg">
+                    </label>
+                </div>
+                <h5 class="fw-bold mb-0 text-white">{{User?.prenom}} {{User?.nom}}</h5>
+                <!-- Spécialité principale -->
+                <span class="badge mb-1" style="background:rgba(255,255,255,.2);color:#fff;font-size:.78rem;" *ngIf="User?.specialite">
+                    {{User?.specialite?.specialite}}
+                </span>
+                <!-- Spécialités supplémentaires -->
+                <div class="d-flex flex-wrap justify-content-center gap-1 mb-1" *ngIf="specialitesSupp.length > 0">
+                    <span *ngFor="let s of specialitesSupp"
+                          class="badge"
+                          style="background:rgba(255,255,255,.12);color:rgba(255,255,255,.85);font-size:.72rem;">
+                        {{s.specialite}}
+                    </span>
+                </div>
+                <span class="badge bg-success" *ngIf="User?.verfication">
+                    <i class="fa fa-check-circle me-1"></i>Vérifié
+                </span>
+            </div>
+
+            <!-- Stats rapides -->
+            <div class="row g-0 text-center border-bottom">
+                <div class="col py-3 border-end">
+                    <h5 class="fw-bold mb-0 text-primary">{{nombreprojet}}</h5>
+                    <small class="text-muted">Projets</small>
+                </div>
+                <div class="col py-3 border-end">
+                    <h5 class="fw-bold mb-0 text-primary">{{nombreexperience}}</h5>
+                    <small class="text-muted">Expériences</small>
+                </div>
+                <div class="col py-3">
+                    <h5 class="fw-bold mb-0 text-primary">{{mesContacts.length}}</h5>
+                    <small class="text-muted">Contacts</small>
+                </div>
+            </div>
+
+            <!-- Coordonnées -->
+            <div class="p-3 border-bottom">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <i class="fa fa-phone text-primary" style="width:18px;"></i>
+                    <span class="small">+223 {{User?.telephone || '—'}}</span>
+                </div>
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <i class="fa fa-envelope text-primary" style="width:18px;"></i>
+                    <span class="small text-truncate">{{User?.email || '—'}}</span>
+                </div>
+                <div class="d-flex align-items-center gap-2 mb-2" *ngIf="User?.adresse">
+                    <i class="fa fa-map-marker text-primary" style="width:18px;"></i>
+                    <span class="small">{{User?.adresse}}</span>
+                </div>
+                <div class="d-flex align-items-center gap-2" *ngIf="User?.genre">
+                    <i class="fa fa-user text-primary" style="width:18px;"></i>
+                    <span class="small">{{User?.genre}}</span>
+                </div>
+            </div>
+
+            <!-- Actions rapides -->
+            <div class="p-3 border-bottom">
+                <button class="btn btn-outline-primary btn-sm w-100 mb-2" (click)="partagerProfil()">
+                    <i class="fa fa-share-alt me-1"></i> Partager mon profil
+                </button>
+                <a routerLink="/rdv-details" class="btn btn-outline-warning btn-sm w-100">
+                    <i class="fa fa-calendar me-1"></i> Mes rendez-vous
+                </a>
+            </div>
+
+            <!-- Navigation onglets (desktop) -->
+            <nav class="d-none d-lg-block">
+                <button class="sidebar-nav-btn w-100 text-start" [class.active]="isTabActive('profil')" (click)="changeTab('profil')">
+                    <i class="fa fa-user me-2"></i>Mon profil
+                </button>
+                <button class="sidebar-nav-btn w-100 text-start" [class.active]="isTabActive('experiences')" (click)="changeTab('experiences')">
+                    <i class="fa fa-briefcase me-2"></i>Expériences
+                    <span class="badge bg-primary ms-auto float-end mt-1" *ngIf="nombreexperience">{{nombreexperience}}</span>
+                </button>
+                <button class="sidebar-nav-btn w-100 text-start" [class.active]="isTabActive('projets')" (click)="changeTab('projets')">
+                    <i class="fa fa-code me-2"></i>Projets
+                    <span class="badge bg-primary ms-auto float-end mt-1" *ngIf="nombreprojet">{{nombreprojet}}</span>
+                </button>
+                <button class="sidebar-nav-btn w-100 text-start" [class.active]="isTabActive('competences')" (click)="changeTab('competences')">
+                    <i class="fa fa-cogs me-2"></i>Compétences
+                    <span class="badge bg-primary ms-auto float-end mt-1" *ngIf="mesConnaissances.length">{{mesConnaissances.length}}</span>
+                </button>
+                <button class="sidebar-nav-btn w-100 text-start" [class.active]="isTabActive('contacts')" (click)="changeTab('contacts')">
+                    <i class="fa fa-address-book me-2"></i>Contacts
+                    <span class="badge bg-danger ms-auto float-end mt-1" *ngIf="demandesRecues.length">{{demandesRecues.length}}</span>
+                </button>
+                <button class="sidebar-nav-btn w-100 text-start" [class.active]="isTabActive('favoris')" (click)="changeTab('favoris')">
+                    <i class="fa fa-heart me-2"></i>Favoris
+                    <span class="badge bg-primary ms-auto float-end mt-1" *ngIf="mesFavoris.length">{{mesFavoris.length}}</span>
+                </button>
+                <button class="sidebar-nav-btn w-100 text-start" [class.active]="isTabActive('securite')" (click)="changeTab('securite')">
+                    <i class="fa fa-lock me-2"></i>Sécurité
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Navigation onglets mobile -->
+    <div class="col-12 d-lg-none">
+        <div class="d-flex gap-2 overflow-auto pb-2 tab-mobile-scroll">
+            <button class="btn btn-sm flex-shrink-0" [class.btn-primary]="isTabActive('profil')" [class.btn-outline-secondary]="!isTabActive('profil')" (click)="changeTab('profil')"><i class="fa fa-user me-1"></i>Profil</button>
+            <button class="btn btn-sm flex-shrink-0" [class.btn-primary]="isTabActive('experiences')" [class.btn-outline-secondary]="!isTabActive('experiences')" (click)="changeTab('experiences')"><i class="fa fa-briefcase me-1"></i>Expériences</button>
+            <button class="btn btn-sm flex-shrink-0" [class.btn-primary]="isTabActive('projets')" [class.btn-outline-secondary]="!isTabActive('projets')" (click)="changeTab('projets')"><i class="fa fa-code me-1"></i>Projets</button>
+            <button class="btn btn-sm flex-shrink-0" [class.btn-primary]="isTabActive('competences')" [class.btn-outline-secondary]="!isTabActive('competences')" (click)="changeTab('competences')"><i class="fa fa-cogs me-1"></i>Compétences</button>
+            <button class="btn btn-sm flex-shrink-0" [class.btn-primary]="isTabActive('contacts')" [class.btn-outline-secondary]="!isTabActive('contacts')" (click)="changeTab('contacts')"><i class="fa fa-address-book me-1"></i>Contacts</button>
+            <button class="btn btn-sm flex-shrink-0" [class.btn-primary]="isTabActive('favoris')" [class.btn-outline-secondary]="!isTabActive('favoris')" (click)="changeTab('favoris')"><i class="fa fa-heart me-1"></i>Favoris</button>
+            <button class="btn btn-sm flex-shrink-0" [class.btn-primary]="isTabActive('securite')" [class.btn-outline-secondary]="!isTabActive('securite')" (click)="changeTab('securite')"><i class="fa fa-lock me-1"></i>Sécurité</button>
+        </div>
+    </div>
+
+    <!-- ══════════ CONTENU PRINCIPAL ══════════ -->
+    <div class="col-lg-9">
+
+        <!-- ─── ONGLET MON PROFIL ─── -->
+        <div *ngIf="isTabActive('profil')">
+
+            <!-- Biographie -->
+            <div class="content-card card border-0 shadow-sm mb-4">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h6 class="fw-bold mb-0"><i class="fa fa-align-left me-2 text-primary"></i>Biographie</h6>
+                    <button class="btn btn-sm btn-outline-primary" (click)="editingBio = !editingBio">
+                        <i class="fa" [ngClass]="editingBio ? 'fa-times' : 'fa-edit'"></i>
+                        {{ editingBio ? 'Annuler' : 'Modifier' }}
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="!editingBio">
+                        <p class="text-muted mb-0" *ngIf="biographieTexte">{{biographieTexte}}</p>
+                        <p class="text-muted fst-italic mb-0" *ngIf="!biographieTexte">Aucune biographie renseignée. Cliquez sur Modifier pour en ajouter une.</p>
+                    </div>
+                    <div *ngIf="editingBio">
+                        <textarea class="form-control mb-3" rows="5" placeholder="Décrivez votre parcours, vos compétences, vos objectifs..." [(ngModel)]="biographieTexte"></textarea>
+                        <button class="btn btn-primary btn-sm" (click)="sauvegarderBiographie()">
+                            <i class="fa fa-save me-1"></i> Sauvegarder
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modifier les infos personnelles -->
+            <div class="content-card card border-0 shadow-sm">
+                <div class="card-header">
+                    <h6 class="fw-bold mb-0"><i class="fa fa-edit me-2 text-primary"></i>Informations personnelles</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label class="form-label small text-muted">Prénom</label>
+                            <input type="text" class="form-control" [(ngModel)]="form.prenom">
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label small text-muted">Nom</label>
+                            <input type="text" class="form-control" [(ngModel)]="form.nom">
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label small text-muted">Téléphone</label>
+                            <div class="input-group">
+                                <span class="input-group-text">+223</span>
+                                <input type="tel" class="form-control" [(ngModel)]="form.telephone">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label small text-muted">Email</label>
+                            <input type="email" class="form-control" [(ngModel)]="form.email">
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label small text-muted">Genre</label>
+                            <select class="form-select" [(ngModel)]="form.genre">
+                                <option value="">-- Choisir --</option>
+                                <option value="Homme">Homme</option>
+                                <option value="Femme">Femme</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label small text-muted">Adresse</label>
+                            <input type="text" class="form-control" [(ngModel)]="form.adresse" placeholder="Bamako, Mali">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small text-muted">Spécialité principale</label>
+                            <select class="form-select" [(ngModel)]="form.specialite">
+                                <option value="">-- Choisir une spécialité --</option>
+                                <option *ngFor="let s of specialites" [value]="s.id">{{s.specialite}}</option>
+                            </select>
+                        </div>
+
+                        <!-- Spécialités supplémentaires -->
+                        <div class="col-12">
+                            <label class="form-label small text-muted fw-semibold">Spécialités supplémentaires</label>
+
+                            <!-- Badges spécialités actives -->
+                            <div class="d-flex flex-wrap gap-2 mb-2">
+                                <span *ngFor="let s of specialitesSupp"
+                                      class="badge d-inline-flex align-items-center gap-1"
+                                      style="background:#e2e8f0;color:#334155;font-size:.8rem;font-weight:600;padding:.35em .75em;border-radius:20px;">
+                                    {{s.specialite}}
+                                    <button type="button"
+                                            class="btn-close btn-close-sm"
+                                            style="font-size:.55rem;opacity:.6;"
+                                            (click)="retirerSpecialiteSupp(s.id)"></button>
+                                </span>
+                                <span *ngIf="specialitesSupp.length === 0" class="text-muted small fst-italic">Aucune spécialité supplémentaire</span>
+                            </div>
+
+                            <!-- Ajout d'une spécialité supplémentaire -->
+                            <div class="d-flex gap-2">
+                                <select class="form-select form-select-sm" [(ngModel)]="selectedSpecialiteSuppId" style="max-width:280px;">
+                                    <option [ngValue]="null">-- Ajouter une spécialité --</option>
+                                    <option *ngFor="let s of specialitesSuppDisponibles" [ngValue]="s.id">{{s.specialite}}</option>
+                                </select>
+                                <button class="btn btn-sm btn-outline-primary" (click)="ajouterSpecialiteSupp()" [disabled]="!selectedSpecialiteSuppId">
+                                    <i class="fa fa-plus me-1"></i> Ajouter
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <button class="btn btn-primary" (click)="ModifierProfilUser()">
+                                <i class="fa fa-save me-1"></i> Enregistrer les modifications
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── ONGLET EXPÉRIENCES ─── -->
+        <div *ngIf="isTabActive('experiences')">
+
+            <!-- Formulaire ajout -->
+            <div class="content-card card border-0 shadow-sm mb-4" style="border-top:3px solid #086AD8 !important;">
+                <div class="card-header">
+                    <h6 class="fw-bold mb-0"><i class="fa fa-plus-circle me-2 text-primary"></i>Ajouter une expérience</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label class="form-label small text-muted fw-semibold">Titre de l'expérience <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Ex: Développeur chez Orange Mali" [(ngModel)]="formExperience.titre">
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label small text-muted fw-semibold">Poste occupé <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Ex: Développeur Full Stack Senior" [(ngModel)]="formExperience.poste">
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label small text-muted fw-semibold">Entreprise <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Ex: Orange Mali, SOTELMA..." [(ngModel)]="formExperience.entreprise">
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label small text-muted fw-semibold">Lieu <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Ex: Bamako, Mali" [(ngModel)]="formExperience.lieux">
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label small text-muted fw-semibold">Date de début <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" [(ngModel)]="formExperience.datedebut">
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label small text-muted fw-semibold">Date de fin <small class="text-muted">(vide = poste actuel)</small></label>
+                            <input type="date" class="form-control" [(ngModel)]="formExperience.datefin">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small text-muted fw-semibold">Description</label>
+                            <textarea class="form-control" rows="3" placeholder="Décrivez vos missions, réalisations..." [(ngModel)]="formExperience.description"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-primary" (click)="ajouterExperience()">
+                                <i class="fa fa-plus me-1"></i> Ajouter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Liste des expériences -->
+            <div *ngIf="experienceProfessionnelle.length === 0" class="text-center py-4 text-muted">
+                <i class="fa fa-briefcase fa-3x mb-3 d-block" style="opacity:.3;"></i>
+                <p>Aucune expérience enregistrée.</p>
+            </div>
+
+            <div class="timeline-list" *ngIf="experienceProfessionnelle.length > 0">
+                <div class="timeline-item card border-0 shadow-sm mb-3" *ngFor="let exp of experienceProfessionnelle">
+                    <div class="card-body p-3">
+
+                        <!-- Mode affichage -->
+                        <div class="d-flex align-items-start gap-3" *ngIf="experienceEnEdition?.id !== exp.id">
+                            <div class="timeline-icon flex-shrink-0">
+                                <i class="fa fa-briefcase"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="fw-bold mb-1">{{exp.titre}}</h6>
+                                <div class="d-flex flex-wrap gap-2 mb-1">
+                                    <span class="badge bg-light text-primary border small" *ngIf="exp.poste">
+                                        <i class="fa fa-briefcase me-1"></i>{{exp.poste}}
+                                    </span>
+                                    <span class="badge bg-light text-secondary border small" *ngIf="exp.entreprise">
+                                        <i class="fa fa-building me-1"></i>{{exp.entreprise}}
+                                    </span>
+                                </div>
+                                <div class="d-flex flex-wrap gap-3 text-muted small mb-1">
+                                    <span *ngIf="exp.lieux"><i class="fa fa-map-marker me-1 text-primary"></i>{{exp.lieux}}</span>
+                                    <span><i class="fa fa-calendar me-1 text-primary"></i>{{exp.datedebut || '—'}} → {{exp.datefin || 'Présent'}}</span>
+                                </div>
+                                <p class="text-muted small mb-0" *ngIf="exp.description" style="line-height:1.4;">
+                                    {{exp.description | slice:0:150}}{{exp.description?.length > 150 ? '…' : ''}}
+                                </p>
+                            </div>
+                            <div class="d-flex gap-1 flex-shrink-0">
+                                <button class="btn btn-sm btn-outline-primary" (click)="commencerModifierExperience(exp)" title="Modifier">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" (click)="supprimerExperience(exp.id)" title="Supprimer">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Mode édition -->
+                        <div *ngIf="experienceEnEdition?.id === exp.id">
+                            <h6 class="fw-semibold mb-3 text-primary"><i class="fa fa-edit me-2"></i>Modifier l'expérience</h6>
+                            <div class="row g-2">
+                                <div class="col-sm-6">
+                                    <label class="form-label small text-muted">Titre <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" [(ngModel)]="experienceEnEdition.titre">
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label small text-muted">Poste <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" [(ngModel)]="experienceEnEdition.poste">
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label small text-muted">Entreprise <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" [(ngModel)]="experienceEnEdition.entreprise">
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label small text-muted">Lieu <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" [(ngModel)]="experienceEnEdition.lieux">
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label small text-muted">Date début <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control form-control-sm" [(ngModel)]="experienceEnEdition.datedebut">
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label small text-muted">Date fin <small class="text-muted">(vide = actuel)</small></label>
+                                    <input type="date" class="form-control form-control-sm" [(ngModel)]="experienceEnEdition.datefin">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label small text-muted">Description</label>
+                                    <textarea class="form-control form-control-sm" rows="2" [(ngModel)]="experienceEnEdition.description"></textarea>
+                                </div>
+                                <div class="col-12 d-flex gap-2">
+                                    <button class="btn btn-primary btn-sm" (click)="sauvegarderModifExperience()">
+                                        <i class="fa fa-save me-1"></i> Sauvegarder
+                                    </button>
+                                    <button class="btn btn-outline-secondary btn-sm" (click)="annulerModifExperience()">
+                                        Annuler
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── ONGLET PROJETS ─── -->
+        <div *ngIf="isTabActive('projets')">
+
+            <!-- Bouton ajout -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-bold mb-0">Mes projets ({{nombreprojet}})</h6>
+                <button class="btn btn-primary btn-sm" (click)="showFormProjet = !showFormProjet">
+                    <i class="fa me-1" [ngClass]="showFormProjet ? 'fa-times' : 'fa-plus'"></i>
+                    {{ showFormProjet ? 'Annuler' : 'Nouveau projet' }}
+                </button>
+            </div>
+
+            <!-- Formulaire ajout projet -->
+            <div class="content-card card border-0 shadow-sm mb-4" *ngIf="showFormProjet" style="border-top:3px solid #086AD8 !important;">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label class="form-label small text-muted fw-semibold">Titre <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Nom du projet" [(ngModel)]="nouveauProjet.titre">
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label small text-muted fw-semibold">Type de projet <span class="text-danger">*</span></label>
+                            <select class="form-select" [(ngModel)]="nouveauProjet.typeProjetId">
+                                <option value="">-- Choisir --</option>
+                                <option *ngFor="let t of typesProjet" [value]="t.id">{{t.typeprojet || t.nom}}</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small text-muted fw-semibold">Description <span class="text-danger">*</span></label>
+                            <textarea class="form-control" rows="3" placeholder="Décrivez votre projet..." [(ngModel)]="nouveauProjet.description"></textarea>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label small text-muted fw-semibold">Photo principale</label>
+                            <input type="file" class="form-control" accept=".png,.jpeg,.jpg" (change)="onProjetPhotoChange($event)">
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label small text-muted fw-semibold">Photos supplémentaires</label>
+                            <input type="file" class="form-control" accept=".png,.jpeg,.jpg" multiple (change)="onPhotosSupplChange($event)">
+                            <small class="text-muted">Vous pouvez sélectionner plusieurs photos</small>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-primary" (click)="ajouterProjet()">
+                                <i class="fa fa-plus me-1"></i> Ajouter le projet
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grille projets -->
+            <div *ngIf="projet?.length === 0" class="text-center py-4 text-muted">
+                <i class="fa fa-code fa-3x mb-3 d-block" style="opacity:.3;"></i>
+                <p>Aucun projet enregistré.</p>
+            </div>
+
+            <div class="row g-3" *ngIf="projet?.length > 0">
+                <div class="col-sm-6" *ngFor="let p of projet">
+                    <div class="projet-card card border-0 shadow-sm h-100">
+
+                        <!-- Mode affichage normal -->
+                        <ng-container *ngIf="projetModification.id !== p.id">
+                            <!-- Galerie photos -->
+                            <div style="position:relative; height:160px; overflow:hidden; border-radius:12px 12px 0 0; background:#e9ecef;">
+                                <img *ngIf="p?.photos?.[0]?.chemin || p?.photos?.[0]?.nom || p?.photo"
+                                     [src]="generateImageUrl(p?.photos?.[0]?.chemin || p?.photos?.[0]?.nom || p?.photo)"
+                                     (error)="handleAuthorImageError($event)"
+                                     style="width:100%;height:100%;object-fit:cover;">
+                                <div *ngIf="!p?.photos?.[0]?.chemin && !p?.photos?.[0]?.nom && !p?.photo"
+                                     class="d-flex align-items-center justify-content-center h-100 text-muted">
+                                    <i class="fa fa-image fa-3x" style="opacity:.3;"></i>
+                                </div>
+                                <span class="position-absolute top-0 end-0 badge bg-dark m-2" *ngIf="p?.photos?.length > 1">
+                                    <i class="fa fa-images me-1"></i>{{p.photos.length}} photos
+                                </span>
+                                <div class="position-absolute top-0 start-0 d-flex gap-1 m-2">
+                                    <button class="btn btn-sm btn-primary rounded-circle p-1" style="width:28px;height:28px;line-height:1;"
+                                            (click)="commencerModifierProjet(p)" title="Modifier le projet">
+                                        <i class="fa fa-edit" style="font-size:.7rem;"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger rounded-circle p-1" style="width:28px;height:28px;line-height:1;"
+                                            (click)="supprimerProjet(p.id)" title="Supprimer le projet">
+                                        <i class="fa fa-trash" style="font-size:.7rem;"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body p-3">
+                                <h6 class="fw-bold mb-1 text-truncate">{{p.titre}}</h6>
+                                <span class="badge bg-light text-primary border mb-2 small">{{p.typeprojet?.typeprojet || p.typeprojet || '—'}}</span>
+                                <p class="text-muted small mb-0" style="line-height:1.4;">
+                                    {{p.description | slice:0:80}}{{p.description?.length > 80 ? '…' : ''}}
+                                </p>
+                                <div class="d-flex gap-1 flex-wrap mt-2" *ngIf="p?.photos?.length > 1">
+                                    <div *ngFor="let ph of p.photos | slice:1:4" class="position-relative">
+                                        <img [src]="generateImageUrl(ph.chemin || ph.nom)" (error)="handleAuthorImageError($event)"
+                                             class="rounded" style="width:36px;height:36px;object-fit:cover;">
+                                        <button class="position-absolute top-0 start-0 btn p-0" style="width:14px;height:14px;font-size:.5rem;background:rgba(239,68,68,.8);color:white;border-radius:50%;"
+                                                (click)="supprimerPhotoProjet(ph.id)" title="Supprimer cette photo">×</button>
+                                    </div>
+                                    <span class="small text-muted align-self-end" *ngIf="p.photos.length > 4">+{{p.photos.length - 4}}</span>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <!-- Mode édition -->
+                        <div class="card-body p-3" *ngIf="projetModification.id === p.id">
+                            <h6 class="fw-semibold mb-3 text-primary"><i class="fa fa-edit me-2"></i>Modifier le projet</h6>
+                            <div class="row g-2">
+                                <div class="col-12">
+                                    <label class="form-label small text-muted">Titre <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" [(ngModel)]="projetModification.titre">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label small text-muted">Type de projet <span class="text-danger">*</span></label>
+                                    <select class="form-select form-select-sm" [(ngModel)]="projetModification.typeProjetId">
+                                        <option value="">-- Choisir --</option>
+                                        <option *ngFor="let t of typesProjet" [value]="t.id">{{t.typeprojet || t.nom}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label small text-muted">Description <span class="text-danger">*</span></label>
+                                    <textarea class="form-control form-control-sm" rows="3" [(ngModel)]="projetModification.description"></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label small text-muted">Lien du projet</label>
+                                    <input type="url" class="form-control form-control-sm" placeholder="https://..." [(ngModel)]="projetModification.lienProjet">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label small text-muted">Changer la photo principale</label>
+                                    <input type="file" class="form-control form-control-sm" accept=".png,.jpeg,.jpg" (change)="onProjetModifPhotoChange($event)">
+                                </div>
+                                <div class="col-12 d-flex gap-2">
+                                    <button class="btn btn-primary btn-sm" (click)="modifierProjetExistant()">
+                                        <i class="fa fa-save me-1"></i> Sauvegarder
+                                    </button>
+                                    <button class="btn btn-outline-secondary btn-sm" (click)="annulerModifProjet()">
+                                        Annuler
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── ONGLET COMPÉTENCES ─── -->
+        <div *ngIf="isTabActive('competences')">
+
+            <!-- Recherche LinkedIn-style -->
+            <div class="content-card card border-0 shadow-sm mb-4" style="overflow:visible;">
+                <div class="card-header">
+                    <h6 class="fw-bold mb-0">
+                        <i class="fa fa-search me-2 text-primary"></i>Rechercher une compétence
+                    </h6>
+                </div>
+                <div class="card-body" style="overflow:visible;">
+                    <p class="text-muted small mb-3">Tapez pour rechercher parmi les compétences disponibles et cliquez pour ajouter</p>
+                    <div class="comp-search-wrapper position-relative">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="fa fa-search text-muted"></i></span>
+                            <input type="text" class="form-control border-start-0"
+                                   placeholder="ex: React, Python, Photoshop..."
+                                   [(ngModel)]="rechercheComp"
+                                   (focus)="showCompDropdown = true"
+                                   (blur)="$event.relatedTarget || (showCompDropdown = false)"
+                                   autocomplete="off">
+                        </div>
+                        <!-- Résultats -->
+                        <div class="comp-dropdown" *ngIf="showCompDropdown && connaissancesFiltrees.length > 0">
+                            <div *ngFor="let c of connaissancesFiltrees"
+                                 class="comp-dropdown-item"
+                                 (mousedown)="selectionnerCompetence(c)">
+                                <i class="fa fa-plus-circle text-primary me-2"></i>
+                                <span>{{c.nom}}</span>
+                                <small *ngIf="c.typeConnaissances?.typeConnaissances" class="ms-auto text-muted">{{c.typeConnaissances?.typeConnaissances}}</small>
+                            </div>
+                        </div>
+                        <div class="comp-dropdown text-center text-muted py-3"
+                             *ngIf="showCompDropdown && rechercheComp.trim() && connaissancesFiltrees.length === 0">
+                            <i class="fa fa-search-minus mb-2 d-block"></i>
+                            Aucun résultat pour "{{rechercheComp}}"
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mes compétences -->
+            <div class="content-card card border-0 shadow-sm">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h6 class="fw-bold mb-0"><i class="fa fa-star me-2 text-primary"></i>Mes compétences</h6>
+                    <span class="badge bg-primary">{{mesConnaissances.length}}</span>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="mesConnaissances.length === 0" class="text-center py-3 text-muted">
+                        <i class="fa fa-cogs fa-2x mb-2 d-block" style="opacity:.25;"></i>
+                        <p class="small">Aucune compétence ajoutée. Recherchez et cliquez pour en ajouter.</p>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2" *ngIf="mesConnaissances.length > 0">
+                        <div *ngFor="let c of mesConnaissances" class="competence-badge d-flex align-items-center gap-2">
+                            <i class="fa fa-check-circle" style="font-size:.75rem;"></i>
+                            <span>{{c.connaissance || c.nom}}</span>
+                            <button class="btn-remove-comp" (click)="supprimerCompetence(c.id)" title="Retirer">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── ONGLET CONTACTS ─── -->
+        <div *ngIf="isTabActive('contacts')">
+
+            <!-- Demandes reçues -->
+            <div class="content-card card border-0 shadow-sm mb-4" *ngIf="demandesRecues.length > 0">
+                <div class="card-header d-flex align-items-center gap-2">
+                    <h6 class="fw-bold mb-0"><i class="fa fa-user-plus me-2 text-warning"></i>Demandes reçues</h6>
+                    <span class="badge bg-danger">{{demandesRecues.length}}</span>
+                </div>
+                <div class="card-body p-0">
+                    <div *ngFor="let d of demandesRecues" class="d-flex align-items-center gap-3 p-3 border-bottom">
+                        <img [src]="generateImageUrl(d.expediteur?.utilisateurPhoto?.nom)"
+                             (error)="handleAuthorImageError($event)"
+                             class="rounded-circle flex-shrink-0"
+                             style="width:44px;height:44px;object-fit:cover;">
+                        <div class="flex-grow-1 min-w-0">
+                            <h6 class="fw-bold mb-0 text-truncate">{{d.expediteur?.prenom}} {{d.expediteur?.nom}}</h6>
+                            <small class="text-muted">{{d.expediteur?.specialite?.specialite || 'Professionnel'}}</small>
+                        </div>
+                        <div class="d-flex gap-2 flex-shrink-0">
+                            <button class="btn btn-sm btn-success" (click)="accepterDemande(d.id)">
+                                <i class="fa fa-check"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" (click)="refuserDemande(d.id)">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mes contacts -->
+            <div class="content-card card border-0 shadow-sm mb-4">
+                <div class="card-header">
+                    <h6 class="fw-bold mb-0"><i class="fa fa-users me-2 text-primary"></i>Mes contacts ({{mesContacts.length}})</h6>
+                </div>
+                <div class="card-body p-0" *ngIf="mesContacts.length > 0">
+                    <div *ngFor="let c of mesContacts" class="d-flex align-items-center gap-3 p-3 border-bottom contact-row" style="cursor:pointer;"
+                         (click)="voirProfilContact(extractAutreUser(c)?.tokenPartage)">
+                        <img [src]="generateImageUrl(extractAutreUser(c)?.utilisateurPhoto?.nom)"
+                             (error)="handleAuthorImageError($event)"
+                             class="rounded-circle flex-shrink-0"
+                             style="width:44px;height:44px;object-fit:cover;">
+                        <div class="flex-grow-1 min-w-0">
+                            <h6 class="fw-bold mb-0 text-truncate">{{extractAutreUser(c)?.prenom}} {{extractAutreUser(c)?.nom}}</h6>
+                            <small class="text-muted">{{extractAutreUser(c)?.specialite?.specialite || 'Professionnel'}}</small>
+                        </div>
+                        <i class="fa fa-chevron-right text-muted flex-shrink-0"></i>
+                    </div>
+                </div>
+                <div class="card-body text-center text-muted py-4" *ngIf="mesContacts.length === 0">
+                    <i class="fa fa-users fa-3x mb-2 d-block" style="opacity:.3;"></i>
+                    <p class="mb-0">Aucun contact pour le moment.</p>
+                </div>
+            </div>
+
+            <!-- Demandes envoyées -->
+            <div class="content-card card border-0 shadow-sm" *ngIf="demandesEnvoyees.length > 0">
+                <div class="card-header">
+                    <h6 class="fw-bold mb-0"><i class="fa fa-paper-plane me-2 text-info"></i>Demandes envoyées ({{demandesEnvoyees.length}})</h6>
+                </div>
+                <div class="card-body p-0">
+                    <div *ngFor="let d of demandesEnvoyees" class="d-flex align-items-center gap-3 p-3 border-bottom">
+                        <img [src]="generateImageUrl(d.recepteur?.utilisateurPhoto?.nom)"
+                             (error)="handleAuthorImageError($event)"
+                             class="rounded-circle flex-shrink-0"
+                             style="width:44px;height:44px;object-fit:cover;">
+                        <div class="flex-grow-1 min-w-0">
+                            <h6 class="fw-bold mb-0 text-truncate">{{d.recepteur?.prenom}} {{d.recepteur?.nom}}</h6>
+                            <small class="text-muted">{{d.recepteur?.specialite?.specialite || 'Professionnel'}}</small>
+                        </div>
+                        <span class="badge bg-warning text-dark flex-shrink-0">En attente</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── ONGLET FAVORIS ─── -->
+        <div *ngIf="isTabActive('favoris')">
+            <div *ngIf="loadingFavoris" class="text-center py-4">
+                <div class="spinner-border" style="color:#086AD8;"></div>
+            </div>
+            <div *ngIf="!loadingFavoris && mesFavoris.length === 0" class="text-center py-4 text-muted">
+                <i class="fa fa-heart fa-3x mb-3 d-block" style="opacity:.3;"></i>
+                <p>Aucun favori enregistré.</p>
+            </div>
+            <div class="row g-3" *ngIf="!loadingFavoris && mesFavoris.length > 0">
+                <div class="col-sm-6" *ngFor="let f of mesFavoris">
+                    <div class="card border-0 shadow-sm h-100" style="border-radius:12px;">
+                        <div class="card-body p-3 d-flex align-items-center gap-3">
+                            <img [src]="generateImageUrl(f.favorit?.utilisateurPhoto?.nom)"
+                                 (error)="handleAuthorImageError($event)"
+                                 class="rounded-circle flex-shrink-0"
+                                 style="width:52px;height:52px;object-fit:cover;">
+                            <div class="flex-grow-1 min-w-0">
+                                <h6 class="fw-bold mb-0 text-truncate">{{f.favorit?.prenom}} {{f.favorit?.nom}}</h6>
+                                <small class="text-muted d-block text-truncate">{{f.favorit?.specialite?.specialite || 'Professionnel'}}</small>
+                            </div>
+                            <div class="d-flex flex-column gap-1 flex-shrink-0">
+                                <button class="btn btn-sm btn-outline-primary" (click)="voirProfilContact(f.favorit?.tokenPartage)" title="Voir le profil">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" (click)="retirerFavori(f.favorit?.id)" title="Retirer des favoris">
+                                    <i class="fa fa-heart-broken"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── ONGLET SÉCURITÉ ─── -->
+        <div *ngIf="isTabActive('securite')">
+            <div class="content-card card border-0 shadow-sm">
+                <div class="card-header">
+                    <h6 class="fw-bold mb-0"><i class="fa fa-lock me-2 text-primary"></i>Changer le mot de passe</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3" style="max-width:480px;">
+                        <div class="col-12">
+                            <label class="form-label small text-muted fw-semibold">Mot de passe actuel</label>
+                            <div class="input-group">
+                                <input [type]="type ? 'password' : 'text'" class="form-control" [(ngModel)]="ChangeMdpForm.oldPassword" placeholder="••••••••">
+                                <button class="btn btn-outline-secondary" (click)="changeType()">
+                                    <i class="fa" [ngClass]="type ? 'fa-eye' : 'fa-eye-slash'"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small text-muted fw-semibold">Nouveau mot de passe</label>
+                            <div class="input-group">
+                                <input [type]="type1 ? 'password' : 'text'" class="form-control" [(ngModel)]="ChangeMdpForm.newPassword" placeholder="••••••••">
+                                <button class="btn btn-outline-secondary" (click)="changeType1()">
+                                    <i class="fa" [ngClass]="type1 ? 'fa-eye' : 'fa-eye-slash'"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small text-muted fw-semibold">Confirmer le nouveau mot de passe</label>
+                            <div class="input-group">
+                                <input [type]="type2 ? 'password' : 'text'" class="form-control" [(ngModel)]="ChangeMdpForm.password2" placeholder="••••••••">
+                                <button class="btn btn-outline-secondary" (click)="changeType2()">
+                                    <i class="fa" [ngClass]="type2 ? 'fa-eye' : 'fa-eye-slash'"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-primary" (click)="ModifierMotDePasse()">
+                                <i class="fa fa-key me-1"></i> Changer le mot de passe
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /col-lg-9 -->
+</div><!-- /row -->
+</div><!-- /container -->
+</section>

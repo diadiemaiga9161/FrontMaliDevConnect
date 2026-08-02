@@ -8,18 +8,16 @@ body {
 .layout {
     display: flex;
     width: 100%;
+    flex-wrap: wrap;
 }
 
-/* Sidebar Styles */
-.sidebar {
+/* Filtres / sidebar */
+.layout > div:first-child {
     width: 20%;
+    min-width: 200px;
     background-color: #f4f4f4;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    height: 100vh;
-    position: fixed;
-    left: 0;
-    top: 0;
 }
 
 .card-body {
@@ -75,4 +73,35 @@ body {
     width: 40px;
     height: 40px;
     margin-right: 10px;
+}
+
+@media (max-width: 991px) {
+    .layout {
+        flex-direction: column;
+    }
+    .layout > div:first-child {
+        width: 100% !important;
+        min-width: 100%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .cards-container {
+        margin-left: 0;
+        width: 100%;
+        padding: 15px;
+    }
+    .card {
+        width: 50%;
+        min-width: 280px;
+    }
+}
+
+@media (max-width: 576px) {
+    .card {
+        width: 100%;
+        min-width: 100%;
+    }
+    .cards-container {
+        padding: 10px;
+        gap: 15px;
+    }
 }

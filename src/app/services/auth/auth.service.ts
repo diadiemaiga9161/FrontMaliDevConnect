@@ -30,16 +30,15 @@ export class AuthService {
 
   // Méthode pour obtenir les en-têtes avec le token JWT
   getHeaders(): HttpHeaders {
-    const token = this.storageService.getUser().token;
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
+    const token = this.storageService.getUser()?.token;
+    if (!token) {
+      return new HttpHeaders();
+    }
+    return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
   }
 
   // Méthode pour effectuer la connexion
   connexion(telephoneOrEmail: string, password: string): Observable<any> {
-    console.log(telephoneOrEmail);
-    console.log(password);
     return this.http.post(
       URL_BASE + 'auth/signin',
       {
@@ -62,16 +61,6 @@ export class AuthService {
     password: string,
     roles: string,
   ): Observable<any> {
-    console.log(nom);
-    console.log(prenom);
-    console.log(email);
-    console.log(telephone);
-    console.log(adresse);
-    console.log(specialite);
-    console.log(genre);
-    console.log(password);
-    console.log(roles);
-
     return this.http.post(
       URL_BASE + 'auth/signup',
       {
@@ -83,7 +72,7 @@ export class AuthService {
         genre,
         email,
         password,
-        role: [roles, 'userRole']
+        role: [roles]
       },
       httpOptions
     );
@@ -91,7 +80,7 @@ export class AuthService {
 
   // Méthode pour effectuer la déconnexion
   logout(): Observable<any> {
-    const req = new HttpRequest('POST', URL_BASE + '/logout', {}, httpOptions);
+    const req = new HttpRequest('POST', URL_BASE + 'auth/signout', {}, httpOptions);
     return this.http.request(req);
   }
    //METHODE PERMETTANT DE SE DECONNECTER
@@ -105,21 +94,23 @@ export class AuthService {
     window.location.reload();
   }
 
+  // Méthode pour se connecter avec Google (envoie le credential Google au backend)
+  loginAvecGoogle(credential: string, role: string = 'client'): Observable<any> {
+    return this.http.post(URL_BASE + 'auth/google', { credential, role }, httpOptions);
+  }
+
   // Méthode pour envoyer un email de récupération de mot de passe
   forgotPassword(email: string): Observable<any> {
     const formData = new FormData();
     formData.append('email', email);
-    console.log(email);
 
     return this.http.post(URL_BASE + 'auth/forgotPassword', formData);
   }
 
   // Méthode pour changer le mot de passe après récupération
   ChangerPassword(token: string, newPassword: any): Observable<any> {
-    const headers = this.getHeaders();
     const formData = new FormData();
     formData.append('token', token);
-    console.log(token);
     formData.append('newPassword', newPassword);
     return this.http.post(URL_BASE + 'auth/resetPassword', formData);
   }

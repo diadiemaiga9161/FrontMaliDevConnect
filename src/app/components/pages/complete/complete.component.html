@@ -1,187 +1,320 @@
-<!-- <app-navbar-one></app-navbar-one> -->
+<!-- Banner -->
 <div class="page-title-area item-bg-3">
-    <div class="d-table">
-        <div class="d-table-cell">
-            <div class="container">
-                <div class="page-title-content">
-                    <h2>{{User?.prenom}} {{User?.nom}}</h2>
-                    <ul>
-                        <li><a routerLink="/">Acceuil</a></li>
-                        <li>{{User?.prenom}} {{User?.nom}}</li>
-                    </ul>
-                </div>
-            </div>
+  <div class="d-table">
+    <div class="d-table-cell">
+      <div class="container">
+        <div class="page-title-content">
+          <h2>Compléter mon profil</h2>
+          <ul>
+            <li><a routerLink="/">Accueil</a></li>
+            <li>Compléter mon profil</li>
+          </ul>
         </div>
+      </div>
     </div>
+  </div>
 </div>
-<section class="protfolio-section ptb-100">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 max-auto">
-                <div class="card z-depth-3">
-                    <div class="card-body">
-                        <ul class="nav nav-pills nav-pills-primary nav-justified">
 
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link px-4 active" data-bs-toggle="tab" href="#Projet" role="tab"
-                                    aria-selected="false" tabindex="1">
-                                    <span class="d-block d-sm-none"><i class="fas fa-home">Ajouter-projet</i></span>
-                                    <span class="d-none d-sm-block">Projet</span>
-                                </a>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link px-4 " data-bs-toggle="tab" href="#Experiences" role="tab"
-                                    aria-selected="false" tabindex="-1">
-                                    <span class="d-block d-sm-none"><i class="fas fa-home">Experiences</i></span>
-                                    <span class="d-none d-sm-block">Experiences</span>
-                                </a>
-                            </li>
+<section class="py-5">
+  <div class="container" style="max-width: 760px;">
 
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link px-4" data-bs-toggle="tab" href="#Edit" role="tab"
-                                    aria-selected="false" tabindex="-1">
-                                    <i class="icon-note"></i> <span class="hidden-xs">Ajouter-connaissance</span></a>
-                            </li>
-                        </ul>
-                        <div class="tab-content p-3">
-                            <div class="tab-pane active show" id="Projet" role="tabpanel">
-                                <div class="tab-pane active show">
-                                    <div class="row" id="all-projects">
-                                        <link rel="stylesheet"
-                                            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-                                            integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-                                            crossorigin="anonymous" referrerpolicy="no-referrer" />
-                                        <div class="container">
-                                            <div class="row position-relative mt-n1-9">
-                                                
-                                                <!-- <form #forms="ngForm" (ngSubmit)="submitForm1(forms)"> -->
-                                                <form class="row g-3" #f="ngForm">
-                                                    <div class="col-md-6">
-                                                        <label for="inputFirstName" class="form-label">Titre</label>
-                                                        <input type="text" class="form-control" placeholder="titre"  id="titre" name="titre"  [(ngModel)]="formData.titre">
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label for="inputDate" class="form-label">Description</label>
-                                                        <textarea class="form-control" id="description" name="description" [(ngModel)]="formData.description" maxlength="500"></textarea>
-                                                        <!-- <input type="text" class="form-control" id="description" name="datedebut" [(ngModel)]="form1.description"> -->
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label for="inputState" class="form-label"  >type projet</label>
-                                                        <select   class="form-select"  type="text"
-                                                        id="id_typeprojet"name="id_typeprojet" [(ngModel)]="formData.typeProjet" >
-                                                                    <option >Choisir</option>
-                                                                    <option  *ngFor="let typeprojet of typeprojet"
-                                                                    [value]="typeprojet.id">
-                                                                        {{typeprojet.typeprojet }}
-                                                                    </option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label for="inputLieux" class="form-label">Photo-projet</label>
-                                                        <input type="file" class="form-control"placeholder="photo" accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf" multiple id="photo" name="photo" id="photo" (change)="onFileSelected($event)">
-                                                        <!-- <div class="card radius-15">
-                                                            <div class="card-body">
-                                                                <div class="card-title">
-                                                                    <h4 class="mb-0">Image Uploadify</h4>
-                                                                </div>
-                                                                <hr/>
-                                                                <form>
-                                                                    <input id="image-uploadify" type="file" accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf" multiple>
-                                                                </form>
-                                                            </div>
-                                                        </div> -->
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <button type="submit" class="btn btn-primary px-5" (click)="onSubmit()">Enregistre</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        <!-- end col -->
-                                    </div><!-- end row -->
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="Experiences" role="tabpanel">
-                                <div class="container">
-                                    <div class="row" id="all-experiences">
-                                        <link rel="stylesheet"
-                                            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-                                            integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-                                            crossorigin="anonymous" referrerpolicy="no-referrer" />
-                                            <div class="card border-top border-0 border-4 border-primary">
-                                                <div class="card-body p-5">
-                                                    <div class="card-title d-flex align-items-center">
-                                                        <div><i class="bx bxs-user me-1 font-22 text-primary"></i>
-                                                        </div>
-                                                        <h5 class="mb-0 text-primary">Ajouter-experience</h5>
-                                                    </div>
-                                                    <hr>
-                                                    <form class="row g-3" #f="ngForm"  novalidate>
-                                                        <div class="col-md-6">
-                                                            <label for="inputFirstName" class="form-label">Titre</label>
-                                                            <input type="text" class="form-control"placeholder="titre"  id="titre" name="titre" [(ngModel)]="form.titre">
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label for="inputDate" class="form-label">Date debut</label>
-                                                            <input type="date" class="form-control" id="datedebut" name="datedebut" [(ngModel)]="form.datedebut">
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label for="inputDate" class="form-label">Date fin</label>
-                                                            <input type="date" class="form-control" id="dateFinExperience" name="datefin" [(ngModel)]="form.datefin">
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label for="inputLieux" class="form-label">Lieux</label>
-                                                            <input type="text" class="form-control"placeholder="Lieux"  id="lieux" name="lieux" [(ngModel)]="form.lieux">
-                                                        </div>
-                                                        <!-- <div class="col-md-4">
-                                                            <label for="inputState" class="form-label" name="connaissance" [(ngModel)]="selectedConnaissanceId">Connaissances</label>
-                                                            <select   class="form-select" (change)="onChange($event.target)" type="text"
-                                                                        name="role" [(ngModel)]="form.connainssance" required role
-                                                                        #role="ngModel">
-                                                                        <option >Choisir</option>
-                                                                        <option  *ngFor="let Connaissance of connaissance"
-                                                                            [value]="Connaissance.id">
-                                                                            {{ Connaissance.nom }}
-                                                                        </option>
-                                                            </select>
-                                                        </div> -->
-                                                        <div class="col-12">
-                                                            <button type="submit" class="btn btn-primary px-5" (click)="submitForm()">Enregistre</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        <!-- end col -->
-                                    </div><!-- end row -->
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="Edit" role="tabpanel">
-                                <form class="row g-3" #f="ngForm"  novalidate>
-                                    <div class="col-md-6">
-                                        <label for="inputFirstName" class="form-label">Titre</label>
-                                        <input type="text" class="form-control"placeholder="nom"  id="titre" name="nom" [(ngModel)]="form2.nom">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <!-- <label for="inputState" class="form-label"  >Type-connaissance</label>
-                                        <select   class="form-select"  type="text"
-                                        id="id_typeConnaissances"name="id_typeConnaissances" [(ngModel)]="form2.id_typeConnaissances" >
-                                                    <option >Choisir</option>
-                                                    <option  *ngFor="let TypeConnaissances of typeConnaissances"
-                                                    [value]="id_typeConnaissances">
-                                                        {{TypeConnaissances.typeConnaissances }}
-                                                    </option>
-                                        </select> -->
-                                    </div>
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-primary px-5" (click)="submitForm2()">Enregistre</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+    <!-- ── Barre de progression ── -->
+    <div class="wizard-progress mb-4">
+      <div class="d-flex justify-content-between align-items-center position-relative">
+        <div class="wizard-progress-line"></div>
+        <div class="wizard-step" [class.active]="currentStep >= 1" [class.done]="currentStep > 1">
+          <div class="wizard-step-circle" (click)="goToStep(1)">1</div>
+          <small>Profil</small>
         </div>
+        <div class="wizard-step" [class.active]="currentStep >= 2" [class.done]="currentStep > 2">
+          <div class="wizard-step-circle" (click)="goToStep(2)">2</div>
+          <small>Expériences</small>
+        </div>
+        <div class="wizard-step" [class.active]="currentStep >= 3" [class.done]="currentStep > 3">
+          <div class="wizard-step-circle" (click)="goToStep(3)">3</div>
+          <small>Projets</small>
+        </div>
+        <div class="wizard-step" [class.active]="currentStep >= 4" [class.done]="currentStep > 4">
+          <div class="wizard-step-circle" (click)="goToStep(4)">4</div>
+          <small>Compétences</small>
+        </div>
+        <div class="wizard-step" [class.active]="currentStep >= 5">
+          <div class="wizard-step-circle" (click)="goToStep(5)">5</div>
+          <small>Biographie</small>
+        </div>
+      </div>
     </div>
+
+    <!-- ── ÉTAPE 1 : Profil de base (spécialité / genre / adresse) ── -->
+    <div class="card shadow-sm border-0 rounded-4" *ngIf="currentStep === 1">
+      <div class="card-body p-4 p-md-5">
+        <h5 class="fw-bold text-primary mb-1"><i class="fa fa-user-circle me-2"></i>Étape 1 — Informations de base</h5>
+        <p class="text-muted small mb-4">Renseignez votre spécialité, genre et adresse pour finaliser votre compte.</p>
+
+        <div *ngIf="profilComplete" class="alert alert-success d-flex align-items-center gap-2 mb-3">
+          <i class="fa fa-check-circle fa-lg"></i>
+          <span>Profil de base complet ! Vous pouvez modifier ou passer à l'étape suivante.</span>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-12 col-md-4">
+            <label class="form-label fw-semibold">Spécialité <span class="text-danger">*</span></label>
+            <select class="form-select" [(ngModel)]="profilCompleteForm.specialiteId" name="specialiteId">
+              <option [ngValue]="null" disabled>-- Choisir --</option>
+              <option *ngFor="let s of specialites" [value]="s.id">{{ s.specialite }}</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-4">
+            <label class="form-label fw-semibold">Genre <span class="text-danger">*</span></label>
+            <select class="form-select" [(ngModel)]="profilCompleteForm.genre" name="genre">
+              <option value="" disabled>-- Choisir --</option>
+              <option value="Homme">Homme</option>
+              <option value="Femme">Femme</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-4">
+            <label class="form-label fw-semibold">Adresse <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" placeholder="Ex: Bamako, Hamdallaye"
+              [(ngModel)]="profilCompleteForm.adresse" name="adresse" />
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+          <button class="btn btn-primary px-4" (click)="completerProfil()">
+            <i class="fa fa-check me-1"></i> Valider le profil de base
+          </button>
+          <button class="btn btn-outline-primary px-4" (click)="nextStep()" [disabled]="!profilComplete">
+            Suivant <i class="fa fa-arrow-right ms-1"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ÉTAPE 2 : Expériences professionnelles ── -->
+    <div class="card shadow-sm border-0 rounded-4" *ngIf="currentStep === 2">
+      <div class="card-body p-4 p-md-5">
+        <h5 class="fw-bold text-primary mb-1"><i class="fa fa-briefcase me-2"></i>Étape 2 — Expériences professionnelles</h5>
+        <p class="text-muted small mb-4">Ajoutez vos expériences. Vous pouvez en ajouter plusieurs.</p>
+
+        <form class="row g-3" #fExp="ngForm" novalidate>
+          <div class="col-12 col-md-6">
+            <label class="form-label">Titre de l'expérience <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" placeholder="Ex: Développeur chez Orange Mali"
+              name="eTitre" [(ngModel)]="form.titre" required />
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label">Poste occupé <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" placeholder="Ex: Développeur Full Stack Senior"
+              name="ePoste" [(ngModel)]="form.poste" />
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label">Entreprise <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" placeholder="Ex: Orange Mali, SOTELMA..."
+              name="eEntreprise" [(ngModel)]="form.entreprise" />
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label">Lieu</label>
+            <input type="text" class="form-control" placeholder="Ex: Bamako, Mali"
+              name="eLieux" [(ngModel)]="form.lieux" />
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label">Date de début</label>
+            <input type="date" class="form-control" name="eDateDebut" [(ngModel)]="form.datedebut" />
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label">Date de fin <small class="text-muted">(vide = poste actuel)</small></label>
+            <input type="date" class="form-control" name="eDateFin" [(ngModel)]="form.datefin" />
+          </div>
+          <div class="col-12">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" rows="2" placeholder="Décrivez vos missions..."
+              name="eDescription" [(ngModel)]="form.description"></textarea>
+          </div>
+          <div class="col-12">
+            <button type="button" class="btn btn-success px-4" (click)="submitForm()" [disabled]="!form.titre">
+              <i class="fa fa-plus me-1"></i> Ajouter cette expérience
+            </button>
+          </div>
+        </form>
+
+        <div class="d-flex justify-content-between mt-4">
+          <button class="btn btn-outline-secondary px-4" (click)="prevStep()">
+            <i class="fa fa-arrow-left me-1"></i> Précédent
+          </button>
+          <button class="btn btn-outline-primary px-4" (click)="nextStep()">
+            Suivant <i class="fa fa-arrow-right ms-1"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ÉTAPE 3 : Projets ── -->
+    <div class="card shadow-sm border-0 rounded-4" *ngIf="currentStep === 3">
+      <div class="card-body p-4 p-md-5">
+        <h5 class="fw-bold text-primary mb-1"><i class="fa fa-laptop me-2"></i>Étape 3 — Projets informatiques</h5>
+        <p class="text-muted small mb-4">Ajoutez vos projets réalisés. Vous pouvez en ajouter plusieurs.</p>
+
+        <form class="row g-3" #fProjet="ngForm" novalidate>
+          <div class="col-12 col-md-6">
+            <label class="form-label">Titre du projet <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" placeholder="Ex: Application mobile de livraison"
+              name="pTitre" [(ngModel)]="formData.titre" required />
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label">Lien du projet (optionnel)</label>
+            <input type="url" class="form-control" placeholder="https://github.com/..."
+              name="pLien" [(ngModel)]="formData.lienProjet" />
+          </div>
+          <div class="col-12">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" rows="3" name="pDesc" [(ngModel)]="formData.description"
+              maxlength="1000" placeholder="Décrivez le projet..."></textarea>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label">Type de projet</label>
+            <select class="form-select" name="pType" [(ngModel)]="formData.typeProjet">
+              <option value="">-- Choisir --</option>
+              <option *ngFor="let tp of typeprojet" [value]="tp.id">{{ tp.typeprojet }}</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label">Photo du projet</label>
+            <input type="file" class="form-control" accept="image/*" name="pPhoto" (change)="onFileSelected($event)" />
+          </div>
+          <div class="col-12">
+            <button type="button" class="btn btn-success px-4" (click)="onSubmit()" [disabled]="!formData.titre">
+              <i class="fa fa-plus me-1"></i> Ajouter ce projet
+            </button>
+          </div>
+        </form>
+
+        <div class="d-flex justify-content-between mt-4">
+          <button class="btn btn-outline-secondary px-4" (click)="prevStep()">
+            <i class="fa fa-arrow-left me-1"></i> Précédent
+          </button>
+          <button class="btn btn-outline-primary px-4" (click)="nextStep()">
+            Suivant <i class="fa fa-arrow-right ms-1"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ÉTAPE 4 : Compétences ── -->
+    <div class="card shadow-sm border-0 rounded-4" *ngIf="currentStep === 4">
+      <div class="card-body p-4 p-md-5">
+        <h5 class="fw-bold text-primary mb-1"><i class="fa fa-star me-2"></i>Étape 4 — Compétences</h5>
+        <p class="text-muted small mb-4">Cochez vos compétences dans la liste ci-dessous.</p>
+
+        <div class="row g-2 mb-3" *ngIf="connaissance && connaissance.length > 0; else aucuneCompetence">
+          <div class="col-12 col-sm-6 col-md-4" *ngFor="let c of connaissance">
+            <div class="form-check border rounded p-2">
+              <input class="form-check-input" type="checkbox" [id]="'comp-' + c.id"
+                [checked]="selectedConnaissanceIds.includes(c.id)"
+                (change)="toggleConnaissance(c.id)" />
+              <label class="form-check-label w-100" [for]="'comp-' + c.id" style="cursor: pointer;">
+                {{c.nom}}
+              </label>
+            </div>
+          </div>
+        </div>
+        <ng-template #aucuneCompetence>
+          <p class="text-muted">Aucune compétence disponible pour le moment.</p>
+        </ng-template>
+
+        <div class="mb-3" *ngIf="selectedConnaissanceIds.length > 0">
+          <button type="button" class="btn btn-success px-4" (click)="lierConnaissances()">
+            <i class="fa fa-link me-1"></i> Lier les {{selectedConnaissanceIds.length}} compétences sélectionnées
+          </button>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+          <button class="btn btn-outline-secondary px-4" (click)="prevStep()">
+            <i class="fa fa-arrow-left me-1"></i> Précédent
+          </button>
+          <button class="btn btn-outline-primary px-4" (click)="nextStep()">
+            Suivant <i class="fa fa-arrow-right ms-1"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ÉTAPE 5 : Biographie ── -->
+    <div class="card shadow-sm border-0 rounded-4" *ngIf="currentStep === 5">
+      <div class="card-body p-4 p-md-5">
+        <h5 class="fw-bold text-primary mb-1"><i class="fa fa-file-text me-2"></i>Étape 5 — Biographie</h5>
+        <p class="text-muted small mb-4">Rédigez une présentation professionnelle visible sur votre profil public.</p>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Ma biographie</label>
+          <textarea class="form-control" rows="6" name="biographieContenu"
+            [(ngModel)]="formBio.contenu" maxlength="2000"
+            placeholder="Présentez-vous : vos compétences, vos motivations, vos réalisations importantes..."></textarea>
+          <div class="d-flex justify-content-between mt-1">
+            <small class="text-muted">{{formBio.contenu?.length || 0}} / 2000 caractères</small>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <button type="button" class="btn btn-success px-4" (click)="submitBiographie()"
+            [disabled]="!formBio.contenu || formBio.contenu.trim().length < 10">
+            <i class="fa fa-save me-1"></i> Enregistrer la biographie
+          </button>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+          <button class="btn btn-outline-secondary px-4" (click)="prevStep()">
+            <i class="fa fa-arrow-left me-1"></i> Précédent
+          </button>
+          <a routerLink="/profil-professionnel" class="btn btn-primary px-4">
+            <i class="fa fa-check me-1"></i> Terminer et voir mon profil
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </section>
+
+<style>
+.wizard-progress { padding: 0 10px; }
+.wizard-progress-line {
+  position: absolute;
+  top: 18px;
+  left: 0; right: 0;
+  height: 3px;
+  background: #dee2e6;
+  z-index: 0;
+}
+.wizard-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+  gap: 4px;
+}
+.wizard-step small { font-size: 11px; color: #6c757d; }
+.wizard-step.active small { color: #086AD8; font-weight: 600; }
+.wizard-step-circle {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: #dee2e6;
+  color: #6c757d;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px #dee2e6;
+}
+.wizard-step.active .wizard-step-circle {
+  background: #086AD8;
+  color: #fff;
+  box-shadow: 0 0 0 2px #086AD8;
+}
+.wizard-step.done .wizard-step-circle {
+  background: #28a745;
+  color: #fff;
+  box-shadow: 0 0 0 2px #28a745;
+}
+</style>

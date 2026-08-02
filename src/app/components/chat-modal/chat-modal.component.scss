@@ -1,0 +1,759 @@
+// ── Variables ──────────────────────────────────────────
+$blue:       #0084ff;
+$blue-dark:  #0065d4;
+$bg-mine:    #0084ff;
+$bg-theirs:  #ffffff;
+$border:     #e4e6eb;
+$text-dark:  #1c1e21;
+$text-muted: #65676b;
+$white:      #ffffff;
+$shadow:     0 12px 48px rgba(0, 0, 0, .18);
+$radius:     14px;
+
+// ── Floating Action Button (cm-fab) ───────────────────
+// NOTE: intentionally NOT named cm-bubble to avoid conflict
+//       with the message bubble .cm-bubble class below
+.cm-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $blue, #006fe6);
+  color: $white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  box-shadow: 0 4px 20px rgba(0, 132, 255, .45);
+  z-index: 1800;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 28px rgba(0, 132, 255, .6);
+  }
+
+  @media (max-width: 768px) { display: none; }
+}
+
+.cm-fab-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: #ef4444;
+  color: $white;
+  border-radius: 9px;
+  font-size: .65rem;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+  border: 2px solid $white;
+}
+
+// ── Wrapper modale ──────────────────────────────────
+.cm-wrap {
+  position: fixed;
+  bottom: 0;
+  right: 24px;
+  width: 720px;
+  height: 560px;
+  z-index: 1900;
+  display: flex;
+  flex-direction: column;
+  border-radius: $radius $radius 0 0;
+  box-shadow: $shadow;
+  overflow: hidden;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  transition: height 0.25s cubic-bezier(.4, 0, .2, 1);
+
+  &.cm-minimized {
+    height: 48px;
+    .cm-header { border-radius: $radius $radius 0 0; cursor: pointer; }
+  }
+
+  @media (max-width: 768px) { display: none; }
+}
+
+// ── Header ──────────────────────────────────────────
+.cm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  height: 48px;
+  background: linear-gradient(135deg, $blue 0%, $blue-dark 100%);
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.cm-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cm-logo {
+  font-size: 1.1rem;
+  color: $white;
+}
+
+.cm-title {
+  font-size: .95rem;
+  font-weight: 700;
+  color: $white;
+  letter-spacing: .01em;
+}
+
+.cm-badge {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: #ef4444;
+  color: $white;
+  border-radius: 9px;
+  font-size: .65rem;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+  border: 1.5px solid rgba(255,255,255,.35);
+}
+
+.cm-header-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cm-hbtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: rgba(255,255,255,.18);
+  border-radius: 50%;
+  color: $white;
+  cursor: pointer;
+  font-size: .78rem;
+  transition: background 0.15s;
+
+  &:hover { background: rgba(255,255,255,.3); }
+  &.cm-close:hover { background: rgba(255, 60, 60, .55); }
+}
+
+// ── Corps ────────────────────────────────────────────
+.cm-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  background: #f0f2f5;
+}
+
+// ── Sidebar ──────────────────────────────────────────
+.cm-sidebar {
+  width: 260px;
+  min-width: 260px;
+  background: $white;
+  border-right: 1px solid $border;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: width 0.2s ease, min-width 0.2s ease;
+
+  &.cm-sidebar-hidden {
+    width: 0;
+    min-width: 0;
+    overflow: hidden;
+  }
+}
+
+.cm-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px;
+  border-bottom: 1px solid $border;
+  flex-shrink: 0;
+}
+
+.cm-search-field {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .cm-search-ico {
+    position: absolute;
+    left: 10px;
+    color: $text-muted;
+    font-size: .78rem;
+    pointer-events: none;
+  }
+
+  input {
+    width: 100%;
+    border: none;
+    background: #f0f2f5;
+    border-radius: 20px;
+    padding: 7px 10px 7px 28px;
+    font-size: .82rem;
+    color: $text-dark;
+    outline: none;
+    transition: background 0.15s;
+
+    &:focus { background: #e7e9ef; }
+    &::placeholder { color: $text-muted; }
+  }
+}
+
+.cm-new-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: #e8f0fe;
+  border: none;
+  border-radius: 50%;
+  color: $blue;
+  font-size: .82rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s;
+
+  &:hover { background: #d4e5fd; }
+}
+
+.cm-new-panel {
+  background: $white;
+  border-bottom: 1px solid $border;
+  flex-shrink: 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.cm-new-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  font-size: .83rem;
+  font-weight: 600;
+  color: $text-dark;
+}
+
+.cm-icon-btn {
+  background: none;
+  border: none;
+  color: $text-muted;
+  cursor: pointer;
+  font-size: .85rem;
+  padding: 4px 6px;
+  border-radius: 50%;
+  transition: background 0.15s, color 0.15s;
+
+  &:hover { background: #f0f2f5; color: $text-dark; }
+}
+
+.cm-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: .82rem;
+  transition: background 0.12s;
+
+  strong { display: block; color: $text-dark; font-weight: 600; font-size: .83rem; }
+  span   { color: $text-muted; font-size: .75rem; }
+
+  &:hover { background: #f5f5f7; }
+}
+
+.cm-mini-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.cm-empty-small {
+  padding: 10px 12px;
+  font-size: .8rem;
+  color: $text-muted;
+  text-align: center;
+}
+
+// ── Liste conversations ──────────────────────────────
+.cm-conv-list {
+  flex: 1;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-thumb { background: #d8dadf; border-radius: 2px; }
+}
+
+.cm-conv-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+  color: $text-muted;
+  gap: 8px;
+
+  i { font-size: 2.5rem; opacity: .18; }
+  p { font-size: .83rem; margin: 0; }
+}
+
+.cm-conv-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background 0.12s;
+  position: relative;
+  border-left: 3px solid transparent;
+
+  &:hover { background: #f5f5f7; }
+  &.cm-conv-active {
+    background: #e8f0fe;
+    border-left-color: $blue;
+    padding-left: 9px;
+  }
+}
+
+.cm-avatar-wrap { position: relative; flex-shrink: 0; }
+
+.cm-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.cm-online-dot {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 10px;
+  height: 10px;
+  background: $blue;
+  border-radius: 50%;
+  border: 2px solid $white;
+}
+
+.cm-conv-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cm-conv-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.cm-conv-name {
+  font-size: .85rem;
+  font-weight: 600;
+  color: $text-dark;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cm-conv-time {
+  font-size: .71rem;
+  color: $text-muted;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.cm-conv-preview {
+  font-size: .78rem;
+  color: $text-muted;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  margin-top: 2px;
+
+  &.cm-unread { color: $text-dark; font-weight: 600; }
+}
+
+.cm-unread-dot {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: $blue;
+  color: $white;
+  border-radius: 9px;
+  font-size: .68rem;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+// ── Panel chat ───────────────────────────────────────
+.cm-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: $white;
+  overflow: hidden;
+  position: relative;
+}
+
+.cm-welcome {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: $text-muted;
+
+  .cm-welcome-icon { font-size: 3rem; opacity: .15; }
+  p { font-size: .85rem; margin: 0; }
+}
+
+// ── Chat header ──────────────────────────────────────
+.cm-chat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid $border;
+  flex-shrink: 0;
+  background: $white;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+
+.cm-back-btn { margin-right: 2px; }
+
+.cm-chat-header-info {
+  flex: 1;
+  min-width: 0;
+
+  strong {
+    display: block;
+    font-size: .9rem;
+    font-weight: 700;
+    color: $text-dark;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  span { font-size: .74rem; color: $text-muted; }
+}
+
+.cm-lock-badge {
+  font-size: .72rem;
+  color: #16a34a;
+  background: #f0fdf4;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+// ── Zone messages ────────────────────────────────────
+.cm-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #f7f8fc;
+
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-thumb { background: #d0d3da; border-radius: 2px; }
+}
+
+.cm-chat-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 2.5rem 1rem;
+  color: $text-muted;
+  text-align: center;
+  margin: auto;
+
+  strong { color: $text-dark; font-size: .92rem; }
+  p { font-size: .8rem; margin: 0; }
+}
+
+.cm-avatar-lg {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid $white;
+  box-shadow: 0 2px 12px rgba(0,0,0,.12);
+}
+
+// ── Ligne de message ─────────────────────────────────
+.cm-msg-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+
+  &.cm-mine {
+    flex-direction: row-reverse;
+    .cm-msg-actions { flex-direction: row-reverse; }
+  }
+}
+
+.cm-msg-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  align-self: flex-end;
+}
+
+.cm-msg-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 72%;
+}
+
+// ── Bulle message ─────────────────────────────────────
+// This class is ONLY for message bubbles (NOT the floating button)
+.cm-bubble {
+  background: $bg-theirs;
+  color: $text-dark;
+  border-radius: 18px 18px 18px 4px;
+  padding: 8px 12px;
+  position: relative;
+  word-break: break-word;
+  border: 1px solid #e8e8e8;
+  box-shadow: 0 1px 2px rgba(0,0,0,.05);
+
+  &.cm-bubble-mine {
+    background: $bg-mine;
+    color: $white;
+    border-color: transparent;
+    border-radius: 18px 18px 4px 18px;
+    box-shadow: 0 2px 6px rgba(0, 132, 255, .28);
+  }
+
+  &.cm-editing {
+    background: $white;
+    border: 1.5px solid $blue;
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 132, 255, .15);
+  }
+}
+
+.cm-msg-text {
+  margin: 0;
+  font-size: .86rem;
+  line-height: 1.45;
+}
+
+.cm-msg-time {
+  display: block;
+  font-size: .68rem;
+  opacity: .6;
+  margin-top: 3px;
+  text-align: right;
+}
+
+.cm-msg-actions {
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.15s;
+  margin-top: 2px;
+}
+
+.cm-msg-row:hover .cm-msg-actions { opacity: 1; }
+
+.cm-act-btn {
+  background: rgba(255,255,255,.9);
+  border: 1px solid $border;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: .68rem;
+  color: $text-muted;
+  transition: all 0.15s;
+
+  &:hover { background: #f0f2f5; color: $text-dark; }
+  &.cm-act-del:hover { background: #fef2f2; color: #ef4444; border-color: #fca5a5; }
+}
+
+// ── Édition inline ───────────────────────────────────
+.cm-edit-area {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: .84rem;
+  resize: none;
+  outline: none;
+  min-width: 180px;
+  color: $text-dark;
+}
+
+.cm-edit-btns {
+  display: flex;
+  gap: 6px;
+  margin-top: 5px;
+}
+
+.cm-edit-save {
+  padding: 3px 12px;
+  background: $blue;
+  color: $white;
+  border: none;
+  border-radius: 8px;
+  font-size: .75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover { background: $blue-dark; }
+}
+
+.cm-edit-cancel {
+  padding: 3px 12px;
+  background: #e4e6eb;
+  color: $text-dark;
+  border: none;
+  border-radius: 8px;
+  font-size: .75rem;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover { background: #d0d3da; }
+}
+
+// ── Bouton scroll bas ────────────────────────────────
+.cm-scroll-bottom {
+  position: absolute;
+  bottom: 72px;
+  right: 14px;
+  z-index: 20;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: $blue;
+  color: $white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .78rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 132, 255, .4);
+  transition: transform 0.15s, box-shadow 0.15s;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 14px rgba(0, 132, 255, .55);
+  }
+}
+
+// ── Zone de saisie ───────────────────────────────────
+.cm-input-area {
+  padding: 10px 12px;
+  border-top: 1px solid $border;
+  background: $white;
+  flex-shrink: 0;
+}
+
+.cm-input-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  background: #f0f2f5;
+  border-radius: 22px;
+  padding: 4px 4px 4px 14px;
+  transition: background 0.15s;
+
+  &:focus-within { background: #e7e9ef; }
+}
+
+.cm-textarea {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 6px 0;
+  font-size: .875rem;
+  resize: none;
+  outline: none;
+  max-height: 80px;
+  overflow-y: auto;
+  color: $text-dark;
+  line-height: 1.45;
+  font-family: inherit;
+
+  &::placeholder { color: $text-muted; }
+}
+
+.cm-send-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: $blue;
+  color: $white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .85rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s, transform 0.1s;
+
+  &:hover:not(:disabled) { background: $blue-dark; transform: scale(1.05); }
+  &:disabled { background: #b0c4de; cursor: default; }
+}
+
+// ── Spinner ──────────────────────────────────────────
+.cm-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.cm-spin {
+  width: 24px;
+  height: 24px;
+  border: 2.5px solid rgba(0, 132, 255, .15);
+  border-top-color: $blue;
+  border-radius: 50%;
+  animation: cm-spin 0.75s linear infinite;
+}
+
+@keyframes cm-spin {
+  to { transform: rotate(360deg); }
+}

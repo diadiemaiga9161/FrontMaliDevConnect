@@ -30,8 +30,18 @@ getHeaders(): HttpHeaders {
   });
 }
 
-// Méthode pour afficher la liste des Typerdv
 AfficherListeTyperdv(): Observable<any> {
-  const headers = this.getHeaders(); // Obtient les en-têtes avec le jeton d'accès
-  return this.http.get(`${URL_BASE}typerdv/afficher`, { headers });  // Effectue une requête GET vers l'API avec les en-têtes d'autorisation
+  return this.http.get(`${URL_BASE}typerdv/afficher`, { headers: this.getHeaders() });
+}
+
+ajouterTypeRdv(data: any): Observable<any> {
+  return this.http.post(`${URL_BASE}typerdv/ajouter`, data, { headers: this.getHeaders() });
+}
+
+modifierTypeRdv(id: number, data: any): Observable<any> {
+  return this.http.put(`${URL_BASE}typerdv/modifier/${id}`, data, { headers: this.getHeaders() });
+}
+
+supprimerTypeRdv(id: number): Observable<any> {
+  return this.http.delete(`${URL_BASE}typerdv/supprimer/${id}`, { headers: this.getHeaders() });
 }}

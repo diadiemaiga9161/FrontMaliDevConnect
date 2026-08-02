@@ -18,9 +18,10 @@ declare let $: any;
 export class AppComponent implements OnInit {
     location: any;
     routerSubscription: any;
+    isAdminRoute = false;
+    isChatRoute = false;
 
-    constructor(private router: Router) {
-    }
+    constructor(private router: Router) {}
 
     ngOnInit(){
         this.recallJsFuntions();
@@ -39,6 +40,8 @@ export class AppComponent implements OnInit {
             $.getScript('../assets/js/main.js');
             $('.preloader-area').fadeOut('slow');
             this.location = this.router.url;
+            this.isAdminRoute = this.router.url.startsWith('/admin');
+            this.isChatRoute = this.router.url.startsWith('/chat');
             if (!(event instanceof NavigationEnd)) {
                 return;
             }

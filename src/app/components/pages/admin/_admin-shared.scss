@@ -1,0 +1,223 @@
+// Styles partagés entre tous les composants admin
+$primary: #086AD8;
+$danger: #ef4444;
+$success: #10b981;
+$warning: #f59e0b;
+$text: #1e293b;
+$muted: #64748b;
+$border: #e2e8f0;
+$radius: 12px;
+$shadow: 0 1px 4px rgba(0,0,0,.07);
+
+.admin-page {
+  max-width: 1100px;
+}
+
+.page-header {
+  margin-bottom: 1.75rem;
+
+  h2 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: $text;
+    margin-bottom: .25rem;
+  }
+
+  p {
+    font-size: .85rem;
+    color: $muted;
+    margin: 0;
+  }
+}
+
+.section-title {
+  font-size: .88rem;
+  font-weight: 700;
+  color: $muted;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 1rem;
+}
+
+// Table
+.admin-table-card {
+  background: #fff;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  overflow-x: auto;
+  border: 1px solid $border;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead th {
+    background: #f8fafc;
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: $muted;
+    padding: .85rem 1rem;
+    border-bottom: 2px solid $border;
+    white-space: nowrap;
+  }
+
+  tbody tr {
+    transition: background .15s;
+    &:hover { background: #f8fafc; }
+
+    td {
+      padding: .75rem 1rem;
+      font-size: .87rem;
+      color: $text;
+      border-bottom: 1px solid #f1f5f9;
+      vertical-align: middle;
+    }
+  }
+}
+
+// Toolbar
+.admin-toolbar {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid $border;
+  flex-wrap: wrap;
+
+  .toolbar-title {
+    font-size: .9rem;
+    font-weight: 700;
+    color: $text;
+    flex: 1;
+  }
+
+  .search-input {
+    padding: .42rem .85rem;
+    border: 1.5px solid $border;
+    border-radius: 8px;
+    font-size: .85rem;
+    outline: none;
+    transition: border-color .15s;
+    min-width: 200px;
+
+    &:focus { border-color: $primary; }
+  }
+}
+
+// Boutons
+.btn-primary-admin {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .45rem 1rem;
+  background: $primary;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: .84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s;
+  white-space: nowrap;
+
+  &:hover { background: darken(#086AD8, 8%); }
+}
+
+.btn-danger-admin {
+  @extend .btn-primary-admin;
+  background: $danger;
+  &:hover { background: darken(#ef4444, 8%); }
+}
+
+.btn-success-admin {
+  @extend .btn-primary-admin;
+  background: $success;
+  &:hover { background: darken(#10b981, 8%); }
+}
+
+.btn-warning-admin {
+  @extend .btn-primary-admin;
+  background: $warning;
+  color: #1e293b;
+  &:hover { background: darken(#f59e0b, 8%); }
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: .3rem .5rem;
+  border-radius: 6px;
+  font-size: .9rem;
+  transition: background .15s;
+
+  &.edit   { color: $primary; &:hover { background: #eff6ff; } }
+  &.del    { color: $danger;  &:hover { background: #fef2f2; } }
+  &.ban    { color: $danger;  &:hover { background: #fef2f2; } }
+  &.unban  { color: $success; &:hover { background: #f0fdf4; } }
+  &.check  { color: $success; &:hover { background: #f0fdf4; } }
+}
+
+// Badge
+.badge-role {
+  display: inline-block;
+  padding: .18em .65em;
+  border-radius: 20px;
+  font-size: .7rem;
+  font-weight: 700;
+
+  &.pro        { background: #eff6ff; color: $primary; }
+  &.client     { background: #ecfdf5; color: $success; }
+  &.admin      { background: #fdf4ff; color: #9333ea; }
+  &.superadmin { background: #fff1f1; color: #dc2626; border: 1px solid #fecaca; }
+}
+
+.badge-status {
+  display: inline-block;
+  padding: .18em .65em;
+  border-radius: 20px;
+  font-size: .7rem;
+  font-weight: 700;
+
+  &.valide  { background: #ecfdf5; color: $success; }
+  &.pending { background: #fffbeb; color: $warning; }
+  &.banni   { background: #fef2f2; color: $danger; }
+}
+
+// Form inline edit
+.form-row-admin {
+  display: flex;
+  gap: .75rem;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 1rem 1.25rem;
+  background: #f8fafc;
+  border-top: 1px solid $border;
+
+  input, select {
+    flex: 1;
+    min-width: 160px;
+    padding: .45rem .85rem;
+    border: 1.5px solid $border;
+    border-radius: 8px;
+    font-size: .86rem;
+    outline: none;
+    background: #fff;
+    transition: border-color .15s;
+
+    &:focus { border-color: $primary; }
+  }
+}
+
+// Empty state
+.empty-admin {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: $muted;
+
+  i { font-size: 2.5rem; margin-bottom: .75rem; display: block; opacity: .3; }
+  p { font-size: .88rem; }
+}

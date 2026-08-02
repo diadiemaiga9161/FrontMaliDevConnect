@@ -24,7 +24,7 @@
                             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
                         <div class="card-body text-center bg-primary rounded-top">
                             <div class="profile-img mb-3">
-                                <img [src]="generateImageUrl(User?.photos[0]?.nom)" alt="Admin"
+                                <img [src]="generateImageUrl(User?.photos?.[0]?.nom)" alt="Admin"
                                     class="rounded-circle p-1" style="background-color: #ffff;"
                                     (error)="handleAuthorImageError($event)">
                                     <div class="file change-photo-icon">
@@ -89,14 +89,21 @@
                                     <span class="d-none d-sm-block">Profile</span>
                                 </a>
                             </li>
-                            <li class="nav-item" role="presentation">
+                            <!-- <li class="nav-item" role="presentation">
                                 <a class="nav-link px-4" data-bs-toggle="tab" href="#Rendez-vous" role="tab"
                                     aria-selected="false" tabindex="-1">
                                     <span class="d-block d-sm-none"><i class="fas fa-home">Rendez-vous</i></span>
-                                    <span class="d-none d-sm-block">Rendez-vous</span>
+                                    <span class="d-none d-sm-block">Rendez-vous reçus</span>
+                                    <span class="badge bg-warning ms-1" *ngIf="rdvEnAttente?.length > 0">{{rdvEnAttente.length}}</span>
+                                </a>
+                            </li> -->
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link px-4" data-bs-toggle="tab" href="#MesRendezVous" role="tab"
+                                    aria-selected="false" tabindex="1">
+                                    <span class="d-block d-sm-none"><i class="fas fa-home">Mes RDV</i></span>
+                                    <span class="d-none d-sm-block">Mes rendez-vous</span>
                                 </a>
                             </li>
-
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link px-4" data-bs-toggle="tab" href="#Edit" role="tab"
                                     aria-selected="false" tabindex="-1">
@@ -204,124 +211,97 @@
                                 </form>
                                 <!--/row-->
                             </div>
-                            <div class="tab-pane show" id="Rendez-vous" role="tabpanel">
+                             
+                            
+                            <!-- NOUVEL ONGLET MES RENDEZ-VOUS (CEUX QUE J'AI PRIS) -->
+                            <div class="tab-pane" id="MesRendezVous" role="tabpanel">
                                 <div class="container mt-3 mb-10">
-                                    <div>
-                                        <div>
-                                            <div
-                                                class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm">
-                                                <table class="table manage-candidates-top mb-0">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Nom et Objet du Rendez-vous</th>
-                                                            <th class="text-center">Type de rendez-vous</th>
-                                                            <th class="action text-right">Date et heure</th>
-                                                            <th class="action text-right">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr class="candidates-list"
-                                                            *ngFor="let Rdv of rdv | paginate:{itemsPerPage :2, currentPage:p}">
-                                                            <td class="title">
-                                                                <div class="thumb">
-                                                                    <img class="img-fluid"
-                                                                        src="{{generateImageUrl(Rdv?.user?.utilisateurPhoto?.nom)}}"
-                                                                        alt="">
-                                                                </div>
-                                                                <div class="candidate-list-details">
-                                                                    <div class="candidate-list-info">
-                                                                        <div class="candidate-list-title">
-                                                                            <h5 class="mb-0"><a
-                                                                                class="" data-bs-toggle="modal"
-                                                                                data-bs-target="#exampleModal" data-bs-whatever="@mdo" href="">{{ Rdv?.user?.prenom }}
-                                                                                    {{ Rdv?.user?.nom}}</a></h5>
-                                                                        </div>
-                                                                        <div class="candidate-list-option">
-                                                                            <ul class="list-unstyled">
-                                                                                <li><i></i>Objet : {{ Rdv?.objet }}</li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td class="candidate-list-favourite-time text-center">
-                                                                <span>{{ Rdv?.typerdv?.typerdv }}</span>
-                                                            </td>
-                                                            <td>
-                                                                <ul class="list-unstyled">
-                                                                    <li><i></i>Date:{{ Rdv?.date }}</li>
-                                                                    <li><i></i> Heure:{{ Rdv?.heure }}</li>
-                                                                </ul>
-                                                            </td>
-                                                            <td>
-                                                                <ul class="list-unstyled">
-                                                                    <li><i></i><a href=""> <img src="" alt=""></a></li>
-                                                                    <li><i></i> Heure:{{ Rdv?.heure }}</li>
-                                                                </ul>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                                <pagination-controls *ngIf="rdv && rdv.length > 0"
-                                                    (pageChange)="p = $event" previousLabel="Précédent"
-                                                    nextLabel="Suivant" class="pagination"
-                                                    previousClass="pagination__previous" nextClass="pagination__next"
-                                                    containerClass="pagination__container" pageClass="pagination__page"
-                                                    activeClassName="pagination__page--active"
-                                                    disabledClass="pagination__page--disabled"></pagination-controls>
-                                            </div>
-                                        </div>
+                                    <h5 class="mb-4">Rendez-vous que j'ai pris</h5>
+                                    
+                                    <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm">
+                                        <table class="table manage-candidates-top mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Destinataire</th>
+                                                    <th>Objet</th>
+                                                    <th class="text-center">Type</th>
+                                                    <th class="text-center">Date & Heure</th>
+                                                    <th class="text-center">Statut</th>
+                                                    <th class="text-center">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="candidates-list" 
+                                                    *ngFor="let Rdv of rdvEnvoyes | paginate:{itemsPerPage:5, currentPage:pEnvoyes}">
+                                                    <td class="title">
+                                                        <div class="thumb">
+                                                            <img class="img-fluid"      style="width: 50px; height: 50px; object-fit: cover;"
+                                                            src="{{generateImageUrl(Rdv?.user?.utilisateurPhoto?.nom)}}"
+                                                            alt="">
+                                                            <!-- <img class="img-fluid rounded-circle" 
+                                                                 style="width: 50px; height: 50px; object-fit: cover;"
+                                                                 [src]="generateImageUrl(Rdv?.user?.photos?.[0]?.nom)"
+                                                                 (error)="handleAuthorImageError($event)"
+                                                                 alt=""> -->
+                                                        </div>
+                                                        <div class="candidate-list-details">
+                                                            <div class="candidate-list-info">
+                                                                <div class="candidate-list-title">
+                                                                    <h6 class="mb-0">{{ Rdv?.user?.prenom }}
+                                                                        {{ Rdv?.user?.nom}}</h6>
+                                                                        <small><i class="fa fa-phone"></i> {{ Rdv?.user?.telephone }}</small>
 
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <strong>Objet:</strong> {{ Rdv?.objet }}<br>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span class="badge bg-info">{{ Rdv?.typerdv?.typerdv }}</span>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <strong>{{ Rdv?.date }}</strong><br>
+                                                        <small>{{ Rdv?.heure }}</small>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span class="badge bg-{{getStatutCouleur(Rdv?.statut)}}">
+                                                            {{getStatutLibelle(Rdv?.statut)}}
+                                                        </span>
+                                                        <small *ngIf="Rdv?.motifAnnulation" class="d-block text-muted">
+                                                            Motif: {{ Rdv?.motifAnnulation }}
+                                                        </small>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-sm btn-info me-1" title="Détails" 
+                                                                (click)="VoirDetailsRdv(Rdv)">
+                                                            <i class="fa fa-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-warning" title="Annuler" 
+                                                                *ngIf="peutAnnuler(Rdv)" (click)="AnnulerRendezVous(Rdv)">
+                                                            <i class="fa fa-ban"></i> Annuler
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr *ngIf="!rdvEnvoyes || rdvEnvoyes.length === 0">
+                                                    <td colspan="6" class="text-center py-5">
+                                                        <i class="fa fa-calendar-plus-o fa-4x text-muted mb-3"></i>
+                                                        <h5>Aucun rendez-vous pris</h5>
+                                                        <p class="text-muted">Vous n'avez pas encore pris de rendez-vous</p>
+                                                        <button class="btn btn-primary mt-2" routerLink="/professionnel">
+                                                            <i class="fa fa-plus"></i> Trouver un professionnel
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <pagination-controls *ngIf="rdvEnvoyes && rdvEnvoyes.length > 0"
+                                            (pageChange)="pEnvoyes = $event" previousLabel="Précédent"
+                                            nextLabel="Suivant" class="pagination mt-3">
+                                        </pagination-controls>
                                     </div>
                                 </div>
-                                <!-- Liste des rdv -->
-                                <!-- Popup pour rdv modif -->
-
-                                <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal" data-bs-whatever="@mdo">RDV</button> -->
-
-                                <div class="modal fade" id="exampleModal" tabindex="-1"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Modifier rdv</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form>
-                                                    <div class="mb-3">
-                                                        <label for="recipient-name"
-                                                            class="col-form-label">Date:</label>
-                                                        <input type="text" class="form-control" id="recipient-name">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="recipient-name"
-                                                            class="col-form-label">Heure:</label>
-                                                        <input type="heure" class="form-control" id="recipient-name">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="recipient-name"
-                                                            class="col-form-label">Type rdv:</label>
-                                                        <input type="text" class="form-control" id="recipient-name">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="message-text"
-                                                            class="col-form-label">Message:</label>
-                                                        <textarea class="form-control" id="message-text"></textarea>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger"
-                                                    data-bs-dismiss="modal">Annuler</button>
-                                                <button type="button" class="btn btn-primary">Envoyer</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Popup pour fin -->
                             </div>
 
                             <div class="tab-pane" id="Edit" role="tabpanel">

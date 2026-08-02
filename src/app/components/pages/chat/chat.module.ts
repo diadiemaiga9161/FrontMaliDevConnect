@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 // import { PickerModule } from '@ctrl/ngx-emoji-mart';
 // import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 // import { SharedModule } from '../../../shared/shared.module';
 import { ChatRoutingModule } from './chat-routing.module';
 
 import { ChatComponent } from './chat/chat.component';
-import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [ChatComponent],
@@ -15,10 +15,8 @@ import { SharedModule } from '../../shared/shared.module';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
     ChatRoutingModule,
-    // PickerModule,
-    // EmojiModule,
-    SharedModule
   ]
 })
 export class ChatModule { }
