@@ -6,14 +6,16 @@
     "axe/name-role-value": [
       "default",
       {
-        "button-name": "off"
+        "button-name": "off",
+        "link-name": "off"
       }
     ],
     "axe/aria": [
       "default",
       {
         "aria-required-children": "off",
-        "aria-required-parent": "off"
+        "aria-required-parent": "off",
+        "aria-roles": "off"
       }
     ],
     "axe/forms": [

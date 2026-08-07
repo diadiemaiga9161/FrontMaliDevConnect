@@ -1,0 +1,161 @@
+<!-- Bannière -->
+<div class="page-title-area item-bg-1">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="container">
+                <div class="page-title-content">
+                    <h2>Profils les plus vus</h2>
+                    <ul>
+                        <li><a routerLink="/">Accueil</a></li>
+                        <li>Tendances</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="ptb-100">
+    <div class="container">
+
+        <!-- En-tête -->
+        <div class="text-center mb-5">
+            <h3 class="fw-bold" style="color:#086AD8;">
+                <i class="fa fa-fire me-2" style="color:#f97316;"></i>
+                Top 20 des profils tendance
+            </h3>
+            <p class="text-muted">Les professionnels les plus consultés sur DevMaliConnect</p>
+        </div>
+
+        <!-- Chargement -->
+        <div *ngIf="loading" class="text-center py-5">
+            <div class="spinner-border" style="color:#086AD8;" role="status"></div>
+            <p class="mt-3 text-muted">Chargement des tendances...</p>
+        </div>
+
+        <!-- Liste vide -->
+        <div *ngIf="!loading && profils.length === 0" class="text-center py-5">
+            <i class="fa fa-chart-bar fa-4x text-muted mb-3"></i>
+            <h5 class="text-muted">Aucun profil disponible pour le moment.</h5>
+        </div>
+
+        <!-- Top 3 podium -->
+        <div *ngIf="!loading && profils.length >= 3" class="podium-row row g-3 justify-content-center mb-5">
+            <!-- 2ème -->
+            <div class="col-md-3">
+                <div class="podium-card argent">
+                    <div class="rang-badge rang-argent">🥈</div>
+                    <img [src]="generateImageUrl(profils[1].utilisateurPhoto?.nom)"
+                         (error)="handleImageError($event)"
+                         class="rounded-circle border border-3 mt-4"
+                         style="width:80px; height:80px; object-fit:cover; border-color:#9ca3af !important;">
+                    <h6 class="fw-bold mt-2 mb-0 text-truncate">{{ profils[1].prenom }} {{ profils[1].nom }}</h6>
+                    <small class="text-muted text-truncate d-block">{{ profils[1].specialite?.specialite }}</small>
+                    <div class="vues-badge mt-2">
+                        <i class="fa fa-eye me-1"></i> {{ profils[1].nombreVues || 0 }} vues
+                    </div>
+                    <button class="btn btn-sm btn-outline-secondary mt-2"
+                            (click)="voirProfil(profils[1].tokenPartage)"
+                            [disabled]="!profils[1].tokenPartage">
+                        Voir le profil
+                    </button>
+                </div>
+            </div>
+            <!-- 1er -->
+            <div class="col-md-3">
+                <div class="podium-card or">
+                    <div class="rang-badge rang-or">🥇</div>
+                    <img [src]="generateImageUrl(profils[0].utilisateurPhoto?.nom)"
+                         (error)="handleImageError($event)"
+                         class="rounded-circle border border-3 mt-4"
+                         style="width:100px; height:100px; object-fit:cover; border-color:#f59e0b !important;">
+                    <h6 class="fw-bold mt-2 mb-0 text-truncate">{{ profils[0].prenom }} {{ profils[0].nom }}</h6>
+                    <small class="text-muted text-truncate d-block">{{ profils[0].specialite?.specialite }}</small>
+                    <div class="vues-badge or-vues mt-2">
+                        <i class="fa fa-fire me-1" style="color:#f97316;"></i> {{ profils[0].nombreVues || 0 }} vues
+                    </div>
+                    <button class="btn btn-sm btn-warning text-white mt-2"
+                            (click)="voirProfil(profils[0].tokenPartage)"
+                            [disabled]="!profils[0].tokenPartage">
+                        Voir le profil
+                    </button>
+                </div>
+            </div>
+            <!-- 3ème -->
+            <div class="col-md-3">
+                <div class="podium-card bronze">
+                    <div class="rang-badge rang-bronze">🥉</div>
+                    <img [src]="generateImageUrl(profils[2].utilisateurPhoto?.nom)"
+                         (error)="handleImageError($event)"
+                         class="rounded-circle border border-3 mt-4"
+                         style="width:80px; height:80px; object-fit:cover; border-color:#b45309 !important;">
+                    <h6 class="fw-bold mt-2 mb-0 text-truncate">{{ profils[2].prenom }} {{ profils[2].nom }}</h6>
+                    <small class="text-muted text-truncate d-block">{{ profils[2].specialite?.specialite }}</small>
+                    <div class="vues-badge mt-2">
+                        <i class="fa fa-eye me-1"></i> {{ profils[2].nombreVues || 0 }} vues
+                    </div>
+                    <button class="btn btn-sm btn-outline-secondary mt-2"
+                            (click)="voirProfil(profils[2].tokenPartage)"
+                            [disabled]="!profils[2].tokenPartage">
+                        Voir le profil
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Liste complète (à partir du 4ème) -->
+        <div *ngIf="!loading && profils.length > 0">
+            <h5 class="fw-bold mb-3" style="color:#086AD8;" *ngIf="profils.length > 3">
+                <i class="fa fa-list me-2"></i> Classement complet
+            </h5>
+            <div class="row g-3">
+                <div class="col-md-6 col-lg-4"
+                     *ngFor="let pro of (profils.length > 3 ? profils.slice(3) : profils); let i = index">
+                    <div class="card border-0 shadow-sm profil-card h-100">
+                        <div class="card-body d-flex align-items-center gap-3 p-3">
+
+                            <!-- Rang -->
+                            <div class="rang-number flex-shrink-0" [class]="getRangClass(i + 3)">
+                                {{ i + 4 }}
+                            </div>
+
+                            <!-- Photo -->
+                            <img [src]="generateImageUrl(pro.utilisateurPhoto?.nom)"
+                                 (error)="handleImageError($event)"
+                                 class="rounded-circle flex-shrink-0"
+                                 style="width:55px; height:55px; object-fit:cover; border:2px solid #e5e7eb;">
+
+                            <!-- Info -->
+                            <div class="flex-grow-1 min-w-0">
+                                <h6 class="mb-0 fw-bold text-truncate">{{ pro.prenom }} {{ pro.nom }}</h6>
+                                <small class="text-muted d-block text-truncate">
+                                    {{ pro.specialite?.specialite || 'Professionnel' }}
+                                </small>
+                                <small class="text-muted">
+                                    <i class="fa fa-eye me-1"></i> {{ pro.nombreVues || 0 }} vues
+                                </small>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="d-flex flex-column gap-1 flex-shrink-0">
+                                <button class="btn btn-sm btn-outline-primary"
+                                        (click)="voirProfil(pro.tokenPartage)"
+                                        [disabled]="!pro.tokenPartage"
+                                        title="Voir le profil">
+                                    <i class="fa fa-user"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger"
+                                        (click)="ajouterFavori(pro.id)"
+                                        *ngIf="isLoggedIn"
+                                        title="Ajouter aux favoris">
+                                    <i class="fa fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

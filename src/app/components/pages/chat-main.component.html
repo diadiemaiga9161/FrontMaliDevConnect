@@ -1,0 +1,269 @@
+<!-- Messenger-style Chat -->
+<div class="messenger-wrap">
+
+  <!-- ══ SIDEBAR ══ -->
+  <div class="messenger-sidebar" [class.hidden-mobile]="isMobileView && selectedConversation">
+
+    <!-- Sidebar Header -->
+    <div class="sidebar-head">
+      <h3 class="sidebar-title">Messages</h3>
+      <button class="icon-btn new-chat-btn" (click)="showUserSearch = !showUserSearch" title="Nouvelle conversation">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+    </div>
+
+    <!-- Search Bar (always visible) -->
+    <div class="sidebar-search-bar">
+      <div class="search-field">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input type="text" placeholder="Rechercher dans Messenger" [(ngModel)]="searchText" (ngModelChange)="searchUsersByName()">
+      </div>
+    </div>
+
+    <!-- New Chat Search Results -->
+    <div class="new-chat-panel" *ngIf="showUserSearch">
+      <div class="new-chat-header">
+        <span>Nouvelle conversation</span>
+        <button class="icon-btn" (click)="showUserSearch = false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div *ngIf="loadingUsers" class="spinner-row">
+        <div class="spinner-sm"></div>
+      </div>
+      <div class="contact-list" *ngIf="!loadingUsers">
+        <div class="contact-item" *ngFor="let user of searchUsers" (click)="startChatWithUser(user)">
+          <div class="avatar-wrap">
+            <img [src]="generateImageUrl(user?.utilisateurPhoto?.nom)" (error)="handleImageError($event)" [alt]="user.prenom">
+            <span class="online-dot"></span>
+          </div>
+          <div class="contact-info">
+            <strong>{{user.prenom}} {{user.nom}}</strong>
+            <span>{{user.specialite?.specialite}}</span>
+          </div>
+        </div>
+        <div class="empty-search" *ngIf="searchUsers.length === 0 && searchText">
+          <span>Aucun résultat</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conversations List -->
+    <div class="conv-list">
+      <div *ngIf="loadingConversations" class="spinner-row" style="padding:2rem 0;">
+        <div class="spinner-sm"></div>
+      </div>
+
+      <div class="conv-empty" *ngIf="!loadingConversations && conversations.length === 0">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <p>Aucune conversation</p>
+        <small>Commencez à discuter !</small>
+      </div>
+
+      <div class="conv-item"
+           *ngFor="let conv of conversations"
+           [class.active]="(conv.contact?.id || conv.user?.id || conv.otherUser?.id) === otherUser?.id"
+           (click)="selectConversation(conv)">
+
+        <div class="avatar-wrap">
+          <img [src]="generateImageUrl((conv.contact || conv.user || conv.otherUser)?.utilisateurPhoto?.nom)"
+               (error)="handleImageError($event)"
+               [alt]="(conv.contact || conv.user || conv.otherUser)?.prenom">
+          <span class="online-dot" *ngIf="(conv.nonLus || conv.unreadCount) > 0"></span>
+          <span class="presence-dot" *ngIf="isOnline((conv.contact || conv.user || conv.otherUser)?.email)" title="En ligne"></span>
+        </div>
+
+        <div class="conv-body">
+          <div class="conv-top-row">
+            <span class="conv-name">{{(conv.contact || conv.user || conv.otherUser)?.prenom}} {{(conv.contact || conv.user || conv.otherUser)?.nom}}</span>
+            <span class="conv-time">{{formatTime(conv.dateDernierMessage)}}</span>
+          </div>
+          <div class="conv-preview-row">
+            <span class="conv-preview" [class.unread-preview]="(conv.nonLus || conv.unreadCount) > 0">
+              {{ conv.dernierMessage || 'Aucun message' }}
+            </span>
+            <span class="unread-count" *ngIf="(conv.nonLus || conv.unreadCount) > 0">
+              {{conv.nonLus || conv.unreadCount}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CHAT PANEL ══ -->
+  <div class="messenger-panel" [class.no-selection]="!selectedConversation">
+
+    <!-- Welcome screen -->
+    <div class="welcome-screen" *ngIf="!selectedConversation">
+      <div class="welcome-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+      </div>
+      <h3>Vos messages</h3>
+      <p>Envoyez des messages privés à vos contacts professionnels</p>
+      <div class="encryption-badge">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+        Chiffrement de bout en bout activé
+      </div>
+    </div>
+
+    <!-- Chat Header -->
+    <div class="panel-header" *ngIf="selectedConversation && otherUser">
+      <button class="icon-btn back-btn d-md-none" (click)="selectedConversation = null">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      </button>
+
+      <div class="header-user" (click)="goToProfile(otherUser?.tokenPartage, otherUser?.id)" style="cursor:pointer;">
+        <div class="avatar-wrap">
+          <img [src]="generateImageUrl(otherUser?.utilisateurPhoto?.nom)"
+               (error)="handleImageError($event)"
+               [alt]="otherUser?.prenom">
+          <span class="presence-dot" *ngIf="isOnline(otherUser?.email)" title="En ligne"></span>
+        </div>
+        <div class="header-info">
+          <strong>{{otherUser?.prenom}} {{otherUser?.nom}}</strong>
+          <span>{{ isOnline(otherUser?.email) ? 'En ligne' : (otherUser?.specialite?.specialite || 'Professionnel') }}</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="encrypted-indicator" title="Chiffrement E2E actif">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Messages Area -->
+    <div class="messages-area" #messagesContainer *ngIf="selectedConversation && otherUser"
+         (scroll)="onMessagesScroll()">
+
+      <div *ngIf="loadingMessages" class="spinner-row" style="margin:auto;">
+        <div class="spinner-md"></div>
+      </div>
+
+      <div class="messages-inner" *ngIf="!loadingMessages">
+
+        <div class="chat-empty" *ngIf="messages.length === 0">
+          <div class="avatar-lg">
+            <img [src]="generateImageUrl(otherUser?.utilisateurPhoto?.nom)"
+                 (error)="handleImageError($event)"
+                 [alt]="otherUser?.prenom">
+          </div>
+          <strong>{{otherUser?.prenom}} {{otherUser?.nom}}</strong>
+          <span>{{otherUser?.specialite?.specialite}}</span>
+          <p>Commencez la conversation !</p>
+        </div>
+
+        <div class="msg-row"
+             *ngFor="let message of messages; let i = index"
+             [class.mine]="isMessageFromCurrentUser(message)"
+             [class.theirs]="!isMessageFromCurrentUser(message)">
+
+          <div class="msg-group">
+            <!-- Edit mode -->
+            <ng-container *ngIf="editingMessageId === message.id; else showMsg">
+              <div class="msg-bubble editing">
+                <textarea class="edit-area" [(ngModel)]="editingText"
+                          (keydown.enter)="!$event.shiftKey && saveEdit(message)"
+                          (keydown.escape)="cancelEdit()" rows="2" autofocus></textarea>
+                <div class="edit-btns">
+                  <button class="edit-save" (click)="saveEdit(message)">Sauvegarder</button>
+                  <button class="edit-cancel" (click)="cancelEdit()">Annuler</button>
+                </div>
+              </div>
+            </ng-container>
+
+            <ng-template #showMsg>
+              <div class="msg-bubble" [class.mine-bubble]="isMessageFromCurrentUser(message)">
+                <p class="msg-text">{{getMessageContent(message)}}</p>
+                <div class="msg-meta">
+                  <span class="msg-time">{{formatTime(message.dateEnvoi || message.dateCreation)}}</span>
+                  <svg *ngIf="isMessageFromCurrentUser(message)" class="msg-read" viewBox="0 0 16 11" fill="currentColor">
+                    <path d="M11.071.653a.75.75 0 0 1 1.035 1.085l-6.5 6.2a.75.75 0 0 1-1.006.028L1.1 5.066A.75.75 0 0 1 2.15 3.934l2.996 2.57 5.925-5.851z"/>
+                    <path d="M15.071.653a.75.75 0 0 1 1.035 1.085l-6.5 6.2a.75.75 0 0 1-.517.212.75.75 0 0 1-.122-.01l1.104-1.053 4.999-6.434h.001z" opacity=".6"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Message Actions -->
+              <div class="msg-actions" *ngIf="isMessageFromCurrentUser(message)">
+                <button class="action-btn" title="Modifier" (click)="startEdit(message)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </button>
+                <button class="action-btn delete-btn" title="Supprimer" (click)="deleteMessage(message)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                </button>
+              </div>
+            </ng-template>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Bouton scroll bas — absolu par rapport au panel -->
+    <button class="scroll-to-bottom-btn"
+            *ngIf="showScrollBtn && selectedConversation && otherUser"
+            (click)="scrollToBottomManual()"
+            title="Aller en bas">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M6 9l6 6 6-6"/>
+      </svg>
+    </button>
+
+    <!-- Input Area -->
+    <div class="input-area" *ngIf="selectedConversation && otherUser">
+      <div class="input-row">
+        <div class="input-box">
+          <textarea
+            placeholder="Aa"
+            [(ngModel)]="messageText"
+            (keydown.enter)="!$event.shiftKey && sendMessage(); $event.shiftKey || $event.preventDefault()"
+            [disabled]="sendingMessage"
+            rows="1"></textarea>
+        </div>
+        <button class="send-btn" (click)="sendMessage()" [disabled]="!messageText.trim() || sendingMessage">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="e2e-info">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+        Les messages sont chiffrés de bout en bout
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ MOBILE BOTTOM TABS ══ -->
+  <nav class="mobile-tabs" *ngIf="isMobileView">
+    <button class="mobile-tab" [class.active]="!selectedConversation" (click)="selectedConversation = null">
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        <span class="tab-badge" *ngIf="conversations.length > 0">{{conversations.length}}</span>
+      </div>
+      <span class="tab-label">Messages</span>
+    </button>
+
+    <button class="mobile-tab" [class.active]="!!selectedConversation" [class.disabled]="!selectedConversation" (click)="selectedConversation && null">
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        </svg>
+        <span class="tab-active-dot" *ngIf="selectedConversation"></span>
+      </div>
+      <span class="tab-label">
+        {{ selectedConversation ? (otherUser?.prenom || 'Discussion') : 'Discussion' }}
+      </span>
+    </button>
+  </nav>
+
+</div>

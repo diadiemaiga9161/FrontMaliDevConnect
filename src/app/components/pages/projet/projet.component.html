@@ -1,0 +1,49 @@
+<div class="layout">
+    <!-- Cards Container -->
+    <div class="">
+        <div class="card-body">
+            <h4 class="card-title">Filtres</h4>
+            <div class="search-bar mb-3">
+                <input type="text" class="form-control" placeholder="Rechercher..." />
+            </div>
+            <div class="filters">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="filter" value="technology" />
+                    Technology
+                </label><br />
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="filter" value="popular" />
+                    Popular
+                </label><br />
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="filter" value="design" />
+                    Design
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="cards-container">
+        <!-- Card 1 -->
+        <div class="card" *ngFor="let Projet of filteredProjet">
+            <div class="card-header">
+                <img [src]="generateImageUrl(Projet?.photo)" alt="{{ Projet.titre }}" alt="rover" />
+            </div>
+            <div class="card-body">
+                <span class="tag tag-teal">Technology</span>
+                <h4>Why is the Tesla Cybertruck designed the way it is?</h4>
+                <p>An exploration into the truck's polarising design</p>
+                <div class="user">
+                    <img src="https://yt3.ggpht.com/a/AGF-l7-0J1G0Ue0mcZMw-99kMeVuBmRxiPjyvIYONg=s900-c-k-c0xffffffff-no-rj-mo" alt="user" />
+                    <div class="user-info">
+                        <h5>July Dec</h5>
+                        <small>2h ago</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+ 
+</style>

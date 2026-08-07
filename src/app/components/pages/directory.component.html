@@ -1,0 +1,240 @@
+<!-- Bannière -->
+<div class="page-title-area item-bg-4">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="container">
+                <div class="page-title-content">
+                    <h2>Annuaire des Professionnels</h2>
+                    <ul>
+                        <li><a routerLink="/">Accueil</a></li>
+                        <li>Annuaire</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="ptb-100" style="background:#f8f9fa;">
+    <div class="container">
+
+        <!-- ════ FILTRES ════ -->
+        <div class="card border-0 shadow-sm mb-4 p-3" style="border-radius:14px;">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-5">
+                    <label class="form-label small text-muted mb-1">
+                        <i class="fa fa-search me-1"></i> Rechercher
+                    </label>
+                    <input type="text" class="form-control"
+                           placeholder="Nom, prénom..."
+                           [(ngModel)]="searchText"
+                           (ngModelChange)="onSearchChange($event)">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label small text-muted mb-1">
+                        <i class="fa fa-briefcase me-1"></i> Spécialité
+                    </label>
+                    <select class="form-select" [(ngModel)]="selectedSpecialty" (change)="onSpecialtyChange()">
+                        <option value="">Toutes les spécialités</option>
+                        <option *ngFor="let spec of specialties" [value]="spec.id">
+                            {{ spec.specialite }}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label small text-muted mb-1">
+                        <i class="fa fa-sort me-1"></i> Trier par
+                    </label>
+                    <select class="form-select" [(ngModel)]="sortBy" (change)="onSortChange()">
+                        <option value="name">Nom (A-Z)</option>
+                        <option value="viewed">Plus vus</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Résultats count + toggle vue -->
+        <div class="d-flex align-items-center justify-content-between mb-3" *ngIf="!loading">
+            <p class="text-muted mb-0 small">
+                <strong>{{ filteredProfessionals.length }}</strong> professionnel(s) trouvé(s)
+            </p>
+            <div class="d-flex gap-2">
+                <!-- Colonnes (seulement en grille) -->
+                <div class="view-toggle" *ngIf="viewMode === 'grid'">
+                    <button class="view-btn" [class.active]="gridCols === 2" (click)="gridCols = 2" title="2 colonnes">
+                        <i class="fa fa-th-large"></i>
+                    </button>
+                    <button class="view-btn" [class.active]="gridCols === 3" (click)="gridCols = 3" title="3 colonnes">
+                        <i class="fa fa-th"></i>
+                    </button>
+                </div>
+                <!-- Grille / Liste -->
+                <div class="view-toggle">
+                    <button class="view-btn" [class.active]="viewMode === 'grid'" (click)="viewMode = 'grid'" title="Vue grille">
+                        <i class="fa fa-th-large"></i>
+                    </button>
+                    <button class="view-btn" [class.active]="viewMode === 'list'" (click)="viewMode = 'list'" title="Vue liste">
+                        <i class="fa fa-list"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chargement -->
+        <div *ngIf="loading" class="text-center py-5">
+            <div class="spinner-border" style="color:#086AD8;"></div>
+            <p class="mt-3 text-muted">Chargement...</p>
+        </div>
+
+        <!-- ════ PROFESSIONNELS ════ -->
+        <ng-template #proCard let-pro>
+            <div class="pro-card card border-0 shadow-sm h-100" (click)="goToProfile(pro)">
+                <div class="pro-card-img" style="height:180px; overflow:hidden; position:relative;">
+                    <img [src]="generateImageUrl(pro?.utilisateurPhoto?.nom)"
+                         (error)="handleImageError($event)"
+                         alt="{{ pro.prenom }} {{ pro.nom }}"
+                         style="width:100%; height:100%; object-fit:cover;">
+                    <span *ngIf="pro?.verfication"
+                          class="badge bg-success position-absolute"
+                          style="top:10px; right:10px; font-size:0.7rem;">
+                        <i class="fa fa-check-circle me-1"></i> Vérifié
+                    </span>
+                    <button *ngIf="isLoggedIn"
+                            class="btn btn-sm position-absolute"
+                            style="top:8px; left:8px; width:34px; height:34px; border-radius:50%; padding:0; background:white; border:none; box-shadow:0 2px 8px rgba(0,0,0,.15);"
+                            [style.color]="isFavori(pro.id) ? '#ef4444' : '#999'"
+                            (click)="toggleFavorite(pro, $event)"
+                            title="{{ isFavori(pro.id) ? 'Retirer des favoris' : 'Ajouter aux favoris' }}">
+                        <i class="fa" [ngClass]="isFavori(pro.id) ? 'fa-heart' : 'fa-heart-o'"></i>
+                    </button>
+                    <div class="pro-card-overlay d-flex align-items-center justify-content-center">
+                        <button class="btn btn-sm btn-light rounded-pill px-3"
+                                (click)="goToProfile(pro); $event.stopPropagation()">
+                            <i class="fa fa-eye me-1"></i> Voir le profil
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body p-3">
+                    <h6 class="fw-bold mb-0 text-truncate">{{ pro.prenom }} {{ pro.nom }}</h6>
+                    <small class="text-primary d-block mb-2 text-truncate">
+                        {{ pro?.specialite?.specialite || 'Professionnel' }}
+                    </small>
+                    <p class="text-muted small mb-2" style="line-height:1.4; min-height:2.8rem;"
+                       *ngIf="pro?.biographie?.biographie">
+                        {{ pro.biographie.biographie | slice:0:80 }}{{ pro.biographie.biographie.length > 80 ? '…' : '' }}
+                    </p>
+                    <div class="d-flex gap-2 flex-wrap mb-2">
+                        <span class="badge bg-light text-dark border small" *ngIf="pro?.nombreVues">
+                            <i class="fa fa-eye me-1 text-primary"></i>{{ pro.nombreVues }} vues
+                        </span>
+                        <span class="badge bg-light text-dark border small" *ngIf="pro?.connaissances?.length">
+                            <i class="fa fa-cogs me-1 text-primary"></i>{{ pro.connaissances.length }} compétences
+                        </span>
+                    </div>
+                    <div class="d-flex gap-2 mt-2" *ngIf="isLoggedIn && pro.id !== currentUser?.id"
+                         (click)="$event.stopPropagation()">
+                        <button class="btn btn-sm btn-outline-primary flex-grow-1"
+                                (click)="sendContactRequest(pro, $event)">
+                            <i class="fa fa-user-plus me-1"></i> Contacter
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+
+        <div *ngIf="!loading && filteredProfessionals.length > 0">
+
+            <!-- Vue Grille -->
+            <div class="row g-4 mb-4" *ngIf="viewMode === 'grid'">
+                <div *ngFor="let pro of getPaginatedProfessionals()"
+                     [class.col-sm-6]="true"
+                     [class.col-lg-4]="gridCols === 3"
+                     [class.col-lg-6]="gridCols === 2">
+                    <ng-container *ngTemplateOutlet="proCard; context: { $implicit: pro }"></ng-container>
+                </div>
+            </div>
+
+            <!-- Vue Liste -->
+            <div class="dir-list mb-4" *ngIf="viewMode === 'list'">
+                <div class="dir-list-item" *ngFor="let pro of getPaginatedProfessionals()" (click)="goToProfile(pro)">
+                    <div class="dir-list-img-wrap">
+                        <img [src]="generateImageUrl(pro?.utilisateurPhoto?.nom)"
+                             (error)="handleImageError($event)"
+                             alt="{{ pro.prenom }} {{ pro.nom }}"
+                             class="dir-list-avatar">
+                        <span *ngIf="pro?.verfication" class="dir-verified-badge">
+                            <i class="fa fa-check-circle"></i>
+                        </span>
+                    </div>
+                    <div class="dir-list-info">
+                        <h6 class="dir-list-name">{{ pro.prenom }} {{ pro.nom }}</h6>
+                        <small class="text-primary fw-semibold d-block mb-1">
+                            {{ pro?.specialite?.specialite || 'Professionnel' }}
+                        </small>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <span class="badge bg-light text-dark border small" *ngIf="pro?.nombreVues">
+                                <i class="fa fa-eye me-1 text-primary"></i>{{ pro.nombreVues }} vues
+                            </span>
+                            <span class="badge bg-light text-dark border small" *ngIf="pro?.connaissances?.length">
+                                <i class="fa fa-cogs me-1 text-primary"></i>{{ pro.connaissances.length }} compétences
+                            </span>
+                        </div>
+                    </div>
+                    <div class="dir-list-actions" *ngIf="isLoggedIn && pro.id !== currentUser?.id"
+                         (click)="$event.stopPropagation()">
+                        <button class="btn btn-sm btn-outline-primary"
+                                (click)="sendContactRequest(pro, $event)">
+                            <i class="fa fa-user-plus me-1"></i> Contacter
+                        </button>
+                        <button class="btn btn-sm btn-primary"
+                                (click)="goToProfile(pro); $event.stopPropagation()">
+                            <i class="fa fa-eye me-1"></i> Voir
+                        </button>
+                    </div>
+                    <div class="dir-list-actions" *ngIf="!isLoggedIn || pro.id === currentUser?.id"
+                         (click)="$event.stopPropagation()">
+                        <button class="btn btn-sm btn-primary"
+                                (click)="goToProfile(pro); $event.stopPropagation()">
+                            <i class="fa fa-eye me-1"></i> Voir le profil
+                        </button>
+                    </div>
+                    <button *ngIf="isLoggedIn"
+                            class="dir-list-fav"
+                            [style.color]="isFavori(pro.id) ? '#ef4444' : '#adb5bd'"
+                            (click)="toggleFavorite(pro, $event)"
+                            title="{{ isFavori(pro.id) ? 'Retirer des favoris' : 'Ajouter aux favoris' }}">
+                        <i class="fa" [ngClass]="isFavori(pro.id) ? 'fa-heart' : 'fa-heart-o'"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <nav *ngIf="totalPages > 1">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" [class.disabled]="currentPage === 1">
+                        <button class="page-link" (click)="previousPage()">
+                            <i class="fa fa-chevron-left"></i>
+                        </button>
+                    </li>
+                    <li class="page-item" *ngFor="let page of getPaginationArray()"
+                        [class.active]="page === currentPage">
+                        <button class="page-link" (click)="goToPage(page)">{{ page }}</button>
+                    </li>
+                    <li class="page-item" [class.disabled]="currentPage === totalPages">
+                        <button class="page-link" (click)="nextPage()">
+                            <i class="fa fa-chevron-right"></i>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- État vide -->
+        <div *ngIf="!loading && filteredProfessionals.length === 0" class="text-center py-5">
+            <i class="fa fa-search fa-4x text-muted mb-3 d-block" style="opacity:.3;"></i>
+            <h5 class="text-muted">Aucun professionnel trouvé</h5>
+            <p class="text-muted small">Essayez de modifier vos critères de recherche.</p>
+        </div>
+
+    </div>
+</section>

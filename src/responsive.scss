@@ -1,3 +1,30 @@
+/* ========== Règles globales responsive ========== */
+html {
+    overflow-x: hidden;
+}
+body {
+    overflow-x: hidden;
+    min-width: 0;
+}
+@media (max-width: 767px) {
+    body {
+        padding-bottom: 70px;
+    }
+}
+.container, .container-fluid {
+    max-width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
+input, select, textarea, .form-control {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
 @media only screen and (max-width: 767px) {
 
     .pt-100 {
@@ -30,9 +57,33 @@
     }
     .default-btn {
         padding: 11px 25px;
-        font-size: 13px;
+        font-size: 10px;
     }
 
+    .main-banner-area .container {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        .main-banner-content {
+            order: 1;
+        }
+        .banner-image {
+            order: 2;
+            margin-top: 20px;
+            img {
+                max-width: 100%;
+            }
+        }
+    }
+    .banner-btn {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        .default-btn {
+            margin: 5px;
+        }
+    }
     .home-sliders {
         .home-item {
             height: 100%;
@@ -61,6 +112,66 @@
                 top: 0;
             }
         }
+    }
+    .contact-box {
+        .row [class*="col-"] {
+            margin-bottom: 20px;
+        }
+        .single-contact-box {
+            text-align: center;
+            padding: 20px 15px;
+        }
+        .offset-md-3 {
+            margin-left: 0 !important;
+        }
+    }
+    .contact-section {
+        .contact-form {
+            padding: 15px 0;
+        }
+        .contact-text h3 {
+            font-size: 22px;
+        }
+    }
+    .page-title-area {
+        min-height: 200px;
+    }
+    .page-title-content {
+        ul {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    }
+    .about-section {
+        .about-image {
+            margin-bottom: 20px;
+            img {
+                width: 100%;
+            }
+        }
+        .about-tab {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+    }
+    body.bg-maiga .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .blog-section .card .card-body,
+    .profil-dev .card-body,
+    .profil-informaticien .card-body {
+        padding: 15px;
+    }
+    .profil-dev .text-center.border-end,
+    .profil-informaticien .text-center.border-end {
+        border-right: none !important;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 20px;
+        margin-bottom: 15px;
+    }
+    .send-btn .default-btn {
+        width: 100%;
     }
 
     .features-content {

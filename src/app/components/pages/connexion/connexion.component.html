@@ -1,103 +1,89 @@
-<div class="page-title-area item-bg-3">
-  <div class="d-table">
-      <div class="d-table-cell">
-          <div class="container">
-              <div class="page-title-content">
-                  <h2>Connexion</h2>
-                  <ul>
-                      <li><a routerLink="/">Acceuil</a></li>
-                      <li>Connexion</li>
-                  </ul>
-              </div>
-          </div>
-      </div>
-  </div>
-</div>
+<section class="auth-section d-flex align-items-center min-vh-100 py-4">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-10 col-md-7 col-lg-5 col-xl-4">
 
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
+        <div class="card shadow border-0 rounded-4">
+          <div class="card-body p-4 p-md-5">
 
-<section class="blog-section pt-100 pb-100">
-  <div class="container register">
-      <div class="row">
-          <div class="col-md-3 register-left">
-              <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
-              <h3>Bienvenu</h3>
-              <p style="color: #ffffff;">Cree votre compte et lance vous!</p>
-              <input type="submit" name="" value="Connexion" /><br />
-          </div>
-          <div class="col-md-9 register-right">
-              <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
-                  <li class="nav-item">
-                      <a class="nav-link active" id="inscription" data-toggle="tab" href="#inscription"
-                       role="tab" aria-selected="false" tabindex="-1">Inscription</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" id="connexion" data-toggle="tab" href="#connexion" 
-                      role="tab" aria-selected="false" tabindex="-1">Connexion</a>
-                  </li>
-              </ul>
-              <div class="tab-content" id="myTabContent">
-                  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                      <h3 class="register-heading" style="color: #fff;">Inscription</h3>
-                      <div class="row register-form">
-                          <div class="col-md-6">
-                              <div class="form-group">
-                                  <input type="text" class="form-control" placeholder="Nom *" value="" />
-                              </div>
-                              <div class="form-group">
-                                  <input type="text" class="form-control" placeholder="Mail *" value="" />
-                              </div>
-                              <div class="form-group">
-                                  <input type="password" class="form-control" placeholder="Mot de paase *" value="" />
-                              </div>
-                          </div>
-                          
-                          <div class="col-md-6">
-                              <div class="form-group">
-                                  <input type="email" class="form-control" placeholder="Prenom*" value="" />
-                              </div>
-                              <div class="form-group">
-                                  <input type="text" minlength="10" maxlength="10" name="txtEmpPhone"
-                                      class="form-control" placeholder="Numero *" value="" />
-                              </div>
-                              <div class="form-group">
-                                  <input type="password" class="form-control" placeholder="Mot de paase confirmation *" value="" />
-                              </div>
-                          </div>
-                          <div class="col-md-12">
-                              <div  class="form-group">
-                                  <select class="form-control">
-                                      <option class="hidden" selected disabled>Votre Status 
-                                      </option>
-                                      <option>Client</option>
-                                      <option>Informaticien</option>
-                                  </select>
-                              </div>
-                          </div>
-                          <div class="col-md-12">
-                            <input type="submit" class="btnRegister" value="Inscription" />
-                        </div>
-                      </div>
-                  </div>
-                  <div class="tab-pane fade show" id="connexion" role="tabpanel" aria-labelledby="connexion">
-                      <h3 class="register-heading">Connexion</h3>
-                      <div class="row register-form">
-                          <div class="col-md-6">
-                              <div class="form-group">
-                                  <input type="text" class="form-control" placeholder="Votre mail ou Numero *" value="" />
-                              </div>
-                              <div class="form-group">
-                                  <input type="password" class="form-control" placeholder="Mot de paase *" value="" />
-                              </div>
-                              <input type="submit" class="btnRegister" value="Connexion" />
-                          </div>
-                      </div>
-                  </div>
+            <!-- Logo / Titre -->
+            <div class="text-center mb-4">
+              <h4 class="fw-bold text-primary mb-1">MaliDevConnect</h4>
+              <p class="text-muted small">Connectez-vous à votre espace</p>
+            </div>
+
+            <form #f="ngForm" (ngSubmit)="f.form.valid && seConnecter()" novalidate>
+
+              <!-- Email ou Téléphone -->
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Numéro ou Email <span class="text-danger">*</span></label>
+                <input class="form-control form-control-lg" type="text" name="telephoneOrEmail"
+                  [(ngModel)]="form.telephoneOrEmail" required #telephoneOrEmail="ngModel"
+                  [ngClass]="{'is-invalid': f.submitted && telephoneOrEmail.errors}"
+                  placeholder="Votre numéro ou email" />
+                <div class="invalid-feedback" *ngIf="telephoneOrEmail.errors && f.submitted">
+                  <span *ngIf="telephoneOrEmail.errors['required']">Champ obligatoire</span>
+                </div>
               </div>
+
+              <!-- Mot de passe -->
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Mot de passe <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <input class="form-control form-control-lg" [type]="Toggledata ? 'password' : 'text'"
+                    name="password" [(ngModel)]="form.password" required minlength="6" #password="ngModel"
+                    [ngClass]="{'is-invalid': f.submitted && password.errors}"
+                    placeholder="Votre mot de passe" />
+                  <button class="btn btn-outline-secondary" type="button" (click)="iconLogle()">
+                    <i class="fa" [ngClass]="Toggledata ? 'fa-eye-slash' : 'fa-eye'"></i>
+                  </button>
+                  <div class="invalid-feedback" *ngIf="password.errors && f.submitted">
+                    <span *ngIf="password.errors['required']">Mot de passe obligatoire</span>
+                    <span *ngIf="password.errors['minlength']">Minimum 6 caractères</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Mot de passe oublié -->
+              <div class="d-flex justify-content-end mb-3">
+                <a routerLink="/mdp-oublie" class="text-primary text-decoration-none small">Mot de passe oublié ?</a>
+              </div>
+
+              <!-- Alerte erreur -->
+              <div class="alert alert-danger py-2 small" *ngIf="isLoginFailed && errorMessage">
+                {{ errorMessage }}
+              </div>
+
+              <!-- Bouton connexion -->
+              <button type="submit" class="btn btn-primary btn-lg w-100 rounded-3">
+                Se connecter
+              </button>
+
+            </form>
+
+            <!-- Séparateur Google -->
+            <div class="d-flex align-items-center gap-2 my-3">
+              <hr class="flex-grow-1 m-0">
+              <span class="text-muted small px-1">ou</span>
+              <hr class="flex-grow-1 m-0">
+            </div>
+
+            <!-- Bouton Google -->
+            <div class="d-flex justify-content-center mb-3">
+              <div id="google-btn-connexion"></div>
+            </div>
+
+            <hr class="my-3">
+
+            <p class="text-center text-muted small mb-0">
+              Pas encore de compte ?
+              <a routerLink="/inscription" class="text-primary fw-semibold text-decoration-none">S'inscrire</a>
+            </p>
+
           </div>
+        </div>
+
       </div>
+    </div>
   </div>
 </section>

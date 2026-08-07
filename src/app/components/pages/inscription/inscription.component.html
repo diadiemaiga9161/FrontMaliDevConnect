@@ -1,0 +1,172 @@
+<section class="auth-section d-flex align-items-center min-vh-100 py-4">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-11 col-md-9 col-lg-7 col-xl-6">
+
+        <div class="card shadow border-0 rounded-4">
+          <div class="card-body p-4 p-md-5">
+
+            <div class="text-center mb-4">
+              <h4 class="fw-bold text-primary mb-1">MaliDevConnect</h4>
+              <p class="text-muted small">Créez votre compte gratuitement</p>
+            </div>
+
+            <form name="form" (ngSubmit)="f.form.valid && inscription()" #f="ngForm" novalidate>
+
+              <div class="row g-3">
+
+                <!-- Nom -->
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold">Nom <span class="text-danger">*</span></label>
+                  <input name="nom" class="form-control" [(ngModel)]="form.nom" required minlength="2" maxlength="30"
+                    #nom="ngModel" type="text" placeholder="Votre nom"
+                    [ngClass]="{'is-invalid': f.submitted && nom.errors}" />
+                  <div class="invalid-feedback" *ngIf="nom.errors && f.submitted">
+                    <span *ngIf="nom.errors['required']">Nom obligatoire</span>
+                    <span *ngIf="nom.errors['minlength']">Minimum 2 caractères</span>
+                  </div>
+                </div>
+
+                <!-- Prénom -->
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold">Prénom <span class="text-danger">*</span></label>
+                  <input name="prenom" class="form-control" [(ngModel)]="form.prenom" required minlength="2" maxlength="30"
+                    #prenom="ngModel" type="text" placeholder="Votre prénom"
+                    [ngClass]="{'is-invalid': f.submitted && prenom.errors}" />
+                  <div class="invalid-feedback" *ngIf="prenom.errors && f.submitted">
+                    <span *ngIf="prenom.errors['required']">Prénom obligatoire</span>
+                  </div>
+                </div>
+
+                <!-- Téléphone -->
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold">Téléphone <span class="text-danger">*</span></label>
+                  <input name="telephone" class="form-control" [(ngModel)]="form.telephone" required minlength="8"
+                    maxlength="13" #telephone="ngModel" type="text" placeholder="+223 XX XX XX XX"
+                    [ngClass]="{'is-invalid': f.submitted && telephone.errors}" />
+                  <div class="invalid-feedback" *ngIf="telephone.errors && f.submitted">
+                    <span *ngIf="telephone.errors['required']">Numéro obligatoire</span>
+                    <span *ngIf="telephone.errors['minlength']">Minimum 8 chiffres</span>
+                  </div>
+                </div>
+
+                <!-- Email -->
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold">Email <span class="text-danger">*</span></label>
+                  <input name="email" class="form-control" [(ngModel)]="form.email" required email #email="ngModel"
+                    type="email" placeholder="votre@email.com"
+                    [ngClass]="{'is-invalid': f.submitted && email.errors}" />
+                  <div class="invalid-feedback" *ngIf="email.errors && f.submitted">
+                    <span *ngIf="email.errors['required']">Email obligatoire</span>
+                    <span *ngIf="email.errors['email']">Email invalide</span>
+                  </div>
+                </div>
+
+                <!-- Type de compte -->
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold">Type de compte <span class="text-danger">*</span></label>
+                  <select name="role" class="form-select" [(ngModel)]="form.role" required #role="ngModel"
+                    (change)="onChange($event.target)" [ngClass]="{'is-invalid': f.submitted && role.errors}">
+                    <option value="Choisir" disabled>-- Choisir --</option>
+                    <option *ngFor="let t of typeUser" [value]="t.value">{{ t.nom }}</option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="role.errors && f.submitted">
+                    <span *ngIf="role.errors['required']">Choisissez un type</span>
+                  </div>
+                </div>
+
+                <!-- Genre -->
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold">Genre <span class="text-danger">*</span></label>
+                  <select name="genre" class="form-select" [(ngModel)]="form.genre" required #genreRef="ngModel"
+                    [ngClass]="{'is-invalid': f.submitted && genreRef.errors}">
+                    <option value="Choisir" disabled>-- Choisir --</option>
+                    <option *ngFor="let g of genre" [value]="g.value">{{ g.nom }}</option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="genreRef.errors && f.submitted">
+                    <span *ngIf="genreRef.errors['required']">Genre obligatoire</span>
+                  </div>
+                </div>
+
+                <!-- Mot de passe -->
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold">Mot de passe <span class="text-danger">*</span></label>
+                  <div class="input-group">
+                    <input [type]="Toggledata ? 'password' : 'text'" name="password" class="form-control"
+                      [(ngModel)]="form.password" required minlength="6" #password="ngModel"
+                      placeholder="Minimum 6 caractères"
+                      [ngClass]="{'is-invalid': f.submitted && password.errors}" />
+                    <button class="btn btn-outline-secondary" type="button" (click)="iconLogle()">
+                      <i class="fa" [ngClass]="Toggledata ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    </button>
+                    <div class="invalid-feedback" *ngIf="password.errors && f.submitted">
+                      <span *ngIf="password.errors['required']">Mot de passe obligatoire</span>
+                      <span *ngIf="password.errors['minlength']">Minimum 6 caractères</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Confirmer mot de passe -->
+                <div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold">Confirmer le mot de passe <span class="text-danger">*</span></label>
+                  <div class="input-group">
+                    <input [type]="ToggledataC ? 'password' : 'text'" name="confirmPassword" class="form-control"
+                      [(ngModel)]="form.confirmPassword" required minlength="6" #confirmPassword="ngModel"
+                      placeholder="Répéter le mot de passe"
+                      [ngClass]="{'is-invalid': f.submitted && confirmPassword.errors}" />
+                    <button class="btn btn-outline-secondary" type="button" (click)="iconLogleC()">
+                      <i class="fa" [ngClass]="ToggledataC ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    </button>
+                    <div class="invalid-feedback" *ngIf="confirmPassword.errors && f.submitted">
+                      <span *ngIf="confirmPassword.errors['required']">Confirmation obligatoire</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Info professionnel -->
+              <div class="alert alert-info small mt-3 py-2" *ngIf="form.role === 'professionnel'">
+                <i class="fa fa-info-circle me-1"></i>
+                Après la création de votre compte, vous pourrez compléter votre profil (spécialité, adresse...).
+              </div>
+
+              <!-- Alerte erreur -->
+              <div class="alert alert-danger py-2 small mt-3" *ngIf="isSignUpFailed && errorMessage">
+                {{ errorMessage }}
+              </div>
+
+              <!-- Bouton submit -->
+              <div class="mt-4">
+                <button type="submit" class="btn btn-primary btn-lg w-100 rounded-3">
+                  Créer mon compte
+                </button>
+              </div>
+
+            </form>
+
+            <!-- Séparateur Google -->
+            <div class="d-flex align-items-center gap-2 my-3">
+              <hr class="flex-grow-1 m-0">
+              <span class="text-muted small px-1">ou</span>
+              <hr class="flex-grow-1 m-0">
+            </div>
+
+            <!-- Bouton Google -->
+            <div class="d-flex justify-content-center mb-3">
+              <div id="google-btn-inscription"></div>
+            </div>
+
+            <hr class="my-3">
+            <p class="text-center text-muted small mb-0">
+              Déjà un compte ?
+              <a routerLink="/connexion" class="text-primary fw-semibold text-decoration-none">Se connecter</a>
+            </p>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

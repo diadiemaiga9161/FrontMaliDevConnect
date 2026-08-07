@@ -1,0 +1,223 @@
+<!-- Bannière -->
+<div class="page-title-area item-bg-3">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="container">
+                <div class="page-title-content">
+                    <h2>Mes Rendez-vous</h2>
+                    <ul>
+                        <li><a routerLink="/">Accueil</a></li>
+                        <li>Rendez-vous</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="ptb-100">
+    <div class="container">
+
+        <!-- Stats -->
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-md-3">
+                <div class="stat-box text-center p-3 rounded-3 border shadow-sm">
+                    <h4 class="fw-bold mb-0" style="color:#f59e0b;">{{ rdvRecus.length + rdvEnvoyes.length }}</h4>
+                    <small class="text-muted">Total RDV</small>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-box text-center p-3 rounded-3 border shadow-sm">
+                    <h4 class="fw-bold mb-0" style="color:#086AD8;">
+                        {{ rdvEnAttenteRecus }}
+                        <span class="badge bg-warning text-dark ms-1 small" *ngIf="rdvEnAttenteRecus > 0">!</span>
+                    </h4>
+                    <small class="text-muted">En attente reçus</small>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-box text-center p-3 rounded-3 border shadow-sm">
+                    <h4 class="fw-bold mb-0" style="color:#22c55e;">{{ rdvRecus.length }}</h4>
+                    <small class="text-muted">Reçus</small>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-box text-center p-3 rounded-3 border shadow-sm">
+                    <h4 class="fw-bold mb-0" style="color:#8b5cf6;">{{ rdvEnvoyes.length }}</h4>
+                    <small class="text-muted">Envoyés</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Onglets + filtres -->
+        <div class="d-flex flex-wrap align-items-center gap-3 mb-4">
+            <!-- Onglets -->
+            <div class="btn-group">
+                <button class="btn btn-sm" [class.btn-primary]="onglet === 'recus'"
+                        [class.btn-outline-primary]="onglet !== 'recus'" (click)="onglet = 'recus'; filtreStatut = 'TOUS'">
+                    <i class="fa fa-inbox me-1"></i> Reçus
+                    <span class="badge bg-warning text-dark ms-1" *ngIf="rdvEnAttenteRecus > 0">{{ rdvEnAttenteRecus }}</span>
+                </button>
+                <button class="btn btn-sm" [class.btn-primary]="onglet === 'envoyes'"
+                        [class.btn-outline-primary]="onglet !== 'envoyes'" (click)="onglet = 'envoyes'; filtreStatut = 'TOUS'">
+                    <i class="fa fa-paper-plane me-1"></i> Envoyés
+                </button>
+            </div>
+            <!-- Filtre statut -->
+            <div class="d-flex flex-wrap gap-1">
+                <button class="btn btn-xs rounded-pill px-3 py-1"
+                        *ngFor="let s of statuts"
+                        [class.btn-primary]="filtreStatut === s"
+                        [class.btn-outline-secondary]="filtreStatut !== s"
+                        (click)="filtreStatut = s"
+                        style="font-size:0.75rem;">
+                    {{ s === 'TOUS' ? 'Tous' : getStatutLibelle(s) }}
+                </button>
+            </div>
+        </div>
+
+        <!-- Chargement -->
+        <div *ngIf="loading" class="text-center py-5">
+            <div class="spinner-border" style="color:#086AD8;"></div>
+            <p class="mt-3 text-muted">Chargement...</p>
+        </div>
+
+        <!-- ═══ RDV REÇUS ═══ -->
+        <div *ngIf="!loading && onglet === 'recus'">
+            <div *ngIf="rdvRecusFiltres.length === 0" class="text-center py-5">
+                <i class="fa fa-calendar-times fa-4x text-muted mb-3 d-block"></i>
+                <h5 class="text-muted">Aucun rendez-vous {{ filtreStatut !== 'TOUS' ? getStatutLibelle(filtreStatut).toLowerCase() : 'reçu' }}.</h5>
+            </div>
+
+            <div class="row g-3" *ngIf="rdvRecusFiltres.length > 0">
+                <div class="col-md-6" *ngFor="let rdv of rdvRecusFiltres">
+                    <div class="card border-0 shadow-sm rdv-card h-100">
+                        <div class="card-body p-3">
+                            <!-- En-tête -->
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <img [src]="generateImageUrl(rdv.userenvoyer?.utilisateurPhoto?.nom || rdv.userenvoyer?.photos?.[0]?.nom)"
+                                     (error)="handleImageError($event)"
+                                     class="rounded-circle"
+                                     style="width:50px; height:50px; object-fit:cover; border:2px solid #086AD8;">
+                                <div class="flex-grow-1 min-w-0">
+                                    <h6 class="mb-0 fw-bold text-truncate">
+                                        {{ rdv.userenvoyer?.prenom }} {{ rdv.userenvoyer?.nom }}
+                                    </h6>
+                                    <small class="text-muted text-truncate d-block">
+                                        {{ rdv.userenvoyer?.specialite?.specialite || 'Professionnel' }}
+                                    </small>
+                                </div>
+                                <span class="badge rounded-pill" [ngClass]="'bg-' + getStatutCouleur(rdv.statut)">
+                                    {{ getStatutLibelle(rdv.statut) }}
+                                </span>
+                            </div>
+
+                            <!-- Infos -->
+                            <div class="rdv-info mb-3">
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <i class="fa fa-bookmark text-primary"></i>
+                                    <span class="fw-semibold small">{{ rdv.objet || '—' }}</span>
+                                </div>
+                                <div class="d-flex gap-3 text-muted small flex-wrap">
+                                    <span><i class="fa fa-calendar me-1"></i>{{ rdv.dateRendezvous || rdv.date || '—' }}</span>
+                                    <span><i class="fa fa-clock me-1"></i>{{ rdv.heureRendezvous || rdv.heure || '—' }}</span>
+                                    <span><i class="fa fa-tag me-1"></i>{{ rdv.typerdv?.typerdv || '—' }}</span>
+                                </div>
+                                <div *ngIf="rdv.motifAnnulation" class="text-danger small mt-1">
+                                    <i class="fa fa-info-circle me-1"></i>{{ rdv.motifAnnulation }}
+                                </div>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="d-flex gap-2 flex-wrap">
+                                <button class="btn btn-sm btn-outline-secondary" (click)="voirDetails(rdv)">
+                                    <i class="fa fa-eye me-1"></i> Détails
+                                </button>
+                                <ng-container *ngIf="rdv.statut === 'EN_ATTENTE'">
+                                    <button class="btn btn-sm btn-success" (click)="accepterRdv(rdv)">
+                                        <i class="fa fa-check me-1"></i> Accepter
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary" (click)="proposerAutreDate(rdv)">
+                                        <i class="fa fa-calendar me-1"></i> Autre date
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" (click)="refuserRdv(rdv)">
+                                        <i class="fa fa-times me-1"></i> Refuser
+                                    </button>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══ RDV ENVOYÉS ═══ -->
+        <div *ngIf="!loading && onglet === 'envoyes'">
+            <div *ngIf="rdvEnvoyesFiltres.length === 0" class="text-center py-5">
+                <i class="fa fa-calendar-plus fa-4x text-muted mb-3 d-block"></i>
+                <h5 class="text-muted">Aucun rendez-vous {{ filtreStatut !== 'TOUS' ? getStatutLibelle(filtreStatut).toLowerCase() : 'envoyé' }}.</h5>
+            </div>
+
+            <div class="row g-3" *ngIf="rdvEnvoyesFiltres.length > 0">
+                <div class="col-md-6" *ngFor="let rdv of rdvEnvoyesFiltres">
+                    <div class="card border-0 shadow-sm rdv-card h-100">
+                        <div class="card-body p-3">
+                            <!-- En-tête -->
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <img [src]="generateImageUrl(rdv.user?.utilisateurPhoto?.nom || rdv.user?.photos?.[0]?.nom)"
+                                     (error)="handleImageError($event)"
+                                     class="rounded-circle"
+                                     style="width:50px; height:50px; object-fit:cover; border:2px solid #8b5cf6;">
+                                <div class="flex-grow-1 min-w-0">
+                                    <h6 class="mb-0 fw-bold text-truncate">
+                                        {{ rdv.user?.prenom }} {{ rdv.user?.nom }}
+                                    </h6>
+                                    <small class="text-muted text-truncate d-block">
+                                        {{ rdv.user?.specialite?.specialite || 'Professionnel' }}
+                                    </small>
+                                </div>
+                                <span class="badge rounded-pill" [ngClass]="'bg-' + getStatutCouleur(rdv.statut)">
+                                    {{ getStatutLibelle(rdv.statut) }}
+                                </span>
+                            </div>
+
+                            <!-- Infos -->
+                            <div class="rdv-info mb-3">
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <i class="fa fa-bookmark text-purple"></i>
+                                    <span class="fw-semibold small">{{ rdv.objet || '—' }}</span>
+                                </div>
+                                <div class="d-flex gap-3 text-muted small flex-wrap">
+                                    <span><i class="fa fa-calendar me-1"></i>{{ rdv.dateRendezvous || rdv.date || '—' }}</span>
+                                    <span><i class="fa fa-clock me-1"></i>{{ rdv.heureRendezvous || rdv.heure || '—' }}</span>
+                                    <span><i class="fa fa-tag me-1"></i>{{ rdv.typerdv?.typerdv || '—' }}</span>
+                                </div>
+                                <div *ngIf="rdv.motifAnnulation" class="text-danger small mt-1">
+                                    <i class="fa fa-info-circle me-1"></i>{{ rdv.motifAnnulation }}
+                                </div>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="d-flex gap-2 flex-wrap">
+                                <button class="btn btn-sm btn-outline-secondary" (click)="voirDetails(rdv)">
+                                    <i class="fa fa-eye me-1"></i> Détails
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary"
+                                        *ngIf="rdv.statut === 'EN_ATTENTE'"
+                                        (click)="proposerAutreDate(rdv)">
+                                    <i class="fa fa-calendar me-1"></i> Modifier date
+                                </button>
+                                <button class="btn btn-sm btn-outline-warning"
+                                        *ngIf="rdv.statut === 'EN_ATTENTE' || rdv.statut === 'ACCEPTE'"
+                                        (click)="annulerRdv(rdv)">
+                                    <i class="fa fa-ban me-1"></i> Annuler
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

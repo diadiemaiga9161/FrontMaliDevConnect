@@ -1,0 +1,53 @@
+<div class="admin-page">
+  <div class="page-header">
+    <h2><i class="fa fa-tachometer me-2"></i>Tableau de bord</h2>
+    <p>Vue globale de la plateforme DevMaliConnect</p>
+  </div>
+
+  <!-- Spinner -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-2 text-muted">Chargement des statistiques...</p>
+  </div>
+
+  <!-- Stats cards -->
+  <div class="stats-grid" *ngIf="!loading">
+    <div class="stat-card" *ngFor="let card of cards"
+         [style.border-left-color]="card.color">
+      <div class="stat-icon" [style.background]="card.bg" [style.color]="card.color">
+        <i class="fa {{card.icon}}"></i>
+      </div>
+      <div class="stat-info">
+        <div class="stat-value" [style.color]="card.color">{{card.value}}</div>
+        <div class="stat-label">{{card.label}}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick links -->
+  <div class="quick-section mt-4" *ngIf="!loading">
+    <h5 class="section-title">Accès rapide</h5>
+    <div class="quick-grid">
+      <a routerLink="/admin/utilisateurs" class="quick-card">
+        <i class="fa fa-users"></i>
+        <span>Gérer les utilisateurs</span>
+      </a>
+      <a routerLink="/admin/specialites" class="quick-card">
+        <i class="fa fa-briefcase"></i>
+        <span>Gérer les spécialités</span>
+      </a>
+      <a routerLink="/admin/competences" class="quick-card">
+        <i class="fa fa-star"></i>
+        <span>Gérer les compétences</span>
+      </a>
+      <a routerLink="/admin/type-projets" class="quick-card">
+        <i class="fa fa-folder"></i>
+        <span>Types de projets</span>
+      </a>
+      <a routerLink="/admin/type-rdv" class="quick-card">
+        <i class="fa fa-calendar"></i>
+        <span>Types de rendez-vous</span>
+      </a>
+    </div>
+  </div>
+</div>

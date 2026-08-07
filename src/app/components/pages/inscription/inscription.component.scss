@@ -1,0 +1,21 @@
+// Styles propres à la page inscription
+// Le fond gradient est géré par .auth-section dans styles.scss
+
+.card-body {
+  h4.fw-bold { letter-spacing: -.5px; }
+}
+
+.form-label.fw-semibold {
+  font-size: .85rem;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+.form-control,
+.form-select {
+  font-size: .9rem;
+}
+
+@media(max-width:575px){
+  .card-body { padding: 1.5rem 1rem !important; }
+}

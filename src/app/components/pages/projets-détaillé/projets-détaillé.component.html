@@ -1,0 +1,203 @@
+<div class="page-title-area item-bg-2">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="container">
+                <div class="page-title-content">
+                    <h2>{{ projet?.titre || 'Détail du Projet' }}</h2>
+                    <ul>
+                        <li><a routerLink="/">Accueil</a></li>
+                        <li><a routerLink="/professionnel">Professionnels</a></li>
+                        <li>{{ projet?.titre }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="pt-80 pb-80" style="background:#f1f5f9; min-height:60vh;">
+    <div class="container">
+
+        <!-- Chargement -->
+        <div class="text-center py-5" *ngIf="loading">
+            <div class="spinner-border text-primary" style="width:3.5rem;height:3.5rem;"></div>
+            <p class="mt-3 text-muted">Chargement du projet…</p>
+        </div>
+
+        <!-- Erreur -->
+        <div class="text-center py-5" *ngIf="errorMessage && !loading">
+            <i class="fa fa-exclamation-circle fa-3x text-danger mb-3"></i>
+            <h4>{{ errorMessage }}</h4>
+            <button class="btn btn-primary mt-3" (click)="retourListe()">
+                <i class="fa fa-arrow-left me-1"></i> Retour aux professionnels
+            </button>
+        </div>
+
+        <!-- Contenu projet -->
+        <div *ngIf="projet && !loading">
+            <div class="row g-4">
+
+                <!-- ── Galerie photos ── -->
+                <div class="col-lg-7">
+                    <div class="card border-0 rounded-3 overflow-hidden shadow-sm">
+                        <!-- Photo active grande -->
+                        <div class="projet-main-img-wrap">
+                            <img [src]="generateImageUrl(photoActive)"
+                                 (error)="handleImageError($event)"
+                                 alt="{{ projet?.titre }}"
+                                 class="projet-main-img">
+                        </div>
+                        <!-- Miniatures si plusieurs photos -->
+                        <div class="d-flex gap-2 p-3 overflow-auto" *ngIf="photosProjet.length > 1">
+                            <div *ngFor="let ph of photosProjet"
+                                 (click)="setPhotoActive(ph.chemin || ph.nom)"
+                                 class="rounded-2 overflow-hidden flex-shrink-0"
+                                 style="width:80px;height:60px;cursor:pointer;border:2px solid transparent;"
+                                 [style.border-color]="photoActive === (ph.chemin || ph.nom) ? '#2563eb' : 'transparent'">
+                                <img [src]="generateImageUrl(ph.chemin || ph.nom)"
+                                     (error)="handleImageError($event)"
+                                     style="width:100%;height:100%;object-fit:cover;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Informations projet ── -->
+                <div class="col-lg-5">
+                    <div class="card border-0 rounded-3 shadow-sm h-100">
+                        <div class="card-body p-4">
+
+                            <!-- Type -->
+                            <span class="badge mb-3" style="background:linear-gradient(135deg,#2563eb,#7c3aed);font-size:.78rem;padding:.4em 1em;border-radius:20px;">
+                                <i class="fa fa-tag me-1"></i>
+                                {{ projet?.typeProjet?.typeprojet || 'Non catégorisé' }}
+                            </span>
+
+                            <!-- Titre -->
+                            <h2 style="font-size:1.6rem;font-weight:800;color:#1e293b;letter-spacing:-.02em;">
+                                {{ projet?.titre }}
+                            </h2>
+
+                            <!-- Description -->
+                            <div class="mt-3 p-3 rounded-2" style="background:#f8fafc;border:1px solid #e2e8f0;">
+                                <h6 style="font-size:.78rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;">Description</h6>
+                                <p style="white-space:pre-wrap;font-size:.9rem;color:#334155;line-height:1.7;margin:0;">
+                                    {{ projet?.description || 'Aucune description disponible.' }}
+                                </p>
+                            </div>
+
+                            <!-- Lien du projet -->
+                            <div class="mt-3" *ngIf="projet?.lienProjet">
+                                <a [href]="projet.lienProjet" target="_blank"
+                                   class="btn btn-outline-primary btn-sm d-inline-flex align-items-center gap-2">
+                                    <i class="fa fa-external-link"></i> Voir le projet en ligne
+                                </a>
+                            </div>
+
+                            <!-- Professionnel -->
+                            <div class="mt-3 p-3 rounded-2 d-flex align-items-center gap-3"
+                                 style="background:#f0fdfa;border:1px solid #ccfbf1;cursor:pointer;"
+                                 (click)="voirProfessionnel()" *ngIf="projet?.user">
+                                <img [src]="generateImageUrl(projet?.user?.photoNom)"
+                                     (error)="handleImageError($event)"
+                                     class="rounded-circle"
+                                     style="width:44px;height:44px;object-fit:cover;border:2px solid #99f6e4;">
+                                <div>
+                                    <div style="font-size:.85rem;font-weight:700;color:#134e4a;">
+                                        {{ projet?.user?.prenom }} {{ projet?.user?.nom }}
+                                    </div>
+                                    <small style="color:#64748b;">{{ projet?.user?.specialite }}</small>
+                                </div>
+                                <i class="fa fa-arrow-right ms-auto text-success"></i>
+                            </div>
+
+                            <!-- Date création -->
+                            <div class="mt-3 text-muted" style="font-size:.8rem;">
+                                <i class="fa fa-calendar me-1"></i>
+                                Créé le {{ projet?.datecreation | date:'dd/MM/yyyy' }}
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="d-flex gap-2 mt-4 flex-wrap">
+                                <button class="btn btn-outline-secondary flex-fill" (click)="retourListe()">
+                                    <i class="fa fa-arrow-left me-1"></i> Retour
+                                </button>
+                                <button class="btn btn-primary flex-fill" (click)="voirProfessionnel()" *ngIf="projet?.user?.tokenPartage">
+                                    <i class="fa fa-user me-1"></i> Voir le profil
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- end row -->
+        </div><!-- end projet block -->
+
+    </div><!-- end container -->
+</section>
+
+<!-- ── Carousel : Projets du même type ── -->
+<section class="carousel-section" *ngIf="autresProjets.length > 0 && !loading">
+    <div class="container">
+
+        <!-- En-tête -->
+        <div class="carousel-header">
+            <div class="carousel-title-bar">
+                <div class="title-accent"></div>
+                <h4 class="carousel-title">Projets du même type</h4>
+                <span class="carousel-count">{{ autresProjets.length }} projet(s)</span>
+            </div>
+            <div class="carousel-nav" *ngIf="carouselTotalPages > 1">
+                <button class="carousel-btn" (click)="carouselPrev()" [disabled]="carouselPage === 0">
+                    <i class="fa fa-chevron-left"></i>
+                </button>
+                <div class="carousel-dots">
+                    <span *ngFor="let d of carouselDots"
+                          class="carousel-dot"
+                          [class.active]="d === carouselPage"
+                          (click)="carouselPage = d">
+                    </span>
+                </div>
+                <button class="carousel-btn" (click)="carouselNext()" [disabled]="carouselPage >= carouselTotalPages - 1">
+                    <i class="fa fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Slides -->
+        <div class="carousel-body">
+            <div class="row g-3">
+                <div class="col-lg-4 col-md-6 col-12" *ngFor="let p of carouselSlice">
+                    <div class="proj-card" (click)="voirProjet(p.id)">
+
+                        <!-- Image projet -->
+                        <div class="proj-card-img">
+                            <img [src]="generateImageUrl(p.photo)" (error)="handleImageError($event)" [alt]="p.titre">
+                            <span class="proj-type-badge">{{ p.typeProjet?.typeprojet || 'Projet' }}</span>
+                        </div>
+
+                        <!-- Infos projet -->
+                        <div class="proj-card-body">
+                            <h6 class="proj-title">{{ p.titre }}</h6>
+                            <p class="proj-desc">{{ p.description?.length > 75 ? (p.description | slice:0:75) + '…' : p.description }}</p>
+                        </div>
+
+                        <!-- Propriétaire -->
+                        <div class="proj-owner" *ngIf="p.user">
+                            <img [src]="generateImageUrl(p.user.photoNom)"
+                                 (error)="handleImageError($event)"
+                                 class="proj-owner-avatar" alt="">
+                            <div class="proj-owner-info">
+                                <span class="proj-owner-name">{{ p.user.prenom }} {{ p.user.nom }}</span>
+                                <span class="proj-owner-spec">{{ p.user.specialite || 'Professionnel' }}</span>
+                            </div>
+                            <i class="fa fa-arrow-right proj-owner-icon"></i>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

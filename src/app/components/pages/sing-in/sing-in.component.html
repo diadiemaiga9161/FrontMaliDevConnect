@@ -1,0 +1,47 @@
+<body class="bg-maiga">
+  <div class="container">
+    <div class="container px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
+      <div class="row d-flex" style=" justify-content: center;">
+        <div class="col login-form  card" >
+          <div class="avatar">
+            <!--       <img src="https://68.media.tumblr.com/avatar_8671f0f36a5f_128.png" alt="" /> -->
+          </div>
+          <div class="registration">
+            Besoin d'un compte? <a href="/inscription">Cliquez ici</a>.
+          </div>
+          <form #f="ngForm" (ngSubmit)="f.form.valid && seConnecter()" novalidate>
+            <label for="login" class="login">
+              <input type="text" name="telephoneOrEmail" [(ngModel)]="form.telephoneOrEmail" required
+                #telephoneOrEmail="ngModel" [ngClass]="{ 'is-invalid': f.submitted && telephoneOrEmail.errors }"
+                placeholder="Numero ou Email" />
+              <div style="text-align: center;" *ngIf="telephoneOrEmail.errors && f.submitted" class="invalid-feedback">
+                <div *ngIf="telephoneOrEmail.errors['required']">Numero ou Email obligatoire</div>
+              </div>
+            </label>
+            <label for="passwd" class="passwd">
+              <input type="password" placeholder="Entrer votre mot de passe" name="password" [(ngModel)]="form.password"
+                required minlength="6" #password="ngModel" [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
+                name="password" color="black" type="password" [type]="Toggledata ? 'password' : 'text'" />
+              <span class="crd" style="position: absolute; top: 10px; right: 20px; transform: translateY(-50%);"
+                [ngClass]="Toggledata ? 'toggle-password fa fa-eye-slash' : 'toggle-password fa fa-eye'"
+                (click)="iconLogle()">
+              </span>
+              <div *ngIf="password.errors && f.submitted" class="invalid-feedback text-center">
+                <div *ngIf="password.errors['required']">Mot de passe obligatoire</div>
+                <div *ngIf="password.errors['minlength']">
+                  Mot de passe minimun 6 caractères
+                </div>
+              </div>
+            </label>
+            <button type="submit" class=" btn-15 button-18 button-65 text-center" style="font-size: 15px;"
+              class="btn-14 button-17">Se connecter</button>
+          </form>
+          <div class="lost-passwd">
+            <a href="#">Mot de passe oublier?</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>

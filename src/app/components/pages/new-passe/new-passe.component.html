@@ -1,0 +1,76 @@
+<body class="bg-maiga">
+<div class="container" style="justify-content: center; background-size: cover; padding-top: 50px; padding-bottom: 50px;">
+    <div class="row mb-5 py-3" style="justify-content: center;">
+        <form class="form" (ngSubmit)="resetPassword()">
+            <p style="text-align: center; font-size: 1.1rem; font-weight: 700; color: #1e293b;">
+                Nouveau mot de passe
+            </p>
+            <p style="text-align: center; font-size: 12px; color: #64748b; margin-bottom: 20px;">
+                Choisissez un mot de passe sécurisé d'au moins 6 caractères.
+            </p>
+
+            <!-- Nouveau mot de passe -->
+            <div class="flex-column">
+                <label>Nouveau mot de passe</label>
+            </div>
+            <div class="inputForm">
+                <img src="assets/img/icone/password.png" style="height: 22px;" alt="">
+                <input [type]="showPassword ? 'text' : 'password'"
+                       class="input"
+                       [(ngModel)]="newPassword"
+                       name="newPassword"
+                       placeholder="Votre nouveau mot de passe"
+                       required>
+                <i class="fa"
+                   [class.fa-eye]="!showPassword"
+                   [class.fa-eye-slash]="showPassword"
+                   (click)="showPassword = !showPassword"
+                   style="cursor:pointer; margin-right:10px; color:#94a3b8; font-size:15px;"></i>
+            </div>
+
+            <!-- Confirmer mot de passe -->
+            <div class="flex-column" style="margin-top: 12px;">
+                <label>Confirmer le mot de passe</label>
+            </div>
+            <div class="inputForm">
+                <img src="assets/img/icone/password.png" style="height: 22px;" alt="">
+                <input [type]="showConfirm ? 'text' : 'password'"
+                       class="input"
+                       [(ngModel)]="confirmPassword"
+                       name="confirmPassword"
+                       placeholder="Confirmer votre mot de passe"
+                       required>
+                <i class="fa"
+                   [class.fa-eye]="!showConfirm"
+                   [class.fa-eye-slash]="showConfirm"
+                   (click)="showConfirm = !showConfirm"
+                   style="cursor:pointer; margin-right:10px; color:#94a3b8; font-size:15px;"></i>
+            </div>
+
+            <!-- Indicateur force mot de passe -->
+            <div *ngIf="newPassword" style="margin-top: 8px; font-size: 11px; color: #64748b;">
+                <span [style.color]="newPassword.length >= 8 ? '#16a34a' : newPassword.length >= 6 ? '#d97706' : '#dc2626'">
+                    <i class="fa fa-circle" style="font-size: 8px;"></i>
+                    {{ newPassword.length >= 8 ? 'Fort' : newPassword.length >= 6 ? 'Correct' : 'Trop court (min. 6 car.)' }}
+                </span>
+            </div>
+
+            <button type="submit" class="button-submit" [disabled]="loading"
+                    [style.opacity]="loading ? '0.7' : '1'">
+                <span *ngIf="!loading">
+                    <i class="fa fa-lock me-2"></i>Réinitialiser le mot de passe
+                </span>
+                <span *ngIf="loading">
+                    <i class="fa fa-spinner fa-spin me-2"></i>En cours...
+                </span>
+            </button>
+
+            <div class="container" style="text-align: center; margin-top: 10px;">
+                <a routerLink="/connexion" style="font-size: 13px; color: #086AD8;">
+                    <i class="fa fa-arrow-left me-1"></i>Retour à la connexion
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>

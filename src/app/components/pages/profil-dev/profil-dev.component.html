@@ -3,10 +3,10 @@
         <div class="d-table-cell">
             <div class="container">
                 <div class="page-title-content">
-                    <h2>Amadou Maiga</h2>
+                    <h2>{{professionnel?.prenom}} {{professionnel?.nom}}</h2>
                     <ul>
-                        <li><a routerLink="/">Acceuil</a></li>
-                        <li>Profile </li>
+                        <li><a routerLink="/">Accueil</a></li>
+                        <li>Profil Professionnel</li>
                     </ul>
                 </div>
             </div>
@@ -14,264 +14,503 @@
     </div>
 </div>
 
-<section class="blog-section pt-100 pb-100">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.2.96/css/materialdesignicons.min.css"
-        integrity="sha512-LX0YV/MWBEn2dwXCYgQHrpa9HJkwB+S+bnBpifSOTO1No27TqNMKYoAn6ff2FBh03THAzAiiCwQ+aPX+/Qt/Ow=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+<section class="protfolio-section ptb-100">
     <div class="container">
-        <div class="row">
-            <div class="col-xl-8">
-                <div class="card">
-                    <div class="card-body pb-0">
-                        <div class="row align-items-center">
-                            <div class="col-md-3">
-                                <div class="text-center border-end">
-                                    <img src="/assets/img/team/amadou.jpg" class="img-fluid avatar-xxl rounded-circle"
-                                        alt="">
-                                    <h4 class="text-primary font-size-20 mt-3 mb-2">Maiga Amadou </h4>
-                                    <h5 class="text-muted font-size-13 mb-0">Developpeur web</h5>
-                                </div>
-                            </div><!-- end col -->
-                            <div class="col-md-9">
-                                <div class="ms-3">
-                                    <div>
-                                        <h4 class="card-title mb-2">Biographie</h4>
-                                        <p class="mb-0 text-muted">Je suis malien et je suis passionné par
-                                            l'informatique</p>
-                                    </div>
-                                    <div class="row my-4">
-                                        <div class="col-md-12">
-                                            <div>
-                                                <p class="text-muted mb-2 fw-medium"><i
-                                                        class="mdi mdi-email-outline me-2"></i>devml@gmail.com
-                                                </p>
-                                                <p class="text-muted fw-medium mb-0"><i
-                                                        class="mdi mdi-phone-in-talk-outline me-2"></i>+223 53417919
-                                                </p>
-                                            </div>
-                                        </div><!-- end col -->
-                                    </div><!-- end row -->
+        <div class="row g-4">
 
-                                    <ul class="nav nav-tabs nav-tabs-custom border-bottom-0 mt-3 nav-justfied"
-                                        role="tablist">
-                                        <li class="nav-item" role="presentation">
-                                            <a class="nav-link px-4 active" data-bs-toggle="tab" href="#projects-tab"
-                                                role="tab" aria-selected="false" tabindex="-1">
-                                                <span class="d-block d-sm-none"><i class="fas fa-home">Projects</i></span>
-                                                <span class="d-none d-sm-block">Projects</span>
-                                            </a>
-                                        </li><!-- end li -->
-                                        <li class="nav-item" role="presentation">
-                                            <a class="nav-link px-4" data-bs-toggle="tab" href="#Rendez-vous"
-                                                role="tab" aria-selected="false" tabindex="-1">
-                                                <span class="d-block d-sm-none"><i class="fas fa-home">Rendez-vous</i></span>
-                                                <span class="d-none d-sm-block">Rendez-vous</span>
-                                            </a>
-                                        </li><!-- end li -->
+            <!-- ══════════════ COLONNE PRINCIPALE ══════════════ -->
+            <div class="col-lg-8">
 
-                                    </ul><!-- end ul -->
-                                </div>
-                            </div><!-- end col -->
-                        </div><!-- end row -->
-                    </div><!-- end card body -->
-                </div><!-- end card -->
-
-                <div class="card">
-                    <div class="tab-content p-4">
-                        <div class="tab-pane active show" id="projects-tab" role="tabpanel">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-1">
-                                    <h4 class="card-title mb-4">Mes Projects</h4>
-                                </div>
-                            </div>
-
-                            <div class="row" id="all-projects">
-                                <link rel="stylesheet"
-                                    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-                                    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-                                    crossorigin="anonymous" referrerpolicy="no-referrer" />
-                                <div class="container">
-                                    <div class="row position-relative mt-n1-9">
-                                        <div class="col-md-6 col-lg-4 mt-1-9">
-                                            <div class="team-style1 text-center">
-                                                <img src="/assets/img/about/about3.png" class="border-radius-5"
-                                                    alt="...">
-                                                <div class="team-info">
-                                                    <h3 class="text-primary mb-1 h4">Nom projets</h3>
-                                                    <span class="font-weight-600 text-secondary">Types de projets</span>
-                                                </div>
-                                                <div class="team-overlay">
-                                                    <div class="d-table h-100 w-100">
-                                                        <div class="d-table-cell align-middle">
-                                                            <h3><a href="#" class="text-white">A-propoos de mon
-                                                                    projets</a></h3>
-                                                            <p class="text-white mb-0">Les information de mon projets
-                                                            </p>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- end col -->
-                            </div><!-- end row -->
-                        </div><!-- end tab pane -->
-                        <div class="tab-pane  show" id="Rendez-vous" role="tabpanel">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-1">
-                                    <h4 class="card-title mb-4">Rendez-vous</h4>
-                                </div>
-                            </div>
-
-                            <div class="row" id="all-projects">
-                                <link rel="stylesheet"
-                                    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-                                    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-                                    crossorigin="anonymous" referrerpolicy="no-referrer" />
-                                <div class="container">
-                                    <div class="container">
-                                        <div class="row no-gutters row-bordered">
-                                        <div class="comments-area">
-                                          <div class="comment-respond">
-                                              <div class="container mt-5">
-                                                  <h2>Rendez-vous avec nom du developpeur</h2>
-                                                  <form action="/votre-endpoint-backend" method="POST">
-                                                    
-                                                    <!-- Informations personnelles -->
-                                                    <div class="form-group">
-                                                      <label for="nom">Nom complet :</label>
-                                                      <input type="text" class="form-control" id="nom" name="nom" required>
-                                                    </div>
-                                                    
-                                                    <div class="form-group">
-                                                      <label for="email">Adresse Email :</label>
-                                                      <input type="email" class="form-control" id="email" name="email" required>
-                                                    </div>
-                                              
-                                                    <div class="form-group">
-                                                      <label for="telephone">Numéro de téléphone :</label>
-                                                      <input type="tel" class="form-control" id="telephone" name="telephone" required>
-                                                    </div>
-                                                    <!-- Date et heure du rendez-vous -->
-                                                    <div class="form-group">
-                                                      <label for="date">Date du Rendez-vous :</label>
-                                                      <input type="date" class="form-control" id="date" name="date" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                      <label for="heure">Heure du Rendez-vous :</label>
-                                                      <input type="time" class="form-control" id="heure" name="heure" required>
-                                                    </div>
-
-                                                   
-                                              <br>
-                                                    <!-- Bouton de soumission -->
-                                                    <button type="submit" class="btn btn-primary">Prendre un Rendez-vous</button>
-                                              
-                                                  </form>
-                                                </div>
-                                              
-                                                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-                                                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-                                                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-                                          </div>
-                                        </div>
-                                        </div>
-                                      </div>
-                                </div>
-                                <!-- end col -->
-                            </div><!-- end row -->
-                        </div><!-- end tab pane -->
-                        <div class="tab-pane  show" id="En cour" role="tabpanel">
-                            <div class="d-flex align-items-center">
-                                <div class="flex-1">
-                                    <h4 class="card-title mb-4"></h4>
-                                </div>
-                            </div>
-                        </div><!-- end tab pane -->
+                <!-- ── Carte hero professionnel ─────────────────── -->
+                <div class="developer-profile-hero">
+                    <div class="hero-banner">
+                        <span class="ribbon4" *ngIf="professionnel?.verfication">
+                            <i class="fa fa-check-circle"></i> Vérifié
+                        </span>
                     </div>
-                </div><!-- end card -->
-            </div><!-- end col -->
-       
-            <div class="col-xl-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="pb-2">
-                            <h4 class="card-title mb-3">À Propos</h4>
-                            <p>Salut, je m'appelle Amadou, c'est le texte factice standard de l'industrie.
-                                Pour y parvenir, il faudrait avoir une prononciation uniforme</p>
 
-                            <!-- end ul -->
-                        </div>
-                        <hr>
-                        <div class="pt-2">
-                            <h4 class="card-title mb-4">Mes Compétences</h4>
-                            <div class="d-flex gap-2 flex-wrap">
-                                <span class="badge badge-soft-secondary p-2">HTML</span>
-                                <span class="badge badge-soft-secondary p-2">Bootstrap</span>
-                                <span class="badge badge-soft-secondary p-2">Scss</span>
-                                <span class="badge badge-soft-secondary p-2">Javascript</span>
-                                <span class="badge badge-soft-secondary p-2">React</span>
-                                <span class="badge badge-soft-secondary p-2">Angular</span>
+                    <div class="hero-body">
+                        <!-- Avatar + Actions -->
+                        <div class="d-flex align-items-end gap-3 flex-wrap">
+                            <div class="profile-avatar-wrapper">
+                                <img [src]="generateImageUrl(professionnel?.utilisateurPhoto?.nom)"
+                                     (error)="handleAuthorImageError($event)"
+                                     alt="{{professionnel?.prenom}} {{professionnel?.nom}}">
+                                <span class="presence-dot" *ngIf="isOnline()" title="En ligne"></span>
+                            </div>
+                            <!-- Actions : contact, favoris, partage -->
+                            <div class="d-flex flex-wrap gap-2 ms-auto pb-1" *ngIf="isLoggedIn && !isOwnProfile">
+                                <button class="btn btn-sm btn-success" *ngIf="contactStatut === 'connected'" disabled>
+                                    <i class="fa fa-check me-1"></i> En contact
+                                </button>
+                                <button class="btn btn-sm btn-primary" *ngIf="contactStatut === 'connected'" (click)="envoyerMessageProfil()">
+                                    <i class="fa fa-comment me-1"></i> Message
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary" *ngIf="contactStatut === 'pending'" disabled>
+                                    <i class="fa fa-hourglass-half me-1"></i> Demande envoyée
+                                </button>
+                                <button class="btn btn-sm btn-outline-success" *ngIf="contactStatut === 'none'" (click)="demanderContact()">
+                                    <i class="fa fa-user-plus me-1"></i> Ajouter en contact
+                                </button>
+                                <button class="btn btn-sm"
+                                    [ngClass]="isFavori ? 'btn-danger' : 'btn-outline-danger'"
+                                    (click)="toggleFavori()"
+                                    title="{{isFavori ? 'Retirer des favoris' : 'Ajouter aux favoris'}}">
+                                    <i class="fa" [ngClass]="isFavori ? 'fa-heart' : 'fa-heart-o'"></i>
+                                    {{isFavori ? 'Favori' : 'Favoris'}}
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary" (click)="partagerProfil()">
+                                    <i class="fa fa-share-alt me-1"></i> Partager
+                                </button>
                             </div>
                         </div>
-                    </div><!-- end cardbody -->
-                </div><!-- end card -->
 
-                <div class="card">
-                    <div class="card-body">
-                        <div>
-                            <h4 class="card-title mb-4">Détails Personnels</h4>
-                            <div class="table-responsive">
-                                <table class="table table-bordered mb-0">
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row">Nom et Prenom</th>
-                                            <td>Amadou Maiga</td>
-                                        </tr><!-- end tr -->
-                                        <tr>
-                                            <th scope="row">Emplacement</th>
-                                            <td>Niamana ATT bugu</td>
-                                        </tr><!-- end tr -->
-                                        <tr>
-                                            <th scope="row">Langue</th>
-                                            <td>English</td>
-                                        </tr><!-- end tr -->
-                                        <tr>
-                                            <th scope="row">Site web</th>
-                                            <td>mysite@public.com</td>
-                                        </tr><!-- end tr -->
-                                    </tbody><!-- end tbody -->
-                                </table><!-- end table -->
+                        <!-- Nom & Spécialité -->
+                        <h1 class="dev-name mt-3">{{professionnel?.prenom}} {{professionnel?.nom}}</h1>
+                        <div class="dev-specialty">
+                            <i class="fa fa-briefcase"></i>
+                            {{specialite?.specialite || 'Spécialité non renseignée'}}
+                        </div>
+                        <!-- Spécialités supplémentaires -->
+                        <div class="d-flex flex-wrap justify-content-center gap-1 mt-2" *ngIf="specialitesSupp.length > 0">
+                            <span *ngFor="let s of specialitesSupp"
+                                  class="badge"
+                                  style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);font-size:.72rem;border:1px solid rgba(255,255,255,.25);">
+                                {{s.specialite}}
+                            </span>
+                        </div>
+
+                        <!-- Étoiles -->
+                        <div class="star-rating my-2">
+                            <i class="fa"
+                               [ngClass]="{
+                                 'fa-star filled': isEtoilePleine(1),
+                                 'fa-star-half-o filled': isEtoileMoitie(1),
+                                 'fa-star-o': !isEtoilePleine(1) && !isEtoileMoitie(1)
+                               }"></i>
+                            <i class="fa"
+                               [ngClass]="{
+                                 'fa-star filled': isEtoilePleine(2),
+                                 'fa-star-half-o filled': isEtoileMoitie(2),
+                                 'fa-star-o': !isEtoilePleine(2) && !isEtoileMoitie(2)
+                               }"></i>
+                            <i class="fa"
+                               [ngClass]="{
+                                 'fa-star filled': isEtoilePleine(3),
+                                 'fa-star-half-o filled': isEtoileMoitie(3),
+                                 'fa-star-o': !isEtoilePleine(3) && !isEtoileMoitie(3)
+                               }"></i>
+                            <i class="fa"
+                               [ngClass]="{
+                                 'fa-star filled': isEtoilePleine(4),
+                                 'fa-star-half-o filled': isEtoileMoitie(4),
+                                 'fa-star-o': !isEtoilePleine(4) && !isEtoileMoitie(4)
+                               }"></i>
+                            <i class="fa"
+                               [ngClass]="{
+                                 'fa-star filled': isEtoilePleine(5),
+                                 'fa-star-half-o filled': isEtoileMoitie(5),
+                                 'fa-star-o': !isEtoilePleine(5) && !isEtoileMoitie(5)
+                               }"></i>
+                            <span class="rating-count">
+                                ({{nombreCommentaires}}) · {{getNiveauPopularite()}}
+                            </span>
+                        </div>
+
+                        <!-- Biographie courte -->
+                        <div class="bio-section mt-3" *ngIf="biographie?.biographie; else pasBiographie">
+                            {{biographie?.biographie}}
+                        </div>
+                        <ng-template #pasBiographie>
+                            <div class="bio-section mt-3 fst-italic">Aucune biographie disponible.</div>
+                        </ng-template>
+
+                        <!-- Contact rapide -->
+                        <div class="d-flex flex-wrap gap-3 mt-3 text-muted" style="font-size:.85rem;">
+                            <span *ngIf="professionnel?.email">
+                                <i class="fa fa-envelope-o me-1 text-primary"></i>{{professionnel?.email}}
+                            </span>
+                            <span *ngIf="professionnel?.telephone">
+                                <i class="fa fa-phone me-1 text-primary"></i>{{professionnel?.telephone}}
+                            </span>
+                            <span *ngIf="professionnel?.adresse">
+                                <i class="fa fa-map-marker me-1 text-primary"></i>{{professionnel?.adresse}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Onglets ─────────────────────────────────── -->
+                <div class="card border-0 rounded-3 overflow-hidden" style="box-shadow: 0 20px 25px -5px rgba(0,0,0,.1);">
+
+                    <ul class="nav-tabs-dev" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#projects-tab" role="tab">
+                                <i class="fa fa-briefcase me-1"></i>Projets
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" data-bs-toggle="tab" href="#commentaires" role="tab">
+                                <i class="fa fa-comments me-1"></i>Avis
+                                <span class="badge bg-primary ms-1">{{nombreCommentaires}}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" data-bs-toggle="tab" href="#Rendez-vous" role="tab"
+                               [ngClass]="{'disabled': isOwnProfile}"
+                               [title]="isOwnProfile ? 'Vous ne pouvez pas prendre RDV avec vous-même' : ''">
+                                <i class="fa fa-calendar me-1"></i>Rendez-vous
+                                <span *ngIf="isOwnProfile" class="badge bg-warning ms-1">
+                                    <i class="fa fa-exclamation-circle"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!-- ── Contenu des onglets ──────────────────── -->
+                    <div class="tab-content tab-content-dev">
+
+                        <!-- ─ Projets ─ -->
+                        <div class="tab-pane fade show active" id="projects-tab" role="tabpanel">
+                            <div *ngIf="projet && projet.length > 0; else pasProjet">
+                                <div class="row g-3">
+                                    <div class="col-md-6 col-lg-4" *ngFor="let Projet of projet">
+                                        <div class="project-card">
+                                            <div class="project-thumb">
+                                                <img [src]="generateImageUrl(Projet?.photo)"
+                                                     alt="{{Projet?.titre}}"
+                                                     (error)="handleAuthorImageError($event)">
+                                            </div>
+                                            <div class="project-body">
+                                                <span class="badge bg-primary mb-1" style="font-size:.68rem;">
+                                                    {{Projet?.typeProjet?.typeprojet}}
+                                                </span>
+                                                <h6>{{Projet?.titre}}</h6>
+                                                <p>{{Projet?.description}}</p>
+                                                <a style="cursor:pointer;" (click)="goToDettailProjets(Projet?.id)"
+                                                   class="project-link">
+                                                    Voir le projet <i class="fa fa-arrow-right"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <ng-template #pasProjet>
+                                <div class="empty-state">
+                                    <i class="fa fa-briefcase"></i>
+                                    <h6>Aucun projet</h6>
+                                    <p>Ce professionnel n'a pas encore ajouté de projets.</p>
+                                </div>
+                            </ng-template>
                         </div>
-                    </div><!-- end card body -->
-                </div><!-- end card -->
 
-                <div class="card">
-                    <div class="card-body">
-                        <div>
-                            <h4 class="card-title mb-4">Expérience Professionnelle</h4>
-                            <ul class="list-unstyled work-activity mb-0">
-                                <li class="work-item" data-date="2020-21">
-                                    <h6 class="lh-base mb-0">ABCD Company</h6>
-                                    <p class="font-size-13 mb-2">Web Designer</p>
-                                    <p>To achieve this, it would be necessary to have uniform grammar, and more
-                                        common words.</p>
-                                </li>
-                                <li class="work-item" data-date="2019-20">
-                                    <h6 class="lh-base mb-0">XYZ Company</h6>
-                                    <p class="font-size-13 mb-2">Graphic Designer</p>
-                                    <p class="mb-0">It will be as simple as occidental in fact, it will be
-                                        Occidental person, it will seem like simplified.</p>
-                                </li>
-                            </ul><!-- end ul -->
+                        <!-- ─ Commentaires / Avis ─ -->
+                        <div class="tab-pane fade" id="commentaires" role="tabpanel">
+
+                            <div *ngIf="loadingCommentaires" class="text-center py-4">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Chargement...</span>
+                                </div>
+                            </div>
+
+                            <div *ngIf="!loadingCommentaires">
+                                <div *ngIf="commentairesRecus && commentairesRecus.length > 0">
+                                    <div class="comment-item" *ngFor="let commentaire of commentairesRecus">
+                                        <div class="comment-avatar">
+                                            <img [src]="generateImageUrl(commentaire?.expediteur?.photo)"
+                                                 (error)="handleAuthorImageError($event)"
+                                                 alt="{{commentaire?.expediteur?.prenom}}">
+                                        </div>
+                                        <div class="comment-body">
+                                            <div class="comment-header">
+                                                <strong>
+                                                    {{commentaire?.expediteur?.prenom}} {{commentaire?.expediteur?.nom}}
+                                                </strong>
+                                                <small>
+                                                    <i class="fa fa-clock-o me-1"></i>
+                                                    {{formatDate(commentaire?.dateCreation)}}
+                                                </small>
+                                                <div class="ms-auto d-flex gap-1" *ngIf="currentUser?.id === commentaire?.expediteur?.id">
+                                                    <button class="btn btn-sm btn-link text-primary p-0"
+                                                            (click)="modifierCommentaire(commentaire?.id, commentaire?.contenu)">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-link text-danger p-0"
+                                                            (click)="supprimerCommentaire(commentaire?.id)">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <p style="white-space:pre-wrap;">{{commentaire?.contenu}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="!commentairesRecus || commentairesRecus.length === 0"
+                                     class="empty-state">
+                                    <i class="fa fa-comment-o"></i>
+                                    <h6>Aucun avis</h6>
+                                    <p>Soyez le premier à laisser un commentaire !</p>
+                                </div>
+                            </div>
+
+                            <!-- Formulaire commentaire -->
+                            <div *ngIf="!isOwnProfile; else ownProfileMessage">
+                                <div class="comment-form-card">
+                                    <h6><i class="fa fa-comment-o me-1"></i>Laisser un avis</h6>
+                                    <form (ngSubmit)="AjouterCommentaire()" #commentaireForm="ngForm">
+                                        <div class="mb-2">
+                                            <textarea class="form-control"
+                                                      placeholder="Votre commentaire..."
+                                                      name="commentaire"
+                                                      [(ngModel)]="CommentaireForm.commentaires"
+                                                      rows="3" maxlength="500" required></textarea>
+                                            <div class="char-counter">
+                                                {{CommentaireForm.commentaires?.length || 0}}/500
+                                            </div>
+                                        </div>
+
+                                        <div *ngIf="!isLoggedIn" class="alert alert-info mb-2" style="font-size:.84rem;">
+                                            <i class="fa fa-info-circle me-1"></i>
+                                            Veuillez vous <a routerLink="/connexion" class="alert-link">connecter</a> pour commenter.
+                                        </div>
+
+                                        <button type="submit" class="default-btn"
+                                                [disabled]="commentaireForm.invalid || !isLoggedIn">
+                                            <i class="fa fa-paper-plane"></i>Envoyer
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <ng-template #ownProfileMessage>
+                                <div class="alert alert-warning mt-3">
+                                    <i class="fa fa-exclamation-circle me-2"></i>
+                                    Vous ne pouvez pas commenter votre propre profil.
+                                </div>
+                            </ng-template>
                         </div>
-                    </div><!-- end card-body -->
-                </div><!-- end card -->
-            </div><!-- end col -->
-        </div>
-    </div>
+
+                        <!-- ─ Rendez-vous ─ -->
+                        <div class="tab-pane fade" id="Rendez-vous" role="tabpanel">
+                            <div *ngIf="!isOwnProfile; else ownProfileRdvMessage">
+                                <div class="rdv-form-card">
+                                    <h5>
+                                        <i class="fa fa-calendar-plus-o"></i>
+                                        Prendre rendez-vous avec {{professionnel?.prenom}}
+                                    </h5>
+
+                                    <div *ngIf="!isLoggedIn" class="alert alert-info mb-3" style="font-size:.84rem;">
+                                        <i class="fa fa-info-circle me-1"></i>
+                                        Veuillez vous <a routerLink="/connexion" class="alert-link">connecter</a> pour prendre un rendez-vous.
+                                    </div>
+
+                                    <form *ngIf="isLoggedIn">
+                                        <div class="form-group">
+                                            <label>Date du rendez-vous</label>
+                                            <input type="date" class="form-control"
+                                                   name="dateRendezvous"
+                                                   [(ngModel)]="RdvForm.dateRendezvous" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Heure du rendez-vous</label>
+                                            <input type="time" class="form-control"
+                                                   name="heureRendezvous"
+                                                   [(ngModel)]="RdvForm.heureRendezvous" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Type de rendez-vous</label>
+                                            <select class="form-select"
+                                                    name="typeRendezVousId"
+                                                    [(ngModel)]="RdvForm.typeRendezVousId" required>
+                                                <option value="" selected disabled>Choisir un type</option>
+                                                <option *ngFor="let Typerdv of typerdv" [value]="Typerdv.id">
+                                                    {{ Typerdv.typerdv }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Objet</label>
+                                            <textarea class="form-control"
+                                                      placeholder="L'objet de votre rendez-vous"
+                                                      name="objet"
+                                                      [(ngModel)]="RdvForm.objet"
+                                                      rows="3"></textarea>
+                                        </div>
+                                        <button type="button" (click)="PrendreRvd()" class="default-btn mt-2">
+                                            <i class="fa fa-calendar-check-o"></i>Confirmer le rendez-vous
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <ng-template #ownProfileRdvMessage>
+                                <div class="alert alert-warning m-0" style="border-radius:0;">
+                                    <i class="fa fa-exclamation-circle me-2"></i>
+                                    Vous ne pouvez pas prendre rendez-vous avec vous-même.
+                                </div>
+                            </ng-template>
+                        </div>
+
+                    </div><!-- end tab-content -->
+                </div><!-- end tabs card -->
+
+            </div><!-- end col-lg-8 -->
+
+            <!-- ══════════════ SIDEBAR ══════════════ -->
+            <div class="col-lg-4">
+                <div class="profile-sidebar">
+
+                    <!-- ─ À Propos ─ -->
+                    <div class="sidebar-card">
+                        <div class="sidebar-card-header">
+                            <h6><i class="fa fa-info-circle"></i>À Propos</h6>
+                        </div>
+                        <div class="sidebar-card-body">
+                            <p class="mb-0" style="font-size:.86rem;color:#64748b;line-height:1.6;"
+                               *ngIf="biographie?.biographie; else pasBioSidebar">
+                                {{biographie?.biographie}}
+                            </p>
+                            <ng-template #pasBioSidebar>
+                                <p class="mb-0 fst-italic" style="font-size:.84rem;color:#94a3b8;">
+                                    Aucune biographie renseignée.
+                                </p>
+                            </ng-template>
+                        </div>
+                    </div>
+
+                    <!-- ─ Compétences ─ -->
+                    <div class="sidebar-card">
+                        <div class="sidebar-card-header">
+                            <h6><i class="fa fa-star-o"></i>Compétences</h6>
+                        </div>
+                        <div class="sidebar-card-body">
+                            <ng-container *ngIf="connaissance && connaissance.length > 0; else pasCompetences">
+                                <div class="comp-badges-dev">
+                                    <span class="comp-badge-dev" *ngFor="let c of connaissance">
+                                        {{ c?.nom }}
+                                    </span>
+                                </div>
+                                <div class="comp-count-dev mt-2">
+                                    <i class="fa fa-check-circle text-success me-1"></i>
+                                    <small style="color:#64748b;">{{ connaissance.length }} compétence{{ connaissance.length > 1 ? 's' : '' }}</small>
+                                </div>
+                            </ng-container>
+                            <ng-template #pasCompetences>
+                                <p class="mb-0 fst-italic" style="font-size:.82rem;color:#94a3b8;">
+                                    Aucune compétence renseignée.
+                                </p>
+                            </ng-template>
+                        </div>
+                    </div>
+
+                    <!-- ─ Détails Personnels ─ -->
+                    <div class="sidebar-card">
+                        <div class="sidebar-card-header">
+                            <h6><i class="fa fa-id-card-o"></i>Détails</h6>
+                        </div>
+                        <div class="sidebar-card-body">
+                            <ul class="info-list">
+                                <li>
+                                    <div class="info-icon"><i class="fa fa-user"></i></div>
+                                    <div class="info-text">
+                                        <span>{{professionnel?.prenom}} {{professionnel?.nom}}</span>
+                                        <small>Nom complet</small>
+                                    </div>
+                                </li>
+                                <li *ngIf="specialite?.specialite">
+                                    <div class="info-icon"><i class="fa fa-briefcase"></i></div>
+                                    <div class="info-text">
+                                        <span>{{specialite?.specialite}}</span>
+                                        <small>Spécialité principale</small>
+                                    </div>
+                                </li>
+                                <li *ngIf="specialitesSupp.length > 0">
+                                    <div class="info-icon"><i class="fa fa-tags"></i></div>
+                                    <div class="info-text">
+                                        <div class="d-flex flex-wrap gap-1">
+                                            <span *ngFor="let s of specialitesSupp"
+                                                  class="badge"
+                                                  style="background:#eff6ff;color:#2563eb;font-size:.72rem;font-weight:600;">
+                                                {{s.specialite}}
+                                            </span>
+                                        </div>
+                                        <small>Autres spécialités</small>
+                                    </div>
+                                </li>
+                                <li *ngIf="professionnel?.email">
+                                    <div class="info-icon"><i class="fa fa-envelope-o"></i></div>
+                                    <div class="info-text">
+                                        <span>{{professionnel?.email}}</span>
+                                        <small>Email</small>
+                                    </div>
+                                </li>
+                                <li *ngIf="professionnel?.telephone">
+                                    <div class="info-icon"><i class="fa fa-phone"></i></div>
+                                    <div class="info-text">
+                                        <span>{{professionnel?.telephone}}</span>
+                                        <small>Téléphone</small>
+                                    </div>
+                                </li>
+                                <li *ngIf="professionnel?.adresse">
+                                    <div class="info-icon"><i class="fa fa-map-marker"></i></div>
+                                    <div class="info-text">
+                                        <span>{{professionnel?.adresse}}</span>
+                                        <small>Adresse</small>
+                                    </div>
+                                </li>
+                                <li *ngIf="professionnel?.genre">
+                                    <div class="info-icon"><i class="fa fa-venus-mars"></i></div>
+                                    <div class="info-text">
+                                        <span>{{professionnel?.genre}}</span>
+                                        <small>Genre</small>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- ─ Expériences ─ -->
+                    <div class="sidebar-card">
+                        <div class="sidebar-card-header">
+                            <h6><i class="fa fa-history"></i>Expérience Professionnelle</h6>
+                        </div>
+                        <div class="sidebar-card-body">
+                            <ul class="list-timeline"
+                                *ngIf="experienceProfessionnelle && experienceProfessionnelle.length > 0; else pasExperience">
+                                <li *ngFor="let exp of experienceProfessionnelle">
+                                    <div class="timeline-content">
+                                        <strong>{{exp?.titre}}</strong>
+                                        <span *ngIf="exp?.poste" class="d-block text-primary" style="font-size:.82rem;">
+                                            <i class="fa fa-briefcase me-1"></i>{{exp.poste}}
+                                        </span>
+                                        <span *ngIf="exp?.entreprise" class="d-block" style="font-size:.82rem;">
+                                            <i class="fa fa-building me-1"></i>{{exp.entreprise}}
+                                        </span>
+                                        <span *ngIf="exp?.lieux" class="d-block text-muted" style="font-size:.78rem;">
+                                            <i class="fa fa-map-marker me-1"></i>{{exp.lieux}}
+                                        </span>
+                                        <small style="color:#94a3b8;font-size:.7rem;">
+                                            {{exp?.datedebut}} — {{exp?.datefin || 'Présent'}}
+                                        </small>
+                                        <p *ngIf="exp?.description" class="text-muted mb-0 mt-1" style="font-size:.78rem;line-height:1.4;">
+                                            {{exp.description | slice:0:120}}{{exp.description?.length > 120 ? '…' : ''}}
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ng-template #pasExperience>
+                                <p class="mb-0 fst-italic" style="font-size:.82rem;color:#94a3b8;">
+                                    Aucune expérience professionnelle.
+                                </p>
+                            </ng-template>
+                        </div>
+                    </div>
+
+                </div><!-- end profile-sidebar -->
+            </div><!-- end col-lg-4 -->
+
+        </div><!-- end row -->
+    </div><!-- end container -->
 </section>

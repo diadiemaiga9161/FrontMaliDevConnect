@@ -1,0 +1,274 @@
+<div class="admin-page">
+  <div class="page-header">
+    <h2><i class="fa fa-users me-2"></i>Utilisateurs</h2>
+    <p>Gérez les comptes, validez les profils et bannissez les utilisateurs</p>
+  </div>
+
+  <div class="admin-table-card">
+    <!-- Toolbar -->
+    <div class="admin-toolbar">
+      <span class="toolbar-title">{{ filtered.length }} utilisateur(s)</span>
+
+      <!-- Filtre rôle -->
+      <select class="search-input" style="min-width:140px;" [(ngModel)]="filterRole" (change)="applyFilter()">
+        <option value="tous">Tous les rôles</option>
+        <option value="professionnel">Professionnels</option>
+        <option value="client">Clients</option>
+        <option value="admin">Admins</option>
+      </select>
+
+      <!-- Recherche -->
+      <input class="search-input" type="text" placeholder="Rechercher un utilisateur..."
+             [(ngModel)]="search" (input)="applyFilter()">
+
+      <button class="btn-primary-admin" (click)="load()">
+        <i class="fa fa-refresh"></i> Rafraîchir
+      </button>
+
+      <button class="btn-primary-admin" style="background:#10b981;" (click)="openCreateModal()">
+        <i class="fa fa-user-plus"></i> Créer un compte
+      </button>
+    </div>
+
+    <!-- Spinner -->
+    <div *ngIf="loading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-responsive" *ngIf="!loading">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Utilisateur</th>
+            <th>Contact</th>
+            <th>Rôle</th>
+            <th>Statut profil</th>
+            <th>État</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of filtered">
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <img [src]="getPhotoUrl(u)" (error)="handleImgError($event)"
+                     style="width:36px;height:36px;border-radius:50%;object-fit:cover;">
+                <div>
+                  <div style="font-weight:600;font-size:.87rem;">{{u.prenom}} {{u.nom}}</div>
+                  <div style="font-size:.72rem;color:#94a3b8;">ID: {{u.id}}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div style="font-size:.83rem;">{{u.email}}</div>
+              <div style="font-size:.75rem;color:#94a3b8;">{{u.telephone}}</div>
+            </td>
+            <td>
+              <span class="badge-role" [ngClass]="getRoleLabel(u)">
+                {{ getRoleLabel(u) === 'pro' ? 'Professionnel' :
+                   getRoleLabel(u) === 'admin' ? 'Admin' :
+                   getRoleLabel(u) === 'superadmin' ? 'Super Admin' : 'Client' }}
+              </span>
+            </td>
+            <td>
+              <span *ngIf="u.verfication" class="badge-status valide">
+                <i class="fa fa-check-circle me-1"></i>Vérifié
+              </span>
+              <span *ngIf="!u.verfication && getRoleLabel(u) === 'pro'" class="badge-status pending">
+                <i class="fa fa-clock-o me-1"></i>En attente
+              </span>
+              <span *ngIf="getRoleLabel(u) === 'client' || getRoleLabel(u) === 'admin' || getRoleLabel(u) === 'superadmin'"
+                    style="color:#94a3b8;font-size:.78rem;">—</span>
+            </td>
+            <td>
+              <span class="badge-status banni" *ngIf="isBanned(u)">
+                <i class="fa fa-ban me-1"></i>Banni
+              </span>
+              <span class="badge-status valide" *ngIf="!isBanned(u)">
+                <i class="fa fa-circle me-1"></i>Actif
+              </span>
+            </td>
+            <td>
+              <div class="d-flex gap-1 flex-wrap">
+                <!-- Voir les détails -->
+                <button class="btn-icon info" title="Voir les détails" (click)="openDetail(u)">
+                  <i class="fa fa-info-circle"></i>
+                </button>
+                <!-- Voir profil public -->
+                <a *ngIf="u.tokenPartage" [routerLink]="['/professionnel', u.tokenPartage]" target="_blank"
+                   class="btn-icon edit" title="Voir le profil public">
+                  <i class="fa fa-eye"></i>
+                </a>
+                <!-- Valider profil (pro non vérifié) -->
+                <button *ngIf="getRoleLabel(u) === 'pro' && !u.verfication"
+                        class="btn-icon check" title="Valider le profil"
+                        (click)="validerProfil(u)">
+                  <i class="fa fa-check-circle"></i>
+                </button>
+                <!-- Ban / Unban -->
+                <button *ngIf="!isBanned(u) && getRoleLabel(u) !== 'superadmin'"
+                        class="btn-icon ban" title="Bannir"
+                        (click)="banUser(u)">
+                  <i class="fa fa-ban"></i>
+                </button>
+                <button *ngIf="isBanned(u)" class="btn-icon unban" title="Débannir"
+                        (click)="debanUser(u)">
+                  <i class="fa fa-unlock"></i>
+                </button>
+                <!-- Supprimer -->
+                <button *ngIf="getRoleLabel(u) !== 'superadmin'" class="btn-icon del" title="Supprimer" (click)="supprimerUser(u)">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="filtered.length === 0">
+            <td colspan="6">
+              <div class="empty-admin">
+                <i class="fa fa-users"></i>
+                <p>Aucun utilisateur trouvé</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PANNEAU DÉTAIL UTILISATEUR ══ -->
+<div class="detail-overlay" *ngIf="showDetail" (click)="closeDetail()">
+  <div class="detail-drawer" (click)="$event.stopPropagation()">
+    <div class="detail-head">
+      <h4><i class="fa fa-user me-2"></i>Détail utilisateur</h4>
+      <button class="modal-close" (click)="closeDetail()"><i class="fa fa-times"></i></button>
+    </div>
+
+    <div class="detail-body" *ngIf="!loadingDetail && detailUser">
+      <!-- Avatar + nom -->
+      <div class="detail-identity">
+        <img [src]="getPhotoUrl(detailUser)" (error)="handleImgError($event)" class="detail-avatar">
+        <div>
+          <div class="detail-name">{{ detailUser.prenom }} {{ detailUser.nom }}</div>
+          <div class="detail-role-wrap">
+            <span class="badge-role {{ getRoleLabel(detailUser) }}">
+              {{ getRoleLabel(detailUser) === 'pro' ? 'Professionnel' :
+                 getRoleLabel(detailUser) === 'admin' ? 'Admin' :
+                 getRoleLabel(detailUser) === 'superadmin' ? 'Super Admin' : 'Client' }}
+            </span>
+            <span class="badge-status valide" *ngIf="detailUser.verfication"><i class="fa fa-check-circle me-1"></i>Vérifié</span>
+            <span class="badge-status banni" *ngIf="isBanned(detailUser)"><i class="fa fa-ban me-1"></i>Banni</span>
+            <span class="badge-status valide" *ngIf="!isBanned(detailUser) && !detailUser.verfication"><i class="fa fa-circle me-1"></i>Actif</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Infos -->
+      <div class="detail-section-title"><i class="fa fa-id-card me-1"></i>Coordonnées</div>
+      <div class="detail-grid">
+        <div class="detail-item"><span class="detail-label">Email</span><span>{{ detailUser.email || '—' }}</span></div>
+        <div class="detail-item"><span class="detail-label">Téléphone</span><span>{{ detailUser.telephone || '—' }}</span></div>
+        <div class="detail-item"><span class="detail-label">Adresse</span><span>{{ detailUser.adresse || '—' }}</span></div>
+        <div class="detail-item"><span class="detail-label">Genre</span><span>{{ detailUser.genre || '—' }}</span></div>
+        <div class="detail-item"><span class="detail-label">Inscrit le</span><span>{{ (detailUser.date | date:'dd/MM/yyyy') || '—' }}</span></div>
+        <div class="detail-item"><span class="detail-label">Vues profil</span><span>{{ detailUser.nombreVues ?? 0 }}</span></div>
+      </div>
+
+      <div class="detail-section-title" *ngIf="detailUser.specialite"><i class="fa fa-briefcase me-1"></i>Spécialité</div>
+      <div class="detail-tag-wrap" *ngIf="detailUser.specialite">
+        <span class="detail-tag primary">{{ detailUser.specialite }}</span>
+      </div>
+
+      <div class="detail-section-title" *ngIf="detailUser.connaissances?.length"><i class="fa fa-star me-1"></i>Compétences</div>
+      <div class="detail-tag-wrap" *ngIf="detailUser.connaissances?.length">
+        <span class="detail-tag" *ngFor="let c of detailUser.connaissances">{{ c }}</span>
+      </div>
+
+      <!-- Actions rapides -->
+      <div class="detail-section-title"><i class="fa fa-cogs me-1"></i>Actions</div>
+      <div class="d-flex gap-2 flex-wrap" style="padding: 0 1rem 1rem;">
+        <a *ngIf="detailUser.tokenPartage" [routerLink]="['/professionnel', detailUser.tokenPartage]"
+           class="btn-detail-action" style="background:#086AD8;color:#fff;">
+          <i class="fa fa-eye me-1"></i>Profil public
+        </a>
+        <button *ngIf="getRoleLabel(detailUser) === 'pro' && !detailUser.verfication"
+                class="btn-detail-action" style="background:#10b981;color:#fff;"
+                (click)="validerProfil(detailUser)">
+          <i class="fa fa-check-circle me-1"></i>Valider
+        </button>
+        <button *ngIf="!isBanned(detailUser) && getRoleLabel(detailUser) !== 'superadmin'"
+                class="btn-detail-action" style="background:#ef4444;color:#fff;"
+                (click)="banUser(detailUser)">
+          <i class="fa fa-ban me-1"></i>Bannir
+        </button>
+        <button *ngIf="isBanned(detailUser)"
+                class="btn-detail-action" style="background:#f59e0b;color:#fff;"
+                (click)="debanUser(detailUser)">
+          <i class="fa fa-unlock me-1"></i>Débannir
+        </button>
+      </div>
+    </div>
+
+    <div class="detail-body" *ngIf="loadingDetail" style="display:flex;align-items:center;justify-content:center;flex:1;">
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL CRÉATION UTILISATEUR ══ -->
+<div class="modal-overlay" *ngIf="showCreateModal" (click)="closeCreateModal()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <div class="modal-head">
+      <h4><i class="fa fa-user-plus me-2"></i>Créer un compte</h4>
+      <button class="modal-close" (click)="closeCreateModal()">
+        <i class="fa fa-times"></i>
+      </button>
+    </div>
+
+    <div class="modal-body-form">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Prénom <span class="required">*</span></label>
+          <input type="text" [(ngModel)]="createForm.prenom" placeholder="Prénom">
+        </div>
+        <div class="form-group">
+          <label>Nom <span class="required">*</span></label>
+          <input type="text" [(ngModel)]="createForm.nom" placeholder="Nom">
+        </div>
+        <div class="form-group full">
+          <label>Email <span class="required">*</span></label>
+          <input type="email" [(ngModel)]="createForm.email" placeholder="email@exemple.com">
+        </div>
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input type="text" [(ngModel)]="createForm.telephone" placeholder="+223 XX XX XX XX">
+        </div>
+        <div class="form-group">
+          <label>Rôle</label>
+          <select [(ngModel)]="createForm.role">
+            <option value="client">Client</option>
+            <option value="professionnel">Professionnel</option>
+            <option value="admin">Administrateur</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Mot de passe <span class="required">*</span></label>
+          <input type="password" [(ngModel)]="createForm.password" placeholder="Min. 6 caractères">
+        </div>
+      </div>
+
+      <div class="modal-error" *ngIf="createError">
+        <i class="fa fa-exclamation-circle me-1"></i>{{ createError }}
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel-modal" (click)="closeCreateModal()">Annuler</button>
+      <button class="btn-submit-modal" (click)="submitCreate()" [disabled]="creating">
+        <span *ngIf="!creating"><i class="fa fa-check me-1"></i>Créer</span>
+        <span *ngIf="creating"><i class="fa fa-spinner fa-spin me-1"></i>Création…</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+<div class="admin-page">
+  <div class="page-header">
+    <h2><i class="fa fa-folder me-2"></i>Types de Projets</h2>
+    <p>Gérez les types de projets disponibles lors de la création d'un projet</p>
+  </div>
+
+  <div class="admin-table-card">
+    <div class="admin-toolbar">
+      <span class="toolbar-title">{{ filtered.length }} type(s)</span>
+      <input class="search-input" type="text" placeholder="Rechercher..."
+             [(ngModel)]="search" (input)="applyFilter()">
+      <button class="btn-primary-admin" (click)="openAdd()">
+        <i class="fa fa-plus"></i> Ajouter
+      </button>
+    </div>
+
+    <div class="form-row-admin" *ngIf="showForm">
+      <input type="text" placeholder="Nom du type de projet *"
+             [(ngModel)]="form.typeprojet" (keyup.enter)="sauvegarder()">
+      <button class="btn-primary-admin" (click)="sauvegarder()">
+        <i class="fa fa-check"></i> {{ editingItem ? 'Modifier' : 'Ajouter' }}
+      </button>
+      <button class="btn-danger-admin" (click)="cancelForm()">
+        <i class="fa fa-times"></i> Annuler
+      </button>
+    </div>
+
+    <div *ngIf="loading" class="text-center py-4">
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+
+    <table class="admin-table" *ngIf="!loading">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Type de projet</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of filtered; let i = index">
+          <td style="color:#94a3b8;font-size:.78rem;">{{i + 1}}</td>
+          <td><strong>{{ item.typeprojet }}</strong></td>
+          <td>
+            <div class="d-flex gap-1">
+              <button class="btn-icon edit" (click)="openEdit(item)" title="Modifier">
+                <i class="fa fa-pencil"></i>
+              </button>
+              <button class="btn-icon del" (click)="supprimer(item)" title="Supprimer">
+                <i class="fa fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="filtered.length === 0">
+          <td colspan="3">
+            <div class="empty-admin"><i class="fa fa-folder"></i><p>Aucun type de projet</p></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

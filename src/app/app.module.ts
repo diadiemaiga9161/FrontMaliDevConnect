@@ -1,35 +1,48 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PreloaderComponent } from './components/layouts/preloader/preloader.component';
 import { FooterComponent } from './components/layouts/footer/footer.component';
 import { AccueilComponent } from './components/pages/accueil/accueil.component';
+// import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { NavbarOneComponent } from './components/layouts/navbar-one/navbar-one.component';
-import { NavbarTwoComponent } from './components/layouts/navbar-two/navbar-two.component';
 import { AproposComponent } from './components/pages/apropos/apropos.component';
-import { ServicesDetailsComponent } from './components/pages/services-details/services-details.component';
-import { ProjectsOneComponent } from './components/pages/projects-one/projects-one.component';
-import { InformaticienComponent } from './components/pages/Informaticien(e)/Informaticien.component';
-import { ProjectsDetailsComponent } from './components/pages/projects-details/projects-details.component';
+import { ProfessionnelComponent } from './components/pages/professionnel/professionnel.component';
 import { ContactComponent } from './components/pages/contact/contact.component';
-import { BlogGridComponent } from './components/pages/blog-grid/blog-grid.component';
-import { ProfilesDetailsComponent } from './components/pages/profiles-details/profiles-details.component';
-import { PricingComponent } from './components/pages/pricing/pricing.component';
-import { TeamComponent } from './components/pages/team/team.component';
-import { TermsConditionsComponent } from './components/pages/terms-conditions/terms-conditions.component';
-import { PrivacyPolicyComponent } from './components/pages/privacy-policy/privacy-policy.component';
 import { ErrorComponent } from './components/pages/error/error.component';
-import { SignUpComponent } from './components/pages/sign-up/sign-up.component';
-import { ComingSoonComponent } from './components/pages/coming-soon/coming-soon.component';
-import { ProfilUserComponent } from './components/pages/profil-user/profil-user.component';
+import { InscriptionComponent } from './components/pages/inscription/inscription.component';
+import { MaintenanceComponent } from './components/pages/maintenance/maintenance.component';
 import { ProfilDevComponent } from './components/pages/profil-dev/profil-dev.component';
-import { EditProfileDevComponent } from './components/pages/edit-profile-dev/edit-profile-dev.component';
-import { EditProfileUserComponent } from './components/pages/edit-profile-user/edit-profile-user.component';
-import { ProfilesComponent } from './components/pages/profiles/profiles.component';
 import { CompleteProfilsComponent } from './components/pages/complete-profils/complete-profils.component';
+import { FormsModule } from '@angular/forms';
+import { ConnexionComponent } from './components/pages/connexion/connexion.component';
+import { ProfilProfessionnelComponent } from './components/pages/profil-professionnel/profil-professionnel.component';
+import { ProfilUtilisateurComponent } from './components/pages/profil-utilisateur/profil-utilisateur.component';
+import { RdvDetailsComponent } from './components/pages/rdv-details/rdv-details.component';
+import { ProjetsDétailléComponent } from './components/pages/projets-détaillé/projets-détaillé.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { SingInComponent } from './components/pages/sing-in/sing-in.component';
+import { MotPasseComponent } from './components/pages/mot-passe/mot-passe.component';
+import { NewPasseComponent } from './components/pages/new-passe/new-passe.component';
+import { CompleteComponent } from './components/pages/complete/complete.component';
+import { ProjetComponent } from './components/pages/projet/projet.component';
+import { CommentComponent } from './components/pages/comment/comment.component';
+import { NotificationComponent } from './components/pages/notification/notification.component';
+import { ForumComponent } from './components/pages/forum/forum.component';
+import { DirectoryComponent } from './components/pages/directory.component';
+import { ChatComponent } from './components/pages/chat-main.component';
+import { FavorisComponent } from './components/pages/favoris/favoris.component';
+import { ContactsComponent } from './components/pages/contacts/contacts.component';
+import { PlusVusComponent } from './components/pages/plus-vus/plus-vus.component';
+import { ChatModalComponent } from './components/chat-modal/chat-modal.component';
+
+
 
 @NgModule({
   declarations: [
@@ -38,39 +51,51 @@ import { CompleteProfilsComponent } from './components/pages/complete-profils/co
     PreloaderComponent,
     FooterComponent,
     AccueilComponent,
-
     NavbarOneComponent,
-    NavbarTwoComponent,
-    ServicesDetailsComponent,
-    ProjectsOneComponent,
-    InformaticienComponent,
-    ProjectsDetailsComponent,
+    ProfessionnelComponent,
     ContactComponent,
-    BlogGridComponent,
-    ProfilesComponent,
-    PricingComponent,
-    TeamComponent,
-    TermsConditionsComponent,
-    PrivacyPolicyComponent,
+    RdvDetailsComponent,
     ErrorComponent,
-    SignUpComponent,
-    ComingSoonComponent,
-    ProfilUserComponent,
+    InscriptionComponent,
+    MaintenanceComponent,
     ProfilDevComponent,
-    EditProfileDevComponent,
-    EditProfileUserComponent,
-    ProfilesComponent,
-    ProfilesDetailsComponent,
+    ProfilUtilisateurComponent,
+    ConnexionComponent,
     CompleteProfilsComponent,
+    ProfilProfessionnelComponent,
+    ProjetsDétailléComponent,
+    SingInComponent,
+    MotPasseComponent,
+    NewPasseComponent,
+    CompleteComponent,
+    ProjetComponent,
+    CommentComponent,
+    NotificationComponent,
+    ForumComponent,
+    DirectoryComponent,
+    ChatComponent,
+    FavorisComponent,
+    ContactsComponent,
+    PlusVusComponent,
+    ChatModalComponent,
+
+
 
   ],
 
   
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    Ng2SearchPipeModule,
+    NgxPaginationModule,
+    FormsModule,
+ 
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

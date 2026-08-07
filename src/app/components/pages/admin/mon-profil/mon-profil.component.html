@@ -1,0 +1,118 @@
+<div class="admin-page">
+  <div class="page-header">
+    <h2><i class="fa fa-user-circle me-2"></i>Mon Profil</h2>
+    <p>Consultez et modifiez les informations de votre compte administrateur</p>
+  </div>
+
+  <!-- Raccourcis profil -->
+  <div class="profil-shortcuts">
+    <a routerLink="/profil-client" class="shortcut-btn">
+      <i class="fa fa-user-circle me-1"></i> Voir mon profil client
+    </a>
+    <a *ngIf="isProfessionnel()" routerLink="/profil-professionnel" class="shortcut-btn" style="background:#7c3aed;">
+      <i class="fa fa-briefcase me-1"></i> Voir mon profil professionnel
+    </a>
+    <a *ngIf="user?.tokenPartage" [routerLink]="['/professionnel', user?.tokenPartage]" class="shortcut-btn shortcut-pub">
+      <i class="fa fa-globe me-1"></i> Voir mon profil public
+    </a>
+  </div>
+
+  <div class="profil-grid">
+
+    <!-- ── Carte identité ── -->
+    <div class="profil-card identity-card">
+      <div class="identity-avatar-wrap">
+        <img [src]="photoPreview || getPhotoUrl()" (error)="handleImgError($event)" class="identity-avatar">
+        <span class="identity-role-badge">{{ getRoleLabel() }}</span>
+        <label class="avatar-upload-btn" title="Changer la photo" [class.loading]="uploadingPhoto">
+          <i class="fa" [ngClass]="uploadingPhoto ? 'fa-spinner fa-spin' : 'fa-camera'"></i>
+          <input type="file" accept="image/*" (change)="onPhotoSelected($event)" style="display:none;" [disabled]="uploadingPhoto">
+        </label>
+      </div>
+      <div class="identity-info">
+        <h3 class="identity-name">{{ user?.prenom }} {{ user?.nom }}</h3>
+        <p class="identity-email"><i class="fa fa-envelope me-1"></i>{{ user?.email }}</p>
+        <p class="identity-phone" *ngIf="user?.telephone"><i class="fa fa-phone me-1"></i>{{ user?.telephone }}</p>
+      </div>
+    </div>
+
+    <!-- ── Formulaire modification ── -->
+    <div class="profil-card form-card">
+      <div class="card-section-title">
+        <i class="fa fa-pencil me-2"></i>Modifier mes informations
+      </div>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label>Prénom</label>
+          <input type="text" [(ngModel)]="form.prenom" placeholder="Prénom">
+        </div>
+        <div class="form-group">
+          <label>Nom</label>
+          <input type="text" [(ngModel)]="form.nom" placeholder="Nom">
+        </div>
+        <div class="form-group full">
+          <label>Email</label>
+          <input type="email" [(ngModel)]="form.email" placeholder="email@exemple.com">
+        </div>
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input type="text" [(ngModel)]="form.telephone" placeholder="+223 XX XX XX XX">
+        </div>
+        <div class="form-group">
+          <label>Genre</label>
+          <select [(ngModel)]="form.genre">
+            <option value="">Non précisé</option>
+            <option value="Homme">Homme</option>
+            <option value="Femme">Femme</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Adresse</label>
+          <input type="text" [(ngModel)]="form.adresse" placeholder="Bamako, Mali">
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <button class="btn-save" (click)="saveProfil()" [disabled]="saving">
+          <span *ngIf="!saving"><i class="fa fa-save me-1"></i>Sauvegarder</span>
+          <span *ngIf="saving"><i class="fa fa-spinner fa-spin me-1"></i>Enregistrement…</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Sécurité ── -->
+    <div class="profil-card security-card">
+      <div class="card-section-title">
+        <i class="fa fa-lock me-2"></i>Changer mon mot de passe
+      </div>
+
+      <div class="form-grid-1">
+        <div class="form-group">
+          <label>Mot de passe actuel</label>
+          <input type="password" [(ngModel)]="pwdForm.oldPassword" placeholder="Mot de passe actuel">
+        </div>
+        <div class="form-group">
+          <label>Nouveau mot de passe</label>
+          <input type="password" [(ngModel)]="pwdForm.newPassword" placeholder="Min. 6 caractères">
+        </div>
+        <div class="form-group">
+          <label>Confirmer le mot de passe</label>
+          <input type="password" [(ngModel)]="pwdForm.confirmPassword" placeholder="Répéter le mot de passe">
+        </div>
+      </div>
+
+      <div class="pwd-error" *ngIf="pwdError">
+        <i class="fa fa-exclamation-circle me-1"></i>{{ pwdError }}
+      </div>
+
+      <div class="form-footer">
+        <button class="btn-save btn-pwd" (click)="savePassword()" [disabled]="savingPwd">
+          <span *ngIf="!savingPwd"><i class="fa fa-key me-1"></i>Modifier le mot de passe</span>
+          <span *ngIf="savingPwd"><i class="fa fa-spinner fa-spin me-1"></i>Modification…</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,297 @@
+<div class="page-title-area item-bg-2">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="container">
+                <div class="page-title-content">
+                    <h2>Professionnels</h2>
+                    <ul>
+                        <li><a routerLink="/">Accueil</a></li>
+                        <li>Professionnels</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="projects-section pt-100 pb-70 professionnels-page">
+    <div class="container">
+        <div class="row g-4">
+
+            <!-- Filtres modernes -->
+            <div class="col-lg-3 col-12">
+                <div class="filter-card">
+                    <div class="filter-card-header">
+                        <i class="fa fa-sliders"></i>
+                        <h4>Filtres</h4>
+                    </div>
+                    <div class="filter-card-body">
+                        <div class="filter-group">
+                            <label class="filter-label">
+                                <i class="fa fa-search"></i>
+                                Nom / Prénom
+                            </label>
+                            <input type="text" class="filter-select" [(ngModel)]="searchTextNom"
+                                   placeholder="Rechercher...">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">
+                                <i class="fa fa-briefcase"></i>
+                                Spécialité
+                            </label>
+                            <select class="filter-select" [(ngModel)]="searchTextSpecialite">
+                                <option value="">Toutes les spécialités</option>
+                                <option *ngFor="let s of specialite" [value]="s.specialite">{{ s.specialite }}</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">
+                                <i class="fa fa-book"></i>
+                                Connaissance
+                            </label>
+                            <select class="filter-select" [(ngModel)]="searchTextConnaissance">
+                                <option value="">Toutes</option>
+                                <option *ngFor="let c of connaissance" [value]="c.nom">{{ c.nom }}</option>
+                            </select>
+                        </div>
+                        <button type="button" class="filter-reset" (click)="searchTextSpecialite=''; searchTextConnaissance=''; searchTextNom=''">
+                            <i class="fa fa-refresh"></i>
+                            Réinitialiser
+                        </button>
+                        <button type="button"
+                                class="filter-sort-btn mt-2 w-100"
+                                [class.active]="sortPlusVus"
+                                (click)="toggleSortPlusVus()">
+                            <i class="fa fa-eye me-1"></i>
+                            {{ sortPlusVus ? 'Tri actif : plus vus' : 'Trier par plus vus' }}
+                        </button>
+                        <p class="filter-result-count" *ngIf="professionnels?.length >= 0">
+                            <strong>{{ filteredCount }}</strong> expert(s)
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9 col-12">
+
+                <!-- ── Barre résultats + toggle vue ── -->
+                <div class="pro-toolbar" *ngIf="!isLoading && !erreurChargement">
+                    <p class="pro-toolbar-count">
+                        <strong>{{ filteredCount }}</strong> expert(s)
+                    </p>
+                    <div class="d-flex gap-2">
+                        <!-- Colonnes (visibles seulement en mode grille) -->
+                        <div class="view-toggle" *ngIf="!listView">
+                            <button class="view-btn" [class.active]="gridCols === 2" (click)="gridCols = 2" title="2 colonnes">
+                                <i class="fa fa-th-large"></i>
+                            </button>
+                            <button class="view-btn" [class.active]="gridCols === 3" (click)="gridCols = 3" title="3 colonnes">
+                                <i class="fa fa-th"></i>
+                            </button>
+                        </div>
+                        <!-- Grille / Liste -->
+                        <div class="view-toggle">
+                            <button class="view-btn" [class.active]="!listView" (click)="gridOpens()" title="Vue grille">
+                                <i class="fa fa-th-large"></i>
+                            </button>
+                            <button class="view-btn" [class.active]="listView" (click)="listOpens()" title="Vue liste">
+                                <i class="fa fa-list"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skeleton Loader -->
+                <div *ngIf="isLoading" class="skeleton-loader-container">
+                    <div class="skeleton-loader" *ngFor="let i of [1, 2, 3, 4, 5, 6]"></div>
+                </div>
+
+                <!-- Erreur de chargement -->
+                <div *ngIf="!isLoading && erreurChargement" class="text-center py-5">
+                    <i class="fa fa-exclamation-circle fa-3x text-danger mb-3 d-block"></i>
+                    <h5 class="text-danger">Impossible de charger les profils</h5>
+                    <p class="text-muted">Vérifiez que le serveur backend est démarré sur <strong>http://127.0.0.1:8080</strong></p>
+                    <button class="btn btn-primary mt-2" (click)="ngOnInit()">
+                        <i class="fa fa-refresh me-1"></i> Réessayer
+                    </button>
+                </div>
+
+                <!-- Aucun résultat -->
+                <div *ngIf="!isLoading && !erreurChargement && professionnels.length === 0" class="text-center py-5">
+                    <i class="fa fa-users fa-3x text-muted mb-3 d-block" style="opacity:.3;"></i>
+                    <p class="text-muted">Aucun professionnel enregistré pour le moment.</p>
+                </div>
+
+                <!-- ── Vue Grille ── -->
+                <div *ngIf="!isLoading && !erreurChargement && professionnels.length > 0 && !listView"
+                     class="pro-grid" [class.pro-grid-2]="gridCols === 2">
+                    <div class="pro-card"
+                         *ngFor="let professionnel of professionnels | filter:searchTextNom | filter:searchTextSpecialite | filter:searchTextConnaissance | paginate:{itemsPerPage: 9, currentPage: p}">
+
+                        <!-- Bannière + bouton favori -->
+                        <div class="pro-card-banner">
+                            <button *ngIf="isLoggedIn && professionnel?.id !== currentUser?.id"
+                                    class="pro-fav-btn"
+                                    [class.active]="isFavori(professionnel.id)"
+                                    (click)="toggleFavori(professionnel, $event)"
+                                    [title]="isFavori(professionnel.id) ? 'Retirer des favoris' : 'Ajouter aux favoris'">
+                                <i class="fa" [ngClass]="isFavori(professionnel.id) ? 'fa-heart' : 'fa-heart-o'"></i>
+                            </button>
+                        </div>
+
+                        <div class="pro-card-avatar-wrap">
+                            <span class="pro-presence-wrap">
+                                <img class="pro-card-avatar"
+                                     [src]="generateImageUrl(professionnel?.utilisateurPhoto?.nom)"
+                                     (error)="handleAuthorImageError($event)"
+                                     [alt]="professionnel?.prenom">
+                                <span class="pro-presence-dot" *ngIf="isOnline(professionnel)" title="En ligne"></span>
+                            </span>
+                        </div>
+
+                        <div class="pro-card-body">
+                            <h5 class="pro-card-name">{{ professionnel?.prenom }} {{ professionnel?.nom }}</h5>
+                            <div class="pro-card-spec">
+                                <i class="fa fa-briefcase me-1"></i>
+                                {{ professionnel?.specialite?.specialite || 'Professionnel IT' }}
+                            </div>
+
+                            <!-- Compétences (max 3) -->
+                            <div class="pro-card-skills" *ngIf="professionnel?.connaissances?.length > 0">
+                                <span class="pro-skill-badge" *ngFor="let c of professionnel.connaissances.slice(0,3)">{{ c.nom }}</span>
+                                <span class="pro-skill-more" *ngIf="professionnel.connaissances.length > 3">
+                                    +{{ professionnel.connaissances.length - 3 }}
+                                </span>
+                            </div>
+                            <div class="pro-card-skills" *ngIf="!professionnel?.connaissances?.length">
+                                <span class="pro-skill-empty">Compétences non renseignées</span>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="pro-card-actions">
+                                <button class="pro-card-btn pro-btn-contact"
+                                        *ngIf="isLoggedIn && professionnel?.id !== currentUser?.id"
+                                        (click)="sendContactRequest(professionnel, $event)">
+                                    <i class="fa fa-user-plus"></i> Contact
+                                </button>
+                                <button class="pro-card-btn"
+                                        (click)="goToDettailProfessionnel(professionnel?.tokenPartage, professionnel?.id)">
+                                    Profil <i class="fa fa-arrow-right ms-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Vue Liste ── -->
+                <div *ngIf="!isLoading && !erreurChargement && professionnels.length > 0 && listView" class="pro-list">
+                    <div class="pro-list-item"
+                         *ngFor="let professionnel of professionnels | filter:searchTextNom | filter:searchTextSpecialite | filter:searchTextConnaissance | paginate:{itemsPerPage: 9, currentPage: p}">
+                        <span class="pro-presence-wrap">
+                            <img class="pro-list-avatar"
+                                 [src]="generateImageUrl(professionnel?.utilisateurPhoto?.nom)"
+                                 (error)="handleAuthorImageError($event)"
+                                 [alt]="professionnel?.prenom">
+                            <span class="pro-presence-dot" *ngIf="isOnline(professionnel)" title="En ligne"></span>
+                        </span>
+                        <div class="pro-list-info">
+                            <h5 class="pro-list-name">{{ professionnel?.prenom }} {{ professionnel?.nom }}</h5>
+                            <div class="pro-list-spec">
+                                <i class="fa fa-briefcase me-1"></i>
+                                {{ professionnel?.specialite?.specialite || 'Professionnel IT' }}
+                            </div>
+                            <div class="pro-list-skills" *ngIf="professionnel?.connaissances?.length > 0">
+                                <span class="pro-skill-badge" *ngFor="let c of professionnel.connaissances.slice(0,3)">{{ c.nom }}</span>
+                                <span class="pro-skill-more" *ngIf="professionnel.connaissances.length > 3">+{{ professionnel.connaissances.length - 3 }}</span>
+                            </div>
+                            <div *ngIf="!professionnel?.connaissances?.length">
+                                <span class="pro-skill-empty">Compétences non renseignées</span>
+                            </div>
+                        </div>
+                        <div class="pro-list-actions">
+                            <button *ngIf="isLoggedIn && professionnel?.id !== currentUser?.id"
+                                    class="pro-fav-btn-list"
+                                    [class.active]="isFavori(professionnel.id)"
+                                    (click)="toggleFavori(professionnel, $event)"
+                                    [title]="isFavori(professionnel.id) ? 'Retirer des favoris' : 'Ajouter aux favoris'">
+                                <i class="fa" [ngClass]="isFavori(professionnel.id) ? 'fa-heart' : 'fa-heart-o'"></i>
+                            </button>
+                            <button *ngIf="isLoggedIn && professionnel?.id !== currentUser?.id"
+                                    class="pro-card-btn pro-btn-contact"
+                                    (click)="sendContactRequest(professionnel, $event)">
+                                <i class="fa fa-user-plus"></i>
+                            </button>
+                            <button class="pro-card-btn pro-list-btn"
+                                    (click)="goToDettailProfessionnel(professionnel?.tokenPartage, professionnel?.id)">
+                                Voir <i class="fa fa-arrow-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pro-pagination" *ngIf="!isLoading && professionnels?.length > 0">
+                    <pagination-controls (pageChange)="p = $event"
+                        previousLabel="«"
+                        nextLabel="»"
+                        maxSize="5"
+                        [responsive]="true">
+                    </pagination-controls>
+                    <p class="pagination-info" *ngIf="filteredCount > 9">
+                        Page {{ p }} · <strong>{{ filteredCount }}</strong> expert(s)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <div class="container mt-5">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="image-container">
+                    <div class="first">
+                        <div class="d-flex justify-content-between align-items-center"> <span class="discount">-25%</span> <span class="wishlist"><i class="fa fa-heart-o"></i></span> </div>
+                    </div> <img src="https://i.imgur.com/8JIWpnw.jpg" class="img-fluid rounded thumbnail-image">
+                </div>
+                <div class="product-detail-container p-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="dress-name">White traditional long dress</h5>
+                        <div class="d-flex flex-column mb-2"> <span class="new-price">$3.99</span> <small class="old-price text-right">$5.99</small> </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center pt-1">
+                        <div class="color-select d-flex "> <input type="button" name="grey" class="btn creme"> <input type="button" name="red" class="btn red ml-2"> <input type="button" name="blue" class="btn blue ml-2"> </div>
+                        <div class="d-flex "> <span class="item-size mr-2 btn" type="button">S</span> <span class="item-size mr-2 btn" type="button">M</span> <span class="item-size btn" type="button">L</span> </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center pt-1">
+                        <div> <i class="fa fa-star-o rating-star"></i> <span class="rating-number">4.8</span> </div> <span class="buy">BUY +</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="image-container">
+                    <div class="first">
+                        <div class="d-flex justify-content-between align-items-center"> <span class="discount">-25%</span> <span class="wishlist"><i class="fa fa-heart-o"></i></span> </div>
+                    </div> <img src="https://i.imgur.com/PtepOpe.jpg" class="img-fluid rounded thumbnail-image">
+                </div>
+                <div class="product-detail-container p-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="dress-name">Long sleeve denim jacket</h5>
+                        <div class="d-flex flex-column mb-2"> <span class="new-price">$3.99</span> <small class="old-price text-right">$5.99</small> </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center pt-1">
+                        <div class="color-select d-flex "> <input type="button" name="grey" class="btn creme"> <input type="button" name="darkblue" class="btn darkblue ml-2"> </div>
+                        <div class="d-flex "> <span class="item-size mr-2 btn" type="button">S</span> <span class="item-size mr-2 btn" type="button">M</span> <span class="item-size btn" type="button">L</span> </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center pt-1">
+                        <div> <i class="fa fa-star-o rating-star"></i> <span class="rating-number">4.8</span> </div> <span class="buy">BUY +</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div> -->

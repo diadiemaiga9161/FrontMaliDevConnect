@@ -1,0 +1,230 @@
+<!-- Bannière -->
+<div class="page-title-area item-bg-1">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="container">
+                <div class="page-title-content">
+                    <h2>Forum de la communauté</h2>
+                    <ul>
+                        <li><a routerLink="/">Accueil</a></li>
+                        <li>Forum</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="ptb-100">
+    <div class="container">
+
+        <!-- ═══ VUE LISTE DES SUJETS ═══ -->
+        <ng-container *ngIf="!sujetSelectionne">
+
+            <!-- En-tête -->
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
+                <div>
+                    <h3 class="fw-bold mb-1" style="color:#086AD8;">
+                        <i class="fa fa-comments me-2"></i> Discussions
+                    </h3>
+                    <p class="text-muted mb-0">{{ sujets.length }} sujet(s) ouvert(s)</p>
+                </div>
+                <button class="btn btn-primary rounded-3" *ngIf="isLoggedIn" (click)="afficherFormSujet = !afficherFormSujet">
+                    <i class="fa me-2" [ngClass]="afficherFormSujet ? 'fa-times' : 'fa-plus'"></i>
+                    {{ afficherFormSujet ? 'Annuler' : 'Nouveau sujet' }}
+                </button>
+                <a routerLink="/connexion" class="btn btn-outline-primary rounded-3" *ngIf="!isLoggedIn">
+                    <i class="fa fa-sign-in-alt me-1"></i> Connexion pour poster
+                </a>
+            </div>
+
+            <!-- Formulaire nouveau sujet -->
+            <div class="card border-0 shadow-sm mb-4 form-sujet" *ngIf="afficherFormSujet && isLoggedIn"
+                 style="border-radius:16px !important;">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3" style="color:#086AD8;">Créer un nouveau sujet</h5>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Titre <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Donnez un titre à votre discussion..."
+                               [(ngModel)]="nouveauSujet.titre" maxlength="150">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Contenu <span class="text-danger">*</span></label>
+                        <textarea class="form-control" rows="5" placeholder="Décrivez votre question ou sujet..."
+                                  [(ngModel)]="nouveauSujet.contenu"></textarea>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary" (click)="creerSujet()">
+                            <i class="fa fa-paper-plane me-2"></i> Publier
+                        </button>
+                        <button class="btn btn-outline-secondary" (click)="afficherFormSujet = false; nouveauSujet = { titre: '', contenu: '' }">
+                            Annuler
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chargement -->
+            <div *ngIf="loading" class="text-center py-5">
+                <div class="spinner-border" style="color:#086AD8;"></div>
+                <p class="mt-3 text-muted">Chargement des discussions...</p>
+            </div>
+
+            <!-- Liste vide -->
+            <div *ngIf="!loading && sujets.length === 0" class="text-center py-5">
+                <i class="fa fa-comments fa-4x text-muted mb-3 d-block"></i>
+                <h5 class="text-muted">Aucune discussion pour le moment.</h5>
+                <p class="text-muted">Soyez le premier à lancer une discussion !</p>
+            </div>
+
+            <!-- Liste des sujets -->
+            <div class="sujet-list" *ngIf="!loading && sujets.length > 0">
+                <div class="card border-0 shadow-sm sujet-card mb-3"
+                     *ngFor="let sujet of sujets"
+                     (click)="voirSujet(sujet.id)">
+                    <div class="card-body p-3 d-flex align-items-start gap-3">
+
+                        <!-- Avatar auteur -->
+                        <div class="sujet-avatar flex-shrink-0">
+                            {{ (sujet.auteur?.prenom || sujet.auteurPrenom || '?').charAt(0).toUpperCase() }}
+                        </div>
+
+                        <!-- Contenu -->
+                        <div class="flex-grow-1 min-w-0">
+                            <h6 class="fw-bold mb-1 text-truncate" style="color:#212121;">{{ sujet.titre }}</h6>
+                            <p class="text-muted small mb-2 text-truncate" style="max-width:100%;">
+                                {{ sujet.contenu }}
+                            </p>
+                            <div class="d-flex align-items-center gap-3 flex-wrap">
+                                <small class="text-muted">
+                                    <i class="fa fa-user me-1"></i>
+                                    {{ sujet.auteur?.prenom || sujet.auteurPrenom || 'Anonyme' }}
+                                    {{ sujet.auteur?.nom || sujet.auteurNom || '' }}
+                                </small>
+                                <small class="text-muted">
+                                    <i class="fa fa-calendar me-1"></i>
+                                    {{ formatDate(sujet.createdAt || sujet.dateCreation) }}
+                                </small>
+                                <span class="badge bg-light text-dark border">
+                                    <i class="fa fa-reply me-1"></i>
+                                    {{ sujet.nombreReponses || sujet.reponses?.length || 0 }} réponse(s)
+                                </span>
+                                <span class="badge bg-light text-dark border">
+                                    <i class="fa fa-eye me-1"></i>
+                                    {{ sujet.vues || 0 }} vue(s)
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Actions auteur -->
+                        <div class="d-flex gap-1 flex-shrink-0" *ngIf="isAuteur(sujet)"
+                             (click)="$event.stopPropagation()">
+                            <button class="btn btn-sm btn-outline-danger" title="Supprimer"
+                                    (click)="supprimerSujet(sujet.id)">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- ═══ VUE DÉTAIL D'UN SUJET ═══ -->
+        <ng-container *ngIf="sujetSelectionne">
+
+            <!-- Retour -->
+            <button class="btn btn-outline-secondary mb-4 rounded-3" (click)="retourListe()">
+                <i class="fa fa-arrow-left me-2"></i> Retour aux discussions
+            </button>
+
+            <!-- En-tête sujet -->
+            <div class="card border-0 shadow-sm mb-4" style="border-radius:16px !important; border-left:4px solid #086AD8 !important;">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-start justify-content-between gap-3">
+                        <div class="flex-grow-1">
+                            <h4 class="fw-bold mb-2" style="color:#212121;">{{ sujetSelectionne.titre }}</h4>
+                            <p class="mb-3" style="color:#444; line-height:1.7;">{{ sujetSelectionne.contenu }}</p>
+                            <small class="text-muted">
+                                <i class="fa fa-user me-1"></i>
+                                {{ sujetSelectionne.auteur?.prenom || '' }} {{ sujetSelectionne.auteur?.nom || '' }}
+                                &nbsp;·&nbsp;
+                                <i class="fa fa-calendar me-1"></i>
+                                {{ formatDate(sujetSelectionne.createdAt || sujetSelectionne.dateCreation) }}
+                            </small>
+                        </div>
+                        <button class="btn btn-sm btn-outline-danger flex-shrink-0"
+                                *ngIf="isAuteur(sujetSelectionne)"
+                                (click)="supprimerSujet(sujetSelectionne.id)">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chargement réponses -->
+            <div *ngIf="loadingReponses" class="text-center py-4">
+                <div class="spinner-border spinner-border-sm" style="color:#086AD8;"></div>
+                <span class="ms-2 text-muted">Chargement des réponses...</span>
+            </div>
+
+            <!-- Réponses -->
+            <div *ngIf="!loadingReponses">
+                <h5 class="fw-bold mb-3" style="color:#086AD8;">
+                    <i class="fa fa-reply me-2"></i>
+                    {{ (sujetSelectionne.reponses?.length || 0) }} Réponse(s)
+                </h5>
+
+                <div *ngIf="sujetSelectionne.reponses?.length === 0" class="text-center py-3 text-muted">
+                    <i class="fa fa-comment-slash me-2"></i> Aucune réponse pour l'instant. Soyez le premier !
+                </div>
+
+                <div class="reponse-card card border-0 shadow-sm mb-3"
+                     *ngFor="let rep of sujetSelectionne.reponses"
+                     style="border-radius:14px !important;">
+                    <div class="card-body p-3 d-flex gap-3">
+                        <div class="reponse-avatar flex-shrink-0">
+                            {{ (rep.auteur?.prenom || rep.auteurPrenom || '?').charAt(0).toUpperCase() }}
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="d-flex align-items-center justify-content-between mb-1">
+                                <strong class="small">
+                                    {{ rep.auteur?.prenom || '' }} {{ rep.auteur?.nom || '' }}
+                                </strong>
+                                <div class="d-flex align-items-center gap-2">
+                                    <small class="text-muted">{{ formatDate(rep.createdAt || rep.dateCreation) }}</small>
+                                    <button class="btn btn-sm btn-outline-danger py-0 px-1"
+                                            *ngIf="currentUser && (rep.auteur?.id === currentUser.id)"
+                                            (click)="supprimerReponse(rep.id)">
+                                        <i class="fa fa-trash fa-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="mb-0" style="color:#444; line-height:1.6;">{{ rep.contenu }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulaire réponse -->
+            <div class="card border-0 shadow-sm mt-4" style="border-radius:16px !important;" *ngIf="isLoggedIn">
+                <div class="card-body p-4">
+                    <h6 class="fw-bold mb-3" style="color:#086AD8;">Votre réponse</h6>
+                    <textarea class="form-control mb-3" rows="4"
+                              placeholder="Rédigez votre réponse..."
+                              [(ngModel)]="nouvelleReponse"></textarea>
+                    <button class="btn btn-primary rounded-3"
+                            (click)="ajouterReponse()"
+                            [disabled]="!nouvelleReponse.trim()">
+                        <i class="fa fa-paper-plane me-2"></i> Envoyer la réponse
+                    </button>
+                </div>
+            </div>
+
+            <div class="alert alert-info rounded-3 mt-4" *ngIf="!isLoggedIn">
+                <i class="fa fa-info-circle me-2"></i>
+                <a routerLink="/connexion" class="fw-bold">Connectez-vous</a> pour répondre à cette discussion.
+            </div>
+
+        </ng-container>
+    </div>
+</section>
