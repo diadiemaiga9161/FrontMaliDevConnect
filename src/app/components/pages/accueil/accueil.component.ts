@@ -5,6 +5,9 @@ import { SpecialiteService } from 'src/app/services/specialite/specialite.servic
 import { UserService } from 'src/app/services/user/user.service';
 import { environment } from 'src/environments/environment';
 import { ProjetService } from 'src/app/services/projet/projet.service'
+import { AvisService } from 'src/app/services/avis/avis.service';
+import { PubliciteService } from 'src/app/services/publicite/publicite.service';
+import Swal from 'sweetalert2';
 
 const URL_PHOTO: string = environment.Url_PHOTO;
 
@@ -20,6 +23,15 @@ export class AccueilComponent implements OnInit {
   specialite: any;
   profileImageUrl: string = ''; // Variable pour stocker le chemin de l'image de profil
   connaissance: any;
+
+  // ── Avis plateforme (témoignages) ──
+  avisApprouves: any[] = [];
+  avisForm = { nom: '', email: '', message: '' };
+  avisEnvoiEnCours = false;
+
+  // ── Publicités actives ──
+  publicites: any[] = [];
+
   // nombreDeClient: number = 0;
 
   // nombreinformaticiens: number = 0;   // à réactiver
@@ -43,6 +55,8 @@ export class AccueilComponent implements OnInit {
     private specialiteService: SpecialiteService,
     private connaissanceService: ConnaissanceService,
     private projetService: ProjetService,
+    private avisService: AvisService,
+    private publiciteService: PubliciteService,
     public router: Router,
   ) { }
   
@@ -74,8 +88,21 @@ export class AccueilComponent implements OnInit {
     this.connaissanceService.AfficherListeConnaissance().subscribe(data => {
       this.connaissance = data;
       console.log(this.connaissance);
-    });    
-    
+    });
+
+    // AVIS APPROUVÉS (témoignages)
+    this.avisService.approuves().subscribe({
+      next: (data) => { this.avisApprouves = data || []; },
+      error: () => { this.avisApprouves = []; }
+    });
+
+    // PUBLICITÉS ACTIVES
+    this.publiciteService.actives().subscribe({
+      next: (data) => { this.publicites = data || []; },
+      error: () => { this.publicites = []; }
+    });
+
+
 // à réactiver — nombre de clients
 // this.serviceUser.AfficherListeClient().subscribe(data => {
 //   this.nombreDeClient = data.length;
@@ -105,9 +132,25 @@ export class AccueilComponent implements OnInit {
     if (slug) return this.router.navigate(['professionnel', slug]);
     return Promise.resolve(false);
   }
-  
 
-  
+  envoyerAvis(): void {
+    if (!this.avisForm.nom.trim() || !this.avisForm.email.trim() || !this.avisForm.message.trim()) {
+      Swal.fire({ title: 'Champs manquants', text: 'Merci de renseigner votre nom, votre email et votre avis.', icon: 'warning', heightAuto: false });
+      return;
+    }
+    this.avisEnvoiEnCours = true;
+    this.avisService.envoyer(this.avisForm.nom.trim(), this.avisForm.email.trim(), this.avisForm.message.trim()).subscribe({
+      next: (res) => {
+        this.avisEnvoiEnCours = false;
+        Swal.fire({ title: 'Merci !', text: res?.message || 'Votre avis a été envoyé.', icon: 'success', heightAuto: false });
+        this.avisForm = { nom: '', email: '', message: '' };
+      },
+      error: (err) => {
+        this.avisEnvoiEnCours = false;
+        Swal.fire({ title: 'Erreur', text: err?.error?.message || 'Impossible d\'envoyer votre avis.', icon: 'error', heightAuto: false });
+      }
+    });
+  }
 }
 function AfficherListeProjetInformatique() {
   throw new Error('Function not implemented.');

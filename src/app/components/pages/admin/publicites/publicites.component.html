@@ -1,0 +1,104 @@
+<div class="admin-page">
+  <div class="page-header">
+    <h2><i class="fa fa-bullhorn me-2"></i>Publicités</h2>
+    <p>Bannières image ou vidéo affichées sur l'accueil — toujours temporaires</p>
+  </div>
+
+  <div class="admin-table-card">
+    <div class="admin-toolbar">
+      <span class="toolbar-title">{{ items.length }} publicité(s)</span>
+      <button class="btn-primary-admin" (click)="showForm ? cancelForm() : openAdd()">
+        <i class="fa" [ngClass]="showForm ? 'fa-times' : 'fa-plus'"></i> {{ showForm ? 'Annuler' : 'Ajouter' }}
+      </button>
+    </div>
+
+    <div class="pub-form-admin" *ngIf="showForm">
+      <div class="row g-3">
+        <div class="col-md-3">
+          <label class="form-label small text-muted">Type</label>
+          <select class="form-select" [(ngModel)]="form.type">
+            <option value="IMAGE">Image</option>
+            <option value="VIDEO">Vidéo</option>
+          </select>
+        </div>
+        <div class="col-md-5">
+          <label class="form-label small text-muted">Titre *</label>
+          <input type="text" class="form-control" [(ngModel)]="form.titre" placeholder="Titre de la publicité">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label small text-muted">Durée d'affichage *</label>
+          <select class="form-select" [(ngModel)]="form.duree">
+            <option value="12H">12 heures</option>
+            <option value="24H">24 heures</option>
+            <option value="1SEMAINE">1 semaine</option>
+            <option value="1MOIS">1 mois</option>
+          </select>
+        </div>
+        <div class="col-12">
+          <label class="form-label small text-muted">Description</label>
+          <textarea class="form-control" rows="2" [(ngModel)]="form.description" placeholder="Description courte"></textarea>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label small text-muted">Lien (optionnel)</label>
+          <input type="text" class="form-control" [(ngModel)]="form.lien" placeholder="https://...">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label small text-muted">Fichier (image ou vidéo) *</label>
+          <input type="file" class="form-control" accept="image/*,video/*" (change)="onFichierChange($event)">
+        </div>
+      </div>
+      <button class="btn-primary-admin mt-3" (click)="sauvegarder()" [disabled]="enregistrement">
+        <span *ngIf="enregistrement" class="spinner-border spinner-border-sm me-1"></span>
+        <i class="fa fa-check"></i> Publier
+      </button>
+    </div>
+
+    <div *ngIf="loading" class="text-center py-4">
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+
+    <table class="admin-table" *ngIf="!loading">
+      <thead>
+        <tr>
+          <th>Aperçu</th>
+          <th>Titre</th>
+          <th>Expire le</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of items">
+          <td>
+            <img *ngIf="item.type === 'IMAGE'" [src]="generateImageUrl(item.fichier)" (error)="handleImageError($event)" class="pub-thumb-admin">
+            <span *ngIf="item.type === 'VIDEO'" class="pub-thumb-admin d-flex align-items-center justify-content-center bg-dark text-white">
+              <i class="fa fa-play"></i>
+            </span>
+          </td>
+          <td><strong>{{ item.titre }}</strong><br><small class="text-muted">{{ item.description }}</small></td>
+          <td>{{ item.dateExpiration | date:'dd/MM/yyyy HH:mm' }}</td>
+          <td>
+            <span class="badge-status" [ngClass]="(item.actif && !estExpiree(item)) ? 'valide' : 'banni'">
+              {{ !item.actif ? 'Désactivée' : (estExpiree(item) ? 'Expirée' : 'Active') }}
+            </span>
+          </td>
+          <td>
+            <div class="d-flex gap-1">
+              <button class="btn-icon ban" *ngIf="item.actif" (click)="desactiver(item)" title="Désactiver maintenant">
+                <i class="fa fa-pause"></i>
+              </button>
+              <button class="btn-icon del" (click)="supprimer(item)" title="Supprimer">
+                <i class="fa fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="items.length === 0">
+          <td colspan="5">
+            <div class="empty-admin"><i class="fa fa-bullhorn"></i><p>Aucune publicité</p></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+<div class="admin-page">
+  <div class="page-header">
+    <h2><i class="fa fa-comment-o me-2"></i>Avis plateforme</h2>
+    <p>Modérez les avis soumis par les visiteurs avant leur publication sur l'accueil</p>
+  </div>
+
+  <div class="admin-table-card">
+    <div class="admin-toolbar">
+      <div class="d-flex gap-2 flex-wrap">
+        <button class="btn btn-sm" [class.btn-primary]="filtreStatut==='TOUS'" [class.btn-outline-secondary]="filtreStatut!=='TOUS'" (click)="changerFiltre('TOUS')">Tous ({{items.length}})</button>
+        <button class="btn btn-sm" [class.btn-primary]="filtreStatut==='EN_ATTENTE'" [class.btn-outline-secondary]="filtreStatut!=='EN_ATTENTE'" (click)="changerFiltre('EN_ATTENTE')">En attente ({{compte('EN_ATTENTE')}})</button>
+        <button class="btn btn-sm" [class.btn-primary]="filtreStatut==='APPROUVE'" [class.btn-outline-secondary]="filtreStatut!=='APPROUVE'" (click)="changerFiltre('APPROUVE')">Approuvés ({{compte('APPROUVE')}})</button>
+        <button class="btn btn-sm" [class.btn-primary]="filtreStatut==='REJETE'" [class.btn-outline-secondary]="filtreStatut!=='REJETE'" (click)="changerFiltre('REJETE')">Rejetés ({{compte('REJETE')}})</button>
+      </div>
+    </div>
+
+    <div *ngIf="loading" class="text-center py-4">
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+
+    <table class="admin-table" *ngIf="!loading">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Message</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of filtered">
+          <td><strong>{{ item.nom }}</strong></td>
+          <td><small class="text-muted">{{ item.email }}</small></td>
+          <td style="max-width:420px;">{{ item.message }}</td>
+          <td><span class="badge-status" [ngClass]="badgeClass(item.statut)">{{ item.statut }}</span></td>
+          <td>
+            <div class="d-flex gap-1">
+              <button class="btn-icon check" *ngIf="item.statut !== 'APPROUVE'" (click)="approuver(item)" title="Approuver">
+                <i class="fa fa-check"></i>
+              </button>
+              <button class="btn-icon ban" *ngIf="item.statut !== 'REJETE'" (click)="rejeter(item)" title="Rejeter">
+                <i class="fa fa-times"></i>
+              </button>
+              <button class="btn-icon del" (click)="supprimer(item)" title="Supprimer">
+                <i class="fa fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="filtered.length === 0">
+          <td colspan="5">
+            <div class="empty-admin"><i class="fa fa-comment-o"></i><p>Aucun avis</p></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

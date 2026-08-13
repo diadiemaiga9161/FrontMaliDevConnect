@@ -1,0 +1,15 @@
+@import '../admin-shared';
+
+.pub-form-admin {
+  padding: 1rem 1.25rem;
+  background: #f8fafc;
+  border-top: 1px solid $border;
+  border-bottom: 1px solid $border;
+}
+
+.pub-thumb-admin {
+  width: 64px;
+  height: 44px;
+  border-radius: 8px;
+  object-fit: cover;
+}

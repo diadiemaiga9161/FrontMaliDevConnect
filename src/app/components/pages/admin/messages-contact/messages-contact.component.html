@@ -1,0 +1,33 @@
+<div class="admin-page">
+  <div class="page-header">
+    <h2><i class="fa fa-envelope me-2"></i>Messages de contact</h2>
+    <p>Messages envoyés depuis la page Contact du site — {{ nonLus }} non lu(s)</p>
+  </div>
+
+  <div class="admin-table-card">
+    <div *ngIf="loading" class="text-center py-4">
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+
+    <div *ngIf="!loading" class="msg-contact-list">
+      <div class="msg-contact-item" *ngFor="let item of items" [class.non-lu]="!item.lu" (click)="marquerLu(item)">
+        <div class="msg-contact-header">
+          <div>
+            <strong>{{ item.nom }}</strong>
+            <span class="badge-status pending ms-2" *ngIf="!item.lu">Non lu</span>
+          </div>
+          <button class="btn-icon del" (click)="supprimer(item); $event.stopPropagation()" title="Supprimer">
+            <i class="fa fa-trash"></i>
+          </button>
+        </div>
+        <div class="msg-contact-email"><i class="fa fa-envelope-o me-1"></i>{{ item.email }}</div>
+        <p class="msg-contact-body">{{ item.message }}</p>
+        <small class="text-muted">{{ item.dateEnvoi | date:'dd/MM/yyyy HH:mm' }}</small>
+      </div>
+
+      <div class="empty-admin" *ngIf="items.length === 0">
+        <i class="fa fa-envelope-o"></i><p>Aucun message reçu</p>
+      </div>
+    </div>
+  </div>
+</div>

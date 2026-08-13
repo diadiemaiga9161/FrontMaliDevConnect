@@ -18,6 +18,9 @@ export class AdminLayoutComponent implements OnInit {
     { label: 'Compétences',     icon: 'fa-star',       route: '/admin/competences' },
     { label: 'Types de Projets',icon: 'fa-folder',     route: '/admin/type-projets' },
     { label: 'Types de RDV',    icon: 'fa-calendar',   route: '/admin/type-rdv' },
+    { label: 'Avis',            icon: 'fa-comment-o',  route: '/admin/avis' },
+    { label: 'Publicités',      icon: 'fa-bullhorn',   route: '/admin/publicites' },
+    { label: 'Messages',        icon: 'fa-envelope',   route: '/admin/messages-contact' },
     { label: 'Mon Profil',      icon: 'fa-user-circle',route: '/admin/mon-profil' },
   ];
 

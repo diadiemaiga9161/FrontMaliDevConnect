@@ -11,6 +11,9 @@ import { CompetencesComponent } from './competences/competences.component';
 import { TypeProjetsComponent } from './type-projets/type-projets.component';
 import { TypeRdvComponent } from './type-rdv/type-rdv.component';
 import { MonProfilComponent } from './mon-profil/mon-profil.component';
+import { AvisComponent } from './avis/avis.component';
+import { PublicitesComponent } from './publicites/publicites.component';
+import { MessagesContactComponent } from './messages-contact/messages-contact.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +25,9 @@ import { MonProfilComponent } from './mon-profil/mon-profil.component';
     TypeProjetsComponent,
     TypeRdvComponent,
     MonProfilComponent,
+    AvisComponent,
+    PublicitesComponent,
+    MessagesContactComponent,
   ],
   imports: [
     CommonModule,

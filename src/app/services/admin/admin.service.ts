@@ -128,4 +128,58 @@ export class AdminService {
   supprimerTypeRdv(id: number): Observable<any> {
     return this.http.delete(`${URL_BASE}typerdv/supprimer/${id}`, { headers: this.headers() });
   }
+
+  // ── Avis plateforme (modération) ────────────────────────────
+  getAvisTous(): Observable<any> {
+    return this.http.get(`${URL_BASE}admin/avis/tous`, { headers: this.headers() });
+  }
+
+  approuverAvis(id: number): Observable<any> {
+    return this.http.put(`${URL_BASE}admin/avis/${id}/approuver`, {}, { headers: this.headers() });
+  }
+
+  rejeterAvis(id: number): Observable<any> {
+    return this.http.put(`${URL_BASE}admin/avis/${id}/rejeter`, {}, { headers: this.headers() });
+  }
+
+  supprimerAvis(id: number): Observable<any> {
+    return this.http.delete(`${URL_BASE}admin/avis/${id}`, { headers: this.headers() });
+  }
+
+  // ── Publicités ───────────────────────────────────────────────
+  getPublicitesToutes(): Observable<any> {
+    return this.http.get(`${URL_BASE}admin/publicite/toutes`, { headers: this.headers() });
+  }
+
+  ajouterPublicite(data: { type: string; titre: string; description?: string; lien?: string; duree: string; fichier: File }): Observable<any> {
+    const formData = new FormData();
+    formData.append('type', data.type);
+    formData.append('titre', data.titre);
+    if (data.description) formData.append('description', data.description);
+    if (data.lien) formData.append('lien', data.lien);
+    formData.append('duree', data.duree);
+    formData.append('fichier', data.fichier);
+    return this.http.post(`${URL_BASE}admin/publicite/ajouter`, formData, { headers: this.headers() });
+  }
+
+  desactiverPublicite(id: number): Observable<any> {
+    return this.http.put(`${URL_BASE}admin/publicite/${id}/desactiver`, {}, { headers: this.headers() });
+  }
+
+  supprimerPublicite(id: number): Observable<any> {
+    return this.http.delete(`${URL_BASE}admin/publicite/${id}`, { headers: this.headers() });
+  }
+
+  // ── Messages de contact ──────────────────────────────────────
+  getMessagesContactTous(): Observable<any> {
+    return this.http.get(`${URL_BASE}admin/messages-contact/tous`, { headers: this.headers() });
+  }
+
+  marquerMessageContactLu(id: number): Observable<any> {
+    return this.http.put(`${URL_BASE}admin/messages-contact/${id}/lire`, {}, { headers: this.headers() });
+  }
+
+  supprimerMessageContact(id: number): Observable<any> {
+    return this.http.delete(`${URL_BASE}admin/messages-contact/${id}`, { headers: this.headers() });
+  }
 }

@@ -1,0 +1,41 @@
+@import '../admin-shared';
+
+.msg-contact-list {
+  padding: .5rem;
+}
+
+.msg-contact-item {
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  border: 1px solid $border;
+  margin-bottom: .75rem;
+  cursor: pointer;
+  transition: background .15s;
+
+  &:hover { background: #f8fafc; }
+
+  &.non-lu {
+    background: #eff6ff;
+    border-color: rgba($primary, .25);
+  }
+}
+
+.msg-contact-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: .35rem;
+}
+
+.msg-contact-email {
+  font-size: .82rem;
+  color: $primary;
+  margin-bottom: .5rem;
+}
+
+.msg-contact-body {
+  font-size: .88rem;
+  color: #334155;
+  margin-bottom: .4rem;
+  white-space: pre-wrap;
+}

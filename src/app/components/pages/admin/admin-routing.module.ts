@@ -8,6 +8,9 @@ import { CompetencesComponent } from './competences/competences.component';
 import { TypeProjetsComponent } from './type-projets/type-projets.component';
 import { TypeRdvComponent } from './type-rdv/type-rdv.component';
 import { MonProfilComponent } from './mon-profil/mon-profil.component';
+import { AvisComponent } from './avis/avis.component';
+import { PublicitesComponent } from './publicites/publicites.component';
+import { MessagesContactComponent } from './messages-contact/messages-contact.component';
 
 const routes: Routes = [
   {
@@ -21,6 +24,9 @@ const routes: Routes = [
       { path: 'competences', component: CompetencesComponent },
       { path: 'type-projets', component: TypeProjetsComponent },
       { path: 'type-rdv', component: TypeRdvComponent },
+      { path: 'avis', component: AvisComponent },
+      { path: 'publicites', component: PublicitesComponent },
+      { path: 'messages-contact', component: MessagesContactComponent },
       { path: 'mon-profil', component: MonProfilComponent },
     ]
   }

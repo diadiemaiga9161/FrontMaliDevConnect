@@ -68,6 +68,27 @@
   </div>
 </section>
 
+<!-- ====== PUBLICITÉS ====== -->
+<section class="pub-modern py-4" style="background:#f8faff;" *ngIf="publicites?.length > 0">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-6" *ngFor="let pub of publicites">
+        <div class="pub-card">
+          <img *ngIf="pub.type === 'IMAGE'" [src]="generateImageUrl(pub.fichier)" (error)="handleAuthorImageError($event)" [alt]="pub.titre" class="pub-media">
+          <video *ngIf="pub.type === 'VIDEO'" [src]="generateImageUrl(pub.fichier)" class="pub-media" controls muted></video>
+          <div class="pub-body">
+            <h5>{{ pub.titre }}</h5>
+            <p *ngIf="pub.description">{{ pub.description }}</p>
+            <a *ngIf="pub.lien" [href]="pub.lien" target="_blank" rel="noopener" class="pub-link">
+              En savoir plus <i class="fa fa-arrow-right ms-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ====== FEATURES SECTION ====== -->
 <section class="features-modern py-5" style="background:#f8faff;">
   <div class="container">
@@ -227,46 +248,56 @@
   <div class="container">
     <div class="section-header text-center mb-5">
       <span class="section-tag">Témoignages</span>
-      <h2 class="section-title">Ce que disent <span class="text-grad">nos clients</span></h2>
+      <h2 class="section-title">Ce que disent <span class="text-grad">nos utilisateurs</span></h2>
     </div>
-    <div class="row g-4">
-      <div class="col-lg-4 col-md-6 col-12">
+
+    <div class="row g-4 mb-5" *ngIf="avisApprouves?.length > 0">
+      <div class="col-lg-4 col-md-6 col-12" *ngFor="let avis of avisApprouves">
         <div class="testimonial-card">
           <div class="testimonial-quote"><i class="fa fa-quote-left"></i></div>
-          <p>Une plateforme incroyable pour trouver des experts ! J'ai utilisé les services d'un expert web pour mon projet, et l'expérience a été exceptionnelle.</p>
+          <p>{{ avis.message }}</p>
           <div class="testimonial-author">
-            <div class="testimonial-avatar">TD</div>
+            <div class="testimonial-avatar">{{ avis.nom?.charAt(0) }}</div>
             <div>
-              <strong>Tiecoura Diarra</strong>
-              <small class="d-block text-muted">Client</small>
+              <strong>{{ avis.nom }}</strong>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-lg-4 col-md-6 col-12">
-        <div class="testimonial-card">
-          <div class="testimonial-quote"><i class="fa fa-quote-left"></i></div>
-          <p>Un service qui simplifie la recherche de professionnels. La plateforme a facilité la prise de rendez-vous et la communication. Très satisfait !</p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">MC</div>
-            <div>
-              <strong>Mamady Camara</strong>
-              <small class="d-block text-muted">Entrepreneur</small>
+    </div>
+    <p class="text-center text-muted mb-5" *ngIf="!avisApprouves || avisApprouves.length === 0">
+      Soyez le premier à partager votre expérience avec la communauté !
+    </p>
+
+    <!-- Formulaire "Laisser un avis" — ouvert à tous, avis visible après validation -->
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="avis-form-card">
+          <h5 class="text-center mb-1"><i class="fa fa-comment-o me-1"></i>Laissez votre avis</h5>
+          <p class="text-center text-muted small mb-3">Votre avis sera publié après validation par notre équipe.</p>
+          <form (ngSubmit)="f.form.valid && envoyerAvis()" #f="ngForm" novalidate>
+            <div class="mb-2">
+              <input type="text" class="form-control" name="avisNom" placeholder="Votre nom"
+                     [(ngModel)]="avisForm.nom" required maxlength="100" #avisNom="ngModel"
+                     [ngClass]="{ 'is-invalid': f.submitted && avisNom.errors }">
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 col-12">
-        <div class="testimonial-card">
-          <div class="testimonial-quote"><i class="fa fa-quote-left"></i></div>
-          <p>Innovation et expertise au même endroit ! Grâce à cette plateforme, j'ai pu collaborer avec un expert talentueux pour créer une application mobile.</p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">MT</div>
-            <div>
-              <strong>Mariam Telly</strong>
-              <small class="d-block text-muted">Cliente</small>
+            <div class="mb-2">
+              <input type="email" class="form-control" name="avisEmail" placeholder="Votre email"
+                     [(ngModel)]="avisForm.email" required email maxlength="150" #avisEmail="ngModel"
+                     [ngClass]="{ 'is-invalid': f.submitted && avisEmail.errors }">
             </div>
-          </div>
+            <div class="mb-2">
+              <textarea class="form-control" name="avisMessage" rows="3" placeholder="Votre expérience sur MaliDevConnect..."
+                        [(ngModel)]="avisForm.message" required maxlength="1000" #avisMessage="ngModel"
+                        [ngClass]="{ 'is-invalid': f.submitted && avisMessage.errors }"></textarea>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="default-btn" [disabled]="avisEnvoiEnCours">
+                <span *ngIf="avisEnvoiEnCours" class="spinner-border spinner-border-sm me-1"></span>
+                Envoyer mon avis
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
