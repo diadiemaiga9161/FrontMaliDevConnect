@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
 <header class="navbar-area">
   <div class="container">
     <nav class="navbar-inner">
@@ -16,6 +14,7 @@
       <ul class="nav-links">
         <li><a routerLink="/" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Accueil</a></li>
         <li><a routerLink="/professionnel" class="nav-link" routerLinkActive="active">Professionnels</a></li>
+        <li><a routerLink="/offres" class="nav-link" routerLinkActive="active">Offres d'emploi</a></li>
         <!-- Page "Annuaire" (/directory) désactivée : doublon de /professionnel, gardée en commentaire -->
         <!-- <li><a routerLink="/directory" class="nav-link" routerLinkActive="active">Annuaire</a></li> -->
         <li><a routerLink="/forum" class="nav-link" routerLinkActive="active">Forum</a></li>
@@ -91,6 +90,10 @@
             <a class="nav-dropdown-item" routerLink="/rdv-details">
               <span class="nav-dropdown-icon" style="background:#fffbeb;color:#f59e0b;"><i class="fa fa-calendar"></i></span>
               Rendez-vous
+            </a>
+            <a class="nav-dropdown-item" routerLink="/mes-candidatures" *ngIf="User?.roles?.includes('ROLE_PROFESSIONNEL')">
+              <span class="nav-dropdown-icon" style="background:#eff6ff;color:#086AD8;"><i class="fa fa-briefcase"></i></span>
+              Mes candidatures
             </a>
 
             <div class="nav-dropdown-divider"></div>
