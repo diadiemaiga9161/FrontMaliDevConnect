@@ -114,4 +114,9 @@ export class AuthService {
     formData.append('newPassword', newPassword);
     return this.http.post(URL_BASE + 'auth/resetPassword', formData);
   }
+
+  // Méthode pour activer le compte depuis le lien reçu par email
+  activateAccount(token: string): Observable<any> {
+    return this.http.get(URL_BASE + 'auth/activateAccount', { params: { token }, responseType: 'text' });
+  }
 }

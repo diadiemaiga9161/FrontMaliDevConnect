@@ -1,0 +1,32 @@
+<body class="bg-maiga">
+<div class="container" style="justify-content: center; background-size: cover; padding-top: 80px; padding-bottom: 80px;">
+    <div class="row mb-5 py-3" style="justify-content: center;">
+        <div class="form text-center">
+
+            <div *ngIf="etat === 'chargement'">
+                <i class="fa fa-spinner fa-spin" style="font-size: 2.5rem; color: #086AD8;"></i>
+                <p style="margin-top: 16px; font-weight: 600; color: #1e293b;">Activation de votre compte en cours...</p>
+            </div>
+
+            <div *ngIf="etat === 'succes'">
+                <i class="fa fa-check-circle" style="font-size: 2.5rem; color: #16a34a;"></i>
+                <p style="margin-top: 16px; font-size: 1.1rem; font-weight: 700; color: #1e293b;">Compte activé !</p>
+                <p style="font-size: 13px; color: #64748b;">{{ message }}</p>
+                <a routerLink="/connexion" class="button-submit d-inline-block text-decoration-none text-center" style="margin-top: 10px;">
+                    <i class="fa fa-sign-in me-2"></i>Se connecter
+                </a>
+            </div>
+
+            <div *ngIf="etat === 'erreur'">
+                <i class="fa fa-times-circle" style="font-size: 2.5rem; color: #dc2626;"></i>
+                <p style="margin-top: 16px; font-size: 1.1rem; font-weight: 700; color: #1e293b;">Activation impossible</p>
+                <p style="font-size: 13px; color: #64748b;">{{ message }}</p>
+                <a routerLink="/connexion" class="button-submit d-inline-block text-decoration-none text-center" style="margin-top: 10px;">
+                    <i class="fa fa-arrow-left me-2"></i>Retour à la connexion
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
