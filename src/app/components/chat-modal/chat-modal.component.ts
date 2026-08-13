@@ -207,16 +207,30 @@ export class ChatModalComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (conv) { this.selectConversation(conv); return; }
     this.userService.getProfilPublic(token).pipe(takeUntil(this.destroy$)).subscribe({
       next: (user: any) => {
-        if (user?.id) {
-          const existing = this.conversations.find(c =>
-            (c.contact?.id === user.id || c.user?.id === user.id || c.otherUser?.id === user.id)
-          );
-          if (existing) { this.selectConversation(existing); }
-          else { this.otherUser = user; this.selectedConversation = { contact: user }; this.loadMessages(); }
-        }
+        if (user?.id) { this.selectionnerUtilisateur(user); }
+        else { this.resoudreParId(token); }
       },
+      error: () => { this.resoudreParId(token); }
+    });
+  }
+
+  // Repli si le token n'est pas un tokenPartage valide (ex: profil sans lien de partage
+  // généré) : on tente de l'interpréter comme un id numérique brut.
+  private resoudreParId(token: string): void {
+    const id = Number(token);
+    if (!id || isNaN(id)) return;
+    this.userService.voirProfil(id).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (user: any) => { if (user?.id) this.selectionnerUtilisateur(user); },
       error: () => {}
     });
+  }
+
+  private selectionnerUtilisateur(user: any): void {
+    const existing = this.conversations.find(c =>
+      (c.contact?.id === user.id || c.user?.id === user.id || c.otherUser?.id === user.id)
+    );
+    if (existing) { this.selectConversation(existing); }
+    else { this.otherUser = user; this.selectedConversation = { contact: user }; this.loadMessages(); }
   }
 
   startEdit(msg: any): void { this.editingMessageId = msg.id; this.editingText = msg.contenu || msg.content || ''; }

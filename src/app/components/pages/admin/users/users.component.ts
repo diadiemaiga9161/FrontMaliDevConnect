@@ -14,7 +14,7 @@ export class UsersComponent implements OnInit {
   loading = true;
   search = '';
   filterRole = 'tous';
-  filterRoles = ['tous', 'professionnel', 'client', 'admin'];
+  filterRoles = ['tous', 'professionnel', 'entreprise', 'client', 'admin'];
 
   // Détail utilisateur
   showDetail = false;
@@ -75,7 +75,13 @@ export class UsersComponent implements OnInit {
     if (roles.includes('ROLE_SUPERADMIN')) return 'superadmin';
     if (roles.includes('ROLE_ADMIN')) return 'admin';
     if (roles.includes('ROLE_PROFESSIONNEL')) return 'pro';
+    if (roles.includes('ROLE_ENTREPRISE')) return 'entreprise';
     return 'client';
+  }
+
+  getProfilUrl(user: any): string[] | null {
+    if (!user.tokenPartage) return null;
+    return this.getRoleLabel(user) === 'entreprise' ? ['/entreprise', user.tokenPartage] : ['/professionnel', user.tokenPartage];
   }
 
   isBanned(user: any): boolean {
@@ -131,6 +137,7 @@ export class UsersComponent implements OnInit {
     const roleMap: Record<string, string> = {
       'client': 'ROLE_CLIENT',
       'professionnel': 'ROLE_PROFESSIONNEL',
+      'entreprise': 'ROLE_ENTREPRISE',
       'admin': 'ROLE_ADMIN'
     };
 

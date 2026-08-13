@@ -13,6 +13,7 @@
       <select class="search-input" style="min-width:140px;" [(ngModel)]="filterRole" (change)="applyFilter()">
         <option value="tous">Tous les rôles</option>
         <option value="professionnel">Professionnels</option>
+        <option value="entreprise">Entreprises</option>
         <option value="client">Clients</option>
         <option value="admin">Admins</option>
       </select>
@@ -67,6 +68,7 @@
             <td>
               <span class="badge-role" [ngClass]="getRoleLabel(u)">
                 {{ getRoleLabel(u) === 'pro' ? 'Professionnel' :
+                   getRoleLabel(u) === 'entreprise' ? 'Entreprise' :
                    getRoleLabel(u) === 'admin' ? 'Admin' :
                    getRoleLabel(u) === 'superadmin' ? 'Super Admin' : 'Client' }}
               </span>
@@ -78,7 +80,7 @@
               <span *ngIf="!u.verfication && getRoleLabel(u) === 'pro'" class="badge-status pending">
                 <i class="fa fa-clock-o me-1"></i>En attente
               </span>
-              <span *ngIf="getRoleLabel(u) === 'client' || getRoleLabel(u) === 'admin' || getRoleLabel(u) === 'superadmin'"
+              <span *ngIf="getRoleLabel(u) !== 'pro'"
                     style="color:#94a3b8;font-size:.78rem;">—</span>
             </td>
             <td>
@@ -96,7 +98,7 @@
                   <i class="fa fa-info-circle"></i>
                 </button>
                 <!-- Voir profil public -->
-                <a *ngIf="u.tokenPartage" [routerLink]="['/professionnel', u.tokenPartage]" target="_blank"
+                <a *ngIf="getProfilUrl(u)" [routerLink]="getProfilUrl(u)" target="_blank"
                    class="btn-icon edit" title="Voir le profil public">
                   <i class="fa fa-eye"></i>
                 </a>
@@ -154,6 +156,7 @@
           <div class="detail-role-wrap">
             <span class="badge-role {{ getRoleLabel(detailUser) }}">
               {{ getRoleLabel(detailUser) === 'pro' ? 'Professionnel' :
+                 getRoleLabel(detailUser) === 'entreprise' ? 'Entreprise' :
                  getRoleLabel(detailUser) === 'admin' ? 'Admin' :
                  getRoleLabel(detailUser) === 'superadmin' ? 'Super Admin' : 'Client' }}
             </span>
@@ -188,7 +191,7 @@
       <!-- Actions rapides -->
       <div class="detail-section-title"><i class="fa fa-cogs me-1"></i>Actions</div>
       <div class="d-flex gap-2 flex-wrap" style="padding: 0 1rem 1rem;">
-        <a *ngIf="detailUser.tokenPartage" [routerLink]="['/professionnel', detailUser.tokenPartage]"
+        <a *ngIf="getProfilUrl(detailUser)" [routerLink]="getProfilUrl(detailUser)"
            class="btn-detail-action" style="background:#086AD8;color:#fff;">
           <i class="fa fa-eye me-1"></i>Profil public
         </a>
@@ -249,6 +252,7 @@
           <select [(ngModel)]="createForm.role">
             <option value="client">Client</option>
             <option value="professionnel">Professionnel</option>
+            <option value="entreprise">Entreprise</option>
             <option value="admin">Administrateur</option>
           </select>
         </div>

@@ -1,0 +1,333 @@
+<!-- Bannière -->
+<div class="page-title-area item-bg-3">
+    <div class="d-table"><div class="d-table-cell">
+        <div class="container">
+            <div class="page-title-content">
+                <h2>Espace Entreprise</h2>
+                <ul>
+                    <li><a routerLink="/">Accueil</a></li>
+                    <li>Espace entreprise</li>
+                </ul>
+            </div>
+        </div>
+    </div></div>
+</div>
+
+<section class="ptb-60 ent-dashboard" style="background:#f4f6fb; min-height:80vh;">
+<div class="container py-4">
+<div class="row g-4">
+
+    <!-- ══════════ SIDEBAR ══════════ -->
+    <div class="col-lg-3">
+        <div class="sidebar-card card border-0 shadow-sm">
+
+            <!-- Logo + identité -->
+            <div class="text-center p-4 pb-3" style="background:linear-gradient(135deg,#086AD8,#10dce8); border-radius:14px 14px 0 0;">
+                <div class="d-inline-flex align-items-center justify-content-center mb-3 rounded-circle bg-white"
+                     style="width:90px;height:90px;overflow:hidden;">
+                    <img *ngIf="profil?.logo" [src]="generateImageUrl(profil.logo)" (error)="handleImageError($event)"
+                         style="width:100%;height:100%;object-fit:cover;">
+                    <i *ngIf="!profil?.logo" class="fa fa-building text-primary" style="font-size:2rem;"></i>
+                </div>
+                <h5 class="fw-bold mb-1 text-white text-truncate">{{ profil?.nomEntreprise || 'Entreprise' }}</h5>
+                <span class="badge" style="background:rgba(255,255,255,.2);color:#fff;font-size:.78rem;">
+                    <i class="fa fa-briefcase me-1"></i>Compte entreprise
+                </span>
+            </div>
+
+            <!-- Alerte profil incomplet -->
+            <div class="p-3 border-bottom" *ngIf="!loading && !profil">
+                <div class="alert alert-warning small mb-0 py-2">
+                    <i class="fa fa-exclamation-triangle me-1"></i>
+                    Complétez votre profil pour publier des offres.
+                </div>
+            </div>
+
+            <!-- Stats rapides -->
+            <div class="row g-0 text-center border-bottom" *ngIf="profil">
+                <div class="col py-3 border-end">
+                    <h5 class="fw-bold mb-0 text-primary">{{offres.length}}</h5>
+                    <small class="text-muted">Offres</small>
+                </div>
+                <div class="col py-3">
+                    <h5 class="fw-bold mb-0 text-primary">{{offresActives}}</h5>
+                    <small class="text-muted">Actives</small>
+                </div>
+            </div>
+
+            <!-- Navigation onglets (desktop) -->
+            <nav class="d-none d-lg-block">
+                <button class="sidebar-nav-btn w-100 text-start" [class.active]="ongletActif === 'profil'" (click)="ongletActif = 'profil'">
+                    <i class="fa fa-building me-2"></i>Profil entreprise
+                </button>
+                <button class="sidebar-nav-btn w-100 text-start" [class.active]="ongletActif === 'offres' || ongletActif === 'candidatures'"
+                        *ngIf="profil" (click)="ongletActif = 'offres'">
+                    <i class="fa fa-briefcase me-2"></i>Mes offres
+                    <span class="badge bg-primary ms-auto float-end mt-1" *ngIf="offres.length">{{offres.length}}</span>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Navigation onglets mobile -->
+    <div class="col-12 d-lg-none">
+        <div class="d-flex gap-2 overflow-auto pb-2 tab-mobile-scroll">
+            <button class="btn btn-sm flex-shrink-0" [class.btn-primary]="ongletActif === 'profil'" [class.btn-outline-secondary]="ongletActif !== 'profil'" (click)="ongletActif = 'profil'"><i class="fa fa-building me-1"></i>Profil</button>
+            <button class="btn btn-sm flex-shrink-0" *ngIf="profil" [class.btn-primary]="ongletActif === 'offres' || ongletActif === 'candidatures'" [class.btn-outline-secondary]="ongletActif !== 'offres' && ongletActif !== 'candidatures'" (click)="ongletActif = 'offres'"><i class="fa fa-briefcase me-1"></i>Mes offres</button>
+        </div>
+    </div>
+
+    <!-- ══════════ CONTENU ══════════ -->
+    <div class="col-lg-9">
+
+        <!-- ═══ ONGLET PROFIL ═══ -->
+        <div *ngIf="ongletActif === 'profil'" class="content-card card border-0 shadow-sm">
+            <div class="card-header">
+                <h6 class="fw-bold mb-0"><i class="fa fa-building me-2 text-primary"></i>Informations de l'entreprise</h6>
+            </div>
+            <div class="card-body p-4">
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <label class="form-label small text-muted">Nom de l'entreprise <span class="text-danger">*</span></label>
+                        <input class="form-control" [(ngModel)]="formProfil.nomEntreprise" name="nomEntreprise" required>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label small text-muted">Secteur d'activité</label>
+                        <input class="form-control" [(ngModel)]="formProfil.secteurActivite" name="secteurActivite" placeholder="Ex: Informatique, BTP, Santé...">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label small text-muted">Description</label>
+                        <textarea class="form-control" rows="4" [(ngModel)]="formProfil.description" name="description"
+                                  placeholder="Présentez votre entreprise..."></textarea>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label small text-muted">Site web</label>
+                        <input class="form-control" [(ngModel)]="formProfil.siteWeb" name="siteWeb" placeholder="https://...">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label small text-muted">Logo</label>
+                        <input type="file" class="form-control" accept="image/*" (change)="onLogoChange($event)">
+                    </div>
+                </div>
+                <button class="default-btn mt-4" (click)="enregistrerProfil()" [disabled]="enregistrementProfil">
+                    <span *ngIf="enregistrementProfil" class="spinner-border spinner-border-sm me-1"></span>
+                    Enregistrer
+                </button>
+            </div>
+        </div>
+
+        <!-- ═══ ONGLET OFFRES ═══ -->
+        <div *ngIf="ongletActif === 'offres'">
+            <div class="content-card card border-0 shadow-sm mb-4">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h6 class="fw-bold mb-0"><i class="fa fa-briefcase me-2 text-primary"></i>Mes offres d'emploi</h6>
+                    <button class="btn btn-sm" [class.btn-primary]="!afficherFormOffre" [class.btn-outline-secondary]="afficherFormOffre" (click)="toggleFormOffre()">
+                        <i class="fa" [ngClass]="afficherFormOffre ? 'fa-times' : 'fa-plus'"></i>
+                        {{ afficherFormOffre ? 'Annuler' : 'Publier une offre' }}
+                    </button>
+                </div>
+
+                <div class="card-body p-4" *ngIf="afficherFormOffre">
+                    <h6 class="fw-bold mb-3" *ngIf="offreEnEdition">
+                        <i class="fa fa-pencil me-1"></i>Modifier « {{ offreEnEdition.titre }} »
+                    </h6>
+                    <div class="row g-3">
+                        <div class="col-12 col-md-8">
+                            <label class="form-label small text-muted">Titre du poste <span class="text-danger">*</span></label>
+                            <input class="form-control" [(ngModel)]="formOffre.titre" name="titre" placeholder="Ex: Développeur Full Stack">
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label small text-muted">Type de contrat</label>
+                            <select class="form-select" [(ngModel)]="formOffre.typeContrat" name="typeContrat">
+                                <option value="CDI">CDI</option>
+                                <option value="CDD">CDD</option>
+                                <option value="Stage">Stage</option>
+                                <option value="Freelance">Freelance</option>
+                                <option value="Autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small text-muted">Description du poste</label>
+                            <textarea class="form-control" rows="3" [(ngModel)]="formOffre.description" name="description"></textarea>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label small text-muted">Lieu</label>
+                            <input class="form-control" [(ngModel)]="formOffre.lieu" name="lieu" placeholder="Bamako, Mali">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label small text-muted">Date limite de candidature</label>
+                            <input type="date" class="form-control" [(ngModel)]="formOffre.dateLimite" name="dateLimite">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label small text-muted">Spécialité recherchée</label>
+                            <select class="form-select" [(ngModel)]="formOffre.specialiteId" name="specialiteId">
+                                <option [ngValue]="null">-- Aucune --</option>
+                                <option *ngFor="let s of specialites" [ngValue]="s.id">{{ s.specialite }}</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small text-muted">Compétences recherchées</label>
+                            <div class="ent-skills-picker">
+                                <span *ngFor="let c of connaissances"
+                                      class="ent-skill-chip"
+                                      [class.active]="isConnaissanceSelectionnee(c.id)"
+                                      (click)="toggleConnaissance(c.id)">
+                                    {{ c.nom }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12" *ngIf="!offreEnEdition">
+                            <label class="form-label small text-muted">Photos de l'offre (facultatif)</label>
+                            <input type="file" class="form-control" accept="image/*" multiple (change)="onPhotosOffreChange($event)">
+                            <div class="form-text">La première photo sera utilisée comme image principale de l'offre.</div>
+                        </div>
+                        <div class="col-12" *ngIf="offreEnEdition">
+                            <label class="form-label small text-muted">Photos de l'offre</label>
+                            <div class="ent-offre-photos-gallery">
+                                <div class="ent-offre-photo-thumb" *ngFor="let ph of offreEnEdition.photos">
+                                    <img [src]="generateImageUrl(ph.chemin)" (error)="handleImageError($event)" alt="">
+                                    <button type="button" class="ent-offre-photo-del" (click)="supprimerPhotoOffre(ph)" title="Supprimer cette photo">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="text-muted small" *ngIf="!offreEnEdition.photos?.length">Aucune photo pour cette offre.</div>
+                            </div>
+                            <input type="file" class="form-control mt-2" accept="image/*" multiple (change)="ajouterPhotosOffre($event)" [disabled]="ajoutEnCours">
+                            <div class="form-text" *ngIf="ajoutEnCours"><span class="spinner-border spinner-border-sm me-1"></span>Ajout en cours...</div>
+                        </div>
+                    </div>
+                    <button class="default-btn mt-4" (click)="publierOffre()" [disabled]="enregistrementOffre">
+                        <span *ngIf="enregistrementOffre" class="spinner-border spinner-border-sm me-1"></span>
+                        {{ offreEnEdition ? 'Enregistrer les modifications' : 'Publier l\'offre' }}
+                    </button>
+                </div>
+            </div>
+
+            <div class="ent-offre-list">
+                <div class="ent-offre-card" *ngFor="let o of offres">
+                    <img *ngIf="o.photo" [src]="generateImageUrl(o.photo)" (error)="handleImageError($event)" class="ent-offre-thumb">
+                    <div class="ent-offre-main">
+                        <h5>{{ o.titre }} <span class="badge bg-danger ms-1" *ngIf="estExpiree(o)">Expirée</span></h5>
+                        <div class="ent-offre-meta">
+                            <span *ngIf="o.typeContrat"><i class="fa fa-file-text-o me-1"></i>{{ o.typeContrat }}</span>
+                            <span *ngIf="o.lieu"><i class="fa fa-map-marker me-1"></i>{{ o.lieu }}</span>
+                            <span *ngIf="o.specialite"><i class="fa fa-tag me-1"></i>{{ o.specialite.specialite }}</span>
+                            <span *ngIf="o.dateLimite" [class.text-danger]="estExpiree(o)"><i class="fa fa-calendar me-1"></i>{{ o.dateLimite }}</span>
+                        </div>
+                        <p class="ent-offre-desc">{{ o.description }}</p>
+                        <button class="btn btn-sm btn-outline-primary mt-2" (click)="selectionnerOffre(o)">
+                            <i class="fa fa-users me-1"></i>Voir les candidatures
+                        </button>
+                    </div>
+                    <div class="ent-offre-actions">
+                        <button class="btn btn-sm btn-outline-primary me-1" (click)="modifierOffreClick(o)" title="Modifier">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" (click)="supprimerOffre(o)" title="Supprimer">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="content-card card border-0 shadow-sm text-muted text-center py-5" *ngIf="offres.length === 0">
+                    <i class="fa fa-briefcase fa-3x mb-3" style="opacity:.3;"></i>
+                    Aucune offre publiée pour le moment.
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══ ONGLET CANDIDATURES / RECOMMANDATIONS ═══ -->
+        <div *ngIf="ongletActif === 'candidatures' && offreSelectionnee">
+            <div class="content-card card border-0 shadow-sm mb-3">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <div>
+                        <button class="btn btn-sm btn-link text-decoration-none p-0 mb-1 d-block" (click)="ongletActif = 'offres'">
+                            <i class="fa fa-arrow-left me-1"></i>Retour à mes offres
+                        </button>
+                        <h6 class="fw-bold mb-0">Candidatures — {{ offreSelectionnee.titre }}</h6>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="nav nav-pills mb-3">
+                <li class="nav-item">
+                    <button class="nav-link" [class.active]="sousOnglet === 'candidatures'" (click)="sousOnglet = 'candidatures'">
+                        Candidatures reçues ({{ candidatures.length }})
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" [class.active]="sousOnglet === 'recommandes'" (click)="sousOnglet = 'recommandes'">
+                        <i class="fa fa-magic me-1"></i> Profils recommandés ({{ profilsRecommandes.length }})
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Candidatures -->
+            <div *ngIf="sousOnglet === 'candidatures'">
+                <div class="ent-candidat-card" *ngFor="let c of candidatures">
+                    <img [src]="generateImageUrl(c.professionnel?.utilisateurPhoto?.nom)" (error)="handleImageError($event)" class="ent-avatar">
+                    <div class="ent-candidat-info">
+                        <strong>{{ c.professionnel?.prenom }} {{ c.professionnel?.nom }}</strong>
+                        <span class="text-muted small">{{ c.professionnel?.specialite?.specialite }}</span>
+                        <p class="ent-candidat-msg" *ngIf="c.message">{{ c.message }}</p>
+                    </div>
+                    <div class="ent-candidat-actions">
+                        <span class="badge" [ngClass]="{
+                            'bg-warning': c.statut === 'EN_ATTENTE',
+                            'bg-success': c.statut === 'ACCEPTEE',
+                            'bg-danger': c.statut === 'REFUSEE'
+                        }">{{ c.statut }}</span>
+                        <p class="ent-candidat-motif" *ngIf="c.motifReponse">« {{ c.motifReponse }} »</p>
+                        <div class="mt-2">
+                            <button class="btn btn-sm btn-outline-primary me-1" (click)="contacter(c.professionnel)">
+                                <i class="fa fa-comment-o me-1"></i>Contacter
+                            </button>
+                            <ng-container *ngIf="c.statut === 'EN_ATTENTE'">
+                                <button class="btn btn-sm btn-success me-1" (click)="accepterCandidature(c)">Accepter</button>
+                                <button class="btn btn-sm btn-outline-danger" (click)="refuserCandidature(c)">Refuser</button>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-card card border-0 shadow-sm text-muted text-center py-5" *ngIf="candidatures.length === 0">
+                    <i class="fa fa-users fa-3x mb-3" style="opacity:.3;"></i>
+                    Aucune candidature reçue pour cette offre.
+                </div>
+            </div>
+
+            <!-- Profils recommandés -->
+            <div *ngIf="sousOnglet === 'recommandes'">
+                <p class="text-muted small mb-3">
+                    <i class="fa fa-info-circle me-1"></i>
+                    Professionnels dont le profil correspond à cette offre (spécialité, compétences, expériences), qu'ils aient postulé ou non.
+                </p>
+                <div class="ent-candidat-card" *ngFor="let p of profilsRecommandes">
+                    <img [src]="generateImageUrl(p.photo)" (error)="handleImageError($event)" class="ent-avatar">
+                    <div class="ent-candidat-info">
+                        <strong>{{ p.prenom }} {{ p.nom }}</strong>
+                        <span class="text-muted small">{{ p.specialite?.specialite }}</span>
+                        <div class="mt-1" *ngIf="p.connaissancesCommunes?.length">
+                            <span class="ent-skill-chip active small" *ngFor="let s of p.connaissancesCommunes">{{ s }}</span>
+                        </div>
+                        <div class="text-muted small mt-1" *ngIf="p.nombreExperiences > 0">
+                            <i class="fa fa-briefcase me-1"></i>{{ p.nombreExperiences }} expérience(s)
+                        </div>
+                    </div>
+                    <div class="ent-candidat-actions">
+                        <span class="badge bg-primary d-block mb-2">Score {{ p.score }}</span>
+                        <button class="btn btn-sm btn-outline-primary" (click)="contacter(p)">
+                            <i class="fa fa-comment-o me-1"></i>Contacter
+                        </button>
+                    </div>
+                </div>
+                <div class="content-card card border-0 shadow-sm text-muted text-center py-5" *ngIf="profilsRecommandes.length === 0">
+                    <i class="fa fa-search fa-3x mb-3" style="opacity:.3;"></i>
+                    Aucun profil correspondant trouvé pour cette offre.
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /col-lg-9 -->
+
+</div><!-- /row -->
+</div><!-- /container -->
+</section>

@@ -145,21 +145,35 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (user: any) => {
-          if (user?.id) {
-            const existingConv = this.conversations.find(c =>
-              (c.contact?.id === user.id || c.user?.id === user.id || c.otherUser?.id === user.id)
-            );
-            if (existingConv) {
-              this.selectConversation(existingConv);
-            } else {
-              this.otherUser = user;
-              this.selectedConversation = { contact: user };
-              this.loadMessages();
-            }
-          }
+          if (user?.id) { this.selectionnerUtilisateur(user); }
+          else { this.resoudreParId(token); }
         },
-        error: () => {}
+        error: () => { this.resoudreParId(token); }
       });
+  }
+
+  // Repli si le token n'est pas un tokenPartage valide (ex: profil sans lien de partage
+  // généré) : on tente de l'interpréter comme un id numérique brut.
+  private resoudreParId(token: string): void {
+    const id = Number(token);
+    if (!id || isNaN(id)) return;
+    this.userService.voirProfil(id).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (user: any) => { if (user?.id) this.selectionnerUtilisateur(user); },
+      error: () => {}
+    });
+  }
+
+  private selectionnerUtilisateur(user: any): void {
+    const existingConv = this.conversations.find(c =>
+      (c.contact?.id === user.id || c.user?.id === user.id || c.otherUser?.id === user.id)
+    );
+    if (existingConv) {
+      this.selectConversation(existingConv);
+    } else {
+      this.otherUser = user;
+      this.selectedConversation = { contact: user };
+      this.loadMessages();
+    }
   }
 
   selectConversation(conversation: any): void {

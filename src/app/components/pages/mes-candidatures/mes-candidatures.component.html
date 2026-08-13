@@ -1,0 +1,77 @@
+<div class="page-title-area item-bg-2">
+  <div class="d-table">
+    <div class="d-table-cell">
+      <div class="container">
+        <div class="page-title-content">
+          <h2>Mes candidatures</h2>
+          <ul>
+            <li><a routerLink="/">Accueil</a></li>
+            <li><a routerLink="/offres">Offres d'emploi</a></li>
+            <li>Mes candidatures</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="pt-80 pb-80" style="background:#f1f5f9; min-height:70vh;">
+  <div class="container">
+
+    <ul class="nav nav-pills mc-filters mb-4">
+      <li class="nav-item">
+        <button class="nav-link" [class.active]="filtreStatut === 'toutes'" (click)="filtreStatut = 'toutes'">
+          Toutes ({{ candidatures.length }})
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" [class.active]="filtreStatut === 'EN_ATTENTE'" (click)="filtreStatut = 'EN_ATTENTE'">
+          En attente ({{ compte('EN_ATTENTE') }})
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" [class.active]="filtreStatut === 'ACCEPTEE'" (click)="filtreStatut = 'ACCEPTEE'">
+          Acceptées ({{ compte('ACCEPTEE') }})
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" [class.active]="filtreStatut === 'REFUSEE'" (click)="filtreStatut = 'REFUSEE'">
+          Refusées ({{ compte('REFUSEE') }})
+        </button>
+      </li>
+    </ul>
+
+    <div class="text-center py-5" *ngIf="loading">
+      <div class="spinner-border text-primary"></div>
+    </div>
+
+    <div class="mc-list" *ngIf="!loading">
+      <div class="mc-card" *ngFor="let c of candidaturesFiltrees" (click)="voirOffre(c.offre)">
+        <img [src]="generateImageUrl(c.offre?.entreprise?.utilisateurPhoto?.nom)" (error)="handleImageError($event)" class="mc-logo">
+        <div class="mc-info">
+          <h6>{{ c.offre?.titre }}</h6>
+          <span class="mc-entreprise">{{ c.offre?.entreprise?.nom }}</span>
+          <div class="mc-meta">
+            <span *ngIf="c.offre?.lieu"><i class="fa fa-map-marker me-1"></i>{{ c.offre.lieu }}</span>
+            <span><i class="fa fa-calendar me-1"></i>Postulé le {{ c.dateCandidature | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <p class="mc-motif" *ngIf="c.motifReponse">
+            <i class="fa fa-comment-o me-1"></i>« {{ c.motifReponse }} »
+          </p>
+        </div>
+        <span class="badge mc-badge" [ngClass]="{
+          'bg-warning': c.statut === 'EN_ATTENTE',
+          'bg-success': c.statut === 'ACCEPTEE',
+          'bg-danger': c.statut === 'REFUSEE'
+        }">
+          {{ c.statut === 'EN_ATTENTE' ? 'En attente' : c.statut === 'ACCEPTEE' ? 'Acceptée' : 'Refusée' }}
+        </span>
+      </div>
+
+      <div class="text-center text-muted py-5" *ngIf="candidaturesFiltrees.length === 0">
+        <i class="fa fa-inbox fa-3x mb-3 d-block"></i>
+        Aucune candidature dans cette catégorie.
+      </div>
+    </div>
+  </div>
+</section>

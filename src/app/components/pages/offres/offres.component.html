@@ -1,0 +1,73 @@
+<div class="page-title-area item-bg-4">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="container">
+                <div class="page-title-content">
+                    <h2>Trouvez votre prochaine opportunité</h2>
+                    <ul>
+                        <li><a routerLink="/">Accueil</a></li>
+                        <li>Offres d'emploi</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="offres-search-strip">
+  <div class="container">
+    <div class="offres-search-bar">
+      <div class="offres-search-field">
+        <i class="fa fa-search"></i>
+        <input type="text" placeholder="Poste, entreprise..."
+               [(ngModel)]="searchText" (ngModelChange)="filtrer()">
+      </div>
+      <select class="offres-search-select" [(ngModel)]="specialiteFiltre" (ngModelChange)="filtrer()">
+        <option [ngValue]="null">Toutes les spécialités</option>
+        <option *ngFor="let s of specialites" [ngValue]="s.id">{{ s.specialite }}</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<section class="offres-body">
+  <div class="container">
+
+    <div class="offres-count" *ngIf="!loading">
+      {{ offresFiltrees.length }} offre{{ offresFiltrees.length > 1 ? 's' : '' }} disponible{{ offresFiltrees.length > 1 ? 's' : '' }}
+    </div>
+
+    <div class="text-center py-5" *ngIf="loading">
+      <div class="spinner-border text-primary"></div>
+    </div>
+
+    <div class="offres-grid" *ngIf="!loading">
+      <div class="offre-card" *ngFor="let o of offresFiltrees" (click)="voirOffre(o)">
+        <div class="offre-card-cover">
+          <img *ngIf="o.photo" [src]="generateImageUrl(o.photo)" (error)="handleImageError($event)" alt="">
+          <div *ngIf="!o.photo" class="offre-card-cover-placeholder">
+            <i class="fa fa-building"></i>
+          </div>
+          <span class="offre-card-type" *ngIf="o.typeContrat">{{ o.typeContrat }}</span>
+        </div>
+        <div class="offre-card-body">
+          <div class="offre-card-entreprise">
+            <img [src]="generateImageUrl(o.entreprise?.utilisateurPhoto?.nom)" (error)="handleImageError($event)" class="offre-card-logo">
+            <span>{{ o.entreprise?.nom }}</span>
+          </div>
+          <h5>{{ o.titre }}</h5>
+          <p>{{ o.description }}</p>
+          <div class="offre-card-meta">
+            <span *ngIf="o.lieu"><i class="fa fa-map-marker"></i>{{ o.lieu }}</span>
+            <span *ngIf="o.specialite"><i class="fa fa-tag"></i>{{ o.specialite.specialite }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="offres-empty" *ngIf="offresFiltrees.length === 0">
+        <i class="fa fa-search"></i>
+        <h5>Aucune offre ne correspond à votre recherche</h5>
+        <p>Essayez d'élargir vos critères de recherche.</p>
+      </div>
+    </div>
+  </div>
+</section>

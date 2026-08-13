@@ -1,0 +1,186 @@
+.od-page {
+  background: #f8fafc;
+  min-height: 70vh;
+}
+
+// ═══ BANDEAU IMAGE ═══
+.od-cover {
+  position: relative;
+  height: 320px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #086AD8 0%, #0ea5e9 55%, #6366f1 100%);
+
+  img {
+    width: 90%;
+    height: 90%;
+    object-fit: cover;
+  }
+}
+
+.od-cover-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  color: rgba(255,255,255,0.25);
+}
+
+.od-cover-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15,23,42,0.35) 0%, rgba(15,23,42,0.75) 100%);
+}
+
+.od-cover-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 28px;
+  color: #130ce8;
+}
+
+.od-back {
+  color: #050404;
+  opacity: 0.85;
+  font-size: 0.85rem;
+  margin-bottom: 14px;
+  display: inline-block;
+  width: fit-content;
+  text-decoration: none;
+
+  &:hover { opacity: 1; color: #131010; }
+}
+
+.od-cover-content h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  margin: 10px 0 12px;
+  letter-spacing: -0.02em;
+}
+
+.od-entreprise {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  width: fit-content;
+
+  img {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,0.5);
+  }
+
+  span {
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+// ═══ CORPS ═══
+.od-body {
+  margin-top: -20px;
+  position: relative;
+  padding-bottom: 60px;
+}
+
+.od-gallery {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.od-gallery-thumb {
+  width: 76px;
+  height: 58px;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  flex-shrink: 0;
+  border: 2px solid transparent;
+  opacity: 0.7;
+  transition: all 0.15s;
+
+  img { width: 100%; height: 100%; object-fit: cover; }
+
+  &:hover { opacity: 1; }
+  &.active { border-color: #086AD8; opacity: 1; }
+}
+
+.od-meta {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #f1f5f9;
+
+  i { margin-right: 6px; color: #94a3b8; }
+}
+
+.od-section-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 20px 0 10px;
+
+  &:first-of-type { margin-top: 0; }
+}
+
+.od-description {
+  font-size: 0.92rem;
+  color: #334155;
+  line-height: 1.75;
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+.od-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.od-skill-chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: #eff6ff;
+  color: #086AD8;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.od-entreprise-card {
+  cursor: pointer;
+  transition: transform 0.15s;
+
+  &:hover { transform: translateY(-2px); }
+
+  h6 { font-weight: 700; margin: 10px 0 2px; }
+}
+
+.od-entreprise-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  object-fit: cover;
+}
+
+.od-apply-card {
+  position: sticky;
+  top: 90px;
+}

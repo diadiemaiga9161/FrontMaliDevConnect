@@ -12,6 +12,7 @@ export class DashboardComponent implements OnInit {
 
   // Fallback counts chargés séparément si /admin/stats n'existe pas encore
   nbProfessionnels = 0;
+  nbEntreprises = 0;
   nbClients = 0;
   nbSpecialites = 0;
   nbCompetences = 0;
@@ -49,6 +50,7 @@ export class DashboardComponent implements OnInit {
   get cards() {
     return [
       { label: 'Professionnels',   value: this.stats.professionnels ?? this.nbProfessionnels, icon: 'fa-user-tie',  color: '#086AD8', bg: '#eff6ff' },
+      { label: 'Entreprises',      value: this.stats.entreprises    ?? this.nbEntreprises,    icon: 'fa-building',  color: '#ea580c', bg: '#fff7ed' },
       { label: 'Clients',          value: this.stats.clients        ?? this.nbClients,        icon: 'fa-users',     color: '#10b981', bg: '#ecfdf5' },
       { label: 'Spécialités',      value: this.stats.specialites    ?? this.nbSpecialites,    icon: 'fa-briefcase', color: '#f59e0b', bg: '#fffbeb' },
       { label: 'Compétences',      value: this.stats.competences    ?? this.nbCompetences,    icon: 'fa-star',      color: '#6366f1', bg: '#eef2ff' },

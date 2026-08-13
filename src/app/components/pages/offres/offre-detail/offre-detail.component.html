@@ -1,0 +1,113 @@
+<div class="page-title-area item-bg-4">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="container">
+                <div class="page-title-content">
+                    <h2>{{ offre?.titre || 'Détail de l\'offre' }}</h2>
+                    <ul>
+                        <li><a routerLink="/">Accueil</a></li>
+                        <li><a routerLink="/offres">Offres d'emploi</a></li>
+                        <li>{{ offre?.entreprise?.nom }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card-body p-4" >
+    <a routerLink="/offres" class="od-back"><i class="fa fa-arrow-left me-1"></i> Retour aux offres</a>
+</div>
+
+<section class="od-page">
+
+  <div class="text-center py-5" *ngIf="loading">
+    <div class="spinner-border text-primary"></div>
+  </div>
+
+  <div class="container od-body" *ngIf="!loading && offre">
+
+    <div class="row g-4 mt-1">
+      <div class="col-lg-8">
+
+        <div class="card border-0 shadow-sm">
+          <img *ngIf="photoActive" [src]="generateImageUrl(photoActive)" (error)="handleImageError($event)" class="od-cover-img" alt="">
+          <div class="card-body p-4">
+
+            <div class="od-title-row">
+              <h1>{{ offre.titre }}</h1>
+              <div>
+                <span class="badge bg-primary" *ngIf="offre.typeContrat">{{ offre.typeContrat }}</span>
+                <span class="badge bg-danger ms-1" *ngIf="estExpiree"><i class="fa fa-clock-o me-1"></i>Offre expirée</span>
+              </div>
+            </div>
+
+            <!-- Galerie miniatures -->
+            <div class="od-gallery" *ngIf="offre.photos?.length > 1">
+              <div *ngFor="let ph of offre.photos"
+                   class="od-gallery-thumb"
+                   [class.active]="photoActive === ph.chemin"
+                   (click)="setPhotoActive(ph.chemin)">
+                <img [src]="generateImageUrl(ph.chemin)" (error)="handleImageError($event)">
+              </div>
+            </div>
+
+            <div class="od-meta">
+              <span *ngIf="offre.lieu"><i class="fa fa-map-marker"></i>{{ offre.lieu }}</span>
+              <span *ngIf="offre.specialite"><i class="fa fa-tag"></i>{{ offre.specialite.specialite }}</span>
+              <span *ngIf="offre.dateLimite" [class.text-danger]="estExpiree">
+                <i class="fa fa-calendar"></i>Date limite : {{ offre.dateLimite }}
+              </span>
+              <span *ngIf="offre.datePublication"><i class="fa fa-clock-o"></i>Publiée le {{ offre.datePublication | date:'dd/MM/yyyy' }}</span>
+            </div>
+
+            <h6 class="od-section-title">Description du poste</h6>
+            <p class="od-description">{{ offre.description || 'Aucune description.' }}</p>
+
+            <ng-container *ngIf="offre.connaissancesRequises?.length">
+              <h6 class="od-section-title">Compétences recherchées</h6>
+              <div class="od-skills">
+                <span class="od-skill-chip" *ngFor="let c of offre.connaissancesRequises">{{ c.nom }}</span>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card border-0 shadow-sm mb-3 od-entreprise-card" (click)="voirEntreprise()">
+          <div class="card-body p-4 text-center">
+            <img [src]="generateImageUrl(offre.entreprise?.utilisateurPhoto?.nom)" (error)="handleImageError($event)" class="od-entreprise-avatar">
+            <h6>{{ offre.entreprise?.nom }}</h6>
+            <span class="text-muted small">Voir le profil de l'entreprise <i class="fa fa-arrow-right ms-1"></i></span>
+          </div>
+        </div>
+
+        <div class="card border-0 shadow-sm od-apply-card">
+          <div class="card-body p-4">
+            <div *ngIf="dejaPostule" class="alert alert-success mb-0">
+              <i class="fa fa-check-circle me-1"></i> Vous avez déjà postulé à cette offre.
+            </div>
+            <div *ngIf="!dejaPostule && estExpiree" class="alert alert-secondary mb-0">
+              <i class="fa fa-clock-o me-1"></i> Cette offre a dépassé sa date limite, les candidatures ne sont plus acceptées.
+            </div>
+            <div *ngIf="!dejaPostule && !estExpiree">
+              <label class="form-label fw-semibold">Message de motivation (optionnel)</label>
+              <textarea class="form-control mb-3" rows="4" [(ngModel)]="messageCandidature"
+                        placeholder="Expliquez pourquoi vous êtes intéressé par ce poste..."></textarea>
+              <button class="btn btn-primary w-100" (click)="postuler()" [disabled]="envoiEnCours">
+                <span *ngIf="envoiEnCours" class="spinner-border spinner-border-sm me-1"></span>
+                <i class="fa fa-paper-plane me-1" *ngIf="!envoiEnCours"></i> Postuler
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center py-5" *ngIf="!loading && !offre">
+    <i class="fa fa-exclamation-circle fa-3x text-danger mb-3"></i>
+    <h4>Offre introuvable</h4>
+    <a routerLink="/offres" class="btn btn-primary mt-2">Voir toutes les offres</a>
+  </div>
+</section>

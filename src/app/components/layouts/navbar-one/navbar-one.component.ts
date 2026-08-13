@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
+import { UserService } from 'src/app/services/user/user.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { WebsocketService } from 'src/app/services/websocket.service';
 import { ChatModalService } from 'src/app/services/chat-modal/chat-modal.service';
@@ -40,6 +41,7 @@ export class NavbarOneComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     private storageService: StorageService,
+    private userService: UserService,
     private notificationService: NotificationService,
     private wsService: WebsocketService,
     private chatModalService: ChatModalService
@@ -63,6 +65,18 @@ export class NavbarOneComponent implements OnInit, OnDestroy {
       this.wsService.connect();
       this.wsSub = this.wsService.getNotifications().subscribe(() => {
         this.notificationService.increment();
+      });
+
+      // Le user en localStorage peut être obsolète (photo/logo changé depuis, ou
+      // synchronisé côté backend après coup) → on rafraîchit une fois au chargement
+      // pour que le nav affiche toujours la photo à jour sans nécessiter une reconnexion.
+      this.userService.AfficherInfoUserConnecte().subscribe({
+        next: (data) => {
+          if (!data) return;
+          const stored = this.storageService.getUser();
+          this.storageService.setUser({ ...stored, ...data });
+        },
+        error: () => {}
       });
     }
 
@@ -151,12 +165,14 @@ export class NavbarOneComponent implements OnInit, OnDestroy {
       this.User = this.storageService.getUser();
       this.notificationCount = 0; // Réinitialiser le compteur de notifications
       if (this.User && this.User.roles) {
-          if (this.User.roles.includes('ROLE_PROFESSIONNEL')) {
+          if (this.User.roles.includes('ROLE_ENTREPRISE')) {
+            this.router.navigate(["/entreprise/dashboard"]);
+          } else if (this.User.roles.includes('ROLE_PROFESSIONNEL')) {
             this.router.navigate(["/profil-professionnel"]);
           } else {
             this.router.navigate(["/profil-client"]);
 
-          } 
+          }
       }
 
     }
