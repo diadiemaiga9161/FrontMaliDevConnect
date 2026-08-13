@@ -24,6 +24,7 @@ export class ConnexionComponent implements OnInit, AfterViewInit {
 
   isLoggedIn = false;
   isLoginFailed = false;
+  connexionEnCours = false;
   errorMessage = '';
   passwordFieldType: string = 'password';
 
@@ -147,6 +148,7 @@ export class ConnexionComponent implements OnInit, AfterViewInit {
     const roles: string[] = data.roles || [];
     const estAdmin = roles.includes('ROLE_ADMIN') || roles.includes('ROLE_SUPERADMIN');
     const estProfessionnel = roles.some((r: string) => r === 'ROLE_PROFESSIONNEL');
+    const estEntreprise = roles.some((r: string) => r === 'ROLE_ENTREPRISE');
     const aSpecialite = !!data.specialite;
     const profilComplete = !!data.profilcompleter;
     if (estAdmin) {
@@ -155,6 +157,8 @@ export class ConnexionComponent implements OnInit, AfterViewInit {
       this.router.navigate(['/complete']);
     } else if (estProfessionnel) {
       this.router.navigate(['/profil-professionnel']);
+    } else if (estEntreprise) {
+      this.router.navigate(['/entreprise/dashboard']);
     } else {
       this.router.navigate(['']).then(() => window.location.reload());
     }
@@ -184,7 +188,9 @@ export class ConnexionComponent implements OnInit, AfterViewInit {
     });
 
     // Appel du service AuthService pour gérer la connexion de l'utilisateur
+    this.connexionEnCours = true;
     this.authService.connexion(telephoneOrEmail, password).subscribe((data) => {
+        this.connexionEnCours = false;
         // Enregistrez les données de l'utilisateur dans le service de stockage (session storage ou autre)
         // Vérifiez le statut de l'utilisateur
         if (data.etat === false || data.statut === false || data.statut === 0) { // Remplacez `status` par le nom reel de la propriete dans votre objet `data`
@@ -214,6 +220,7 @@ export class ConnexionComponent implements OnInit, AfterViewInit {
         const roles: string[] = data.roles || [];
         const estAdmin = roles.includes('ROLE_ADMIN') || roles.includes('ROLE_SUPERADMIN');
         const estProfessionnel = roles.some((r: string) => r === 'ROLE_PROFESSIONNEL');
+        const estEntreprise = roles.some((r: string) => r === 'ROLE_ENTREPRISE');
         const aSpecialite = !!data.specialite;
         const profilComplete = !!data.profilcompleter;
 
@@ -223,6 +230,8 @@ export class ConnexionComponent implements OnInit, AfterViewInit {
           this.router.navigate(['/complete']);
         } else if (estProfessionnel) {
           this.router.navigate(['/profil-professionnel']);
+        } else if (estEntreprise) {
+          this.router.navigate(['/entreprise/dashboard']);
         } else {
           this.router.navigate(['']).then(() => window.location.reload());
         }
@@ -233,6 +242,7 @@ export class ConnexionComponent implements OnInit, AfterViewInit {
             this.isLoginFailed = false;
         }
     }, (error) => {
+        this.connexionEnCours = false;
         // Gestion des erreurs en cas d'échec de la connexion
         const errorMessage = error.error && error.error.message ? error.error.message : 'Erreur inconnue';
         console.log(error);

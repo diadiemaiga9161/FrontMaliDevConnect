@@ -1,0 +1,15 @@
+.phone-input-group {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+
+  .phone-indicatif-select {
+    flex: 0 0 110px;
+    max-width: 130px;
+  }
+
+  .phone-numero-input {
+    flex: 1;
+    min-width: 0;
+  }
+}

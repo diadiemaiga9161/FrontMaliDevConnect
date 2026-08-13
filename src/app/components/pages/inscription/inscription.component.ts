@@ -19,13 +19,15 @@ export class InscriptionComponent implements OnInit, AfterViewInit {
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
+  inscriptionEnCours = false;
   type = true;
   type1 = true;
   message: string | undefined;
   public currentUser = 'Choisir';
   typeUser: any[] = [
-    { nom: 'Client / Entreprise', value: 'client' },
-    { nom: 'Professionnel', value: 'professionnel' }
+    { nom: 'Client', value: 'client' },
+    { nom: 'Professionnel', value: 'professionnel' },
+    { nom: 'Entreprise', value: 'entreprise' }
   ];
 
   onChange(typeUser: any) {
@@ -173,6 +175,7 @@ export class InscriptionComponent implements OnInit, AfterViewInit {
     const roles: string[] = data.roles || [];
     const estAdmin = roles.includes('ROLE_ADMIN') || roles.includes('ROLE_SUPERADMIN');
     const estProfessionnel = roles.some((r: string) => r === 'ROLE_PROFESSIONNEL');
+    const estEntreprise = roles.some((r: string) => r === 'ROLE_ENTREPRISE');
     const aSpecialite = !!data.specialite;
     const profilComplete = !!data.profilcompleter;
     if (estAdmin) {
@@ -181,6 +184,8 @@ export class InscriptionComponent implements OnInit, AfterViewInit {
       this.router.navigate(['/complete']);
     } else if (estProfessionnel) {
       this.router.navigate(['/profil-professionnel']);
+    } else if (estEntreprise) {
+      this.router.navigate(['/entreprise/dashboard']);
     } else {
       this.router.navigate(['']).then(() => window.location.reload());
     }
@@ -220,52 +225,46 @@ export class InscriptionComponent implements OnInit, AfterViewInit {
     })
     const { nom, prenom, telephone, genre, email, password, role } = this.form;
 
-    swalWithBootstrapButtons.fire({
-      text: "Créer votre compte ?",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Confirmer',
-      cancelButtonText: 'Annuler',
-      reverseButtons: true
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.authService.inscription(nom, prenom, telephone, '', null, genre, email, password, role).subscribe({
-          next: data => {
-            this.isSuccessful = true;
-            this.isSignUpFailed = false;
-            Swal.fire({
-              position: 'center',
-              text: data.message,
-              title: 'Creation de compte',
-              icon: 'success',
-              heightAuto: false,
-              showConfirmButton: true,
-              confirmButtonText: "OK",
-              confirmButtonColor: '#0857b5',
-              showDenyButton: false,
-              showCancelButton: false,
-              allowOutsideClick: false,
+    // Le bouton "Créer mon compte" est déjà l'action de confirmation — pas besoin
+    // d'une popup "Créer votre compte ?" redondante avant d'envoyer la demande.
+    // L'inscription envoie un email d'activation de façon synchrone côté serveur
+    // (~4s), d'où le besoin d'un indicateur de chargement pour éviter les double-clics.
+    this.inscriptionEnCours = true;
+    this.authService.inscription(nom, prenom, telephone, '', null, genre, email, password, role).subscribe({
+      next: data => {
+        this.inscriptionEnCours = false;
+        this.isSuccessful = true;
+        this.isSignUpFailed = false;
+        Swal.fire({
+          position: 'center',
+          text: data.message,
+          title: 'Creation de compte',
+          icon: 'success',
+          heightAuto: false,
+          showConfirmButton: true,
+          confirmButtonText: "OK",
+          confirmButtonColor: '#0857b5',
+          showDenyButton: false,
+          showCancelButton: false,
+          allowOutsideClick: false,
 
-            }).then((result) => {
-              this.path();
-            })
-            console.log(data);
+        }).then((result) => {
+          this.path();
+        })
+        console.log(data);
 
-          }, error: err => {
-            this.errorMessage = err.error.message;
-            this.isSignUpFailed = true;
-            const errorMessage = err.error && err.error.message ? err.error.message : 'Erreur inconnue';
-            // console.log(error);
-            swalWithBootstrapButtons.fire(
-              "",
-              `<h1 style='font-size: 1em !important; font-weight: bold; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;'>${errorMessage}</h1>`,
-              "error"
-            );
-          }
-        });
-      };
-    })
-    // }
+      }, error: err => {
+        this.inscriptionEnCours = false;
+        this.errorMessage = err.error.message;
+        this.isSignUpFailed = true;
+        const errorMessage = err.error && err.error.message ? err.error.message : 'Erreur inconnue';
+        swalWithBootstrapButtons.fire(
+          "",
+          `<h1 style='font-size: 1em !important; font-weight: bold; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;'>${errorMessage}</h1>`,
+          "error"
+        );
+      }
+    });
   }
 
 

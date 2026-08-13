@@ -1,0 +1,17 @@
+<div class="phone-input-group">
+  <select class="form-select phone-indicatif-select"
+          [(ngModel)]="selectedIndicatif"
+          (ngModelChange)="onIndicatifChange()"
+          [disabled]="disabled"
+          title="Indicatif du pays">
+    <option *ngFor="let p of pays" [value]="p.indicatif">{{ p.drapeau }} {{ p.indicatif }} — {{ p.nom }}</option>
+  </select>
+  <input type="tel"
+         class="form-control phone-numero-input"
+         [(ngModel)]="numeroLocal"
+         (ngModelChange)="onNumeroChange()"
+         [required]="required"
+         [disabled]="disabled"
+         [placeholder]="placeholder"
+         name="numeroLocal" />
+</div>

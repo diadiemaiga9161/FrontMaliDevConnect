@@ -41,12 +41,10 @@
                 <!-- Téléphone -->
                 <div class="col-12 col-md-6">
                   <label class="form-label fw-semibold">Téléphone <span class="text-danger">*</span></label>
-                  <input name="telephone" class="form-control" [(ngModel)]="form.telephone" required minlength="8"
-                    maxlength="13" #telephone="ngModel" type="text" placeholder="+223 XX XX XX XX"
-                    [ngClass]="{'is-invalid': f.submitted && telephone.errors}" />
-                  <div class="invalid-feedback" *ngIf="telephone.errors && f.submitted">
+                  <app-phone-input name="telephone" [(ngModel)]="form.telephone" [required]="true"
+                    #telephone="ngModel" placeholder="XX XX XX XX"></app-phone-input>
+                  <div class="invalid-feedback d-block" *ngIf="telephone.errors && f.submitted">
                     <span *ngIf="telephone.errors['required']">Numéro obligatoire</span>
-                    <span *ngIf="telephone.errors['minlength']">Minimum 8 chiffres</span>
                   </div>
                 </div>
 
@@ -131,6 +129,12 @@
                 Après la création de votre compte, vous pourrez compléter votre profil (spécialité, adresse...).
               </div>
 
+              <!-- Info entreprise -->
+              <div class="alert alert-info small mt-3 py-2" *ngIf="form.role === 'entreprise'">
+                <i class="fa fa-info-circle me-1"></i>
+                Après la création de votre compte, vous pourrez compléter le profil de votre entreprise et publier des offres d'emploi.
+              </div>
+
               <!-- Alerte erreur -->
               <div class="alert alert-danger py-2 small mt-3" *ngIf="isSignUpFailed && errorMessage">
                 {{ errorMessage }}
@@ -138,8 +142,9 @@
 
               <!-- Bouton submit -->
               <div class="mt-4">
-                <button type="submit" class="btn btn-primary btn-lg w-100 rounded-3">
-                  Créer mon compte
+                <button type="submit" class="btn btn-primary btn-lg w-100 rounded-3" [disabled]="inscriptionEnCours">
+                  <span *ngIf="inscriptionEnCours" class="spinner-border spinner-border-sm me-2"></span>
+                  {{ inscriptionEnCours ? 'Création en cours...' : 'Créer mon compte' }}
                 </button>
               </div>
 
