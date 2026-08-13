@@ -82,19 +82,19 @@
                     <div class="d-flex gap-2">
                         <!-- Colonnes (visibles seulement en mode grille) -->
                         <div class="view-toggle" *ngIf="!listView">
-                            <button class="view-btn" [class.active]="gridCols === 2" (click)="gridCols = 2" title="2 colonnes">
-                                <i class="fa fa-th-large"></i>
+                            <button class="view-btn" [class.active]="gridCols === 2" (click)="gridCols = 2" title="2 colonnes" aria-label="Afficher en 2 colonnes">
+                                2
                             </button>
-                            <button class="view-btn" [class.active]="gridCols === 3" (click)="gridCols = 3" title="3 colonnes">
-                                <i class="fa fa-th"></i>
+                            <button class="view-btn" [class.active]="gridCols === 3" (click)="gridCols = 3" title="3 colonnes" aria-label="Afficher en 3 colonnes">
+                                3
                             </button>
                         </div>
                         <!-- Grille / Liste -->
                         <div class="view-toggle">
-                            <button class="view-btn" [class.active]="!listView" (click)="gridOpens()" title="Vue grille">
+                            <button class="view-btn" [class.active]="!listView" (click)="gridOpens()" title="Vue grille" aria-label="Passer en vue grille">
                                 <i class="fa fa-th-large"></i>
                             </button>
-                            <button class="view-btn" [class.active]="listView" (click)="listOpens()" title="Vue liste">
+                            <button class="view-btn" [class.active]="listView" (click)="listOpens()" title="Vue liste" aria-label="Passer en vue liste">
                                 <i class="fa fa-list"></i>
                             </button>
                         </div>
@@ -110,20 +110,31 @@
                 <div *ngIf="!isLoading && erreurChargement" class="text-center py-5">
                     <i class="fa fa-exclamation-circle fa-3x text-danger mb-3 d-block"></i>
                     <h5 class="text-danger">Impossible de charger les profils</h5>
-                    <p class="text-muted">Vérifiez que le serveur backend est démarré sur <strong>http://127.0.0.1:8080</strong></p>
+                    <p class="text-muted">Une erreur est survenue. Vérifiez votre connexion et réessayez.</p>
                     <button class="btn btn-primary mt-2" (click)="ngOnInit()">
                         <i class="fa fa-refresh me-1"></i> Réessayer
                     </button>
                 </div>
 
-                <!-- Aucun résultat -->
+                <!-- Aucun professionnel du tout -->
                 <div *ngIf="!isLoading && !erreurChargement && professionnels.length === 0" class="text-center py-5">
                     <i class="fa fa-users fa-3x text-muted mb-3 d-block" style="opacity:.3;"></i>
                     <p class="text-muted">Aucun professionnel enregistré pour le moment.</p>
                 </div>
 
+                <!-- Filtres/recherche sans résultat -->
+                <div *ngIf="!isLoading && !erreurChargement && professionnels.length > 0 && filteredCount === 0" class="text-center py-5">
+                    <i class="fa fa-search fa-3x text-muted mb-3 d-block" style="opacity:.3;"></i>
+                    <h5 class="text-muted">Aucun résultat pour cette recherche</h5>
+                    <p class="text-muted">Essayez d'autres critères ou réinitialisez les filtres.</p>
+                    <button type="button" class="btn btn-primary mt-2"
+                            (click)="searchTextSpecialite=''; searchTextConnaissance=''; searchTextNom=''">
+                        <i class="fa fa-refresh me-1"></i> Réinitialiser les filtres
+                    </button>
+                </div>
+
                 <!-- ── Vue Grille ── -->
-                <div *ngIf="!isLoading && !erreurChargement && professionnels.length > 0 && !listView"
+                <div *ngIf="!isLoading && !erreurChargement && filteredCount > 0 && !listView"
                      class="pro-grid" [class.pro-grid-2]="gridCols === 2">
                     <div class="pro-card"
                          *ngFor="let professionnel of professionnels | filter:searchTextNom | filter:searchTextSpecialite | filter:searchTextConnaissance | paginate:{itemsPerPage: 9, currentPage: p}">
@@ -184,7 +195,7 @@
                 </div>
 
                 <!-- ── Vue Liste ── -->
-                <div *ngIf="!isLoading && !erreurChargement && professionnels.length > 0 && listView" class="pro-list">
+                <div *ngIf="!isLoading && !erreurChargement && filteredCount > 0 && listView" class="pro-list">
                     <div class="pro-list-item"
                          *ngFor="let professionnel of professionnels | filter:searchTextNom | filter:searchTextSpecialite | filter:searchTextConnaissance | paginate:{itemsPerPage: 9, currentPage: p}">
                         <span class="pro-presence-wrap">
@@ -229,7 +240,7 @@
                     </div>
                 </div>
 
-                <div class="pro-pagination" *ngIf="!isLoading && professionnels?.length > 0">
+                <div class="pro-pagination" *ngIf="!isLoading && filteredCount > 0">
                     <pagination-controls (pageChange)="p = $event"
                         previousLabel="«"
                         nextLabel="»"
@@ -244,54 +255,3 @@
         </div>
     </div>
 </section>
-
-<!-- <div class="container mt-5">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="card">
-                <div class="image-container">
-                    <div class="first">
-                        <div class="d-flex justify-content-between align-items-center"> <span class="discount">-25%</span> <span class="wishlist"><i class="fa fa-heart-o"></i></span> </div>
-                    </div> <img src="https://i.imgur.com/8JIWpnw.jpg" class="img-fluid rounded thumbnail-image">
-                </div>
-                <div class="product-detail-container p-2">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="dress-name">White traditional long dress</h5>
-                        <div class="d-flex flex-column mb-2"> <span class="new-price">$3.99</span> <small class="old-price text-right">$5.99</small> </div>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center pt-1">
-                        <div class="color-select d-flex "> <input type="button" name="grey" class="btn creme"> <input type="button" name="red" class="btn red ml-2"> <input type="button" name="blue" class="btn blue ml-2"> </div>
-                        <div class="d-flex "> <span class="item-size mr-2 btn" type="button">S</span> <span class="item-size mr-2 btn" type="button">M</span> <span class="item-size btn" type="button">L</span> </div>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center pt-1">
-                        <div> <i class="fa fa-star-o rating-star"></i> <span class="rating-number">4.8</span> </div> <span class="buy">BUY +</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="col-md-3">
-            <div class="card">
-                <div class="image-container">
-                    <div class="first">
-                        <div class="d-flex justify-content-between align-items-center"> <span class="discount">-25%</span> <span class="wishlist"><i class="fa fa-heart-o"></i></span> </div>
-                    </div> <img src="https://i.imgur.com/PtepOpe.jpg" class="img-fluid rounded thumbnail-image">
-                </div>
-                <div class="product-detail-container p-2">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="dress-name">Long sleeve denim jacket</h5>
-                        <div class="d-flex flex-column mb-2"> <span class="new-price">$3.99</span> <small class="old-price text-right">$5.99</small> </div>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center pt-1">
-                        <div class="color-select d-flex "> <input type="button" name="grey" class="btn creme"> <input type="button" name="darkblue" class="btn darkblue ml-2"> </div>
-                        <div class="d-flex "> <span class="item-size mr-2 btn" type="button">S</span> <span class="item-size mr-2 btn" type="button">M</span> <span class="item-size btn" type="button">L</span> </div>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center pt-1">
-                        <div> <i class="fa fa-star-o rating-star"></i> <span class="rating-number">4.8</span> </div> <span class="buy">BUY +</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div> -->
