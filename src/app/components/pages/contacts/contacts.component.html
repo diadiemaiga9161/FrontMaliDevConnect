@@ -102,10 +102,13 @@
                     <ng-container *ngIf="extractUser(contact, myId) as u">
                         <div class="card border-0 shadow-sm contact-card h-100">
                             <div class="card-body d-flex align-items-center gap-3 p-3">
-                                <img [src]="generateImageUrl(u.utilisateurPhoto?.nom)"
-                                     (error)="handleImageError($event)"
-                                     class="rounded-circle flex-shrink-0"
-                                     style="width:60px; height:60px; object-fit:cover; border:2px solid #086AD8;">
+                                <div class="presence-wrap">
+                                    <img [src]="generateImageUrl(u.utilisateurPhoto?.nom)"
+                                         (error)="handleImageError($event)"
+                                         class="rounded-circle flex-shrink-0"
+                                         style="width:60px; height:60px; object-fit:cover; border:2px solid #086AD8;">
+                                    <span class="presence-dot" *ngIf="isOnline(u.email)" title="En ligne"></span>
+                                </div>
                                 <div class="flex-grow-1 min-w-0">
                                     <h6 class="mb-0 fw-bold text-truncate">{{ u.prenom }} {{ u.nom }}</h6>
                                     <small class="text-muted d-block text-truncate">
@@ -140,10 +143,13 @@
                 <div class="col-md-6" *ngFor="let demande of demandesRecues">
                     <div class="card border-0 shadow-sm contact-card">
                         <div class="card-body d-flex align-items-center gap-3 p-3">
-                            <img [src]="generateImageUrl(demande.envoyeur?.utilisateurPhoto?.nom)"
-                                 (error)="handleImageError($event)"
-                                 class="rounded-circle flex-shrink-0"
-                                 style="width:60px; height:60px; object-fit:cover; border:2px solid #f59e0b;">
+                            <div class="presence-wrap">
+                                <img [src]="generateImageUrl(demande.envoyeur?.utilisateurPhoto?.nom)"
+                                     (error)="handleImageError($event)"
+                                     class="rounded-circle flex-shrink-0"
+                                     style="width:60px; height:60px; object-fit:cover; border:2px solid #f59e0b;">
+                                <span class="presence-dot" *ngIf="isOnline(demande.envoyeur?.email)" title="En ligne"></span>
+                            </div>
                             <div class="flex-grow-1 min-w-0">
                                 <h6 class="mb-0 fw-bold text-truncate">
                                     {{ demande.envoyeur?.prenom }} {{ demande.envoyeur?.nom }}
@@ -181,10 +187,13 @@
                 <div class="col-md-6" *ngFor="let demande of demandesEnvoyees">
                     <div class="card border-0 shadow-sm contact-card">
                         <div class="card-body d-flex align-items-center gap-3 p-3">
-                            <img [src]="generateImageUrl(demande.recepteur?.utilisateurPhoto?.nom)"
-                                 (error)="handleImageError($event)"
-                                 class="rounded-circle flex-shrink-0"
-                                 style="width:60px; height:60px; object-fit:cover; border:2px solid #10b981;">
+                            <div class="presence-wrap">
+                                <img [src]="generateImageUrl(demande.recepteur?.utilisateurPhoto?.nom)"
+                                     (error)="handleImageError($event)"
+                                     class="rounded-circle flex-shrink-0"
+                                     style="width:60px; height:60px; object-fit:cover; border:2px solid #10b981;">
+                                <span class="presence-dot" *ngIf="isOnline(demande.recepteur?.email)" title="En ligne"></span>
+                            </div>
                             <div class="flex-grow-1 min-w-0">
                                 <h6 class="mb-0 fw-bold text-truncate">
                                     {{ demande.recepteur?.prenom }} {{ demande.recepteur?.nom }}

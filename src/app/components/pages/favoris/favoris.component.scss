@@ -1,3 +1,15 @@
+.presence-dot {
+  position: absolute;
+  bottom: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #22c55e;
+  border: 2px solid #fff;
+  z-index: 3;
+}
+
 .favori-card {
   border-radius: 16px;
   transition: transform 0.25s ease, box-shadow 0.25s ease;

@@ -117,6 +117,10 @@ export class ContactsComponent implements OnInit, OnDestroy {
     event.target.src = 'assets/img/team/amadou.jpg';
   }
 
+  isOnline(email: string | undefined | null): boolean {
+    return this.wsService.estEnLigne(email);
+  }
+
   get contactsFiltres(): any[] {
     if (!this.searchTerm.trim()) return this.mesContacts;
     const term = this.searchTerm.toLowerCase();

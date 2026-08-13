@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FavorisService } from 'src/app/services/favoris/favoris.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
+import { WebsocketService } from 'src/app/services/websocket.service';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 
@@ -21,6 +22,7 @@ export class FavorisComponent implements OnInit {
   constructor(
     private favorisService: FavorisService,
     private storageService: StorageService,
+    private wsService: WebsocketService,
     private router: Router
   ) {}
 
@@ -87,6 +89,10 @@ export class FavorisComponent implements OnInit {
 
   handleImageError(event: any): void {
     event.target.src = 'assets/img/team/amadou.jpg';
+  }
+
+  isOnline(email: string | undefined | null): boolean {
+    return this.wsService.estEnLigne(email);
   }
 
   get favorisFiltres(): any[] {
