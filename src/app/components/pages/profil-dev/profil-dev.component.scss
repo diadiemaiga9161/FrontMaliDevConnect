@@ -469,11 +469,19 @@ $transition: all 0.25s cubic-bezier(.4,0,.2,1);
   .project-thumb {
     overflow: hidden;
     height: 180px;
+    // Fond neutre : les captures d'écran de projet n'ont pas toutes le même
+    // ratio, "contain" évite de rogner leur contenu (voir img ci-dessous).
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      // "cover" tronquait le contenu des captures d'écran larges/étroites ;
+      // "contain" affiche l'image entière, quitte à laisser une marge.
+      object-fit: contain;
       transition: transform .4s ease;
     }
   }

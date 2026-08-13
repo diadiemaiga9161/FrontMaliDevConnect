@@ -5,6 +5,7 @@ import { RdvService } from 'src/app/services/rendezVous/rendezVous.service';
 import { SpecialiteService } from 'src/app/services/specialite/specialite.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { UserService } from 'src/app/services/user/user.service';
+import { WebsocketService } from 'src/app/services/websocket.service';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 
@@ -55,6 +56,7 @@ export class ProfilUtilisateurComponent implements OnInit {
     private authService: AuthService,
     private rdvService:  RdvService,
     private specialiteService: SpecialiteService,
+    private wsService: WebsocketService,
     private router: Router,
   ) {
     this.User = this.storageService.getUser();
@@ -71,6 +73,19 @@ export class ProfilUtilisateurComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAllData();
+  }
+
+  isOnline(email: string | undefined | null): boolean {
+    return this.wsService.estEnLigne(email);
+  }
+
+  // Les numéros enregistrés depuis le nouveau champ téléphone incluent déjà
+  // l'indicatif (ex: "+223 70111011") ; les anciens comptes stockent juste
+  // les chiffres. On n'ajoute "+223 " que si ce n'est pas déjà présent, pour
+  // éviter l'indicatif en double.
+  formatTelephone(tel: string | undefined | null): string {
+    if (!tel) return '';
+    return tel.trim().startsWith('+') ? tel : `+223 ${tel}`;
   }
 
   afficherNotifications(rdv: any) {

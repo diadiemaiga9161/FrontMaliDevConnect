@@ -117,26 +117,6 @@
                             </span>
                         </div>
 
-                        <!-- Biographie courte -->
-                        <div class="bio-section mt-3" *ngIf="biographie?.biographie; else pasBiographie">
-                            {{biographie?.biographie}}
-                        </div>
-                        <ng-template #pasBiographie>
-                            <div class="bio-section mt-3 fst-italic">Aucune biographie disponible.</div>
-                        </ng-template>
-
-                        <!-- Contact rapide -->
-                        <div class="d-flex flex-wrap gap-3 mt-3 text-muted" style="font-size:.85rem;">
-                            <span *ngIf="professionnel?.email">
-                                <i class="fa fa-envelope-o me-1 text-primary"></i>{{professionnel?.email}}
-                            </span>
-                            <span *ngIf="professionnel?.telephone">
-                                <i class="fa fa-phone me-1 text-primary"></i>{{professionnel?.telephone}}
-                            </span>
-                            <span *ngIf="professionnel?.adresse">
-                                <i class="fa fa-map-marker me-1 text-primary"></i>{{professionnel?.adresse}}
-                            </span>
-                        </div>
                     </div>
                 </div>
 
@@ -412,33 +392,6 @@
                         </div>
                         <div class="sidebar-card-body">
                             <ul class="info-list">
-                                <li>
-                                    <div class="info-icon"><i class="fa fa-user"></i></div>
-                                    <div class="info-text">
-                                        <span>{{professionnel?.prenom}} {{professionnel?.nom}}</span>
-                                        <small>Nom complet</small>
-                                    </div>
-                                </li>
-                                <li *ngIf="specialite?.specialite">
-                                    <div class="info-icon"><i class="fa fa-briefcase"></i></div>
-                                    <div class="info-text">
-                                        <span>{{specialite?.specialite}}</span>
-                                        <small>Spécialité principale</small>
-                                    </div>
-                                </li>
-                                <li *ngIf="specialitesSupp.length > 0">
-                                    <div class="info-icon"><i class="fa fa-tags"></i></div>
-                                    <div class="info-text">
-                                        <div class="d-flex flex-wrap gap-1">
-                                            <span *ngFor="let s of specialitesSupp"
-                                                  class="badge"
-                                                  style="background:#eff6ff;color:#2563eb;font-size:.72rem;font-weight:600;">
-                                                {{s.specialite}}
-                                            </span>
-                                        </div>
-                                        <small>Autres spécialités</small>
-                                    </div>
-                                </li>
                                 <li *ngIf="professionnel?.email">
                                     <div class="info-icon"><i class="fa fa-envelope-o"></i></div>
                                     <div class="info-text">

@@ -2,6 +2,25 @@
 // PROFIL INFORMATICIEN — Design Moderne & Fluide
 // =====================================================
 
+.presence-wrap {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+  flex-shrink: 0;
+}
+
+.presence-dot {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #22c55e;
+  border: 2px solid #fff;
+  z-index: 3;
+}
+
 $primary: #2563eb;
 $primary-light: #3b82f6;
 $primary-dark: #1d4ed8;

@@ -72,7 +72,7 @@
             <div class="p-3 border-bottom">
                 <div class="d-flex align-items-center gap-2 mb-2">
                     <i class="fa fa-phone text-primary" style="width:18px;"></i>
-                    <span class="small">+223 {{User?.telephone || '—'}}</span>
+                    <span class="small">{{ User?.telephone ? formatTelephone(User?.telephone) : '—' }}</span>
                 </div>
                 <div class="d-flex align-items-center gap-2 mb-2">
                     <i class="fa fa-envelope text-primary" style="width:18px;"></i>
@@ -618,10 +618,13 @@
                 </div>
                 <div class="card-body p-0">
                     <div *ngFor="let d of demandesRecues" class="d-flex align-items-center gap-3 p-3 border-bottom">
-                        <img [src]="generateImageUrl(d.expediteur?.utilisateurPhoto?.nom)"
-                             (error)="handleAuthorImageError($event)"
-                             class="rounded-circle flex-shrink-0"
-                             style="width:44px;height:44px;object-fit:cover;">
+                        <div class="presence-wrap">
+                            <img [src]="generateImageUrl(d.expediteur?.utilisateurPhoto?.nom)"
+                                 (error)="handleAuthorImageError($event)"
+                                 class="rounded-circle flex-shrink-0"
+                                 style="width:44px;height:44px;object-fit:cover;">
+                            <span class="presence-dot" *ngIf="isOnline(d.expediteur?.email)" title="En ligne"></span>
+                        </div>
                         <div class="flex-grow-1 min-w-0">
                             <h6 class="fw-bold mb-0 text-truncate">{{d.expediteur?.prenom}} {{d.expediteur?.nom}}</h6>
                             <small class="text-muted">{{d.expediteur?.specialite?.specialite || 'Professionnel'}}</small>
@@ -646,10 +649,13 @@
                 <div class="card-body p-0" *ngIf="mesContacts.length > 0">
                     <div *ngFor="let c of mesContacts" class="d-flex align-items-center gap-3 p-3 border-bottom contact-row" style="cursor:pointer;"
                          (click)="voirProfilContact(extractAutreUser(c)?.tokenPartage)">
-                        <img [src]="generateImageUrl(extractAutreUser(c)?.utilisateurPhoto?.nom)"
-                             (error)="handleAuthorImageError($event)"
-                             class="rounded-circle flex-shrink-0"
-                             style="width:44px;height:44px;object-fit:cover;">
+                        <div class="presence-wrap">
+                            <img [src]="generateImageUrl(extractAutreUser(c)?.utilisateurPhoto?.nom)"
+                                 (error)="handleAuthorImageError($event)"
+                                 class="rounded-circle flex-shrink-0"
+                                 style="width:44px;height:44px;object-fit:cover;">
+                            <span class="presence-dot" *ngIf="isOnline(extractAutreUser(c)?.email)" title="En ligne"></span>
+                        </div>
                         <div class="flex-grow-1 min-w-0">
                             <h6 class="fw-bold mb-0 text-truncate">{{extractAutreUser(c)?.prenom}} {{extractAutreUser(c)?.nom}}</h6>
                             <small class="text-muted">{{extractAutreUser(c)?.specialite?.specialite || 'Professionnel'}}</small>
@@ -670,10 +676,13 @@
                 </div>
                 <div class="card-body p-0">
                     <div *ngFor="let d of demandesEnvoyees" class="d-flex align-items-center gap-3 p-3 border-bottom">
-                        <img [src]="generateImageUrl(d.recepteur?.utilisateurPhoto?.nom)"
-                             (error)="handleAuthorImageError($event)"
-                             class="rounded-circle flex-shrink-0"
-                             style="width:44px;height:44px;object-fit:cover;">
+                        <div class="presence-wrap">
+                            <img [src]="generateImageUrl(d.recepteur?.utilisateurPhoto?.nom)"
+                                 (error)="handleAuthorImageError($event)"
+                                 class="rounded-circle flex-shrink-0"
+                                 style="width:44px;height:44px;object-fit:cover;">
+                            <span class="presence-dot" *ngIf="isOnline(d.recepteur?.email)" title="En ligne"></span>
+                        </div>
                         <div class="flex-grow-1 min-w-0">
                             <h6 class="fw-bold mb-0 text-truncate">{{d.recepteur?.prenom}} {{d.recepteur?.nom}}</h6>
                             <small class="text-muted">{{d.recepteur?.specialite?.specialite || 'Professionnel'}}</small>
@@ -697,10 +706,13 @@
                 <div class="col-sm-6" *ngFor="let f of mesFavoris">
                     <div class="card border-0 shadow-sm h-100" style="border-radius:12px;">
                         <div class="card-body p-3 d-flex align-items-center gap-3">
-                            <img [src]="generateImageUrl(f.favorit?.utilisateurPhoto?.nom)"
-                                 (error)="handleAuthorImageError($event)"
-                                 class="rounded-circle flex-shrink-0"
-                                 style="width:52px;height:52px;object-fit:cover;">
+                            <div class="presence-wrap">
+                                <img [src]="generateImageUrl(f.favorit?.utilisateurPhoto?.nom)"
+                                     (error)="handleAuthorImageError($event)"
+                                     class="rounded-circle flex-shrink-0"
+                                     style="width:52px;height:52px;object-fit:cover;">
+                                <span class="presence-dot" *ngIf="isOnline(f.favorit?.email)" title="En ligne"></span>
+                            </div>
                             <div class="flex-grow-1 min-w-0">
                                 <h6 class="fw-bold mb-0 text-truncate">{{f.favorit?.prenom}} {{f.favorit?.nom}}</h6>
                                 <small class="text-muted d-block text-truncate">{{f.favorit?.specialite?.specialite || 'Professionnel'}}</small>

@@ -12,6 +12,7 @@ import { ExperienceService } from 'src/app/services/experience/experience.servic
 import { ContactService } from 'src/app/services/contact/contact.service';
 import { FavorisService } from 'src/app/services/favoris/favoris.service';
 import { ConnaissanceService } from 'src/app/services/connaissance/connaissance.service';
+import { WebsocketService } from 'src/app/services/websocket.service';
 import Swal from 'sweetalert2';
 
 const URL_PHOTO: string = environment.Url_PHOTO;
@@ -89,6 +90,7 @@ export class ProfilProfessionnelComponent implements OnInit {
     private contactService: ContactService,
     private favorisService: FavorisService,
     private connaissanceService: ConnaissanceService,
+    private wsService: WebsocketService,
     private router: Router,
   ) {
     this.User = this.storageService.getUser();
@@ -496,6 +498,19 @@ export class ProfilProfessionnelComponent implements OnInit {
     if (contact?.contact) return contact.contact;
     const myId = this.User?.id;
     return contact?.expediteur?.id === myId ? contact?.recepteur : contact?.expediteur;
+  }
+
+  isOnline(email: string | undefined | null): boolean {
+    return this.wsService.estEnLigne(email);
+  }
+
+  // Les numéros enregistrés depuis le nouveau champ téléphone incluent déjà
+  // l'indicatif (ex: "+223 70111011") ; les anciens comptes stockent juste
+  // les chiffres. On n'ajoute "+223 " que si ce n'est pas déjà présent, pour
+  // éviter l'indicatif en double.
+  formatTelephone(tel: string | undefined | null): string {
+    if (!tel) return '';
+    return tel.trim().startsWith('+') ? tel : `+223 ${tel}`;
   }
 
   // ═══ FAVORIS ═══
