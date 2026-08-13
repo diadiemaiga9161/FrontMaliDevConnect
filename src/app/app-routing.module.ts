@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
+import { EntrepriseGuard } from './guards/entreprise.guard';
 import { AccueilComponent } from './components/pages/accueil/accueil.component';
 import { ContactComponent } from './components/pages/contact/contact.component';
 import { MaintenanceComponent } from './components/pages/maintenance/maintenance.component';
@@ -19,6 +20,7 @@ import {CompleteProfilsComponent } from './components/pages/complete-profils/com
 import { SingInComponent } from './components/pages/sing-in/sing-in.component';
 import { MotPasseComponent } from './components/pages/mot-passe/mot-passe.component';
 import { NewPasseComponent } from './components/pages/new-passe/new-passe.component';
+import { ActivationComponent } from './components/pages/activation/activation.component';
 import { CompleteComponent } from './components/pages/complete/complete.component';
 import { ProjetComponent } from './components/pages/projet/projet.component';
 import { ProductComponent } from './components/pages/product/product.component';
@@ -30,6 +32,11 @@ import { ChatComponent } from './components/pages/chat-main.component';
 import { FavorisComponent } from './components/pages/favoris/favoris.component';
 import { ContactsComponent } from './components/pages/contacts/contacts.component';
 import { PlusVusComponent } from './components/pages/plus-vus/plus-vus.component';
+import { EntrepriseDashboardComponent } from './components/pages/entreprise/entreprise-dashboard/entreprise-dashboard.component';
+import { EntrepriseProfilComponent } from './components/pages/entreprise/entreprise-profil/entreprise-profil.component';
+import { OffresComponent } from './components/pages/offres/offres.component';
+import { OffreDetailComponent } from './components/pages/offres/offre-detail/offre-detail.component';
+import { MesCandidaturesComponent } from './components/pages/mes-candidatures/mes-candidatures.component';
 
 
 const routes: Routes = [
@@ -58,6 +65,7 @@ const routes: Routes = [
     {path: 'sing-in', component: SingInComponent},
     {path: 'mdp-oublie', component: MotPasseComponent},
     {path: 'new-mdp', component: NewPasseComponent},
+    {path: 'activation', component: ActivationComponent},
     {path: 'complete', component: CompleteComponent, canActivate: [AuthGuard]},
     {path: 'projet', component: ProjetComponent, canActivate: [AuthGuard]},
     {path: 'product', component: ProductComponent},
@@ -71,8 +79,14 @@ const routes: Routes = [
     {path: 'favoris', component: FavorisComponent, canActivate: [AuthGuard]},
     {path: 'contacts', component: ContactsComponent, canActivate: [AuthGuard]},
     {path: 'plus-vus', component: PlusVusComponent},
-    {path: 'chats', loadChildren: () => import('./components/pages/chat/chat.module').then(m => m.ChatModule), canActivate: [AuthGuard]},
     {path: 'admin', loadChildren: () => import('./components/pages/admin/admin.module').then(m => m.AdminModule), canActivate: [AdminGuard]},
+
+    // ── Entreprise / Offres d'emploi ──
+    {path: 'entreprise/dashboard', component: EntrepriseDashboardComponent, canActivate: [EntrepriseGuard]},
+    {path: 'entreprise/:token', component: EntrepriseProfilComponent},
+    {path: 'offres', component: OffresComponent},
+    {path: 'mes-candidatures', component: MesCandidaturesComponent, canActivate: [AuthGuard]},
+    {path: 'offres/:id', component: OffreDetailComponent},
 
 
 

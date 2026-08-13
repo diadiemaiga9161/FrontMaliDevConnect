@@ -30,9 +30,9 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { SingInComponent } from './components/pages/sing-in/sing-in.component';
 import { MotPasseComponent } from './components/pages/mot-passe/mot-passe.component';
 import { NewPasseComponent } from './components/pages/new-passe/new-passe.component';
+import { ActivationComponent } from './components/pages/activation/activation.component';
 import { CompleteComponent } from './components/pages/complete/complete.component';
 import { ProjetComponent } from './components/pages/projet/projet.component';
-import { CommentComponent } from './components/pages/comment/comment.component';
 import { NotificationComponent } from './components/pages/notification/notification.component';
 import { ForumComponent } from './components/pages/forum/forum.component';
 import { DirectoryComponent } from './components/pages/directory.component';
@@ -41,6 +41,12 @@ import { FavorisComponent } from './components/pages/favoris/favoris.component';
 import { ContactsComponent } from './components/pages/contacts/contacts.component';
 import { PlusVusComponent } from './components/pages/plus-vus/plus-vus.component';
 import { ChatModalComponent } from './components/chat-modal/chat-modal.component';
+import { PhoneInputComponent } from './components/shared/phone-input/phone-input.component';
+import { EntrepriseDashboardComponent } from './components/pages/entreprise/entreprise-dashboard/entreprise-dashboard.component';
+import { EntrepriseProfilComponent } from './components/pages/entreprise/entreprise-profil/entreprise-profil.component';
+import { OffresComponent } from './components/pages/offres/offres.component';
+import { OffreDetailComponent } from './components/pages/offres/offre-detail/offre-detail.component';
+import { MesCandidaturesComponent } from './components/pages/mes-candidatures/mes-candidatures.component';
 
 
 
@@ -67,9 +73,9 @@ import { ChatModalComponent } from './components/chat-modal/chat-modal.component
     SingInComponent,
     MotPasseComponent,
     NewPasseComponent,
+    ActivationComponent,
     CompleteComponent,
     ProjetComponent,
-    CommentComponent,
     NotificationComponent,
     ForumComponent,
     DirectoryComponent,
@@ -78,8 +84,12 @@ import { ChatModalComponent } from './components/chat-modal/chat-modal.component
     ContactsComponent,
     PlusVusComponent,
     ChatModalComponent,
-
-
+    PhoneInputComponent,
+    EntrepriseDashboardComponent,
+    EntrepriseProfilComponent,
+    OffresComponent,
+    OffreDetailComponent,
+    MesCandidaturesComponent,
 
   ],
 
